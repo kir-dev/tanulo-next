@@ -1,19 +1,23 @@
 extends ../layouts/main
 
 block content
-  h1= group.name
-  h2= group.description
-  h2= group.room
-  h4= group.startDate
-  h4= group.endDate
-  h2= group.doNotDisturb
-  if !joined
-    form(action=`/groups/${group.id}/join`, method="post")
-      button(type="submit") Csatlakozás
+  - const dateOptions = { hour: 'numeric', minute: 'numeric' }
+  h1.title= group.name
+  h2.subtitle= group.description
+  h2.subtitle= group.room
+  h4= group.startDate.toLocaleDateString('hu', dateOptions)
+  h4= group.endDate.toLocaleDateString('hu', dateOptions)
+  h3.subtitle Résztvevők
+  if !group.doNotDisturb
+    if !joined
+      form(action=`/groups/${group.id}/join`, method="post")
+        button.button.is-primary(type="submit") Csatlakozás
+    else
+      form(action=`/groups/${group.id}/leave`, method="post")
+        button.button.is-danger(type="submit") Csoport elhagyása
+    if group.users
+      ul
+        each u in group.users
+          li= u.name
   else
-    form(action=`/groups/${group.id}/leave`, method="post")
-      button(type="submit") Csoport elhagyása
-  if group.users
-    ul
-      each u in group.users
-        li= u.name
+    p A csoport létrehozója nem szeretné, ha mások csatlakoznának

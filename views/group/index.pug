@@ -1,13 +1,23 @@
 extends ../layouts/main
 
 block content
-  a(href="/groups/new") Új csoport
-  ul
+  - const dateOptions = { hour: 'numeric', minute: 'numeric' }
+  h1.title Csoportok
+  a.button.is-link(href="/groups/new") Új csoport
+  .cards
     each group in groups
-      li
+      .card
         a(href=`/groups/${group.id}`)
-          p= group.name
-        p= group.description
-        p= group.doNotDisturb
-    else
-      p Nincsenek csoportok
+          .card-header
+            h3.subtitle.card-header-title= group.name
+        .card-content
+          .content
+            p= group.subject
+            p= group.description
+            p= group.room
+            p= group.doNotDisturb
+        footer.card-footer
+          .card-footer-item
+            = group.startDate.toLocaleDateString('hu', dateOptions)
+          .card-footer-item
+            = group.endDate.toLocaleDateString('hu', dateOptions)

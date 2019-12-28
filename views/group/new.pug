@@ -1,13 +1,31 @@
-extends ../layout
+extends ../layouts/main
 
 block content
+  h1.title Új csoport felvétele
   form(method="POST", action="/groups/new")
-    input(type="text", name="name", placeholder="Diffegyenletek" required)
-    input(type="text", name="subject", placeholder="Analízis 1")
-    input(type="number", name="room")
-    input(type="date", name="startDate")
-    input(type="date", name="endDate")
-    textarea(name="description", rows="3")
-    input(type="checkbox", name="doNotDisturb")
-    label(for="doNotDisturb") Nem szeretném, hogy mások csatlakozzanak
-    button(type="submit") Új csoport létrehozása
+    .field
+      label.label Name
+        input.input(type="text", name="name", placeholder="Diffegyenletek" required)
+    .field
+      label.label Tárgy
+        input.input(type="text", name="subject", placeholder="Analízis 1")
+    .field
+      label.label Tanuló
+        input.input(type="number", name="room")
+    .field
+      label.label Kezdés ideje
+        input.input(type="datetime-local", name="startDate")
+    .field
+      label.label Befejezés ideje
+        input.input(type="datetime-local", name="endDate")
+    .field
+      label.label Leírás
+        .control
+          textarea.textarea(name="description", rows="3")
+    .field
+      .control
+        input(type="checkbox", name="doNotDisturb" id="doNotDisturb")
+        label.checkbox(for="doNotDisturb") Nem szeretném, hogy mások csatlakozzanak
+    .field
+      .control
+        button.button.is-link(type="submit") Új csoport létrehozása

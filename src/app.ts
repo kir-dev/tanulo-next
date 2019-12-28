@@ -39,6 +39,7 @@ app.use(flash())
 app.use(lusca.xframe('SAMEORIGIN'))
 app.use(lusca.xssProtection(true))
 app.use((req, res, next) => {
+  res.locals.loggedIn = req.isAuthenticated()
   res.locals.user = req.user
   next()
 })
@@ -63,12 +64,13 @@ app.use(
  * Primary app routes.
  */
 app.get('/', homeController.index)
-app.get('/login', userController.getLogin)
-app.get('/logout', userController.logout)
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount)
 
-app.get('/groups', passportConfig.isAuthenticated, groupController.getGroups)
-app.get('/groups/new', passportConfig.isAuthenticated, groupController.getGroupForm)
+/**
+ * Groups routes
+ */
+app.get('/groups', groupController.getGroups)
+app.get('/groups/new', groupController.getGroupForm)
 app.post('/groups/new', passportConfig.isAuthenticated, groupController.createGroup)
 app.get('/groups/:id', passportConfig.isAuthenticated, groupController.getGroup)
 app.post('/groups/:id/join', passportConfig.isAuthenticated, groupController.joinGroup)

@@ -1,32 +1,26 @@
-nav.navbar.navbar-expand-lg.navbar-light.bg-light.fixed-top
-  .container
-    a.navbar-brand(href='/')
-      i.fa.fa-cube
-      | Project name
-    button.navbar-toggler(type='button', data-toggle='collapse', data-target='.navbar-collapse')
-      span.navbar-toggler-icon
+nav.navbar(role='navigation' aria-label='main navigation')
+  .navbar-brand
+    a.navbar-item(href='/')
+      | TanulóSCH
+    a.navbar-burger.burger(role='button' aria-label='menu' aria-expanded='false' data-target='navbarBasicExample')
+      span(aria-hidden='true')
+      span(aria-hidden='true')
+      span(aria-hidden='true')
+  #navbarBasicExample.navbar-menu
+    .navbar-start
+      a.navbar-item(href='/')
+        | Kezdőlap
+      a.navbar-item(href='/groups')
+        | Csoportok
+      a.navbar-item(href='/tickets')
+        | Hibajegyek
+    .navbar-end
+      .navbar-item
+        .buttons
+          if !loggedIn
+            a.button.is-primary(href='/auth/oauth')
+              strong AuthSCH bejelentkezés
+          else
+            a.button.is-primary(href='/account/profile')
+              strong= user.name
 
-    .collapse.navbar-collapse
-      .dropdown-divider
-      ul.nav.navbar-nav.mr-auto
-        li.nav-item(class=(title === 'Home') ? 'active' : undefined)
-          a.nav-link(href='/') Home
-        li.nav-item(class=(title === 'API Examples') ? 'active' : undefined)
-          a.nav-link(href='/api') API Examples
-        li.nav-item(class=(title === 'Contact') ? 'active' : undefined)
-          a.nav-link(href='/contact') Contact
-      ul.nav.navbar-nav
-        if !user
-          li.nav-item(class=(title === 'Login') ? 'active' : undefined)
-            a.nav-link(href='/auth/oauth') AuthSCH bejelentkezés
-        else
-          li.nav-item.dropdown(class=(title === 'Account Management') ? 'active' : undefined)
-            a.nav-link.dropdown-toggle(href='#', data-toggle='dropdown')
-              span= user.name || user.email || user.id
-              i.caret
-            ul.dropdown-menu
-              li.nav-item
-                a.nav-link(href='/account') My Account
-              li.dropdown-divider
-              li.nav-item
-                a.nav-link(href='/logout') Logout

@@ -1,30 +1,47 @@
-@import "themes/default/variables";
-
-@import "lib/bootstrap/bootstrap";
-@import "lib/font-awesome/font-awesome";
-
-@import "themes/default/default";
-
 // Scaffolding
 // -------------------------
 
 html {
+  background-color: #f1f3fa;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
   position: relative;
   min-height: 100%;
 }
 
 body {
-  padding-top: 80px;
-  margin-bottom: 75px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0 12vw;
+
+  main {
+    background-color: #fff;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    flex: 1;
+  }
+
+  footer.page-footer {
+    padding-bottom: 0.5rem;
+  }
 }
 
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+.cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
 
-  p, ul {
-    margin-bottom: 0;
+  .card {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+
+    .card-content {
+      .content {
+        word-wrap: break-word;
+      }
+    }
   }
 }
 
@@ -33,15 +50,6 @@ footer {
 
 textarea {
   resize: vertical;
-}
-
-// Navbar
-// -------------------------
-
-.navbar-nav img {
-  width: 30px;
-  height: 30px;
-  margin: -15px 15px -15px;
 }
 
 // Alerts
