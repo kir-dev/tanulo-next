@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+  form(method="POST", action="/groups/new")
+    input(type="text", name="name", placeholder="Diffegyenletek" required)
+    input(type="text", name="subject", placeholder="Analízis 1")
+    input(type="number", name="room")
+    input(type="date", name="startDate")
+    input(type="date", name="endDate")
+    textarea(name="description", rows="3")
+    input(type="checkbox", name="doNotDisturb")
+    label(for="doNotDisturb") Nem szeretném, hogy mások csatlakozzanak
+    button(type="submit") Új csoport létrehozása

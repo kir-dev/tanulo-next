@@ -5,7 +5,7 @@
   "username": "tanulo",
   "password": "tanulo",
   "database": "tanulo",
-  "entities": ["dist/entity/*.js"],
+  "entities": ["dist/entity/**/*.js"],
   "logging": true,
   "synchronize": true
 }

@@ -38,7 +38,6 @@
     "express-flash": "0.0.2",
     "express-session": "^1.16.2",
     "express-validator": "^6.2.0",
-    "fbgraph": "^1.4.4",
     "lusca": "^1.6.1",
     "passport": "^0.4.0",
     "passport-oauth2": "^1.5.0",

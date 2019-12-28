@@ -12,6 +12,7 @@ import { SESSION_SECRET } from './util/secrets'
 // Controllers (route handlers)
 import * as homeController from './controllers/home'
 import * as userController from './controllers/user'
+import * as groupController from './controllers/group'
 
 // API keys and Passport configuration
 import * as passportConfig from './config/passport'
@@ -30,6 +31,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
   secret: SESSION_SECRET,
+  cookie: { maxAge: 60000 }
 }))
 app.use(passport.initialize())
 app.use(passport.session())
@@ -43,8 +45,6 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   // After successful login, redirect back to the intended page
   if (!req.user &&
-    req.path !== '/login' &&
-    req.path !== '/signup' &&
     !req.path.match(/^\/auth/) &&
     !req.path.match(/\./)) {
     req.session.returnTo = req.path
@@ -66,7 +66,13 @@ app.get('/', homeController.index)
 app.get('/login', userController.getLogin)
 app.get('/logout', userController.logout)
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount)
-app.get('/account/profile', passportConfig.isAuthenticated)
+
+app.get('/groups', passportConfig.isAuthenticated, groupController.getGroups)
+app.get('/groups/new', passportConfig.isAuthenticated, groupController.getGroupForm)
+app.post('/groups/new', passportConfig.isAuthenticated, groupController.createGroup)
+app.get('/groups/:id', passportConfig.isAuthenticated, groupController.getGroup)
+app.post('/groups/:id/join', passportConfig.isAuthenticated, groupController.joinGroup)
+app.post('/groups/:id/leave', passportConfig.isAuthenticated, groupController.leaveGroup)
 
 /**
  * OAuth authentication routes. (Sign in)

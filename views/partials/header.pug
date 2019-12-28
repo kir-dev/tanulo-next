@@ -18,9 +18,7 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.fixed-top
       ul.nav.navbar-nav
         if !user
           li.nav-item(class=(title === 'Login') ? 'active' : undefined)
-            a.nav-link(href='/login') Login
-          li.nav-item(class=(title === 'Create Account') ? 'active' : undefined)
-            a.nav-link(href='/signup') Create Account
+            a.nav-link(href='/auth/oauth') AuthSCH bejelentkezés
         else
           li.nav-item.dropdown(class=(title === 'Account Management') ? 'active' : undefined)
             a.nav-link.dropdown-toggle(href='#', data-toggle='dropdown')

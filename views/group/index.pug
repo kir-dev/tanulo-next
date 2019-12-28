@@ -1,0 +1,13 @@
+extends ../layouts/main
+
+block content
+  a(href="/groups/new") Új csoport
+  ul
+    each group in groups
+      li
+        a(href=`/groups/${group.id}`)
+          p= group.name
+        p= group.description
+        p= group.doNotDisturb
+    else
+      p Nincsenek csoportok

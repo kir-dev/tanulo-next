@@ -12,21 +12,14 @@ html(lang='')
     link(rel='stylesheet', href='/css/main.css')
 
   body
-    include partials/header
+    include ../partials/header
 
     .container.pl-sm-0.pr-sm-0.pl-lg-3.pr-lg-3
-      include partials/flash
+      include ../partials/flash
       block content
 
-    include partials/footer
+    include ../partials/footer
 
     script(src='/js/lib/jquery-3.1.1.min.js')
     script(src='/js/lib/bootstrap.min.js')
-    script(async defer src="https://buttons.github.io/buttons.js")
     script(src='/js/main.js')
-
-    //- Google Analytics: change UA-38177297-2 to be your site's ID
-    script.
-      window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
-      ga('create','UA-38177297-2','auto');ga('send','pageview')
-    script(src='https://www.google-analytics.com/analytics.js' async defer)

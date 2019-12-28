@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToMany } from 'typeorm'
+import { Group } from './Group'
 
 @Entity()
 export class User extends BaseEntity {
@@ -18,4 +19,9 @@ export class User extends BaseEntity {
   @Column()
   admin: boolean
 
+  @ManyToMany(() => Group, group => group.users)
+  groups: Group[]
+
+  @OneToMany(() => Group, group => group.owner)
+  ownedGroups: Group[]
 }
