@@ -69,8 +69,8 @@ app.get('/account', passportConfig.isAuthenticated, userController.getAccount)
 /**
  * Groups routes
  */
-app.get('/groups', groupController.getGroups)
-app.get('/groups/new', groupController.getGroupForm)
+app.get('/groups', passportConfig.isAuthenticated, groupController.getGroups)
+app.get('/groups/new', passportConfig.isAuthenticated, groupController.getGroupForm)
 app.post('/groups/new', passportConfig.isAuthenticated, groupController.createGroup)
 app.get('/groups/:id', passportConfig.isAuthenticated, groupController.getGroup)
 app.post('/groups/:id/join', passportConfig.isAuthenticated, groupController.joinGroup)
