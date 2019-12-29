@@ -1,11 +1,18 @@
 import { Request, Response } from 'express'
+import format from 'date-fns/format'
 
 import { Ticket } from '../entity/Ticket'
 import { User } from '../entity/User'
+import { DATE_FORMAT } from '../util/constants'
 
 export const getTickets = async(req: Request, res: Response) => {
   const tickets = await Ticket.find({ order: { createdAt: 'ASC' } })
-  res.render('ticket/index', { tickets, admin: (req.user as User).admin })
+  res.render('ticket/index', {
+    tickets,
+    admin: (req.user as User).admin,
+    format,
+    DATE_FORMAT
+  })
 }
 
 export const getTicketForm = async(req: Request, res: Response) => {

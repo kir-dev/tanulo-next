@@ -12,7 +12,7 @@ block content
             p.subtitle.is-6 ##{ticket.id}
         .content
           p=ticket.description
-          time= ticket.createdAt
+          time= format(ticket.createdAt, DATE_FORMAT)
         if admin
           form(action=`tickets/${ticket.id}/delete`, method="post")
           button.button.is-danger(type="submit") Törlés

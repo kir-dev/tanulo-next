@@ -1,12 +1,18 @@
+import format from 'date-fns/format'
+
 import { Group } from '../entity/Group'
 import { Request, Response } from 'express'
 import { User } from '../entity/User'
 
-import { ROOMS } from '../util/constants'
+import { ROOMS, DATE_FORMAT } from '../util/constants'
 
 export const getGroups = async (req: Request, res: Response) => {
   const groups = await Group.find()
-  res.render('group/index', { groups })
+  res.render('group/index', {
+    groups,
+    format,
+    DATE_FORMAT
+  })
 }
 
 export const getGroup = async(req: Request, res: Response) => {

@@ -1,7 +1,6 @@
 extends ../layouts/main
 
 block content
-  - const dateOptions = { hour: 'numeric', minute: 'numeric' }
   h1.title Csoportok
   a.button.is-link(href="/groups/new") Új csoport
   .cards
@@ -18,6 +17,6 @@ block content
             p= group.doNotDisturb
         footer.card-footer
           .card-footer-item
-            = group.startDate.toLocaleDateString('hu', dateOptions)
+            = format(group.startDate, DATE_FORMAT)
           .card-footer-item
-            = group.endDate.toLocaleDateString('hu', dateOptions)
+            = format(group.endDate, DATE_FORMAT)
