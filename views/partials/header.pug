@@ -1,26 +1,25 @@
 nav.navbar(role='navigation' aria-label='main navigation')
   .navbar-brand
-    a.navbar-item(href='/')
-      | TanulóSCH
-    a.navbar-burger.burger(role='button' aria-label='menu' aria-expanded='false' data-target='navbarBasicExample')
+    a.navbar-item(href='/') TanulóSCH
+    a.navbar-burger.burger(role='button' aria-label='menu' aria-expanded='false' data-target='navbarMenu')
       span(aria-hidden='true')
       span(aria-hidden='true')
       span(aria-hidden='true')
-  #navbarBasicExample.navbar-menu
+  #navbarMenu.navbar-menu
     .navbar-start
-      a.navbar-item(href='/')
-        | Kezdőlap
-      a.navbar-item(href='/groups')
-        | Csoportok
-      a.navbar-item(href='/tickets')
-        | Hibajegyek
+      a.navbar-item(href='/') Kezdőlap
+      a.navbar-item(href='/groups') Csoportok
+      a.navbar-item(href='/tickets') Hibajegyek
     .navbar-end
-      .navbar-item
-        .buttons
-          if !loggedIn
+      if !loggedIn
+        .navbar-item
+          .buttons
             a.button.is-primary(href='/auth/oauth')
               strong AuthSCH bejelentkezés
-          else
-            a.button.is-primary(href='/account/profile')
-              strong= user.name
-
+      else
+        .navbar-item.has-dropdown.is-hoverable
+          .navbar-link
+            strong= user.name
+          .navbar-dropdown
+            a.navbar-item(href="/users/me") Profil
+            a.navbar-item(href="/logout") Kijelentkezés
