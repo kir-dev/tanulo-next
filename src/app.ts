@@ -14,6 +14,7 @@ import * as userController from './controllers/user'
 import * as groupController from './controllers/group'
 import * as roomController from './controllers/room'
 import * as ticketControler from './controllers/ticket'
+import * as errorController from './controllers/error'
 
 // API keys and Passport configuration
 import * as passportConfig from './config/passport'
@@ -109,5 +110,10 @@ app.get(
   (req, res) => {
     res.redirect(req.session.returnTo || '/')
   })
+
+/**
+ * Error routes
+ */
+app.use('*', errorController.notFound)
 
 export default app

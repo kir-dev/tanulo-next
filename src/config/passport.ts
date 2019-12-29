@@ -61,7 +61,7 @@ export const isAuthenticated = (req: Request, res: Response, next: NextFunction)
   if (req.isAuthenticated()) {
     return next()
   }
-  res.redirect('/')
+  res.render('error/not-authenticated')
 }
 
 /**
