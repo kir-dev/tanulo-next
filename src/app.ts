@@ -65,7 +65,15 @@ app.use(
  * Primary app routes.
  */
 app.get('/', roomController.getRooms)
-app.get('/account', passportConfig.isAuthenticated, userController.getAccount)
+app.get('/logout', userController.logout)
+
+/**
+ * User routes
+ */
+app.get('/users/me', passportConfig.isAuthenticated, userController.showCurrentUser)
+app.get('/users/:id', passportConfig.isAuthenticated, userController.showUser)
+app.post('/users/:id/admin', passportConfig.isAdmin, userController.toggleAdmin)
+
 /**
  * Group routes
  */

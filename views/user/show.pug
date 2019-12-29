@@ -1,0 +1,16 @@
+extends ../layouts/main
+
+block content
+  h1.title= otherUser.name
+  if user.id !== otherUser.id && user.admin
+    form(action=`/users/${otherUser.id}/admin`, method="post")
+      if otherUser.admin
+        button.button.is-danger(type="submit") Admin jog megvonása
+      else
+        button.button.is-link(type="submit") Admin jog adása
+  h2.subtitle Csoportok
+  ul
+    each group in otherUser.groups
+      li
+        a(href=`/groups/${group.id}`)
+          p= group.name
