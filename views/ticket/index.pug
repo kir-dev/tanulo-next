@@ -1,0 +1,20 @@
+extends ../layouts/main
+
+block content
+  h1.title Hibajegyek
+  a.button.is-link(href="tickets/new") Új hibajegy felvétele
+  each ticket in tickets
+    .card
+      .card-content
+        .media
+          .media-content
+            p.title.is-4 Szint: #{ticket.roomNumber}
+            p.subtitle.is-6 ##{ticket.id}
+        .content
+          p=ticket.description
+          time= ticket.createdAt
+        if admin
+          form(action=`tickets/${ticket.id}/delete`, method="post")
+          button.button.is-danger(type="submit") Törlés
+  else
+    p Nincsenek hibajegyek

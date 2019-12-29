@@ -13,6 +13,7 @@ import { SESSION_SECRET } from './util/secrets'
 import * as userController from './controllers/user'
 import * as groupController from './controllers/group'
 import * as roomController from './controllers/room'
+import * as ticketControler from './controllers/ticket'
 
 // API keys and Passport configuration
 import * as passportConfig from './config/passport'
@@ -31,7 +32,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
   secret: SESSION_SECRET,
-  cookie: { maxAge: 60000 }
+  cookie: { maxAge: 1000 * 60 * 60 * 24 }
 }))
 app.use(passport.initialize())
 app.use(passport.session())
@@ -65,7 +66,6 @@ app.use(
  */
 app.get('/', roomController.getRooms)
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount)
-
 /**
  * Group routes
  */
@@ -82,6 +82,14 @@ app.post('/groups/:id/leave', passportConfig.isAuthenticated, groupController.le
 app.get('/rooms', roomController.getRooms)
 app.get('/rooms/:id', roomController.getRoom)
 app.get('/rooms/:id/events', roomController.getGroupsForRoom)
+
+/**
+ * Ticket routes
+ */
+app.get('/tickets', passportConfig.isAuthenticated, ticketControler.getTickets)
+app.get('/tickets/new', passportConfig.isAuthenticated, ticketControler.getTicketForm)
+app.post('/tickets/new', passportConfig.isAuthenticated, ticketControler.createTicket)
+app.post('/tickets/:id/delete', passportConfig.isAdmin, ticketControler.deleteTicket)
 
 /**
  * OAuth authentication routes. (Sign in)

@@ -1,0 +1,15 @@
+extends ../layouts/main
+
+block content
+  h2.title Hibajegy felvétele
+  form(action="/tickets/new", method="post")
+    .field
+      label.label Tanuló száma
+      input.input(type="number", name="roomNumber", placeholder="3-18", min="3", max="18")
+    .field
+      label.label Leírás
+        .control
+          textarea.textarea(name="description", rows="3")
+    .field
+      .control
+        button.button.is-link(type="submit") Hibajegy felvétele
