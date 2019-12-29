@@ -26,6 +26,7 @@ body {
   }
 }
 
+// Groups index view
 .cards {
   display: flex;
   flex-direction: row;
@@ -41,6 +42,16 @@ body {
       .content {
         word-wrap: break-word;
       }
+    }
+  }
+}
+
+// Rooms index view
+article {
+  div.message-header {
+    a,
+    button {
+      margin-left: 1rem;
     }
   }
 }

@@ -9,6 +9,7 @@ html(lang='hu')
     link(rel='shortcut icon', href='/images/favicon.png')
     link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css")
     link(rel='stylesheet', href='/css/main.css')
+    block styles
 
   body
     include ../partials/header
@@ -18,5 +19,5 @@ html(lang='hu')
       block content
 
     include ../partials/footer
-
     script(src='/js/main.js')
+    block scripts

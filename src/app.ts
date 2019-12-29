@@ -10,9 +10,9 @@ import passport from 'passport'
 import { SESSION_SECRET } from './util/secrets'
 
 // Controllers (route handlers)
-import * as homeController from './controllers/home'
 import * as userController from './controllers/user'
 import * as groupController from './controllers/group'
+import * as roomController from './controllers/room'
 
 // API keys and Passport configuration
 import * as passportConfig from './config/passport'
@@ -63,11 +63,11 @@ app.use(
 /**
  * Primary app routes.
  */
-app.get('/', homeController.index)
+app.get('/', roomController.getRooms)
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount)
 
 /**
- * Groups routes
+ * Group routes
  */
 app.get('/groups', passportConfig.isAuthenticated, groupController.getGroups)
 app.get('/groups/new', passportConfig.isAuthenticated, groupController.getGroupForm)
@@ -75,6 +75,13 @@ app.post('/groups/new', passportConfig.isAuthenticated, groupController.createGr
 app.get('/groups/:id', passportConfig.isAuthenticated, groupController.getGroup)
 app.post('/groups/:id/join', passportConfig.isAuthenticated, groupController.joinGroup)
 app.post('/groups/:id/leave', passportConfig.isAuthenticated, groupController.leaveGroup)
+
+/**
+ * Room routes
+ */
+app.get('/rooms', roomController.getRooms)
+app.get('/rooms/:id', roomController.getRoom)
+app.get('/rooms/:id/events', roomController.getGroupsForRoom)
 
 /**
  * OAuth authentication routes. (Sign in)

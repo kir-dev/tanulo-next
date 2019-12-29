@@ -1,0 +1,17 @@
+extend ../layouts/main
+
+block styles
+  link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.3.1/main.min.css")
+  link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.css")
+  link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.3.0/main.min.css")
+
+block content
+  h1.title #{room}. emeleti tanuló
+  #calendar
+
+block scripts
+  script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.3.0/main.js')
+  script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.js')
+  script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.3.0/main.min.js')
+  script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.3.0/main.min.js')
+  script(src='/js/calendar.js')

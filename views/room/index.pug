@@ -1,0 +1,28 @@
+extends ../layouts/main
+
+block content
+  h1.title Tanulószobák
+    each room in ROOMS
+      if busyRooms.some(it => it.id == room)
+        - const group = busyRooms.find(it => it.id == room)
+        if !group.doNotDisturb
+          article.message.is-warning
+            .message-header
+              p #{room}. emelet
+              .is-right
+                a(href=`/groups/${group.groupId}`).button.is-normal.is-inverted.is-outlined.is-warning Részletek
+                a(href=`/rooms/${room}`).button.is-normal.is-inverted Naptár
+        else
+          article.message.is-danger
+            .message-header
+              p #{room}. emelet
+              is-right
+                button(disabled).button.is-normal.is-inverted.is-danger Foglalt
+                a(href=`/rooms/${room}`).button.is-normal.is-inverted Naptár
+      else
+        article.message.is-primary
+          .message-header
+            p #{room}. emelet
+            is-right
+              a(href=`/groups/new/?roomId=${room}`).button.is-normal.is-inverted.is-success Foglalás
+              a(href=`/rooms/${room}`).button.is-normal.is-inverted Naptár
