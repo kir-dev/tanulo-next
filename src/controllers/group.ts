@@ -22,7 +22,9 @@ export const getGroup = async(req: Request, res: Response) => {
       where: { id: req.params.id }
     }))[0]
   const joined = group.users.some(u => u.id === (req.user as User).id)
-  res.render('group/show', { group, joined })
+  res.render('group/show', {
+    group, joined, format, DATE_FORMAT
+  })
 }
 
 export const getGroupForm = async (req: Request, res: Response) => {

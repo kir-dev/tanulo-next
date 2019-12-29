@@ -58,12 +58,6 @@ body {
 
 // Groups index view
 .cards {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
-
   .card {
     margin-top: 1rem;
     margin-bottom: 0.5rem;
@@ -73,6 +67,13 @@ body {
         word-wrap: break-word;
       }
     }
+  }
+}
+
+.group-show {
+  h3.description {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 }
 
