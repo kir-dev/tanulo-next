@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
         locale: "hu",
         selectable: true,
         events: data,
-        select: (start, end) => {
-          location.href = `/groups/new?start=${start}&end=${end}&roomId=${roomNumber}`;
+        select: (info) => {
+          location.href = `/groups/new?start=${info.startStr}&end=${info.endStr}&roomId=${roomNumber}`;
         },
         eventClick: calEvent => {
           location.href = `/groups/${calEvent.event.groupId}`

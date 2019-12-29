@@ -11,13 +11,24 @@ block content
         input.input(type="text", name="subject", placeholder="Analízis 1")
     .field
       label.label Tanuló
-        input.input(type="number", name="room")
+        .control
+          .select
+            select(name="room")
+              each room in ROOMS
+                if roomId == room
+                  option(value=`${room}`, selected='selected')
+                    =room
+                else
+                  option(value=`${room}`)
+                    =room
     .field
       label.label Kezdés ideje
-        input.input(type="datetime-local", name="startDate")
+        input.input(type="datetime-local", name="startDate", value=`${start ? start : ''}`, pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" required)
+      p.help Ha nem jelenik meg a dátumválasztó, használd a következő formátumú szöveget: ÉÉÉÉ-HH-NNTÓÓ:PP
     .field
       label.label Befejezés ideje
-        input.input(type="datetime-local", name="endDate")
+        input.input(type="datetime-local", name="endDate", value=`${end ? end : ''}`, pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" required)
+      p.help Ha nem jelenik meg a dátumválasztó, használd a következő formátumú szöveget: ÉÉÉÉ-HH-NNTÓÓ:PP
     .field
       label.label Leírás
         .control

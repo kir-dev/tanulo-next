@@ -2,6 +2,8 @@ import { Group } from '../entity/Group'
 import { Request, Response } from 'express'
 import { User } from '../entity/User'
 
+import { ROOMS } from '../util/constants'
+
 export const getGroups = async (req: Request, res: Response) => {
   const groups = await Group.find()
   res.render('group/index', { groups })
@@ -17,8 +19,13 @@ export const getGroup = async(req: Request, res: Response) => {
   res.render('group/show', { group, joined })
 }
 
-export const getGroupForm = async (_req: Request, res: Response) => {
-  res.render('group/new')
+export const getGroupForm = async (req: Request, res: Response) => {
+  res.render('group/new', {
+    start: req.query?.start?.split(' ')[0].slice(0, -3),
+    end: req.query?.end?.split(' ')[0].slice(0, -3),
+    roomId: req.query?.roomId,
+    ROOMS
+  })
 }
 
 export const createGroup = async(req: Request, res: Response) => {
