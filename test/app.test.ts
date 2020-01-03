@@ -2,8 +2,8 @@ import request from 'supertest'
 import app from '../src/app'
 
 describe('GET /random-url', () => {
-  it('should return 404', (done) => {
+  it('should render Not Found page', (done) => {
     request(app).get('/reset')
-      .expect(404, done)
+      .expect(200, done)
   })
 })

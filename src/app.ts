@@ -106,7 +106,7 @@ app.post('/tickets/:id/delete', passportConfig.isAdmin, ticketControler.deleteTi
 app.get('/auth/oauth', passport.authenticate('oauth2'))
 app.get(
   '/auth/oauth/callback',
-  passport.authenticate('oauth2', { failureRedirect: '/login' }),
+  passport.authenticate('oauth2', { failureRedirect: '/' }),
   (req, res) => {
     res.redirect(req.session.returnTo || '/')
   })

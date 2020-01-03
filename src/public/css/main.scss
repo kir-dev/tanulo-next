@@ -57,8 +57,10 @@ body {
 }
 
 // Groups index view
-.cards {
-  .card {
+.cards.groups,
+.cards.tickets {
+  .card.group,
+  .card.ticket {
     margin-top: 1rem;
     margin-bottom: 0.5rem;
 

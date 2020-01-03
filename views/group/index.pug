@@ -3,9 +3,9 @@ extends ../layouts/main
 block content
   h1.title Csoportok
   a.button.is-link(href="/groups/new") Új csoport
-  .cards
+  .cards.groups
     each group in groups
-      .card
+      .card.group
         .card-content
           .content
             a(href=`/groups/${group.id}`)
