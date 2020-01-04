@@ -35,7 +35,7 @@
     "lusca": "^1.6.1",
     "passport": "^0.4.0",
     "passport-oauth2": "^1.5.0",
-    "pg": "^7.16.0",
+    "pg": "^7.17.0",
     "pug": "^2.0.4",
     "reflect-metadata": "^0.1.13",
     "request-promise": "^4.2.4",
