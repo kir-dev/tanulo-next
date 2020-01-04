@@ -7,30 +7,30 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(response => response.json())
     .then(data => {
       const calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: ["interaction", "timeGrid", "dayGrid"],
+        plugins: ['interaction', 'timeGrid', 'dayGrid'],
         header: {
-          left: "prev,next today",
-          center: "title",
-          right: "timeGridOneDay,timeGridWeek,dayGridMonth"
+          left: 'prev,next today',
+          center: 'title',
+          right: 'timeGridOneDay,timeGridWeek,dayGridMonth'
         },
-        defaultView: "timeGridWeek",
+        defaultView: 'timeGridWeek',
         views: {
           timeGridOneDay: {
-            type: "timeGrid",
+            type: 'timeGrid',
             duration: { days: 1 },
-            buttonText: "nap"
+            buttonText: 'nap'
           }
         },
-        locale: "hu",
+        locale: 'hu',
         selectable: true,
         events: data,
-        select: (info) => {
-          location.href = `/groups/new?start=${info.startStr}&end=${info.endStr}&roomId=${roomNumber}`;
+        select: info => {
+          location.href = `/groups/new?start=${info.startStr}&end=${info.endStr}&roomId=${roomNumber}`
         },
         eventClick: calEvent => {
           location.href = `/groups/${calEvent.event.groupId}`
         }
-      });
+      })
 
       calendar.render()
     })
