@@ -1,0 +1,33 @@
+version: "3.5"
+
+services:
+  tanulo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT}:80"
+    environment:
+      - CLIENT_ID=${CLIENT_ID}
+      - CLIENT_SECRET=${CLIENT_SECRET}
+      - CALLBACK_URL=${CALLBACK_URL}
+      - SESSION_SECRET=${SESSION_SECRET}
+    networks:
+      - tanulo-network
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: tanulo
+      POSTGRES_PASSWORD: tanulo
+      POSTGRES_DB: tanulo
+    networks:
+      tanulo-network:
+        aliases:
+          - postgresql.db
+    volumes:
+      - postgres:/var/lib/postgresql/tanulo-data
+volumes:
+  postgres:
+networks:
+  tanulo-network:
