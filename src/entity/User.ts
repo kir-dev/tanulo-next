@@ -1,9 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToMany, getConnection } from 'typeorm'
+import { BaseEntity, Column, Entity, getConnection, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+
 import { Group } from './Group'
 
 @Entity()
 export class User extends BaseEntity {
-
   @PrimaryGeneratedColumn()
   id: number
 

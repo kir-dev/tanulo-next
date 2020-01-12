@@ -1,20 +1,11 @@
+import { NextFunction, Request, Response } from 'express'
 import passport from 'passport'
 import { Strategy } from 'passport-oauth2'
 import request from 'request-promise'
 
 import { User } from '../entity/User'
-import { Request, Response, NextFunction } from 'express'
 
 const AUTH_SCH_URL = 'https://auth.sch.bme.hu'
-
-passport.serializeUser((user: User, done) => {
-  done(undefined, user.id)
-})
-
-passport.deserializeUser(async (id: number, done) => {
-  const user = await User.findOne(id)
-  done(null, user)
-})
 
 /**
  * Sign in with AuthSCH.
@@ -38,7 +29,7 @@ passport.use(
       const response = await request(`${AUTH_SCH_URL}/api/profile?access_token=${accessToken}`)
       const responseUser = await JSON.parse(response)
 
-      const user = await User.findOne({ authSchId: responseUser.internal_id})
+      const user = await User.findOne({ authSchId: responseUser.internal_id })
       if (user) {
         done(null, user)
       } else {
@@ -54,6 +45,15 @@ passport.use(
   )
 )
 
+passport.serializeUser((user: User, done) => {
+  done(undefined, user.id)
+})
+
+passport.deserializeUser(async (id: number, done) => {
+  const user = await User.findOne(id)
+  done(null, user)
+})
+
 /**
  * Login Required middleware.
  */
@@ -68,9 +68,7 @@ export const isAuthenticated = (req: Request, res: Response, next: NextFunction)
  * Authorization Required middleware.
  */
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
-  const user = req.user as User
-
-  if (user.admin) {
+  if ((req.user as User).admin) {
     next()
   } else {
     res.redirect('/')

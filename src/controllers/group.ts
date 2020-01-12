@@ -1,12 +1,11 @@
 import format from 'date-fns/format'
+import { Request, Response } from 'express'
 
 import { Group } from '../entity/Group'
-import { Request, Response } from 'express'
 import { User } from '../entity/User'
+import { DATE_FORMAT, ROOMS } from '../util/constants'
 
-import { ROOMS, DATE_FORMAT } from '../util/constants'
-
-export const getGroups = async (req: Request, res: Response) => {
+export const getGroups = async (_req: Request, res: Response) => {
   const groups = await Group.find()
   res.render('group/index', {
     groups,
@@ -15,7 +14,7 @@ export const getGroups = async (req: Request, res: Response) => {
   })
 }
 
-export const getGroup = async(req: Request, res: Response) => {
+export const getGroup = async (req: Request, res: Response) => {
   const group = (await Group.find(
     {
       relations: ['users'],
@@ -36,7 +35,7 @@ export const getGroupForm = async (req: Request, res: Response) => {
   })
 }
 
-export const createGroup = async(req: Request, res: Response) => {
+export const createGroup = async (req: Request, res: Response) => {
   const newGroup = Group.create()
   newGroup.name = req.body.name
   newGroup.room = req.body.room
@@ -51,15 +50,15 @@ export const createGroup = async(req: Request, res: Response) => {
   res.redirect('/groups')
 }
 
-export const joinGroup = async(req: Request, res: Response) => {
+export const joinGroup = async (req: Request, res: Response) => {
   const user = await User.findOne({ id: (req.user as User).id })
   const group = (await Group.find(
     {
       relations: ['users'],
-      where: {
-        id: req.params.id
-      }
-    }))[0]
+      where: { id: req.params.id }
+    }
+  ))[0]
+
   if (!group.doNotDisturb && !group.users.includes(user)) {
     group.users.push(user)
     await group.save()
@@ -67,14 +66,14 @@ export const joinGroup = async(req: Request, res: Response) => {
   res.redirect('/groups')
 }
 
-export const leaveGroup = async(req: Request, res: Response) => {
+export const leaveGroup = async (req: Request, res: Response) => {
   const group = (await Group.find(
     {
       relations: ['users'],
-      where: {
-        id: req.params.id
-      }
-    }))[0]
+      where: { id: req.params.id }
+    }
+  ))[0]
+
   group.users = group.users.filter(user => user.id !== (req.user as User).id)
   await group.save()
   res.redirect(`/groups/${req.params.id}`)

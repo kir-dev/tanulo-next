@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
-import { Group } from '../entity/Group'
 import { LessThan, MoreThan } from 'typeorm'
 
+import { Group } from '../entity/Group'
 import { ROOMS } from '../util/constants'
 
-const getBusyRooms = async() => {
+const getBusyRooms = async () => {
   const currentTime = new Date()
   return (await Group.find({
     where: [
@@ -20,27 +20,26 @@ const getBusyRooms = async() => {
   }))
 }
 
-const getEventsForRoom = async(roomId: number) => {
+const getEventsForRoom = async (roomId: number) => {
   return await Group.find({ where: { room: roomId } })
 }
 
-export const getRooms = async(req: Request, res: Response) => {
+export const getRooms = async (_req: Request, res: Response) => {
   const busyRooms = await getBusyRooms()
   res.render('room/index', { busyRooms, ROOMS })
 }
 
-export const getRoom = async(req: Request, res: Response) => {
+export const getRoom = async (req: Request, res: Response) => {
   res.render('room/calendar', { room: req.params.id })
 }
 
-export const getGroupsForRoom = async(req: Request, res: Response) => {
+export const getGroupsForRoom = async (req: Request, res: Response) => {
   const events = await getEventsForRoom(+req.params.id)
-  res.json(events.map(event => {
-    return {
+  res.json(
+    events.map(event => ({
       title: event.name,
       start: event.startDate,
       end: event.endDate,
       groupId: event.id
-    }
-  }))
+    })))
 }
