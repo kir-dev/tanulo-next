@@ -1,4 +1,14 @@
-import { BaseEntity, Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  BaseEntity,
+  CreateDateColumn,
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
 
 import { User } from './User'
 
@@ -27,6 +37,9 @@ export class Group extends BaseEntity {
 
   @Column()
   doNotDisturb: boolean
+
+  @CreateDateColumn()
+  createdAt: Date
 
   @ManyToMany(() => User, user => user.groups, { cascade: true })
   @JoinTable()

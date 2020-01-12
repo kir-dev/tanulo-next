@@ -6,7 +6,7 @@ import { User } from '../entity/User'
 import { DATE_FORMAT, ROOMS } from '../util/constants'
 
 export const getGroups = async (_req: Request, res: Response) => {
-  const groups = await Group.find()
+  const groups = await Group.find({ order: { createdAt: 'DESC' } })
   res.render('group/index', {
     groups,
     format,
