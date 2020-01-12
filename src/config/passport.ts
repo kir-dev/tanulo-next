@@ -71,6 +71,6 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
   if ((req.user as User).admin) {
     next()
   } else {
-    res.redirect('/')
+    res.render('error/forbidden')
   }
 }
