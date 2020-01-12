@@ -1,4 +1,12 @@
-import { BaseEntity, Column, Entity, getConnection, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  getConnection,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn
+} from 'typeorm'
 
 import { Group } from './Group'
 
@@ -26,12 +34,17 @@ export class User extends BaseEntity {
   ownedGroups: Group[]
 
   static async toggleAdmin(id: number) {
-    const admin = (await User.findOne({ id })).admin
-    await getConnection()
-      .createQueryBuilder()
-      .update(User)
-      .set({ admin: !admin })
-      .where('id = :id', { id })
-      .execute()
+    const user = await User.findOne({ id })
+    if (user) {
+      await getConnection()
+        .createQueryBuilder()
+        .update(User)
+        .set({ admin: !user.admin })
+        .where('id = :id', { id })
+        .execute()
+      return true
+    } else {
+      return false
+    }
   }
 }

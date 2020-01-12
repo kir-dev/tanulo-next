@@ -15,15 +15,20 @@ export const getGroups = async (_req: Request, res: Response) => {
 }
 
 export const getGroup = async (req: Request, res: Response) => {
-  const group = (await Group.find(
+  const group = await Group.findOne(
     {
       relations: ['users'],
       where: { id: req.params.id }
-    }))[0]
-  const joined = group.users.some(u => u.id === (req.user as User).id)
-  res.render('group/show', {
-    group, joined, format, DATE_FORMAT
-  })
+    }
+  )
+  if (group) {
+    const joined = group.users.some(u => u.id === (req.user as User).id)
+    res.render('group/show', {
+      group, joined, format, DATE_FORMAT
+    })
+  } else {
+    res.redirect('/not-found')
+  }
 }
 
 export const getGroupForm = async (req: Request, res: Response) => {
@@ -52,12 +57,14 @@ export const createGroup = async (req: Request, res: Response) => {
 
 export const joinGroup = async (req: Request, res: Response) => {
   const user = await User.findOne({ id: (req.user as User).id })
-  const group = (await Group.find(
+  const group = await Group.findOne(
     {
       relations: ['users'],
       where: { id: req.params.id }
     }
-  ))[0]
+  )
+
+  if (!group) return res.redirect('/not-found')
 
   if (!group.doNotDisturb && !group.users.includes(user)) {
     group.users.push(user)
@@ -67,12 +74,14 @@ export const joinGroup = async (req: Request, res: Response) => {
 }
 
 export const leaveGroup = async (req: Request, res: Response) => {
-  const group = (await Group.find(
+  const group = await Group.findOne(
     {
       relations: ['users'],
       where: { id: req.params.id }
     }
-  ))[0]
+  )
+
+  if (!group) return res.redirect('/not-found')
 
   group.users = group.users.filter(user => user.id !== (req.user as User).id)
   await group.save()

@@ -28,6 +28,9 @@ export const createTicket = async (req: Request, res: Response) => {
 }
 
 export const deleteTicket = async (req: Request, res: Response) => {
-  Ticket.delete({ id: +req.params.id })
+  const ticket = await Ticket.findOne({ id: +req.params.id })
+  if (ticket) {
+    Ticket.remove(ticket)
+  }
   res.redirect('/tickets')
 }

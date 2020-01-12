@@ -13,7 +13,7 @@ const getBusyRooms = async () => {
         endDate: MoreThan(currentTime)
       },
     ]
-  })).map(group => ({
+  }))?.map(group => ({
     id: group.room,
     groupId: group.id,
     doNotDisturb: group.doNotDisturb
@@ -30,7 +30,11 @@ export const getRooms = async (_req: Request, res: Response) => {
 }
 
 export const getRoom = async (req: Request, res: Response) => {
-  res.render('room/calendar', { room: req.params.id })
+  if (+req.params.id <= 18 && +req.params.id >= 3) {
+    res.render('room/calendar', { room: req.params.id })
+  } else {
+    res.redirect('/not-found')
+  }
 }
 
 export const getGroupsForRoom = async (req: Request, res: Response) => {
@@ -41,5 +45,6 @@ export const getGroupsForRoom = async (req: Request, res: Response) => {
       start: event.startDate,
       end: event.endDate,
       groupId: event.id
-    })))
+    }))
+  )
 }
