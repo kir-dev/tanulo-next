@@ -286,10 +286,10 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@types/async@^3.0.2":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@types/async/-/async-3.0.3.tgz#ea3694128c757580e4f9328cd941b81d9c3e9bf6"
-  integrity sha512-FrIcC67Zpko1jO8K4d30C41/KVhAABbMbaSxccvXacxPcKbDBav+8WoFzv72BA2zJvyX4T9PFz0we1hcNymgGA==
+"@types/async@^3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@types/async/-/async-3.0.5.tgz#e6fab3e12ffb7048085aafa49001574c35c6fbc0"
+  integrity sha512-X4NAFPUAfVGKzP9YFuy/YkwlFLxXYwzmzdstKwQ2LHhoUGMyJdj8d5FNMX3/RLsQ0N5KhNY8CVYb0mKE/WnPHg==
 
 "@types/babel-types@*", "@types/babel-types@^7.0.0":
   version "7.0.7"

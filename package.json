@@ -43,7 +43,7 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "@types/async": "^3.0.2",
+    "@types/async": "^3.0.5",
     "@types/body-parser": "^1.17.1",
     "@types/chai": "^4.2.3",
     "@types/compression": "^1.0.1",
