@@ -16,6 +16,6 @@ block content
             time= format(ticket.createdAt, DATE_FORMAT)
           if admin
             form(action=`tickets/${ticket.id}/delete`, method="post")
-            button.button.is-danger(type="submit") Törlés
+              button.button.is-danger(type="submit") Törlés
     else
       p Nincsenek hibajegyek
