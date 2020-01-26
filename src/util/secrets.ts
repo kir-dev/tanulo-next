@@ -7,7 +7,8 @@ if (fs.existsSync('.env')) {
   dotenv.config({ path: '.env' })
 } else {
   logger.debug('Using .env.example file to supply config environment variables')
-  dotenv.config({ path: '.env.example' })  // you can delete this after you create your own .env file!
+  // you can delete this after you create your own .env file!
+  dotenv.config({ path: '.env.example' })
 }
 export const ENVIRONMENT = process.env.NODE_ENV
 
