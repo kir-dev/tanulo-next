@@ -1,22 +1,19 @@
 import { Request, Response } from 'express'
 
 import { User } from '../entity/User'
-import '../config/passport'
-
-const getUser = async (id: number) => {
-  return await User.findOne({
-    relations: ['groups'],
-    where: { id }
-  })
-}
+import { getUser } from '../services/user.service'
 
 export const logout = (req: Request, res: Response) => {
   req.logout()
   res.redirect('/')
 }
 
-export const showUser = async (req: Request, res: Response) => {
-  const otherUser = await getUser(+req.params.id)
+export const show = async (req: Request, res: Response) => {
+  const otherUser = await getUser(
+    {
+      where: { id: +req.params.id },
+      relations: ['groups']
+    })
 
   if (!otherUser) return res.redirect('/not-found')
   res.render('user/show', {
@@ -25,9 +22,13 @@ export const showUser = async (req: Request, res: Response) => {
   })
 }
 
-export const showCurrentUser = async (req: Request, res: Response) => {
+export const showMe = async (req: Request, res: Response) => {
   res.render('user/show', {
-    otherUser: (await getUser((req.user as User).id)),
+    otherUser: (await getUser(
+      {
+        where: { id: (req.user as User).id },
+        relations: ['groups']
+      })),
     user: req.user
   })
 }
