@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
+import fetch from 'node-fetch'
 import passport from 'passport'
 import { Strategy } from 'passport-oauth2'
-import request from 'request-promise'
 
 import { User } from '../entity/User'
 import { createUser, getUser } from '../services/user.service'
@@ -27,8 +27,9 @@ passport.use(
       _profile: any,
       done: (err: Error, user: User) => void
     ) => {
-      const response = await request(`${AUTH_SCH_URL}/api/profile?access_token=${accessToken}`)
-      const responseUser = await JSON.parse(response)
+      const responseUser = await fetch(
+        `${AUTH_SCH_URL}/api/profile?access_token=${accessToken}`
+      ).then(res => res.json())
 
       const user = await getUser({ where: { authSchId: responseUser.internal_id } })
       if (user) {
