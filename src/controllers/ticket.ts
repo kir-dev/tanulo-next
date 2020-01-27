@@ -3,10 +3,11 @@ import format from 'date-fns/format'
 
 import { Ticket } from '../entity/Ticket'
 import { User } from '../entity/User'
+import { getTicketsAsc, getTicket } from '../services/ticket.service'
 import { DATE_FORMAT } from '../util/constants'
 
-export const getTickets = async (req: Request, res: Response) => {
-  const tickets = await Ticket.find({ order: { createdAt: 'ASC' } })
+export const index = async (req: Request, res: Response) => {
+  const tickets = await getTicketsAsc()
   res.render('ticket/index', {
     tickets,
     admin: (req.user as User).admin,
@@ -15,11 +16,11 @@ export const getTickets = async (req: Request, res: Response) => {
   })
 }
 
-export const getTicketForm = async (_req: Request, res: Response) => {
+export const createForm = async (_req: Request, res: Response) => {
   res.render('ticket/new')
 }
 
-export const createTicket = async (req: Request, res: Response) => {
+export const create = async (req: Request, res: Response) => {
   const ticket = Ticket.create()
   ticket.roomNumber = req.body.roomNumber
   ticket.description = req.body.description
@@ -27,10 +28,12 @@ export const createTicket = async (req: Request, res: Response) => {
   res.redirect('/tickets')
 }
 
-export const deleteTicket = async (req: Request, res: Response) => {
-  const ticket = await Ticket.findOne({ id: +req.params.id })
+export const destroy = async (req: Request, res: Response) => {
+  const ticket = await getTicket(+req.params.id)
   if (ticket) {
     Ticket.remove(ticket)
+    res.redirect('/tickets')
+  } else {
+    res.redirect('/not-found')
   }
-  res.redirect('/tickets')
 }

@@ -52,7 +52,7 @@ app.use((req, res, next) => {
     !req.path.match(/\./)) {
     req.session.returnTo = req.path
   } else if (req.user &&
-    req.path == '/account') {
+    req.path == '/users/me') {
     req.session.returnTo = req.path
   }
   next()
@@ -65,40 +65,40 @@ app.use(
 /**
  * Primary app routes.
  */
-app.get('/', roomController.getRooms)
+app.get('/', roomController.index)
 app.get('/logout', userController.logout)
 
 /**
  * User routes
  */
-app.get('/users/me', passportConfig.isAuthenticated, userController.showCurrentUser)
-app.get('/users/:id', passportConfig.isAuthenticated, userController.showUser)
+app.get('/users/me', passportConfig.isAuthenticated, userController.showMe)
+app.get('/users/:id', passportConfig.isAuthenticated, userController.show)
 app.post('/users/:id/admin', passportConfig.isAdmin, userController.toggleAdmin)
 
 /**
  * Group routes
  */
-app.get('/groups', passportConfig.isAuthenticated, groupController.getGroups)
-app.get('/groups/new', passportConfig.isAuthenticated, groupController.getGroupForm)
-app.post('/groups/new', passportConfig.isAuthenticated, groupController.createGroup)
-app.get('/groups/:id', passportConfig.isAuthenticated, groupController.getGroup)
-app.post('/groups/:id/join', passportConfig.isAuthenticated, groupController.joinGroup)
-app.post('/groups/:id/leave', passportConfig.isAuthenticated, groupController.leaveGroup)
+app.get('/groups', passportConfig.isAuthenticated, groupController.index)
+app.get('/groups/new', passportConfig.isAuthenticated, groupController.createForm)
+app.post('/groups/new', passportConfig.isAuthenticated, groupController.create)
+app.get('/groups/:id', passportConfig.isAuthenticated, groupController.show)
+app.post('/groups/:id/join', passportConfig.isAuthenticated, groupController.join)
+app.post('/groups/:id/leave', passportConfig.isAuthenticated, groupController.leave)
 
 /**
  * Room routes
  */
-app.get('/rooms', roomController.getRooms)
-app.get('/rooms/:id', roomController.getRoom)
+app.get('/rooms', roomController.index)
+app.get('/rooms/:id', roomController.show)
 app.get('/rooms/:id/events', roomController.getGroupsForRoom)
 
 /**
  * Ticket routes
  */
-app.get('/tickets', passportConfig.isAuthenticated, ticketControler.getTickets)
-app.get('/tickets/new', passportConfig.isAuthenticated, ticketControler.getTicketForm)
-app.post('/tickets/new', passportConfig.isAuthenticated, ticketControler.createTicket)
-app.post('/tickets/:id/delete', passportConfig.isAdmin, ticketControler.deleteTicket)
+app.get('/tickets', passportConfig.isAuthenticated, ticketControler.index)
+app.get('/tickets/new', passportConfig.isAuthenticated, ticketControler.createForm)
+app.post('/tickets/new', passportConfig.isAuthenticated, ticketControler.create)
+app.post('/tickets/:id/delete', passportConfig.isAdmin, ticketControler.destroy)
 
 /**
  * OAuth authentication routes. (Sign in)

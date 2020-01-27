@@ -4,6 +4,7 @@ import { Strategy } from 'passport-oauth2'
 import request from 'request-promise'
 
 import { User } from '../entity/User'
+import { createUser, getUser } from '../services/user.service'
 
 const AUTH_SCH_URL = 'https://auth.sch.bme.hu'
 
@@ -29,16 +30,11 @@ passport.use(
       const response = await request(`${AUTH_SCH_URL}/api/profile?access_token=${accessToken}`)
       const responseUser = await JSON.parse(response)
 
-      const user = await User.findOne({ authSchId: responseUser.internal_id })
+      const user = await getUser({ where: { authSchId: responseUser.internal_id } })
       if (user) {
         done(null, user)
       } else {
-        const newUser = User.create()
-        newUser.name = responseUser.displayName
-        newUser.authSchId = responseUser.internal_id
-        newUser.email = responseUser.mail
-        newUser.admin = false
-        await newUser.save()
+        const newUser = await createUser(user)
         done(null, newUser)
       }
     }
@@ -50,7 +46,7 @@ passport.serializeUser((user: User, done) => {
 })
 
 passport.deserializeUser(async (id: number, done) => {
-  const user = await User.findOne(id)
+  const user = await getUser({ where: { id } })
   done(null, user)
 })
 
