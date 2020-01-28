@@ -6,7 +6,7 @@ export const getGroupsDesc = async () => await Group.find({ order: { createdAt: 
 export const getGroup = async (id: number) =>
   await Group.findOne(
     {
-      relations: ['users'],
+      relations: ['users', 'owner'],
       where: { id }
     }
   )
@@ -24,3 +24,5 @@ export const createGroup = async (group: Group, user: User) => {
   newGroup.endDate = group.endDate
   await newGroup.save()
 }
+
+export const deleteGroup = async (group: Group) => await Group.remove(group)
