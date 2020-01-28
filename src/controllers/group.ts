@@ -3,7 +3,6 @@ import { Request, Response } from 'express'
 
 import { User } from '../entity/User'
 import { getGroupsDesc, getGroup, createGroup, deleteGroup } from '../services/group.service'
-import { getUser } from '../services/user.service'
 import { DATE_FORMAT, ROOMS } from '../util/constants'
 
 export const index = async (_req: Request, res: Response) => {
@@ -49,7 +48,7 @@ export const destroy = async (_req: Request, res: Response) => {
 }
 
 export const join = async (req: Request, res: Response) => {
-  const user = await getUser({ where: { id: (req.user as User).id } })
+  const user = req.user as User
   const group = await getGroup(+req.params.id)
 
   if (!group) return res.redirect('/not-found')
