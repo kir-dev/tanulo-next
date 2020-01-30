@@ -2,7 +2,7 @@ import format from 'date-fns/format'
 import { Request, Response } from 'express'
 
 import { User } from '../entity/User'
-import { getGroupsDesc, getGroup, createGroup } from '../services/group.service'
+import { getGroupsDesc, getGroup, createGroup, deleteGroup } from '../services/group.service'
 import { getUser } from '../services/user.service'
 import { DATE_FORMAT, ROOMS } from '../util/constants'
 
@@ -19,8 +19,9 @@ export const show = async (req: Request, res: Response) => {
   const group = await getGroup(+req.params.id)
   if (group) {
     const joined = group.users.some(u => u.id === (req.user as User).id)
+    const isOwner = group.owner.id === (req.user as User).id
     res.render('group/show', {
-      group, joined, format, DATE_FORMAT
+      group, joined, isOwner, format, DATE_FORMAT
     })
   } else {
     res.redirect('/not-found')
@@ -38,6 +39,12 @@ export const createForm = async (req: Request, res: Response) => {
 
 export const create = async (req: Request, res: Response) => {
   await createGroup(req.body, req.user as User)
+  res.redirect('/groups')
+}
+
+export const destroy = async (_req: Request, res: Response) => {
+  const group = res.locals.group
+  await deleteGroup(group)
   res.redirect('/groups')
 }
 

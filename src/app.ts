@@ -16,6 +16,9 @@ import * as roomController from './controllers/room'
 import * as ticketControler from './controllers/ticket'
 import * as errorController from './controllers/error'
 
+// Middlewares
+import { isGroupOwner } from './middlewares/group.middleware'
+
 // API keys and Passport configuration
 import * as passportConfig from './config/passport'
 
@@ -84,6 +87,11 @@ app.post('/groups/new', passportConfig.isAuthenticated, groupController.create)
 app.get('/groups/:id', passportConfig.isAuthenticated, groupController.show)
 app.post('/groups/:id/join', passportConfig.isAuthenticated, groupController.join)
 app.post('/groups/:id/leave', passportConfig.isAuthenticated, groupController.leave)
+app.post('/groups/:id/delete',
+  passportConfig.isAuthenticated,
+  isGroupOwner,
+  groupController.destroy
+)
 
 /**
  * Room routes
