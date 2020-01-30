@@ -45,7 +45,7 @@
   "devDependencies": {
     "@types/async": "^3.0.7",
     "@types/body-parser": "^1.17.1",
-    "@types/chai": "^4.2.3",
+    "@types/chai": "^4.2.8",
     "@types/compression": "^1.0.1",
     "@types/concurrently": "^4.1.0",
     "@types/date-fns": "^2.6.0",
