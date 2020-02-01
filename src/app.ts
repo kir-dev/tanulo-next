@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import express from 'express'
+import express, { Request, Response } from 'express'
 import compression from 'compression'  // compresses requests
 import session from 'express-session'
 import bodyParser from 'body-parser'
@@ -9,18 +9,13 @@ import path from 'path'
 import passport from 'passport'
 import { SESSION_SECRET } from './util/secrets'
 
-// Controllers (route handlers)
-import * as userController from './controllers/user'
-import * as groupController from './controllers/group'
-import * as roomController from './controllers/room'
-import * as ticketControler from './controllers/ticket'
+// Controllers
 import * as errorController from './controllers/error'
 
-// Middlewares
-import { isGroupOwner } from './middlewares/group.middleware'
-
-// API keys and Passport configuration
-import * as passportConfig from './config/passport'
+import userRouter from './routes/user.routes'
+import ticketRouter from './routes/ticket.routes'
+import roomRouter from './routes/room.routes'
+import groupRouter from './routes/group.routes'
 
 // Create Express server
 const app = express()
@@ -68,52 +63,37 @@ app.use(
 /**
  * Primary app routes.
  */
-app.get('/', roomController.index)
-app.get('/logout', userController.logout)
+app.get('^/$', (_req: Request, res: Response) => res.redirect('/rooms'))
+app.get('/logout', (req: Request, res: Response) => {
+  req.logout()
+  res.redirect('/')
+})
 
 /**
  * User routes
  */
-app.get('/users/me', passportConfig.isAuthenticated, userController.showMe)
-app.get('/users/:id', passportConfig.isAuthenticated, userController.show)
-app.post('/users/:id/admin', passportConfig.isAdmin, userController.toggleAdmin)
+app.use('/users', userRouter)
 
 /**
  * Group routes
  */
-app.get('/groups', passportConfig.isAuthenticated, groupController.index)
-app.get('/groups/new', passportConfig.isAuthenticated, groupController.createForm)
-app.post('/groups/new', passportConfig.isAuthenticated, groupController.create)
-app.get('/groups/:id', passportConfig.isAuthenticated, groupController.show)
-app.post('/groups/:id/join', passportConfig.isAuthenticated, groupController.join)
-app.post('/groups/:id/leave', passportConfig.isAuthenticated, groupController.leave)
-app.post('/groups/:id/delete',
-  passportConfig.isAuthenticated,
-  isGroupOwner,
-  groupController.destroy
-)
+app.use('/groups', groupRouter)
 
 /**
  * Room routes
  */
-app.get('/rooms', roomController.index)
-app.get('/rooms/:id', roomController.show)
-app.get('/rooms/:id/events', roomController.getGroupsForRoom)
+app.use('/rooms', roomRouter)
 
 /**
  * Ticket routes
  */
-app.get('/tickets', passportConfig.isAuthenticated, ticketControler.index)
-app.get('/tickets/new', passportConfig.isAuthenticated, ticketControler.createForm)
-app.post('/tickets/new', passportConfig.isAuthenticated, ticketControler.create)
-app.post('/tickets/:id/delete', passportConfig.isAdmin, ticketControler.destroy)
+app.use('/tickets', ticketRouter)
 
 /**
  * OAuth authentication routes. (Sign in)
  */
 app.get('/auth/oauth', passport.authenticate('oauth2'))
-app.get(
-  '/auth/oauth/callback',
+app.get('/auth/oauth/callback',
   passport.authenticate('oauth2', { failureRedirect: '/' }),
   (req, res) => {
     res.redirect(req.session.returnTo || '/')
