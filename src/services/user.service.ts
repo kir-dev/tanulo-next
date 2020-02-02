@@ -8,7 +8,7 @@ interface OAuthUser {
   mail: string
 }
 
-export const getUser = async (options: FindOneOptions) => {
+export const getUser = async (options: FindOneOptions): Promise<User> => {
   return await User.findOne(options)
 }
 

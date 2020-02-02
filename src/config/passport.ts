@@ -35,7 +35,7 @@ passport.use(
       if (user) {
         done(null, user)
       } else {
-        const newUser = await createUser(user)
+        const newUser = await createUser(responseUser)
         done(null, newUser)
       }
     }
