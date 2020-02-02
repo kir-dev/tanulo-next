@@ -3,11 +3,6 @@ import { Request, Response } from 'express'
 import { User } from '../entity/User'
 import { getUser } from '../services/user.service'
 
-export const logout = (req: Request, res: Response) => {
-  req.logout()
-  res.redirect('/')
-}
-
 export const show = async (req: Request, res: Response) => {
   const otherUser = await getUser(
     {
