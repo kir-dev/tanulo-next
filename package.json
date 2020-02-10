@@ -46,7 +46,7 @@
     "@types/async": "^3.0.7",
     "@types/body-parser": "^1.17.1",
     "@types/chai": "^4.2.8",
-    "@types/compression": "^1.0.1",
+    "@types/compression": "^1.7.0",
     "@types/concurrently": "^5.1.0",
     "@types/date-fns": "^2.6.0",
     "@types/errorhandler": "^0.0.32",
