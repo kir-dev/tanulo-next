@@ -545,13 +545,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/connect-flash@*":
-  version "0.0.35"
-  resolved "https://registry.yarnpkg.com/@types/connect-flash/-/connect-flash-0.0.35.tgz#c1bc38750422dac44b6a656b9dac72da17560fb7"
-  integrity sha512-pwEiJI1gYhH+s6x4+st/TBgf1CPuATADPJi1+2It4Gnckw1pVVdKycRNDyoHwkZGCb/J38vEdOrxnZ4FsOlvWg==
-  dependencies:
-    "@types/express" "*"
-
 "@types/connect@*":
   version "3.4.33"
   resolved "https://registry.yarnpkg.com/@types/connect/-/connect-3.4.33.tgz#31610c901eca573b8713c3330abc6e6b9f588546"
@@ -601,12 +594,11 @@
   resolved "https://registry.yarnpkg.com/@types/events/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
   integrity sha512-EaObqwIvayI5a8dCzhFrjKzVwKLxjoG9T6Ppd5CEo07LRKfQ8Yokw54r5+Wq7FaBQ+yXRvQAYPrHwya1/UFt9g==
 
-"@types/express-flash@0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@types/express-flash/-/express-flash-0.0.1.tgz#7777471800721e8c18a233ec908d89f0f06868d5"
-  integrity sha512-HBF0dWoN6wqwA1Swla9cO1m1oY93HjPKWpz0cJ1bas66yQT27L3hNCt1vjhKQb6DDWetcRrE2sbd5WxNmI/jhQ==
+"@types/express-flash@0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@types/express-flash/-/express-flash-0.0.2.tgz#9389366e91c23bc5131c137a279c9d8d53f2d68f"
+  integrity sha512-1l0s3YiZpMkWZ/65S4iSOLOnI7bYNDgnxx54nw5eA2pWOZ7Vvc7PpDv6iJq0bB7EBusoVWkzd+RV4r/nLY4/HA==
   dependencies:
-    "@types/connect-flash" "*"
     "@types/express" "*"
 
 "@types/express-serve-static-core@*":
