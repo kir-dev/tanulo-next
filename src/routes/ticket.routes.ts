@@ -8,6 +8,6 @@ import { create, createForm, destroy, index } from '../controllers/ticket'
 router.get('/', isAuthenticated, index)
 router.get('/new', isAuthenticated, createForm)
 router.post('/new', isAuthenticated, create)
-router.post('/:id/delete', isAdmin, destroy)
+router.delete('/:id', isAdmin, destroy)
 
 export default router

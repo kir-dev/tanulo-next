@@ -44,7 +44,7 @@ export const create = async (req: Request, res: Response) => {
 export const destroy = async (_req: Request, res: Response) => {
   const group = res.locals.group
   await deleteGroup(group)
-  res.redirect('/groups')
+  res.status(204).send('Csoport sikeresen törölve')
 }
 
 export const join = async (req: Request, res: Response) => {

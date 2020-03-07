@@ -20,11 +20,13 @@ block content
           button.button.is-primary(type="submit") Csatlakozás
       else if !isOwner
         form(action=`/groups/${group.id}/leave`, method="post")
-          button.button.is-danger(type="submit") Csoport elhagyása
+          button.button.is-warning(type="submit") Csoport elhagyása
     else if isOwner
       p Zárt csoport
     else
       p A csoport létrehozója nem szeretné, ha mások csatlakoznának
     if isOwner
-      form(action=`/groups/${group.id}/delete`, method="post")
-        button.button.is-danger(type="submit") Csoport törlése
+      button.button.is-danger(type="button", onclick=`deleteGroup(${group.id})`) Csoport törlése
+
+block scripts
+  script(src='/js/group.js')
