@@ -1,12 +1,12 @@
 import { Router } from 'express'
 
-import * as passportConfig from '../config/passport'
-import * as userController from '../controllers/user'
+import { isAuthenticated, isAdmin } from '../config/passport'
+import { show, showMe, toggleAdmin } from '../controllers/user'
 
 const router = Router()
 
-router.get('/me', passportConfig.isAuthenticated, userController.showMe)
-router.get('/:id', passportConfig.isAuthenticated, userController.show)
-router.post('/:id/admin', passportConfig.isAdmin, userController.toggleAdmin)
+router.get('/me', isAuthenticated, showMe)
+router.get('/:id', isAuthenticated, show)
+router.post('/:id/admin', isAdmin, toggleAdmin)
 
 export default router

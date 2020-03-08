@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import express, { Request, Response } from 'express'
+import express from 'express'
 import compression from 'compression'  // compresses requests
 import session from 'express-session'
 import bodyParser from 'body-parser'
@@ -43,7 +43,7 @@ app.use((req, res, next) => {
   res.locals.user = req.user
   next()
 })
-app.use((req, res, next) => {
+app.use((req, _res, next) => {
   // After successful login, redirect back to the intended page
   if (!req.user &&
     !req.path.match(/^\/auth/) &&
@@ -63,8 +63,8 @@ app.use(
 /**
  * Primary app routes.
  */
-app.get('^/$', (_req: Request, res: Response) => res.redirect('/rooms'))
-app.get('/logout', (req: Request, res: Response) => {
+app.get('^/$', (_req, res) => res.redirect('/rooms'))
+app.get('/logout', (req, res) => {
   req.logout()
   res.redirect('/')
 })
@@ -95,9 +95,8 @@ app.use('/tickets', ticketRouter)
 app.get('/auth/oauth', passport.authenticate('oauth2'))
 app.get('/auth/oauth/callback',
   passport.authenticate('oauth2', { failureRedirect: '/' }),
-  (req, res) => {
-    res.redirect(req.session.returnTo || '/')
-  })
+  (req, res) => res.redirect(req.session.returnTo || '/')
+)
 
 /**
  * Error routes
