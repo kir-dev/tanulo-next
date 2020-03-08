@@ -12,6 +12,6 @@ router.post('/new', isAuthenticated, create)
 router.get('/:id', isAuthenticated, show)
 router.post('/:id/join', isAuthenticated, join)
 router.post('/:id/leave', isAuthenticated, leave)
-router.post('/:id/delete', isAuthenticated, isGroupOwner, destroy)
+router.delete('/:id', isAuthenticated, isGroupOwner, destroy)
 
 export default router

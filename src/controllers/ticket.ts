@@ -32,7 +32,7 @@ export const destroy = async (req: Request, res: Response) => {
   const ticket = await getTicket(+req.params.id)
   if (ticket) {
     Ticket.remove(ticket)
-    res.redirect('/tickets')
+    res.status(204).send('A hibajegy sikeresen törölve')
   } else {
     res.redirect('/not-found')
   }

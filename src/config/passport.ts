@@ -65,7 +65,7 @@ export const isAuthenticated = (req: Request, res: Response, next: NextFunction)
  * Authorization Required middleware.
  */
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
-  if ((req.user as User).admin) {
+  if ((req.user as User)?.admin) {
     next()
   } else {
     res.render('error/forbidden')

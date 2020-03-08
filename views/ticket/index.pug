@@ -5,7 +5,7 @@ block content
   a.button.is-link(href="tickets/new") Új hibajegy felvétele
   .cards.tickets
     each ticket in tickets
-      .card.ticket
+      .card.ticket(id=`ticket-${ticket.id}`)
         .card-content
           .media
             .media-content
@@ -15,7 +15,9 @@ block content
             p=ticket.description
             time= format(ticket.createdAt, DATE_FORMAT)
           if admin
-            form(action=`tickets/${ticket.id}/delete`, method="post")
-              button.button.is-danger(type="submit") Törlés
+            button.button.is-danger(type="button", onclick=`deleteTicket(${ticket.id})`) Törlés
     else
       p Nincsenek hibajegyek
+
+block scripts
+  script(src='/js/ticket.js')
