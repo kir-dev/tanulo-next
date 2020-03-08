@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const deleteGroup = id => {
   if (confirm('Biztosan törlöd?')) {
     fetch(`/groups/${id}`, { method: 'DELETE' })
