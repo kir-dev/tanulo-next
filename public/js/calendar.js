@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
   const calendarEl = document.getElementById('calendar')
 
-  const roomNumber = window.location.pathname.split('/').pop()
+  const room = window.location.pathname.split('/').pop()
 
-  fetch(`/rooms/${roomNumber}/events`)
+  fetch(`/rooms/${room}/events`)
     .then(response => response.json())
     .then(data => {
       const calendar = new FullCalendar.Calendar(calendarEl, {
@@ -24,12 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
         locale: 'hu',
         selectable: true,
         events: data,
-        select: info => {
-          location.href = `/groups/new?start=${info.startStr}&end=${info.endStr}&roomId=${roomNumber}`
-        },
-        eventClick: calEvent => {
+        select: info =>
+          location.href = `/groups/new?start=${info.startStr}&end=${info.endStr}&roomId=${room}`
+        ,
+        eventClick: calEvent =>
           location.href = `/groups/${calEvent.event.groupId}`
-        }
       })
 
       calendar.render()
