@@ -14,7 +14,7 @@ import * as errorController from './controllers/error'
 
 import userRouter from './users/user.routes'
 import ticketRouter from './tickets/ticket.routes'
-import roomRouter from './routes/room.routes'
+import roomRouter from './rooms/room.routes'
 import groupRouter from './routes/group.routes'
 
 // Create Express server
