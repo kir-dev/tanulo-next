@@ -9,13 +9,10 @@ import path from 'path'
 import passport from 'passport'
 import { SESSION_SECRET } from './util/secrets'
 
-// Controllers
-import * as errorController from './controllers/error'
-
 import userRouter from './users/user.routes'
 import ticketRouter from './tickets/ticket.routes'
 import roomRouter from './rooms/room.routes'
-import groupRouter from './routes/group.routes'
+import groupRouter from './groups/group.routes'
 
 // Create Express server
 const app = express()
@@ -101,6 +98,6 @@ app.get('/auth/oauth/callback',
 /**
  * Error routes
  */
-app.use('*', errorController.notFound)
+app.use('*', (req, res) => res.render('error/not-found'))
 
 export default app

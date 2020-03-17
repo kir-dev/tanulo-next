@@ -1,4 +1,4 @@
-import { Group } from '../entity/group.entity'
+import { Group } from '../groups/group.entity'
 import { Ticket } from '../tickets/ticket.entity'
 import { User as LocalUser } from '../users/user.entity'
 

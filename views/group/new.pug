@@ -2,7 +2,7 @@ extends ../layouts/main
 
 block content
   h1.title Új csoport felvétele
-  form(method="POST", action="/groups/new")
+  form(method="POST", action="/groups")
     .field
       label.label Csoport neve
         input.input(type="text", name="name", placeholder="Analízis ZH1 készülés" required)
