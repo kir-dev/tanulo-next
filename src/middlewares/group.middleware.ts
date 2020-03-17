@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { getGroup } from '../services/group.service'
-import { User } from '../entity/user.entity'
+import { User } from '../users/user.entity'
 
 export const isGroupOwner = async (req: Request, res: Response, next: NextFunction) => {
   const group = await getGroup(+req.params.id)

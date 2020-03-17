@@ -12,7 +12,7 @@ import { SESSION_SECRET } from './util/secrets'
 // Controllers
 import * as errorController from './controllers/error'
 
-import userRouter from './routes/user.routes'
+import userRouter from './users/user.routes'
 import ticketRouter from './tickets/ticket.routes'
 import roomRouter from './routes/room.routes'
 import groupRouter from './routes/group.routes'

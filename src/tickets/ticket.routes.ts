@@ -2,7 +2,7 @@ import format from 'date-fns/format'
 import { Router } from 'express'
 
 import { isAdmin, isAuthenticated } from '../config/passport'
-import { User } from '../entity/user.entity'
+import { User } from '../users/user.entity'
 import { DATE_FORMAT } from '../util/constants'
 import { createTicket, getTickets, removeTicket } from './ticket.service'
 
