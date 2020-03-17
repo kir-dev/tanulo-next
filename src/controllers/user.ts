@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 
-import { User } from '../entity/User'
+import { User } from '../entity/user.entity'
 import { getUser } from '../services/user.service'
 
 export const show = async (req: Request, res: Response) => {

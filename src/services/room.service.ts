@@ -1,6 +1,6 @@
 import { LessThan, MoreThan } from 'typeorm'
 
-import { Group } from '../entity/Group'
+import { Group } from '../entity/group.entity'
 
 export const getBusyRooms = async () => {
   const currentTime = new Date()

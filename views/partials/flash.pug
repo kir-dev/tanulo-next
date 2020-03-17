@@ -1,18 +1,14 @@
-if messages.errors
-  .alert.alert-danger.fade.show
-    button.close(type='button', data-dismiss='alert')
-      i.fa.fa-times-circle-o
-    for error in messages.errors
-      div= error.msg
-if messages.info
-  .alert.alert-info.fade.show
-    button.close(type='button', data-dismiss='alert')
-      i.fa.fa-times-circle-o
-    for info in messages.info
-      div= info.msg
-if messages.success
-  .alert.alert-success.fade.show
-    button.close(type='button', data-dismiss='alert')
-      i.fa.fa-times-circle-o
-    for success in messages.success
-      div= success.msg
+article.message.is-danger.is-hidden
+  .message-header
+    p Hiba
+  .message-body
+
+article.message.is-warning.is-hidden
+  .message-header
+    p Figyelmeztetés
+  .message-body
+
+article.message.is-info.is-hidden
+  .message-header
+    p Információ
+  .message-body

@@ -13,7 +13,7 @@ import { SESSION_SECRET } from './util/secrets'
 import * as errorController from './controllers/error'
 
 import userRouter from './routes/user.routes'
-import ticketRouter from './routes/ticket.routes'
+import ticketRouter from './tickets/ticket.routes'
 import roomRouter from './routes/room.routes'
 import groupRouter from './routes/group.routes'
 
@@ -22,7 +22,7 @@ const app = express()
 
 // Express configuration
 app.set('port', process.env.PORT || 3000)
-app.set('views', path.join(__dirname, '../views'))
+app.set('views', path.join(__dirname, '..', 'views'))
 app.set('view engine', 'pug')
 app.use(compression())
 app.use(bodyParser.json())

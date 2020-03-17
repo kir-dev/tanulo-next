@@ -1,5 +1,5 @@
-import { Group } from '../entity/Group'
-import { User } from '../entity/User'
+import { Group } from '../entity/group.entity'
+import { User } from '../entity/user.entity'
 
 export const getGroupsDesc = async () => await Group.find({ order: { createdAt: 'DESC' } })
 

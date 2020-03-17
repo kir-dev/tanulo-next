@@ -22,3 +22,10 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 })
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function displayMessage(type, message) {
+  const element = document.querySelector(`.message.is-${type}`)
+  element.classList.remove('is-hidden')
+  document.querySelectorAll('.message-body').forEach(el => el.textContent = message)
+}

@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 import passport from 'passport'
 import { Strategy } from 'passport-oauth2'
 
-import { User } from '../entity/User'
+import { User } from '../entity/user.entity'
 import { createUser, getUser } from '../services/user.service'
 
 const AUTH_SCH_URL = 'https://auth.sch.bme.hu'
@@ -56,9 +56,10 @@ passport.deserializeUser(async (id: number, done) => {
  */
 export const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
   if (req.isAuthenticated()) {
-    return next()
+    next()
+  } else {
+    res.render('error/not-authenticated')
   }
-  res.render('error/not-authenticated')
 }
 
 /**

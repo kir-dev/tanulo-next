@@ -1,6 +1,6 @@
 import { FindOneOptions } from 'typeorm'
 
-import { User } from '../entity/User'
+import { User } from '../entity/user.entity'
 
 interface OAuthUser {
   displayName: string

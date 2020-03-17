@@ -1,7 +1,7 @@
 import format from 'date-fns/format'
 import { Request, Response } from 'express'
 
-import { User } from '../entity/User'
+import { User } from '../entity/user.entity'
 import { getGroupsDesc, getGroup, createGroup, deleteGroup } from '../services/group.service'
 import { DATE_FORMAT, ROOMS } from '../util/constants'
 
