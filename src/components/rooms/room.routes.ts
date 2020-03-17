@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express'
 
 import { getBusyRooms, getEventsForRoom } from './room.service'
-import { ROOMS } from '../util/constants'
+import { ROOMS } from '../../util/constants'
 
 const index = async (_req: Request, res: Response) => {
   const busyRooms = await getBusyRooms()

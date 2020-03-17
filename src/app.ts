@@ -9,10 +9,10 @@ import path from 'path'
 import passport from 'passport'
 import { SESSION_SECRET } from './util/secrets'
 
-import userRouter from './users/user.routes'
-import ticketRouter from './tickets/ticket.routes'
-import roomRouter from './rooms/room.routes'
-import groupRouter from './groups/group.routes'
+import userRouter from './components/users/user.routes'
+import ticketRouter from './components/tickets/ticket.routes'
+import roomRouter from './components/rooms/room.routes'
+import groupRouter from './components/groups/group.routes'
 
 // Create Express server
 const app = express()

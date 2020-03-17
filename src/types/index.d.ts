@@ -1,6 +1,6 @@
-import { Group } from '../groups/group.entity'
-import { Ticket } from '../tickets/ticket.entity'
-import { User as LocalUser } from '../users/user.entity'
+import { Group } from '../components/groups/group.entity'
+import { Ticket } from '../components/tickets/ticket.entity'
+import { User as LocalUser } from '../components/users/user.entity'
 
 declare global {
   namespace Express {

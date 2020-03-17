@@ -1,9 +1,9 @@
 import format from 'date-fns/format'
 import { Router } from 'express'
 
-import { isAuthenticated } from '../config/passport'
+import { isAuthenticated } from '../../config/passport'
 import { User } from '../users/user.entity'
-import { DATE_FORMAT, ROOMS } from '../util/constants'
+import { DATE_FORMAT, ROOMS } from '../../util/constants'
 import { isGroupOwner, joinGroup, leaveGroup } from './group.middlewares'
 import { createGroup, getGroup, getGroups, removeGroup } from './group.service'
 

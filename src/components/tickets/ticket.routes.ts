@@ -1,9 +1,9 @@
 import format from 'date-fns/format'
 import { Router } from 'express'
 
-import { isAdmin, isAuthenticated } from '../config/passport'
+import { isAdmin, isAuthenticated } from '../../config/passport'
 import { User } from '../users/user.entity'
-import { DATE_FORMAT } from '../util/constants'
+import { DATE_FORMAT } from '../../util/constants'
 import { createTicket, getTickets, removeTicket } from './ticket.service'
 
 const router = Router()
@@ -16,10 +16,7 @@ router.get('/', isAuthenticated, getTickets, (req, res) =>
     DATE_FORMAT
   }))
 
-router.get('/new', isAuthenticated, (req, res) => {
-  req.flash('success', 'aaaaaaaaaaa')
-  res.render('ticket/new', { flash: req.flash('success') })
-})
+router.get('/new', isAuthenticated, (_req, res) => res.render('ticket/new'))
 
 router.post('/', isAuthenticated, createTicket, (_req, res) => res.redirect('/tickets'))
 

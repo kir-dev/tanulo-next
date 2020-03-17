@@ -3,8 +3,8 @@ import fetch from 'node-fetch'
 import passport from 'passport'
 import { Strategy } from 'passport-oauth2'
 
-import { User } from '../users/user.entity'
-import { createUser } from '../users/user.service'
+import { User } from '../components/users/user.entity'
+import { createUser } from '../components/users/user.service'
 
 const AUTH_SCH_URL = 'https://auth.sch.bme.hu'
 

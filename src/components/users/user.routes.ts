@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import { isAuthenticated, isAdmin } from '../config/passport'
+import { isAuthenticated, isAdmin } from '../../config/passport'
 import { getUser, toggleAdmin } from './user.service'
 
 const router = Router()
