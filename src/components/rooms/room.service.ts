@@ -1,22 +1,16 @@
-import { LessThan, MoreThan } from 'typeorm'
-
-import { Group } from '../groups/group.entity'
+import { Group } from '../groups/group'
 
 export const getBusyRooms = async () => {
   const currentTime = new Date()
-  return (await Group.find({
-    where: [
-      {
-        startDate: LessThan(currentTime),
-        endDate: MoreThan(currentTime)
-      },
-    ]
-  }))?.map(group => ({
-    id: group.room,
-    groupId: group.id,
-    doNotDisturb: group.doNotDisturb
-  }))
+  return (await Group.query()
+    .where('startDate', '<', currentTime)
+    .andWhere('endDate', '>', currentTime))
+    ?.map(group => ({
+      id: group.room,
+      groupId: group.id,
+      doNotDisturb: group.doNotDisturb
+    }))
 }
 
 export const getEventsForRoom = async (roomId: number) =>
-  await Group.find({ where: { room: roomId } })
+  await Group.query().where({ room: roomId })

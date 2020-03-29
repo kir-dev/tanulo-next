@@ -1,20 +1,18 @@
 import { Request, Response, NextFunction} from 'express'
 
-import { Group } from './group.entity'
-import { User } from '../users/user.entity'
+import { Group } from './group'
+import { User } from '../users/user'
 
 export const getGroups = async (req: Request, res: Response, next: NextFunction) => {
-  req.groups = await Group.find({ order: { createdAt: 'DESC' } })
+  req.groups = await Group.query().orderBy('createdAt', 'DESC')
   next()
 }
 
 export const getGroup = async (req: Request, res: Response, next: NextFunction) => {
-  const group = await Group.findOne(
-    {
-      relations: ['users', 'owner'],
-      where: { id: parseInt(req.params.id) }
-    }
-  )
+  const group = await Group.query()
+    .findOne({ id: parseInt(req.params.id) })
+    .withGraphFetched('users')
+
   if (group) {
     req.group = group
     next()
@@ -24,22 +22,29 @@ export const getGroup = async (req: Request, res: Response, next: NextFunction) 
 }
 
 export const createGroup = async (req: Request, res: Response, next: NextFunction) => {
-  const user = req.user as User
-  const newGroup = Group.create()
-  newGroup.name = req.body.name
-  newGroup.room = req.body.room
-  newGroup.owner = user
-  newGroup.users = [user]
-  newGroup.description = req.body.description
-  newGroup.subject = req.body.subject
-  newGroup.doNotDisturb = !!req.body.doNotDisturb
-  newGroup.startDate = req.body.startDate
-  newGroup.endDate = req.body.endDate
-  await newGroup.save()
+  req.group = await Group.query()
+    .insert(
+      {
+        name: req.body.name,
+        subject: req.body.subject,
+        room: parseInt(req.body.room),
+        description: req.body.description,
+        doNotDisturb: !!req.body.doNotDisturb,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate,
+        ownerId: (req.user as User).id
+      }
+    )
+
   next()
 }
 
 export const removeGroup = async (req: Request, res: Response, next: NextFunction) => {
-  await Group.remove(req.group)
+  await Group.relatedQuery('users')
+    .for(req.group.id)
+    .unrelate()
+
+  await Group.query().deleteById(req.group.id)
+
   next()
 }

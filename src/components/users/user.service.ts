@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 
-import { User } from './user.entity'
+import { User } from './user'
 
 interface OAuthUser {
   displayName: string
@@ -9,11 +9,9 @@ interface OAuthUser {
 }
 
 export const getUser = async (req: Request, res: Response, next: NextFunction) => {
-  const user = await User.findOne(
-    {
-      where: { id: +req.params.id },
-      relations: ['groups']
-    })
+  const user = await User.query()
+    .findOne({ id: (req.user as User).id})
+    .withGraphFetched('groups')
 
   if (!user) {
     res.redirect('error/not-found')
@@ -24,20 +22,28 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
 }
 
 export const toggleAdmin = async (req: Request, res: Response, next: NextFunction) => {
-  const result = await User.toggleAdmin(+req.params.id)
+  const user = await User.query().findOne({ id: parseInt(req.params.id) })
 
-  if (!result) {
+  if (!user) {
     res.redirect('/not-found')
   } else {
+    await User.query()
+      .patch({ admin: !user.admin })
+      .where({ id: user.id })
     next()
   }
 }
 
 export const createUser = async (user: OAuthUser) => {
-  const newUser = User.create()
-  newUser.name = user.displayName
-  newUser.authSchId = user.internal_id
-  newUser.email = user.mail
-  newUser.admin = false
-  return await newUser.save()
+  return await User.transaction(async trx => {
+    return await User.query(trx)
+      .insert(
+        {
+          name: user.displayName,
+          email: user.mail,
+          authSchId: user.internal_id,
+          admin: false
+        }
+      )
+  })
 }

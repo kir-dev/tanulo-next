@@ -3,16 +3,24 @@ import express from 'express'
 import compression from 'compression'  // compresses requests
 import session from 'express-session'
 import bodyParser from 'body-parser'
+import Knex from 'knex'
 import lusca from 'lusca'
 import flash from 'express-flash'
+import { Model } from 'objection'
 import path from 'path'
 import passport from 'passport'
+
+import dbConfig = require('../knexfile')
 import { SESSION_SECRET } from './util/secrets'
 
 import userRouter from './components/users/user.routes'
 import ticketRouter from './components/tickets/ticket.routes'
 import roomRouter from './components/rooms/room.routes'
 import groupRouter from './components/groups/group.routes'
+
+const knex = Knex(dbConfig)
+
+Model.knex(knex)
 
 // Create Express server
 const app = express()
@@ -66,24 +74,12 @@ app.get('/logout', (req, res) => {
   res.redirect('/')
 })
 
-/**
- * User routes
- */
 app.use('/users', userRouter)
 
-/**
- * Group routes
- */
 app.use('/groups', groupRouter)
 
-/**
- * Room routes
- */
 app.use('/rooms', roomRouter)
 
-/**
- * Ticket routes
- */
 app.use('/tickets', ticketRouter)
 
 /**

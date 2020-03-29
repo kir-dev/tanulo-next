@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 import passport from 'passport'
 import { Strategy } from 'passport-oauth2'
 
-import { User } from '../components/users/user.entity'
+import { User } from '../components/users/user'
 import { createUser } from '../components/users/user.service'
 
 const AUTH_SCH_URL = 'https://auth.sch.bme.hu'
@@ -31,7 +31,8 @@ passport.use(
         `${AUTH_SCH_URL}/api/profile?access_token=${accessToken}`
       ).then(res => res.json())
 
-      const user = await User.findOne({ where: { authSchId: responseUser.internal_id } })
+      const user = await User.query().findOne({ authSchId: responseUser.internal_id })
+
       if (user) {
         done(null, user)
       } else {
@@ -47,7 +48,7 @@ passport.serializeUser((user: User, done) => {
 })
 
 passport.deserializeUser(async (id: number, done) => {
-  const user = await User.findOne({ where: { id } })
+  const user = await User.query().findOne({ id })
   done(null, user)
 })
 

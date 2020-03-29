@@ -2,8 +2,8 @@ import format from 'date-fns/format'
 import { Router } from 'express'
 
 import { isAuthenticated } from '../../config/passport'
-import { User } from '../users/user.entity'
 import { DATE_FORMAT, ROOMS } from '../../util/constants'
+import { User } from '../users/user'
 import { isGroupOwner, joinGroup, leaveGroup } from './group.middlewares'
 import { createGroup, getGroup, getGroups, removeGroup } from './group.service'
 
@@ -25,11 +25,11 @@ router.get('/new', isAuthenticated, (req, res) =>
   })
 )
 
-router.post('/', isAuthenticated, createGroup, (req, res) => res.redirect('/groups'))
+router.post('/', isAuthenticated, createGroup, joinGroup, (req, res) => res.redirect('/groups'))
 
 router.get('/:id', isAuthenticated, getGroup, (req, res) => {
   const joined = req.group.users.some(u => u.id === (req.user as User).id)
-  const isOwner = req.group.owner.id === (req.user as User).id
+  const isOwner = req.group.ownerId === (req.user as User).id
   res.render('group/show', {
     group: req.group, joined, isOwner, format, DATE_FORMAT
   })
