@@ -9,20 +9,17 @@ import path from 'path'
 import passport from 'passport'
 import { SESSION_SECRET } from './util/secrets'
 
-// Controllers
-import * as errorController from './controllers/error'
-
-import userRouter from './routes/user.routes'
-import ticketRouter from './routes/ticket.routes'
-import roomRouter from './routes/room.routes'
-import groupRouter from './routes/group.routes'
+import userRouter from './components/users/user.routes'
+import ticketRouter from './components/tickets/ticket.routes'
+import roomRouter from './components/rooms/room.routes'
+import groupRouter from './components/groups/group.routes'
 
 // Create Express server
 const app = express()
 
 // Express configuration
 app.set('port', process.env.PORT || 3000)
-app.set('views', path.join(__dirname, '../views'))
+app.set('views', path.join(__dirname, '..', 'views'))
 app.set('view engine', 'pug')
 app.use(compression())
 app.use(bodyParser.json())
@@ -101,6 +98,6 @@ app.get('/auth/oauth/callback',
 /**
  * Error routes
  */
-app.use('*', errorController.notFound)
+app.use('*', (req, res) => res.render('error/not-found'))
 
 export default app

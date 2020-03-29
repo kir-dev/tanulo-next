@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn
 } from 'typeorm'
 
-import { Group } from './Group'
+import { Group } from '../groups/group.entity'
 
 @Entity()
 export class User extends BaseEntity {

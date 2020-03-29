@@ -3,8 +3,8 @@ import fetch from 'node-fetch'
 import passport from 'passport'
 import { Strategy } from 'passport-oauth2'
 
-import { User } from '../entity/User'
-import { createUser, getUser } from '../services/user.service'
+import { User } from '../components/users/user.entity'
+import { createUser } from '../components/users/user.service'
 
 const AUTH_SCH_URL = 'https://auth.sch.bme.hu'
 
@@ -31,7 +31,7 @@ passport.use(
         `${AUTH_SCH_URL}/api/profile?access_token=${accessToken}`
       ).then(res => res.json())
 
-      const user = await getUser({ where: { authSchId: responseUser.internal_id } })
+      const user = await User.findOne({ where: { authSchId: responseUser.internal_id } })
       if (user) {
         done(null, user)
       } else {
@@ -47,7 +47,7 @@ passport.serializeUser((user: User, done) => {
 })
 
 passport.deserializeUser(async (id: number, done) => {
-  const user = await getUser({ where: { id } })
+  const user = await User.findOne({ where: { id } })
   done(null, user)
 })
 
@@ -56,9 +56,10 @@ passport.deserializeUser(async (id: number, done) => {
  */
 export const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
   if (req.isAuthenticated()) {
-    return next()
+    next()
+  } else {
+    res.render('error/not-authenticated')
   }
-  res.render('error/not-authenticated')
 }
 
 /**
