@@ -2,7 +2,7 @@ import format from 'date-fns/format'
 import { Router } from 'express'
 
 import { isAdmin, isAuthenticated } from '../../config/passport'
-import { User } from '../users/user.entity'
+import { User } from '../users/user'
 import { DATE_FORMAT } from '../../util/constants'
 import { createTicket, getTickets, removeTicket } from './ticket.service'
 
@@ -11,7 +11,7 @@ const router = Router()
 router.get('/', isAuthenticated, getTickets, (req, res) =>
   res.render('ticket/index', {
     tickets: req.tickets,
-    admin: (req.user as User).admin,
+    admin: (req.user as User)?.admin,
     format,
     DATE_FORMAT
   }))
