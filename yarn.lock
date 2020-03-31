@@ -388,10 +388,10 @@
   dependencies:
     type-detect "4.0.8"
 
-"@types/async@^3.0.8":
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/@types/async/-/async-3.0.8.tgz#8c183f149d8cc91f944d58e5594d2a614ceb33ff"
-  integrity sha512-wIM8bCrHeQHCUyDqJYXyvG8P98YeERaOB1NeOvcjnjlM32pn21S13j6tZqhiWX+nkpU3EvhtE/nuO1ItCpZ+HQ==
+"@types/async@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@types/async/-/async-3.2.0.tgz#2bf5c62ca7f50efa77b74c971f1401a6db9ff938"
+  integrity sha512-7dhGj2u7hS+Y/NPxFDaTL/kbTvVjOKvZmD+GZp0jGGOLvnakomncrqSReX+xPAGGZuCUSUsXXy9I9pEpSwxpKA==
 
 "@types/babel-types@*", "@types/babel-types@^7.0.0":
   version "7.0.7"
