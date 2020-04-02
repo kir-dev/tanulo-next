@@ -1,5 +1,7 @@
 # tanulo-next
 
+![Build status](https://github.com/kir-dev/tanulo-next/workflows/Node%20CI/badge.svg)
+
 ## Pre-reqs
 
 To build and run this app locally you will need a few things:
@@ -32,6 +34,7 @@ yarn install
 ```bash
 sudo su postgres
 psql -c 'create user "tanulo" with superuser password '\''tanulo'\'';'
+psql -c 'create database "tanulo";'
 ```
 
 - Set up a `.env` file based on `.env.example` with real values.
