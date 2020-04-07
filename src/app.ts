@@ -1,4 +1,3 @@
-import 'reflect-metadata'
 import express from 'express'
 import compression from 'compression'  // compresses requests
 import session from 'express-session'
