@@ -635,10 +635,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/passport-oauth2@^1.4.8":
-  version "1.4.8"
-  resolved "https://registry.yarnpkg.com/@types/passport-oauth2/-/passport-oauth2-1.4.8.tgz#b11cb3323970a88db3d170fe3d4dcdd0af02d8bf"
-  integrity sha512-tlX16wyFE5YJR2pHpZ308dgB1MV9/Ra2wfQh71eWk+/umPoD1Rca2D4N5M27W7nZm1wqUNGTk1I864nHvEgiFA==
+"@types/passport-oauth2@^1.4.9":
+  version "1.4.9"
+  resolved "https://registry.yarnpkg.com/@types/passport-oauth2/-/passport-oauth2-1.4.9.tgz#134007c4b505a82548c9cb19094c5baeb2205c92"
+  integrity sha512-QP0q+NVQOaIu2r0e10QWkiUA0Ya5mOBHRJN0UrI+LolMLOP1/VN4EVIpJ3xVwFo+xqNFRoFvFwJhBvKnk7kpUA==
   dependencies:
     "@types/express" "*"
     "@types/oauth" "*"
