@@ -59,7 +59,7 @@
     "@types/node-fetch": "^2.5.5",
     "@types/node-sass": "^4.11.0",
     "@types/passport": "^1.0.3",
-    "@types/passport-oauth2": "^1.4.8",
+    "@types/passport-oauth2": "^1.4.9",
     "@types/pug": "^2.0.4",
     "@types/request-promise": "^4.1.46",
     "@types/shelljs": "^0.8.7",
