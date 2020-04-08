@@ -19,10 +19,10 @@ block content
         footer.card-footer
           .card-footer-item(title="Kezdés időpontja")
             i.fas.fa-play
-            span &nbsp;#{format(parseISO(group.startDate), DATE_FORMAT)}
+            span &nbsp;#{format(group.startDate, DATE_FORMAT)}
           .card-footer-item(title="Befejezés időpontja")
             i.fas.fa-stop-circle
               span &nbsp;
-            span &nbsp;#{format(parseISO(group.endDate), DATE_FORMAT)}
+            span &nbsp;#{format(group.endDate, DATE_FORMAT)}
     else
       p Nincsenek megjelenítendő csoportok
