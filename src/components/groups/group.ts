@@ -54,8 +54,8 @@ export class Group extends Model {
         doNotDisturb: { type: 'boolean' },
         subject: { type: 'string' },
         room: { type: 'integer' },
-        startDate: { type: 'string' },
-        endDate: { type: 'string' }
+        startDate: { type: 'datetime' },
+        endDate: { type: 'datetime' }
       }
     }
   }

@@ -30,8 +30,8 @@ export const createGroup = async (req: Request, res: Response, next: NextFunctio
         room: parseInt(req.body.room),
         description: req.body.description,
         doNotDisturb: !!req.body.doNotDisturb,
-        startDate: req.body.startDate,
-        endDate: req.body.endDate,
+        startDate: new Date(req.body.startDate),
+        endDate: new Date(req.body.endDate),
         ownerId: (req.user as User).id
       }
     )
