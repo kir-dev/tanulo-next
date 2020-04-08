@@ -1,4 +1,4 @@
-import { format, parseISO } from 'date-fns'
+import format from 'date-fns/format'
 import { Router } from 'express'
 
 import { isAuthenticated } from '../../config/passport'
@@ -13,7 +13,6 @@ router.get('/', isAuthenticated, getGroups, (req, res) => {
   res.render('group/index', {
     groups: req.groups,
     format,
-    parseISO,
     DATE_FORMAT
   })})
 
@@ -32,7 +31,7 @@ router.get('/:id', isAuthenticated, getGroup, (req, res) => {
   const joined = req.group.users.some(u => u.id === (req.user as User).id)
   const isOwner = req.group.ownerId === (req.user as User).id
   res.render('group/show', {
-    group: req.group, joined, isOwner, format, parseISO, DATE_FORMAT
+    group: req.group, joined, isOwner, format, DATE_FORMAT
   })
 })
 
