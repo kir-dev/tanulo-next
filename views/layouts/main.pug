@@ -12,13 +12,13 @@ html(lang='hu')
     block styles
 
   body
+    div(id="alert")
     include ../partials/header
 
     main
-      include ../partials/flash
       block content
 
     include ../partials/footer
     script(src='/js/main.js')
-    script(defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js")
+    script(src="https://use.fontawesome.com/releases/v5.3.1/js/all.js")
     block scripts

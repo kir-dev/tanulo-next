@@ -14,14 +14,16 @@ export class Ticket extends Model {
     return 'tickets'
   }
 
-  static jsonSchema = {
-    type: 'object',
-    required: ['roomNumber', 'description'],
+  static get jsonSchema() {
+    return {
+      type: 'object',
+      required: ['roomNumber', 'description'],
 
-    properties: {
-      id: { type: 'integer' },
-      description: { type: 'string' },
-      roomNumber: { type: 'integer' }
+      properties: {
+        id: { type: 'integer' },
+        description: { type: 'string' , maxLenght: 500 },
+        roomNumber: { type: 'integer' }
+      }
     }
   }
 }

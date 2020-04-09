@@ -1,3 +1,6 @@
+@import './group.scss';
+@import './room.scss';
+
 // Scaffolding
 // -------------------------
 
@@ -18,6 +21,7 @@ body {
     margin-bottom: 2rem;
     padding: 1rem;
     flex: 1;
+    position: relative;
   }
 
   footer.page-footer {
@@ -56,60 +60,36 @@ body {
   }
 }
 
-// Groups index view
-.cards.groups,
-.cards.tickets {
-  .card.group,
-  .card.ticket {
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
+#alert {
+  position: absolute;
+  z-index: 999;
+  top: 2rem;
+  left: 50%;
+  transform:translateX(-50%);
+  cursor: pointer;
+}
 
-    .card-content {
-      .content {
-        word-wrap: break-word;
-      }
-    }
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.group-show {
-  h3.description {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
+article.message.alert-detail {
+  animation: slide-down 0.3s ease-in;
 }
 
-// Rooms index view
-article {
-  div.message-header {
-    a,
-    button {
-      margin-left: 1rem;
-    }
-  }
-}
 
 // Input Fields
 // -------------------------
 
 textarea {
   resize: vertical;
-}
-
-// Alerts
-// -------------------------
-
-.alert {
-  margin-top: 20px;
-}
-
-// Thumbnails
-// -------------------------
-
-.thumbnail {
-  padding: 0;
-  border-radius: 0;
-  box-shadow: 0 0 5px #ccc, inset 0 0 0 #000;
 }
 
 // Font Icons

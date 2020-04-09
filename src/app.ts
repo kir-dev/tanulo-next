@@ -4,7 +4,6 @@ import session from 'express-session'
 import bodyParser from 'body-parser'
 import Knex from 'knex'
 import lusca from 'lusca'
-import flash from 'express-flash'
 import { Model } from 'objection'
 import path from 'path'
 import passport from 'passport'
@@ -39,7 +38,6 @@ app.use(session({
 }))
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(flash())
 app.use(lusca.xframe('SAMEORIGIN'))
 app.use(lusca.xssProtection(true))
 app.use((req, res, next) => {

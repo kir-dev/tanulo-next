@@ -24,7 +24,7 @@ passport.use(
     async (
       accessToken: string,
       _refreshToken: string,
-      _profile: any,
+      _profile: {},
       done: (err: Error, user: User) => void
     ) => {
       const responseUser = await fetch(
@@ -56,9 +56,17 @@ passport.deserializeUser(async (id: number, done) => {
  * Login Required middleware.
  */
 export const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
+  const contentType = req.headers['content-type']
+
   if (req.isAuthenticated()) {
     next()
   } else {
+    if ((contentType &&
+      (contentType.indexOf('application/json') !== 0 ||
+       contentType.indexOf('multipart/form-data') !== 0)) ||
+       req.method !== 'GET') {
+      return res.sendStatus(401)
+    }
     res.render('error/not-authenticated')
   }
 }
@@ -70,6 +78,9 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
   if ((req.user as User)?.admin) {
     next()
   } else {
+    if (req.method !== 'GET') {
+      return res.sendStatus(403)
+    }
     res.render('error/forbidden')
   }
 }

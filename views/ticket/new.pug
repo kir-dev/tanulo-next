@@ -2,14 +2,21 @@ extends ../layouts/main
 
 block content
   h2.title Hibajegy felvétele
-  form(action="/tickets", method="post")
+  form(id="ticket-form")
     .field
       label.label Szint
-      input.input(type="number", name="roomNumber", placeholder="3-18", min="3", max="18")
+        .control
+          .select
+            select(name="roomNumber")
+              each room in ROOMS
+                option(value=`${room}`)= room
     .field
       label.label Leírás
         .control
-          textarea.textarea(name="description", rows="3")
+          textarea.textarea(name="description", maxlength="500" rows="3")
     .field
       .control
-        button.button.is-link(type="submit") Hibajegy felvétele
+        button.button.is-link(type="button", onclick="addTicket()") Hibajegy felvétele
+
+block scripts
+  script(src='/js/ticket.js')
