@@ -1,0 +1,21 @@
+.cards.groups,
+.cards.tickets {
+  .card.group,
+  .card.ticket {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+
+    .card-content {
+      .content {
+        word-wrap: break-word;
+      }
+    }
+  }
+}
+
+.group-show {
+  h3.description {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+}
