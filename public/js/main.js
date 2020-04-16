@@ -1,5 +1,3 @@
-import './constants'
-
 document.addEventListener('DOMContentLoaded', () => {
   // Get all "navbar-burger" elements
   const $navbarBurgers = Array.from(document.querySelectorAll('.navbar-burger')).slice()

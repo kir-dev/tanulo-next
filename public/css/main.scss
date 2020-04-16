@@ -21,7 +21,6 @@ body {
     margin-bottom: 2rem;
     padding: 1rem;
     flex: 1;
-    position: relative;
   }
 
   footer.page-footer {
@@ -61,7 +60,7 @@ body {
 }
 
 #alert {
-  position: absolute;
+  position: fixed;
   z-index: 999;
   top: 2rem;
   left: 50%;
@@ -82,19 +81,4 @@ body {
 
 article.message.alert-detail {
   animation: slide-down 0.3s ease-in;
-}
-
-
-// Input Fields
-// -------------------------
-
-textarea {
-  resize: vertical;
-}
-
-// Font Icons
-// -------------------------
-
-.fa {
-  margin-right: 6px;
 }
