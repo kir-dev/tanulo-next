@@ -29,7 +29,7 @@
     "dotenv": "^8.2.0",
     "errorhandler": "^1.5.1",
     "express": "^4.17.1",
-    "express-session": "^1.16.2",
+    "express-session": "^1.17.1",
     "express-validator": "^6.4.0",
     "knex": "^0.20.15",
     "lusca": "^1.6.1",
