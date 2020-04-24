@@ -3,6 +3,9 @@ extends ../layouts/main
 block content
   h1.title Csoportok
   a.button.is-link(href="/groups/new") Új csoport
+  if groups.length > 0
+    include ./pagination
+      
   .cards.groups
     each group in groups
       .card.group
@@ -26,3 +29,6 @@ block content
             span &nbsp;#{format(group.endDate, DATE_FORMAT)}
     else
       p Nincsenek megjelenítendő csoportok
+
+  if groups.length > 3
+    include ./pagination

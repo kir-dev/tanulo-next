@@ -1,0 +1,31 @@
+div.has-margin-top-4.has-margin-bottom-3
+  nav.pagination(role="pagination", aria-label="pagination").is-centered.is-small
+    if pOpt.pageNum <= 5
+      ul.pagination-list
+        - for (i = 0; i < pOpt.pageNum; i++) {
+          li 
+            if i == pOpt.current
+              a(href=`/groups?page=${i}&limit=${pOpt.limit}`).pagination-link.is-current #{i + 1}
+            else
+              a(href=`/groups?page=${i}&limit=${pOpt.limit}`).pagination-link #{i + 1}
+        - }
+    else
+      ul.pagination-list
+        if pOpt.current >= 2
+          li
+            a(href=`/groups?page=${0}&limit=${pOpt.limit}`).pagination-link 1
+          li
+            span.pagination-ellipsis &hellip;
+        if pOpt.current >= 1
+          li
+            a(href=`/groups?page=${pOpt.current - 1}&limit=${pOpt.limit}`).pagination-link #{pOpt.current}
+        li
+          a(href=`/groups?page=${pOpt.current}&limit=${pOpt.limit}`).pagination-link.is-current #{pOpt.current + 1}
+        if pOpt.current <= pOpt.pageNum - 2
+          li
+            a(href=`/groups?page=${pOpt.current + 1}&limit=${pOpt.limit}`).pagination-link #{pOpt.current + 2}
+        if pOpt.current <= pOpt.pageNum - 3
+          li
+            span.pagination-ellipsis &hellip;
+          li
+            a(href=`/groups?page=${pOpt.pageNum - 1}&limit=${pOpt.limit}`).pagination-link #{pOpt.pageNum}
