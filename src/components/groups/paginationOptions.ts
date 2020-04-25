@@ -1,5 +1,4 @@
-export class PaginationOptions {
-  limit: number
+export interface PaginationOptions {
   pageNum: number
   current: number
 }

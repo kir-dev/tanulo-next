@@ -12,7 +12,7 @@ const router = Router()
 router.get('/', isAuthenticated, getGroups, (req, res) => {
   res.render('group/index', {
     groups: req.groups,
-    pOpt: req.paginationOptions,
+    paginationOpt: req.paginationOptions,
     format,
     DATE_FORMAT
   })})
