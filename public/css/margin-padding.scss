@@ -1,0 +1,28 @@
+//////////////// MARGIN / PADDING HELPER ///////////////////
+$sizes: (10, 20, 30, 40, 50);
+$positions: ("top", "left", "bottom", "right");
+$bulmaSizes: (10px, 20px, 30px, 40px, 50px);
+$i: 1;
+
+@each $size in $sizes {
+  $sizee: nth($bulmaSizes, $i);
+  $i: $i+1;
+
+  .has-margin-#{$size} {
+    margin: $sizee !important;
+  }
+
+  .has-padding-#{$size} {
+    padding: $sizee !important;
+  }
+
+  @each $position in $positions {
+    .has-margin-#{$position}-#{$size} {
+      margin-#{$position}: $sizee !important;
+    }
+
+    .has-padding-#{$position}-#{$size} {
+      padding-#{$position}: $sizee !important;
+    }
+  }
+}

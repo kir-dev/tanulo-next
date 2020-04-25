@@ -1,0 +1,31 @@
+div.has-margin-top-20.has-margin-bottom-30
+  nav.pagination(role="pagination", aria-label="pagination").is-centered.is-small
+    if paginationOpt.pageNum <= 5
+      ul.pagination-list
+        - for (i = 0; i < paginationOpt.pageNum; i++) {
+          li 
+            if i == paginationOpt.current
+              a(href=`/groups?page=${i}`).pagination-link.is-current= i + 1
+            else
+              a(href=`/groups?page=${i}`).pagination-link= i + 1
+        - }
+    else
+      ul.pagination-list
+        if paginationOpt.current >= 2
+          li
+            a(href=`/groups?page=0`).pagination-link 1
+          li
+            span.pagination-ellipsis &hellip;
+        if paginationOpt.current >= 1
+          li
+            a(href=`/groups?page=${paginationOpt.current - 1}`).pagination-link= paginationOpt.current
+        li
+          a(href=`/groups?page=${paginationOpt.current}`).pagination-link.is-current= paginationOpt.current + 1
+        if paginationOpt.current <= paginationOpt.pageNum - 2
+          li
+            a(href=`/groups?page=${paginationOpt.current + 1}`).pagination-link= paginationOpt.current + 2
+        if paginationOpt.current <= paginationOpt.pageNum - 3
+          li
+            span.pagination-ellipsis &hellip;
+          li
+            a(href=`/groups?page=${paginationOpt.pageNum - 1}`).pagination-link= paginationOpt.pageNum

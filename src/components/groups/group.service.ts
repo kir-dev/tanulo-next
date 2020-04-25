@@ -4,7 +4,14 @@ import { Group } from './group'
 import { User } from '../users/user'
 
 export const getGroups = async (req: Request, res: Response, next: NextFunction) => {
-  req.groups = await Group.query().orderBy('createdAt', 'DESC')
+  const page = parseInt(req.query.page ?? 0)
+  const limit = 10
+  const pageObject = await Group.query().orderBy('createdAt', 'DESC').page(page, limit)
+  req.groups = pageObject.results
+  req.paginationOptions = {
+    pageNum: Math.ceil(pageObject.total / limit),
+    current: page
+  }
   next()
 }
 
