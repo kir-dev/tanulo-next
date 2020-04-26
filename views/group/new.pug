@@ -1,8 +1,8 @@
 extends ../layouts/main
 
 block styles
-  script(src="https://bossanova.uk/jsuites/v2/jsuites.js")
-  link(rel="stylesheet" href="https://bossanova.uk/jsuites/v2/jsuites.css")
+  link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css")
+  link(rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css")
 
 block content
   h1.title Új csoport felvétele
@@ -27,11 +27,11 @@ block content
                     =room
     .field
       label.label Kezdés ideje
-        input.input(type="text", id="pickerStart", name="startDate", value=`${start ? start : ''}` required)
+        input.flatpickr.input(type="text", id="pickerStart", name="startDate", required, data-input)
       p.help Vizsgáld felül, jól vitted-e be az adatokat!
     .field
       label.label Befejezés ideje
-        input.input(type="text", id="pickerEnd", name="endDate", value=`${end ? end : ''}` required)
+        input.flatpickr.input(type="text", id="pickerEnd", name="endDate", required, data-input)
       p.help Vizsgáld felül, jól vitted-e be az adatokat!
     .field
       label.label Leírás
@@ -46,4 +46,7 @@ block content
         button.button.is-link(type="submit") Új csoport létrehozása
 
 block scripts
-  script(src='/js/picker.js')
+  if start && end
+    script const range = { start: !{JSON.stringify(start)}, end: !{JSON.stringify(end)} }
+  script(src="https://cdn.jsdelivr.net/npm/flatpickr")
+  script(src="/js/picker.js")
