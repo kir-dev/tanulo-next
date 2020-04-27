@@ -531,10 +531,10 @@
   dependencies:
     "@types/express" "*"
 
-"@types/concurrently@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@types/concurrently/-/concurrently-5.1.0.tgz#4d1e18e53b39b01e4e067d8d3da4dfd8df1d54e0"
-  integrity sha512-rlopFW8ajsFwbIftfzo6yofRIAw4a1F2zX1U3R1a6mgupDPxucaxyGeyGMPmGZSB6nkZFHVyZEy0zG+JUwsY6A==
+"@types/concurrently@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@types/concurrently/-/concurrently-5.2.0.tgz#5697e79825013fa76e95acd3bf9d50fa0625224a"
+  integrity sha512-nA1Edq6zfomHKkfCaeGf1e3njnClar2W22/twMc82XPXR4CQCz/k4oW44M8i98V8oK1Xg+QDcGSXfvtAVX56JA==
   dependencies:
     "@types/node" "*"
 
