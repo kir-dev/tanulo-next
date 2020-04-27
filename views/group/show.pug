@@ -2,7 +2,7 @@ extends ../layouts/main
 
 block content
   .group-show
-    h1.title= group.name
+    h1.title.is-1= group.name
     span.dates #{format(group.startDate, DATE_FORMAT)} - #{format(group.endDate, DATE_FORMAT)}
     if group.subject
       h2.is-size-4 Tárgy: #{group.subject}
@@ -14,7 +14,7 @@ block content
         ul
           each user in group.users
             li
-              a(href=`/users/${user.id}`)= user.name
+              a.has-text-link(href=`/users/${user.id}`)= user.name
       if !joined
         form(action=`/groups/${group.id}/join`, method="post")
           button.button.is-primary(type="submit") Csatlakozás

@@ -1,7 +1,7 @@
 extends ../layouts/main
 
 block content
-  h1.title Hibajegyek
+  h1.title.is-1 Hibajegyek
   a.button.is-link(href="tickets/new") Új hibajegy felvétele
   .cards.tickets
     each ticket in tickets
@@ -9,7 +9,7 @@ block content
         .card-content
           .media
             .media-content
-              p.title.is-4 Szint: #{ticket.roomNumber}
+              h4.title.is-4 Szint: #{ticket.roomNumber}
               p.subtitle.is-6 ##{ticket.id}
           .content
             p=ticket.description

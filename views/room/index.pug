@@ -1,7 +1,7 @@
 extends ../layouts/main
 
 block content
-  h1.title Tanulószobák
+  h1.title.is-1 Tanulószobák
     each room in ROOMS
       if busyRooms.some(it => it.id == room)
         - const group = busyRooms.find(it => it.id == room)
