@@ -32,7 +32,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "express-validator": "^6.4.0",
-    "knex": "^0.20.15",
+    "knex": "^0.21.1",
     "lusca": "^1.6.1",
     "multer": "^1.4.2",
     "node-fetch": "^2.6.0",
