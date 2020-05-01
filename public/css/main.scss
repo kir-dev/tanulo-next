@@ -1,7 +1,3 @@
-@import './group.scss';
-@import './room.scss';
-@import './margin-padding.scss';
-
 // Scaffolding
 // -------------------------
 
@@ -42,6 +38,7 @@ body {
     opacity: 0;
     transform: translateY(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -56,14 +53,21 @@ article.message.alert-detail {
 // after the `base/_all` import
 @import "../../node_modules/bulma/sass/utilities/_all.sass";
 @import "../../node_modules/bulma/sass/base/_all.sass";
+@import "../../node_modules/bulma/sass/elements/_all.sass";
+
 @import "../../node_modules/bulma/sass/components/card.sass";
 @import "../../node_modules/bulma/sass/components/message.sass";
 @import "../../node_modules/bulma/sass/components/navbar.sass";
 @import "../../node_modules/bulma/sass/components/pagination.sass";
-@import "../../node_modules/bulma/sass/elements/button.sass";
-@import "../../node_modules/bulma/sass/elements/container.sass";
-@import "../../node_modules/bulma/sass/elements/title.sass";
+@import "../../node_modules/bulma/sass/components/menu.sass";
+
 @import "../../node_modules/bulma/sass/form/_all.sass";
+@import "../../node_modules/bulma/sass/grid/columns.sass";
+@import "../../node_modules/bulma-tooltip/src/sass/index.sass";
+
+@import './group.scss';
+@import './room.scss';
+@import './margin-padding.scss';
 
 // Body left and right margin
 @media screen and (min-width: 1408px) {

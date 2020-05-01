@@ -2,31 +2,91 @@ extends ../layouts/main
 
 block content
   .group-show
-    h1.title.is-1= group.name
-    span.dates #{format(group.startDate, DATE_FORMAT)} - #{format(group.endDate, DATE_FORMAT)}
-    if group.subject
-      h2.is-size-4 Tárgy: #{group.subject}
-    h3.is-size-5 Szint: #{group.room}
-    h3.description= group.description
-    if !group.doNotDisturb
-      h2.is-size-4 Résztvevők
-      if group.users
-        ul
-          each user in group.users
-            li
+    .columns
+      .column
+        h1.title= group.name
+      .column.is-narrow
+        if isOwner
+          button.button.is-danger(type="button", onclick=`deleteGroup(${group.id})`) 
+            i.fas.fa-trash-alt
+            span &nbsp;Törlés
+
+    - const dateTimeStart = format(group.startDate, DATE_FORMAT).split(" ")
+    - const dateTimeEnd = format(group.endDate, DATE_FORMAT).split(" ")
+
+    table.table.is-fullwidth
+      thead
+        p.menu-label Adatok
+      tbody
+        tr
+          td
+            span.icon.has-text-info
+              i.fas.fa-fw.fa-building
+            span &nbsp;#{group.room}. szint
+          td
+            if group.doNotDisturb
+              span.icon.has-text-info
+                i.fas.fa-fw.fa-lock
+              span.has-tooltip-bottom(data-tooltip="A szervező letiltotta a csatlakozást") &nbsp;Zárt
+                sup ?
+            else
+              span.icon.has-text-info
+                i.fas.fa-fw.fa-unlock
+              span.has-tooltip-bottom(data-tooltip="Szabad a csatlakozás") &nbsp;Nyílt
+                sup ?
+        tr
+          if dateTimeStart[0] == dateTimeEnd[0]
+            td(colspan="2")
+              span.icon.has-text-info
+                i.fas.fa-fw.fa-calendar
+              span &nbsp;#{dateTimeStart[0]}
+                strong &nbsp;#{dateTimeStart[1]}-#{dateTimeEnd[1]}
+          else
+            td
+              span.icon.has-text-info
+                i.fas.fa-fw.fa-calendar
+              span &nbsp;#{dateTimeStart[0]}
+                strong &nbsp;#{dateTimeStart[1]}
+            td
+              span.icon.has-text-info
+                i.fas.fa-fw.fa-stop
+              span &nbsp;#{dateTimeEnd[0]}
+                strong &nbsp;#{dateTimeEnd[1]}
+        if group.subject
+          tr
+            td(colspan="2")
+              span.icon.has-text-info
+                i.fas.fa-fw.fa-tags
+              span &nbsp;#{group.subject}
+    
+    if group.description
+      p.menu-label Leírás
+      article.message
+        .message-body.description= group.description
+
+    table.table.is-fullwidth.is-hoverable
+      thead
+        .columns
+          .column.menu-label Résztvevők
+          if !joined
+            .column.is-narrow
+              form(action=`/groups/${group.id}/join`, method="post")
+                button.button.is-primary(type="submit")
+                  i.fas.fa-sign-in-alt
+                  span &nbsp;Csatlakozás
+          else if !isOwner
+            .column.is-narrow
+              form(action=`/groups/${group.id}/leave`, method="post")
+                button.button.is-warning(type="submit")
+                  i.fas.fa-sign-out-alt
+                  span &nbsp;Kilépés
+      tbody
+        each user in group.users
+          tr
+            td
               a.has-text-link(href=`/users/${user.id}`)= user.name
-      if !joined
-        form(action=`/groups/${group.id}/join`, method="post")
-          button.button.is-primary(type="submit") Csatlakozás
-      else if !isOwner
-        form(action=`/groups/${group.id}/leave`, method="post")
-          button.button.is-warning(type="submit") Csoport elhagyása
-    else if isOwner
-      p Zárt csoport
-    else
-      p A csoport létrehozója nem szeretné, ha mások csatlakoznának
-    if isOwner
-      button.button.is-danger(type="button", onclick=`deleteGroup(${group.id})`) Csoport törlése
+              if user.id === group.ownerId
+                span.has-margin-left-10.tag.is-info.is-rounded Szervező
 
 block scripts
   script(src='/js/group.js')

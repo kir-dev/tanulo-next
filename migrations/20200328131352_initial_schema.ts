@@ -5,7 +5,7 @@ export async function up(knex: Knex): Promise<void> {
     .createTable('tickets', table => {
       table.increments('id').primary()
 
-      table.string('description')
+      table.string('description', 500)
       table.integer('roomNumber')
       table.dateTime('createdAt')
     })
@@ -22,7 +22,7 @@ export async function up(knex: Knex): Promise<void> {
 
       table.string('name')
       table.string('subject')
-      table.string('description')
+      table.string('description', 500)
       table.dateTime('startDate')
       table.dateTime('endDate')
       table.integer('room')

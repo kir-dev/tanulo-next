@@ -7,7 +7,7 @@ export const joinGroup = async (req: Request, res: Response, next: NextFunction)
   const user = req.user as User
   const group = req.group
 
-  if (!group.doNotDisturb && !group.users?.includes(user)) {
+  if (!group.users?.includes(user)) {
     await Group.relatedQuery('users')
       .for(group.id)
       .relate(user.id)

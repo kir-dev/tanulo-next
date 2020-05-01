@@ -18,10 +18,11 @@ block content
                 else
                   i.fas.fa-lock-open
             p Szint: #{group.room}
-            p= group.description
+            //TODO: description must be sliced if too long
+            p.description= group.description
         footer.card-footer
           .card-footer-item(title="Kezdés időpontja")
-            i.fas.fa-play
+            i.fas.fa-play-circle
             span &nbsp;#{format(group.startDate, DATE_FORMAT)}
           .card-footer-item(title="Befejezés időpontja")
             i.fas.fa-stop-circle
