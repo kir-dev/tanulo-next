@@ -20,7 +20,7 @@ export const leaveGroup = async (req: Request, res: Response, next: NextFunction
   await Group.relatedQuery('users')
     .for(group.id)
     .unrelate()
-    .where('id', (req.user as User).id)
+    .where('user_id', (req.user as User).id)
 
   next()
 }
