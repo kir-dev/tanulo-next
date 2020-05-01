@@ -7,7 +7,8 @@ export const joinGroup = async (req: Request, res: Response, next: NextFunction)
   const user = req.user as User
   const group = req.group
 
-  if (!group.users?.includes(user)) {
+  //Join group if not already in it, and it's not closed or it's the owner who joins.
+  if ((!group.doNotDisturb || (user.id === group.ownerId)) && !group.users?.includes(user)) {
     await Group.relatedQuery('users')
       .for(group.id)
       .relate(user.id)
