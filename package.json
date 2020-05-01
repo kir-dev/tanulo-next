@@ -66,7 +66,7 @@
     "@typescript-eslint/parser": "^2.30.0",
     "concurrently": "^5.2.0",
     "eslint": "^6.4.0",
-    "jest": "^25.5.2",
+    "jest": "^25.5.3",
     "node-sass": "^4.14.0",
     "nodemon": "^2.0.3",
     "shelljs": "^0.8.4",
