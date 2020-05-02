@@ -15,7 +15,8 @@ router.get('/', isAuthenticated, getGroups, (req, res) => {
     paginationOpt: req.paginationOptions,
     format,
     DATE_FORMAT
-  })})
+  })
+})
 
 router.get('/new', isAuthenticated, (req, res) =>
   res.render('group/new', {
@@ -40,7 +41,7 @@ router.post('/:id/join',
   isAuthenticated,
   getGroup,
   joinGroup,
-  (req, res) => res.redirect('/groups')
+  (req, res) => res.redirect(`/groups/${req.params.id}`)
 )
 
 router.post('/:id/leave',

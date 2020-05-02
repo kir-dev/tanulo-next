@@ -25,6 +25,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "bulma": "^0.8.2",
+    "bulma-tooltip": "^3.0.2",
     "compression": "^1.7.4",
     "date-fns": "^2.12.0",
     "dotenv": "^8.2.0",
