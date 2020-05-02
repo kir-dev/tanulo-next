@@ -22,7 +22,7 @@ export async function up(knex: Knex): Promise<void> {
 
 export async function down(knex: Knex): Promise<void> {
   return knex.schema
-    .alterTable('tikcets', table => {
+    .alterTable('tickets', table => {
       table.integer('roomNumber').nullable().alter()
       table.string('description').nullable().alter()
     })
