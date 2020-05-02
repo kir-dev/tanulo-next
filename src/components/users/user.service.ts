@@ -10,7 +10,7 @@ interface OAuthUser {
 
 export const getUser = async (req: Request, res: Response, next: NextFunction) => {
   const user = await User.query()
-    .findOne({ id: (req.user as User).id})
+    .findOne({ id: parseInt(req.params.id) })
     .withGraphFetched('groups')
 
   if (!user) {
