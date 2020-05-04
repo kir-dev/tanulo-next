@@ -6,6 +6,7 @@
   "scripts": {
     "start": "yarn run serve",
     "build": "yarn run build-sass && yarn run build-ts && yarn run lint && yarn run copy-static-assets",
+    "build-prod": "yarn run build-sass && yarn run build-ts && yarn run copy-static-assets",
     "serve": "node dist/server.js",
     "migrate": "knex migrate:latest",
     "watch-node": "nodemon dist/server.js",
