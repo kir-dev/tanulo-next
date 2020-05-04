@@ -1,8 +1,11 @@
 extends ../layouts/main
 
 block content
-  h1.title.is-1 Csoportok
-  a.button.is-link(href="/groups/new") Új csoport
+  .columns.is-mobile.is-multiline.is-vcentered
+    .column.is-narrow
+      h1.title.is-1 Csoportok
+    .column.is-narrow
+      a.button.is-link(href="/groups/new") Új csoport
   if paginationOpt.pageNum > 1
     include ./pagination
 
