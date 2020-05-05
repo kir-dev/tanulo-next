@@ -1,6 +1,7 @@
 # tanulo-next
 
 ![Build status](https://github.com/kir-dev/tanulo-next/workflows/Node%20CI/badge.svg)
+[![codebeat badge](https://codebeat.co/badges/f1ae2298-371c-4e4a-a712-64b13223b79c)](https://codebeat.co/projects/github-com-kir-dev-tanulo-next-master)
 
 ## Pre-reqs
 
