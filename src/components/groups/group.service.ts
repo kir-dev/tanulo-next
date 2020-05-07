@@ -33,7 +33,7 @@ export const createGroup = async (req: Request, res: Response, next: NextFunctio
     .insert(
       {
         name: req.body.name,
-        subject: req.body.subject,
+        subject: req.body.subject ?? '',
         room: parseInt(req.body.room),
         description: req.body.description,
         doNotDisturb: !!req.body.doNotDisturb,

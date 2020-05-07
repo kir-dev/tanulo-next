@@ -57,7 +57,9 @@ block content
             td(colspan="2")
               span.icon.has-text-info
                 i.fas.fa-fw.fa-tags
-              span &nbsp;#{group.subject}
+              each tag in group.subject.split(",")
+                span &nbsp;
+                span.tag= tag
     
     if group.description
       p.menu-label Leírás

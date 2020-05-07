@@ -6,13 +6,14 @@ block styles
 
 block content
   h1.title Új csoport felvétele
-  form(method="POST", action="/groups")
+  form(method="POST", action="/groups", id="group-form")
     .field
       label.label Csoport neve
         input.input(type="text", name="name", placeholder="Analízis ZH1 készülés" required)
     .field
-      label.label Tárgy
-        input.input(type="text", name="subject", placeholder="Analízis 1")
+      label.label Címkék
+      .control
+        input.input(type="tags", name="subject", id="tags", placeholder="Adj hozzá címkéket...", value="gyakorlás")
     .field
       label.label Szint
         .control
@@ -50,3 +51,5 @@ block scripts
     script const range = { start: !{JSON.stringify(start)}, end: !{JSON.stringify(end)} }
   script(src="https://cdn.jsdelivr.net/npm/flatpickr")
   script(src="/js/picker.js")
+  script(src="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tagsinput@1.0.0/dist/js/bulma-tagsinput.min.js")
+  script(src="/js/group-new.js")
