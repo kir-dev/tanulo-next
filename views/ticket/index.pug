@@ -14,9 +14,8 @@ block content
             .media-content
               h4.title.is-4 Szint: #{ticket.roomNumber}
               p.subtitle.is-6 ##{ticket.id}
-          .content
-            p=ticket.description
-            time= format(ticket.createdAt, DATE_FORMAT)
+          .content !{ticket.description}
+          time= format(ticket.createdAt, DATE_FORMAT)
           if admin
             button.button.is-danger(type="button", onclick=`deleteTicket(${ticket.id})`) Törlés
     else

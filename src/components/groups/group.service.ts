@@ -1,13 +1,32 @@
 import { Request, Response, NextFunction} from 'express'
-
 import { Group } from './group'
 import { User } from '../users/user'
+import markdown from 'markdown-it'
+import sanitizeHtml from 'sanitize-html'
 
+function formatMdToSafeHTML(mdBody: string): string {
+  const dirtyHtml = new markdown().render(mdBody)
+  const cleanHtml = sanitizeHtml(dirtyHtml, {
+    transformTags: {
+      'h1': 'h3',
+      'h2': 'h4',
+      'h3': 'h5',
+      'h4': 'h5'
+    }
+  })
+  return cleanHtml
+}
 export const getGroups = async (req: Request, res: Response, next: NextFunction) => {
   const page = parseInt(req.query.page ?? 0)
   const limit = 10
   const pageObject = await Group.query().orderBy('createdAt', 'DESC').page(page, limit)
   req.groups = pageObject.results
+
+  req.groups.forEach((group) => {
+    group.description = group.description.slice(0, 50) + ' ...'
+    group.description = formatMdToSafeHTML(group.description)
+  })
+
   req.paginationOptions = {
     pageNum: Math.ceil(pageObject.total / limit),
     current: page
@@ -21,6 +40,7 @@ export const getGroup = async (req: Request, res: Response, next: NextFunction) 
     .withGraphFetched('users')
 
   if (group) {
+    group.description = formatMdToSafeHTML(group.description)
     req.group = group
     next()
   } else {
