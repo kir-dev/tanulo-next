@@ -15,5 +15,9 @@
       "*": ["node_modules/*", "src/types/*"]
     }
   },
-  "include": ["src/**/*", "public/js"]
+  "include": ["src/**/*", "public/js"],
+  "files": [
+    "src/types/express-flash.d.ts",
+    "src/types/index.d.ts"
+  ]
 }
