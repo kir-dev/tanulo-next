@@ -28,7 +28,7 @@
     "bulma": "^0.8.2",
     "bulma-tooltip": "^3.0.2",
     "compression": "^1.7.4",
-    "date-fns": "^2.12.0",
+    "date-fns": "^2.13.0",
     "dotenv": "^8.2.0",
     "errorhandler": "^1.5.1",
     "express": "^4.17.1",
