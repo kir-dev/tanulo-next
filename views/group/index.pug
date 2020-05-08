@@ -12,24 +12,25 @@ block content
   .cards.groups
     each group in groups
       .card.group
+        a.card-header(href=`/groups/${group.id}`)
+          .card-header-title
+            .level
+              p.title #{group.name}
+              p.subtitle Szint: #{group.room}
+          .card-header-icon
+            span.icon.is-medium(class=`has-text-${group.doNotDisturb ? 'danger': 'success'}`)
+              i.fas.fa-lg(class=`fa-${group.doNotDisturb ? '': 'un'}lock`)
         .card-content
-          .content
-            a(href=`/groups/${group.id}`)
-              h2.title.is-2 #{group.name}&nbsp;
-                if group.doNotDisturb
-                  i.fas.fa-lock
-                else
-                  i.fas.fa-lock-open
-            p Szint: #{group.room}
-            .content !{group.description}
+          .content !{group.description}
         footer.card-footer
           .card-footer-item(title="Kezdés időpontja")
-            i.fas.fa-play-circle
-            span &nbsp;#{format(group.startDate, DATE_FORMAT)}
+            span.icon
+              i.fas.fa-play
+            span #{format(group.startDate, DATE_FORMAT)}
           .card-footer-item(title="Befejezés időpontja")
-            i.fas.fa-stop-circle
-              span &nbsp;
-            span &nbsp;#{format(group.endDate, DATE_FORMAT)}
+            span.icon
+              i.fas.fa-stop
+            span #{format(group.endDate, DATE_FORMAT)}
     else
       p.has-margin-top-10 Nincsenek megjelenítendő csoportok
 

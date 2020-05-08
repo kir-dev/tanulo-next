@@ -1,25 +1,11 @@
 import { Ticket } from './ticket'
 import { Request, Response, NextFunction } from 'express'
-import markdown from 'markdown-it'
-import sanitizeHtml from 'sanitize-html'
-
-function formatMdToSafeHTML(mdBody: string): string {
-  const dirtyHtml = new markdown().render(mdBody)
-  const cleanHtml = sanitizeHtml(dirtyHtml, {
-    transformTags: {
-      'h1': 'h3',
-      'h2': 'h4',
-      'h3': 'h5',
-      'h4': 'h5'
-    }
-  })
-  return cleanHtml
-}
+import { formatMdToSafeHTML } from '../../util/convertMarkdown'
 
 export const getTickets = async (req: Request, _res: Response, next: NextFunction) => {
-  req.tickets = await Ticket.query().orderBy('createdAt', 'ASC')
-  req.tickets.forEach((ticket) => {
+  req.tickets = (await Ticket.query().orderBy('createdAt', 'ASC')).map(ticket => {
     ticket.description = formatMdToSafeHTML(ticket.description)
+    return ticket
   })
   next()
 }

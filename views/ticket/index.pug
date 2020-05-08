@@ -9,15 +9,20 @@ block content
   .cards.tickets
     each ticket in tickets
       .card.ticket(id=`ticket-${ticket.id}`)
-        .card-content
-          .media
-            .media-content
-              h4.title.is-4 Szint: #{ticket.roomNumber}
-              p.subtitle.is-6 ##{ticket.id}
-          .content !{ticket.description}
-          time= format(ticket.createdAt, DATE_FORMAT)
+        header.card-header
+          .card-header-title
+            .level
+              p.title Szint: #{ticket.roomNumber}
+              p.subtitle ##{ticket.id}
           if admin
-            button.button.is-danger(type="button", onclick=`deleteTicket(${ticket.id})`) Törlés
+            a.card-header-icon(type="button", onclick=`deleteTicket(${ticket.id})`)
+              span.icon.is-medium.has-text-danger
+                i.fas.fa-lg.fa-trash-alt
+        .card-content
+          .content !{ticket.description}
+        .card-footer
+          .card-footer-item
+            time= format(ticket.createdAt, DATE_FORMAT)
     else
       p Nincsenek hibajegyek
 

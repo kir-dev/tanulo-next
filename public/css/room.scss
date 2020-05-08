@@ -1,8 +1,9 @@
-article {
-  div.message-header {
-    a,
-    button {
-      margin-left: 1rem;
-    }
+.room-buttons {
+  display: flex;
+  justify-content: flex-end;
+
+  a,
+  button {
+    margin-left: .5rem;
   }
 }
