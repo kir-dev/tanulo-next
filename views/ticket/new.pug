@@ -1,22 +1,29 @@
 extends ../layouts/main
 
+block styles
+  link(rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css")
+
 block content
   h2.title Hibajegy felvétele
   form(id="ticket-form")
     .field
-      label.label Szint
-        .control
-          .select
-            select(name="roomNumber")
-              each room in ROOMS
-                option(value=`${room}`)= room
+      label.label(for="roomNumber") Szint
+      .control
+        .select
+          select(name="roomNumber", id="roomNumber")
+            each room in ROOMS
+              option(value=`${room}`)= room
     .field
-      label.label Leírás
-        .control
-          textarea.textarea(name="description", maxlength="500" rows="3")
+      label.label(for="desc") Leírás
+      .control
+        textarea.textarea(name="description", id="desc")
     .field
       .control
-        button.button.is-link(type="button", onclick="addTicket()") Hibajegy felvétele
+        button.button.is-link(type="button", id="submitBtn", disabled, onclick="addTicket()")
+          i.fas.fa-plus
+          span &nbsp;Hibajegy felvétele
 
 block scripts
   script(src='/js/ticket.js')
+  script(src="https://unpkg.com/easymde/dist/easymde.min.js")
+  script(src="/js/md-editor.js")

@@ -1,8 +1,12 @@
 import { Ticket } from './ticket'
 import { Request, Response, NextFunction } from 'express'
+import { formatMdToSafeHTML } from '../../util/convertMarkdown'
 
 export const getTickets = async (req: Request, _res: Response, next: NextFunction) => {
-  req.tickets = await Ticket.query().orderBy('createdAt', 'ASC')
+  req.tickets = (await Ticket.query().orderBy('createdAt', 'ASC')).map(ticket => {
+    ticket.description = formatMdToSafeHTML(ticket.description)
+    return ticket
+  })
   next()
 }
 
