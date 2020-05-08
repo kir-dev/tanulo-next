@@ -25,8 +25,7 @@ export const getGroup = async (req: Request, res: Response, next: NextFunction) 
     .withGraphFetched('users')
 
   if (group) {
-    group.description = formatMdToSafeHTML(group.description)
-    req.group = group
+    req.group = { description: formatMdToSafeHTML(group.description), ...group } as Group
     next()
   } else {
     res.render('error/not-found')

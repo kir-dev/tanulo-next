@@ -22,7 +22,10 @@ block content
           .content !{ticket.description}
         .card-footer
           .card-footer-item
+            span.icon
+              i.fas.fa-paper-plane
             time= format(ticket.createdAt, DATE_FORMAT)
+            
     else
       p Nincsenek hibajegyek
 
