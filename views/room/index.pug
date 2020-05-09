@@ -2,34 +2,34 @@ extends ../layouts/main
 
 block content
   .title.is-size-2-mobile.is-size-1-desktop.has-margin-bottom-30 Tanulószobák
-  
-  each room in ROOMS
-    if busyRooms.some(it => it.id == room)
-      - const group = busyRooms.find(it => it.id == room)
-      if !group.doNotDisturb
-        .columns.has-margin-bottom-30
-          .column.notification.is-warning
-            .columns.is-vcentered.is-gapless
-              .column.has-text-weight-bold #{room}. emelet
-              .column.is-narrow
-                .room-buttons
-                  a(href=`/groups/${group.groupId}`).button.is-normal.is-inverted.is-outlined.is-warning Részletek
-                  a(href=`/rooms/${room}`).button.is-normal.is-inverted Naptár
+  .has-padding-10
+    each room in ROOMS
+      if busyRooms.some(it => it.id == room)
+        - const group = busyRooms.find(it => it.id == room)
+        if !group.doNotDisturb
+          .columns.has-margin-bottom-30
+            .column.notification.is-warning
+              .columns.is-vcentered.is-gapless
+                .column.has-text-weight-bold.is-size-4 #{room}. emelet
+                .column.is-narrow
+                  .room-buttons
+                    a(href=`/groups/${group.groupId}`).button.is-normal.is-inverted.is-outlined.is-warning Részletek
+                    a(href=`/rooms/${room}`).button.is-normal.is-inverted Naptár
+        else
+          .columns.has-margin-bottom-30
+            .column.notification.is-danger
+              .columns.is-vcentered.is-gapless
+                .column.has-text-weight-bold.is-size-4 #{room}. emelet
+                .column.is-narrow
+                  .room-buttons
+                    button(disabled).button.is-normal.is-inverted.is-danger.has-text-dark Foglalt
+                    a(href=`/rooms/${room}`).button.is-normal.is-inverted Naptár
       else
         .columns.has-margin-bottom-30
-          .column.notification.is-danger
+          .column.notification.is-success
             .columns.is-vcentered.is-gapless
-              .column.has-text-weight-bold #{room}. emelet
+              .column.has-text-weight-bold.is-size-4 #{room}. emelet
               .column.is-narrow
                 .room-buttons
-                  button(disabled).button.is-normal.is-inverted.is-danger.has-text-dark Foglalt
-                  a(href=`/rooms/${room}`).button.is-normal.is-inverted Naptár
-    else
-      .columns.has-margin-bottom-30
-        .column.notification.is-success
-          .columns.is-vcentered.is-gapless
-            .column.has-text-weight-bold #{room}. emelet
-            .column.is-narrow
-              .room-buttons
-                a(href=`/groups/new/?roomId=${room}`).button.is-inverted.is-success Foglalás
-                a(href=`/rooms/${room}`).button.is-inverted Naptár
+                  a(href=`/groups/new/?roomId=${room}`).button.is-inverted.is-success Foglalás
+                  a(href=`/rooms/${room}`).button.is-inverted Naptár
