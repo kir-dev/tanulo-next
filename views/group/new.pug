@@ -1,8 +1,6 @@
 extends ../layouts/main
 
 block styles
-  link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css")
-  link(rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css")
   link(rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css")
 
 block content
@@ -29,14 +27,14 @@ block content
                 option(value=`${room}`)
                   =room
     .field
-      label.label(for="pickerStart") Kezdés ideje
-      .control
-        input.flatpickr.input(type="text", id="pickerStart", name="startDate", required, data-input)
+      label.label Kezdés ideje
+      .control.has-icons-left
+        input.input(type="datetime", id="pickerStart", name="startDate" required)
       p.help Vizsgáld felül, jól vitted-e be az adatokat!
     .field
-      label.label(for="pickerEnd") Befejezés ideje
-      .control
-        input.flatpickr.input(type="text", id="pickerEnd", name="endDate", required, data-input)
+      label.label Befejezés ideje
+      .control.has-icons-left
+        input.input(type="datetime", id="pickerEnd", name="endDate" required)
       p.help Vizsgáld felül, jól vitted-e be az adatokat!
     .field
       label.label(for="desc") Leírás
@@ -55,7 +53,7 @@ block content
 block scripts
   if start && end
     script const range = { start: !{JSON.stringify(start)}, end: !{JSON.stringify(end)} }
-  script(src="https://cdn.jsdelivr.net/npm/flatpickr")
+  script(src="https://cdn.jsdelivr.net/npm/bulma-calendar@6.0.7/dist/js/bulma-calendar.min.js")
   script(src="/js/picker.js")
   script(src="https://unpkg.com/easymde/dist/easymde.min.js")
   script(src="/js/md-editor.js")

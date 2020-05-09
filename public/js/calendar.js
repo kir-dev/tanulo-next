@@ -1,69 +1,57 @@
+const options = {
+  plugins: ['interaction', 'timeGrid', 'dayGrid'],
+  header: {
+    left: 'prev,next today',
+    center: 'title',
+    right: 'timeGridOneDay,timeGridWeek,dayGridMonth'
+  },
+  defaultView: 'timeGridWeek',
+  views: {
+    dayGridMonth: {
+      selectable: false
+    },
+    timeGridOneDay: {
+      type: 'timeGrid',
+      duration: { days: 1 },
+      buttonText: 'nap',
+      slotLabelFormat: { 
+        hour: 'numeric',
+        minute: '2-digit',
+        omitZeroMinute: false
+      },
+      nowIndicator: true
+    }
+  },
+  buttonText: {
+    today: 'ma',
+    month: 'hónap',
+    week: 'hét'
+  },
+  locale: 'hu',
+  selectable: true
+}
+
 function generateWebCalendar(data, calendarEl, room) {
   const calendar = new FullCalendar.Calendar(calendarEl, {
-    plugins: ['interaction', 'timeGrid', 'dayGrid'],
-    header: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'timeGridOneDay,timeGridWeek,dayGridMonth'
-    },
-    defaultView: 'timeGridWeek',
-    views: {
-      timeGridOneDay: {
-        type: 'timeGrid',
-        duration: { days: 1 },
-        buttonText: 'nap',
-        slotLabelFormat: { 
-          hour: 'numeric',
-          minute: '2-digit',
-          omitZeroMinute: false
-        },
-        nowIndicator: true
-      }
-    },
-    buttonText: {
-      today: 'ma',
-      month: 'hónap',
-      week: 'hét'
-    },
-    locale: 'hu',
-    selectable: true,
+    ...options,
     events: data,
     select: info =>
-      location.href = `/groups/new?start=${info.startStr}&end=${info.endStr}&roomId=${room}`
-    ,
+      location.href = `/groups/new?start=${info.startStr}&end=${info.endStr}&roomId=${room}`,
     eventClick: calEvent =>
-      location.href = `/groups/${calEvent.event.groupId}`
+      location.href = `/groups/${calEvent.event.groupId}`,
   })
   return calendar
 }
 
 function generateMobileCalendar(data, calendarEl, room) {
   const calendar = new FullCalendar.Calendar(calendarEl, {
-    plugins: ['interaction', 'timeGrid', 'dayGrid'],
+    ...options,
     header: {
       left: 'title',
       center: '',
       right: 'timeGridOneDay,dayGridMonth'
     },
     defaultView: 'timeGridOneDay',
-    views: {
-      timeGridOneDay: {
-        type: 'timeGrid',
-        duration: { days: 1 },
-        buttonText: 'nap',
-        slotLabelFormat: { 
-          hour: 'numeric',
-          minute: '2-digit',
-          omitZeroMinute: false
-        },
-        nowIndicator: true
-      }
-    },
-    buttonText: {
-      today: 'ma',
-      month: 'hónap',
-      week: 'hét'
-    },
     customButtons: {
       prevWeek: {
         text: '-7',
@@ -91,9 +79,7 @@ function generateMobileCalendar(data, calendarEl, room) {
       weekday: 'short',
       day: 'numeric'
     },
-    locale: 'hu',
     aspectRatio: 0.75,
-    selectable: true,
     events: data,
     select: info => {
       if (info.view.type === 'dayGridMonth') {
@@ -112,7 +98,6 @@ function generateMobileCalendar(data, calendarEl, room) {
 
 document.addEventListener('DOMContentLoaded', () => {
   const calendarEl = document.getElementById('calendar')
-
   const room = window.location.pathname.split('/').pop()
 
   fetch(`/rooms/${room}/events`)

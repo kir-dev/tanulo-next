@@ -20,8 +20,9 @@ block content
           .card-header-icon
             span.icon.is-medium(class=`has-text-${group.doNotDisturb ? 'danger': 'success'}`)
               i.fas.fa-lg(class=`fa-${group.doNotDisturb ? '': 'un'}lock`)
-        .card-content
-          .content !{group.description}
+        if group.description
+          .card-content
+            .content !{group.description}
         footer.card-footer
           .card-footer-item(title="Kezdés időpontja")
             span.icon
