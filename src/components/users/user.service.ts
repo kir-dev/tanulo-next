@@ -34,6 +34,14 @@ export const toggleAdmin = async (req: Request, res: Response, next: NextFunctio
   }
 }
 
+export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+  await User.query()
+    .patch({ ...req.body })
+    .findById((req.user as User).id)
+
+  next()
+}
+
 export const createUser = async (user: OAuthUser) => {
   return await User.transaction(async trx => {
     return await User.query(trx)

@@ -8,6 +8,7 @@ export class User extends Model {
   email: string
   authSchId: string
   admin: boolean
+  floor: number
   groups: Group[]
   static get tableName() {
     return 'users'
@@ -39,7 +40,8 @@ export class User extends Model {
       properties: {
         id: { type: 'integer' },
         name: { type: 'string', minLength: 1, maxLength: 255 },
-        authSchId: { type: 'string' }
+        authSchId: { type: 'string' },
+        floor: { type: ['integer', 'null'] }
       }
     }
   }
