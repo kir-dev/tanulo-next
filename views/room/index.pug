@@ -3,9 +3,40 @@ extends ../layouts/main
 block content
   .title.is-size-2-mobile.is-size-1-desktop.has-margin-bottom-30 Tanulószobák
   .has-padding-10
-    each room in ROOMS
-      if busyRooms.some(it => it.id == room)
-        - const group = busyRooms.find(it => it.id == room)
+    if user && user.floor && user.floor >= 3 && user.floor <= 18
+      if busyRooms.some(it => it.id === user.floor)
+        - const group = busyRooms.find(it => it.id === user.floor)
+        if !group.doNotDisturb
+          .columns.has-margin-bottom-50
+            .column.notification.is-warning
+              .columns.is-vcentered.is-gapless
+                .column.has-text-weight-bold.is-size-4 #{user.floor}. emelet
+                .column.is-narrow
+                  .room-buttons
+                    a(href=`/groups/${group.groupId}`).button.is-normal.is-inverted.is-outlined.is-warning Részletek
+                    a(href=`/rooms/${user.floor}`).button.is-normal.is-inverted Naptár
+        else
+          .columns.has-margin-bottom-50
+            .column.notification.is-danger
+              .columns.is-vcentered.is-gapless
+                .column.has-text-weight-bold.is-size-4 #{user.floor}. emelet
+                .column.is-narrow
+                  .room-buttons
+                    button(disabled).button.is-normal.is-inverted.is-danger.has-text-dark Foglalt
+                    a(href=`/rooms/${user.floor}`).button.is-normal.is-inverted Naptár
+      else
+        .columns.has-margin-bottom-50
+          .column.notification.is-success
+            .columns.is-vcentered.is-gapless
+              .column.has-text-weight-bold.is-size-4 #{user.floor}. emelet
+              .column.is-narrow
+                .room-buttons
+                  a(href=`/groups/new/?roomId=${room}`).button.is-inverted.is-success Foglalás
+                  a(href=`/rooms/${user.floor}`).button.is-inverted Naptár
+    - const otherRooms = (user) ? ROOMS.filter(it => it !== user.floor) : ROOMS
+    each room in otherRooms
+      if busyRooms.some(it => it.id === room)
+        - const group = busyRooms.find(it => it.id === room)
         if !group.doNotDisturb
           .columns.has-margin-bottom-30
             .column.notification.is-warning
