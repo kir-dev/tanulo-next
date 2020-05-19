@@ -55,7 +55,7 @@
     "@types/eslint": "^6.8.1",
     "@types/express": "^4.17.4",
     "@types/express-session": "^1.17.0",
-    "@types/jest": "^25.2.2",
+    "@types/jest": "^25.2.3",
     "@types/lusca": "^1.6.1",
     "@types/markdown-it": "^10.0.1",
     "@types/multer": "^1.4.3",
