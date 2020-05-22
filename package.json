@@ -59,7 +59,7 @@
     "@types/lusca": "^1.6.1",
     "@types/markdown-it": "^10.0.1",
     "@types/multer": "^1.4.3",
-    "@types/node": "^14.0.1",
+    "@types/node": "^14.0.5",
     "@types/node-fetch": "^2.5.7",
     "@types/node-sass": "^4.11.1",
     "@types/passport": "^1.0.3",
