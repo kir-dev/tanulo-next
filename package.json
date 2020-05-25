@@ -36,7 +36,7 @@
     "express-validator": "^6.5.0",
     "knex": "^0.21.1",
     "lusca": "^1.6.1",
-    "markdown-it": "^10.0.0",
+    "markdown-it": "^11.0.0",
     "multer": "^1.4.2",
     "node-fetch": "^2.6.0",
     "objection": "^2.1.3",
