@@ -31,7 +31,7 @@ block content
               .column.has-text-weight-bold.is-size-4 #{user.floor}. emelet
               .column.is-narrow
                 .room-buttons
-                  a(href=`/groups/new/?roomId=${room}`).button.is-inverted.is-success Foglalás
+                  a(href=`/groups/new/?roomId=${user.floor}`).button.is-inverted.is-success Foglalás
                   a(href=`/rooms/${user.floor}`).button.is-inverted Naptár
     - const otherRooms = (user) ? ROOMS.filter(it => it !== user.floor) : ROOMS
     each room in otherRooms
