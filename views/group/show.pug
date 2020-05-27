@@ -52,12 +52,14 @@ block content
                 i.fas.fa-fw.fa-stop
               span &nbsp;#{endDate}
                 strong &nbsp;#{endTime}
-        if group.subject
+        if group.tags
           tr
             td(colspan="2")
               span.icon.has-text-info
                 i.fas.fa-fw.fa-tags
-              span &nbsp;#{group.subject}
+              each tag in group.tags.split(",")
+                span &nbsp;
+                span.tag.is-info.is-medium= tag
     
     if group.description
       p.menu-label Leírás

@@ -7,15 +7,15 @@ block styles
 
 block content
   h1.title Új csoport felvétele
-  form(method="POST", action="/groups")
+  form(method="POST", action="/groups", id="group-form")
     .field
       label.label(for="name") Csoport neve
       .control
         input.input(type="text", name="name", id="name", placeholder="Analízis ZH1 készülés" required)
     .field
-      label.label(for="subject") Tárgy
+      label.label Címkék (8)
       .control
-        input.input(type="text", name="subject", id="subject" placeholder="Analízis 1")
+        input.input(type="tags", name="tags", id="tags", placeholder="Adj hozzá címkéket...")
     .field
       label.label(for="room") Szint
       .control
@@ -57,5 +57,12 @@ block scripts
     script const range = { start: !{JSON.stringify(start)}, end: !{JSON.stringify(end)} }
   script(src="https://cdn.jsdelivr.net/npm/flatpickr")
   script(src="/js/picker.js")
-  script(src="https://unpkg.com/easymde@2.10.1/dist/easymde.min.js")
+  script(src="https://unpkg.com/easymde/dist/easymde.min.js")
   script(src="/js/md-editor.js")
+  script(src="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tagsinput@1.0.2/dist/js/bulma-tagsinput.min.js")
+  script.
+    new BulmaTagsInput('#tags', {
+      maxTags: 8,
+      maxChars: 30,
+      tagClass: 'is-info'
+    })
