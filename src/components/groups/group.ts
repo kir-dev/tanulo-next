@@ -5,7 +5,7 @@ import { User } from '../users/user'
 export class Group extends Model {
   id!: number
   name: string
-  subject: string
+  tags: string
   description: string
   startDate: Date
   endDate: Date
@@ -45,14 +45,14 @@ export class Group extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['name', 'description', 'doNotDisturb', 'subject', 'room', 'startDate', 'endDate'],
+      required: ['name', 'description', 'doNotDisturb', 'tags', 'room', 'startDate', 'endDate'],
 
       properties: {
         id: { type: 'integer' },
         name: { type: 'string', minLength: 1, maxLength: 255 },
         description: { type: 'string' },
         doNotDisturb: { type: 'boolean' },
-        subject: { type: 'string' },
+        tags: { type: 'string' },
         room: { type: 'integer' },
         startDate: { type: 'datetime' },
         endDate: { type: 'datetime' }

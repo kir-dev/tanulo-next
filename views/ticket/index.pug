@@ -9,7 +9,7 @@ block content
   .cards.tickets
     each ticket in tickets
       .card.ticket(id=`ticket-${ticket.id}`)
-        header.card-header
+        header.card-header.is-shadowless
           .card-header-title
             .level
               p.title Szint: #{ticket.roomNumber}

@@ -24,6 +24,7 @@
     "watch-debug": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"yarn run watch-sass\" \"yarn run watch-ts\" \"yarn run serve-debug\""
   },
   "dependencies": {
+    "@creativebulma/bulma-tagsinput": "^1.0.2",
     "body-parser": "^1.19.0",
     "bulma": "^0.8.2",
     "bulma-tooltip": "^3.0.2",

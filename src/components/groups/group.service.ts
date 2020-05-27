@@ -8,7 +8,8 @@ export const getGroups = async (req: Request, res: Response, next: NextFunction)
   const limit = 10
   const pageObject = await Group.query().orderBy('createdAt', 'DESC').page(page, limit)
   req.groups = pageObject.results.map(group => {
-    group.description = formatMdToSafeHTML(group.description.slice(0, 50) + ' ...')
+    const raw = group.description.slice(0, 50) + (group.description.length > 50 ? ' ...' : '')
+    group.description = formatMdToSafeHTML(raw)
     return group
   })
 
@@ -25,7 +26,7 @@ export const getGroup = async (req: Request, res: Response, next: NextFunction) 
     .withGraphFetched('users')
 
   if (group) {
-    req.group = { description: formatMdToSafeHTML(group.description), ...group } as Group
+    req.group = { ...group, description: formatMdToSafeHTML(group.description) } as Group
     next()
   } else {
     res.render('error/not-found')
@@ -37,7 +38,7 @@ export const createGroup = async (req: Request, res: Response, next: NextFunctio
     .insert(
       {
         name: req.body.name,
-        subject: req.body.subject,
+        tags: req.body.tags ?? '',
         room: parseInt(req.body.room),
         description: req.body.description,
         doNotDisturb: !!req.body.doNotDisturb,
