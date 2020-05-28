@@ -11,11 +11,11 @@ block content
     .field
       label.label(for="name") Csoport neve
       .control
-        input.input(type="text", name="name", id="name", placeholder="Analízis ZH1 készülés" required)
+        input.input(type="text", name="name", id="name", placeholder="Analízis ZH1 készülés", value=`${name? name : ''}`, required)
     .field
       label.label Címkék (8)
       .control
-        input.input(type="tags", name="tags", id="tags", placeholder="Adj hozzá címkéket...")
+        input.input(type="tags", name="tags", id="tags", placeholder="Adj hozzá címkéket...", value=`${tags? tags : ''}`)
     .field
       label.label(for="room") Szint
       .control
@@ -55,6 +55,8 @@ block content
 block scripts
   if start && end
     script const range = { start: !{JSON.stringify(start)}, end: !{JSON.stringify(end)} }
+  if description
+    script const description = !{JSON.stringify(description)}
   script(src="https://cdn.jsdelivr.net/npm/flatpickr")
   script(src="/js/picker.js")
   script(src="https://unpkg.com/easymde@2.10.1/dist/easymde.min.js")
