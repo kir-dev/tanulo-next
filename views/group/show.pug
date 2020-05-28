@@ -3,13 +3,28 @@ extends ../layouts/main
 block content
   .group-show
     .columns
-      .column
-        h1.title= group.name
       .column.is-narrow
-        if isOwner
-          button.button.is-danger(type="button", onclick=`deleteGroup(${group.id})`) 
-            i.fas.fa-trash-alt
-            span &nbsp;Törlés
+        h1.title= group.name
+      .column.has-text-right
+        .dropdown.is-right
+          .dropdown-trigger
+            button.button(aria-haspopup="true", aria-controls="dropdown-menu")
+              span.icon
+                i.fas.fa-sliders-h
+              span.icon.is-small
+                i.fas.fa-angle-down
+          .dropdown-menu(id="dropdown-menu", role="menu")
+            .dropdown-content
+              a.dropdown-item(onclick=`copyGroup(${group.id})`)
+                span.icon
+                  i.fas.fa-copy
+                span &nbsp;Másolás
+              if isOwner
+                hr.dropdown-divider
+                a.dropdown-item(onclick=`deleteGroup(${group.id})`)
+                  span.icon.has-text-danger
+                    i.fas.fa-trash-alt
+                  span.has-text-danger &nbsp;Törlés
 
     - const [startDate, startTime] = format(group.startDate, DATE_FORMAT).split(' ')
     - const [endDate, endTime] = format(group.endDate, DATE_FORMAT).split(' ')
