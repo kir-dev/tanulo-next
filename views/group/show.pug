@@ -15,7 +15,7 @@ block content
                 i.fas.fa-angle-down
           .dropdown-menu(id="dropdown-menu", role="menu")
             .dropdown-content
-              a.dropdown-item(onclick=`copyGroup(${group.id})`)
+              a.dropdown-item(href=`/groups/${group.id}/copy`)
                 span.icon
                   i.fas.fa-copy
                 span &nbsp;Másolás
