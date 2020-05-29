@@ -59,7 +59,7 @@ router.delete('/:id',
   (req, res) => res.status(204).send('Csoport sikeresen törölve')
 )
 
-router.get('/copy/:id', isAuthenticated, getGroup, (req, res) =>
+router.get('/:id/copy', isAuthenticated, getGroup, (req, res) =>
   res.render('group/new', {
     roomId: req.group.room,
     name: req.group.name,
