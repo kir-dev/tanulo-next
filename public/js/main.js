@@ -1,3 +1,9 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const UNAUTHORIZED_MESSAGE = 'Ehhez a művelethez bejelentkezés szükséges'
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const FORBIDDEN_MESSAGE = 'Ehhez a művelethez admin jogosultság szükséges'
+
 document.addEventListener('DOMContentLoaded', () => {
   // Get all "navbar-burger" elements
   const $navbarBurgers = Array.from(document.querySelectorAll('.navbar-burger')).slice()

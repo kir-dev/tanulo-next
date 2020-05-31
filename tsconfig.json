@@ -17,7 +17,6 @@
   },
   "include": ["src/**/*", "public/js"],
   "files": [
-    "src/types/express-flash.d.ts",
     "src/types/index.d.ts"
   ]
 }
