@@ -1,4 +1,4 @@
-//Adding hours and minutes are be easier with these prototype methods:
+//Adding hours and minutes are be easier with these prototype methods
 Date.prototype.addHours = function(h) {
   const temp = new Date()
   temp.setTime(this.getTime() + (h*60*60*1000))
@@ -10,50 +10,70 @@ Date.prototype.addMinutes = function(m) {
   return temp
 }
 
-//Main logic:
+//Setting up datetimepickers
+const options = {
+  type: 'datetime',
+  color: 'info',
+  dateFormat: 'YYYY-MM-DD',
+  showClearButton: false,
+  enableYearSwitch: false,
+  minDate: Date(),
+  weekStart: 1,
+  closeOnSelect: false,
+  showHeader: false,
+  cancelLabel: 'Elvetés',
+  todayLabel: 'Ma',
+  validateLabel: 'Mentés'
+}
+const pickerStart = new bulmaCalendar(document.getElementById('pickerStart'), options)
+const pickerEnd = new bulmaCalendar(document.getElementById('pickerEnd'), options)
+
+//Getting rid of their clearButtons (required)
+const clearButtons = document.getElementsByClassName('datetimepicker-clear-button')
+Array.from(clearButtons).forEach(button => {
+  button.remove()
+})
+
+//Main logic for manipulating dates and times
 const now = new Date()
 now.setMinutes(0, 0, 0)
-
 let startDef = now.addHours(1)
 let endDef = now.addHours(2)
 
 if (typeof range !== 'undefined') {
-  const parsedStart = flatpickr.parseDate(range.start, 'Y-m-dTH:i')
+  const parsedStart = new Date(range.start)
   if (parsedStart >= now) {
     startDef = parsedStart
-    endDef = flatpickr.parseDate(range.end, 'Y-m-dTH:i')
+    endDef = new Date(range.end)
   }
   else
-    alert('Hiba: múltbéli időintervallumban csoport nem hozható létre.')
+    displayMessage('warning', 'Múltbéli időintervallumban csoport nem hozható létre')
 }
 
-const pickerStart = flatpickr('#pickerStart', {
-  enableTime: true,
-  dateFormat: 'Y-m-d H:i',
-  minDate: 'today',
-  // eslint-disable-next-line @typescript-eslint/camelcase
-  time_24hr: true,
-  defaultDate: startDef
-})
+function setPickerValue(picker, value) {
+  picker.clear()
+  picker.value(value)
+  picker.datePicker.refresh()
+  picker.timePicker.refresh()
+  picker.save()
+}
 
-const pickerEnd = flatpickr('#pickerEnd', {
-  enableTime: true,
-  dateFormat: 'Y-m-d H:i',
-  minDate: 'today',
-  // eslint-disable-next-line @typescript-eslint/camelcase
-  time_24hr: true,
-  defaultDate: endDef
-})
+setPickerValue(pickerStart, startDef)
+setPickerValue(pickerEnd, endDef)
 
-//Watching out for illegal DateTime ranges between start and end:
-pickerStart.config.onChange.push(function() {
-  if (pickerStart.selectedDates[0] >= pickerEnd.selectedDates[0]) {
-    pickerEnd.setDate(pickerStart.selectedDates[0].addMinutes(5))
+//Bypassing illegal time input
+pickerStart.on('hide', () => {
+  const startLocal = new Date(pickerStart.value())
+  const endLocal = new Date(pickerEnd.value())
+  if (startLocal >= endLocal) {
+    setPickerValue(pickerEnd, startLocal.addMinutes(5))
   }
 })
 
-pickerEnd.config.onChange.push(function() {
-  if (pickerStart.selectedDates[0] >= pickerEnd.selectedDates[0]) {
-    pickerStart.setDate(pickerEnd.selectedDates[0].addMinutes(-5))
+pickerEnd.on('hide', () => {
+  const startLocal = new Date(pickerStart.value())
+  const endLocal = new Date(pickerEnd.value())
+  if (startLocal >= endLocal) {
+    setPickerValue(pickerStart, endLocal.addMinutes(-5))
   }
 })

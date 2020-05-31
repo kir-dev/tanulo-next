@@ -14,9 +14,8 @@ block content
       .card.group
         a.card-header(href=`/groups/${group.id}`).is-shadowless
           .card-header-title
-            .level
-              p.title #{group.name}
-              p.subtitle Szint: #{group.room}
+            .title #{group.name}
+              .subtitle Szint: #{group.room}
           .card-header-icon
             span.icon.is-medium(class=`has-text-${group.doNotDisturb ? 'danger': 'success'}`)
               i.fas.fa-lg(class=`fa-${group.doNotDisturb ? '': 'un'}lock`)

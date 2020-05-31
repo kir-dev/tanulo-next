@@ -51,20 +51,11 @@ article.message.alert-detail {
 
 // Bulma components. The order matters, add new components
 // after the `base/_all` import
-@import "../../node_modules/bulma/sass/utilities/_all.sass";
-@import "../../node_modules/bulma/sass/base/_all.sass";
-@import "../../node_modules/bulma/sass/elements/_all.sass";
+@import "../../node_modules/bulma/bulma.sass";
 
-@import "../../node_modules/bulma/sass/components/card.sass";
-@import "../../node_modules/bulma/sass/components/message.sass";
-@import "../../node_modules/bulma/sass/components/navbar.sass";
-@import "../../node_modules/bulma/sass/components/pagination.sass";
-@import "../../node_modules/bulma/sass/components/menu.sass";
-
-@import "../../node_modules/bulma/sass/form/_all.sass";
-@import "../../node_modules/bulma/sass/grid/columns.sass";
 @import "../../node_modules/bulma-tooltip/src/sass/index.sass";
 @import "../../node_modules/@creativebulma/bulma-tagsinput/src/sass/index.sass";
+@import "../../node_modules/bulma-calendar/src/sass/index.sass";
 
 @import './group.scss';
 @import './room.scss';
