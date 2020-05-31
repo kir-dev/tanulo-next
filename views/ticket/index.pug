@@ -11,9 +11,8 @@ block content
       .card.ticket(id=`ticket-${ticket.id}`)
         header.card-header.is-shadowless
           .card-header-title
-            .level
-              p.title Szint: #{ticket.roomNumber}
-              p.subtitle ##{ticket.id}
+            .title Szint: #{ticket.roomNumber}
+              .subtitle ##{ticket.id}
           if admin
             a.card-header-icon(type="button", onclick=`deleteTicket(${ticket.id})`)
               span.icon.is-medium.has-text-danger
