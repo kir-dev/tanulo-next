@@ -37,6 +37,6 @@ const easyMDE = new EasyMDE({
   }]
 })
 
-if (description != null) {
+if (typeof description !== 'undefined' && description !== null) {
   easyMDE.value(description)
 }
