@@ -1,5 +1,5 @@
 import express from 'express'
-import compression from 'compression'  // compresses requests
+import compression from 'compression'
 import session from 'express-session'
 import bodyParser from 'body-parser'
 import Knex from 'knex'
@@ -13,7 +13,7 @@ import { SESSION_SECRET } from './util/secrets'
 
 import userRouter from './components/users/user.routes'
 import ticketRouter from './components/tickets/ticket.routes'
-import roomRouter from './components/rooms/room.routes'
+import roomRouter, { index } from './components/rooms/room.routes'
 import groupRouter from './components/groups/group.routes'
 
 const knex = Knex(dbConfig)
@@ -51,9 +51,6 @@ app.use((req, _res, next) => {
     !req.path.match(/^\/auth/) &&
     !req.path.match(/\./)) {
     req.session.returnTo = req.path
-  } else if (req.user &&
-    req.path == '/users/me') {
-    req.session.returnTo = req.path
   }
   next()
 })
@@ -65,7 +62,7 @@ app.use(
 /**
  * Primary app routes.
  */
-app.get('^/$', (_req, res) => res.redirect('/rooms'))
+app.get('^/$', index)
 app.get('/logout', (req, res) => {
   req.logout()
   res.redirect('/')
