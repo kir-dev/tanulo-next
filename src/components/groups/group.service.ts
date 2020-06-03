@@ -26,7 +26,10 @@ export const getGroup = async (req: Request, res: Response, next: NextFunction) 
     .withGraphFetched('users')
 
   if (group) {
-    req.group = { ...group, description: formatMdToSafeHTML(group.description) } as Group
+    if (req.path.includes('/copy'))
+      req.group = group
+    else
+      req.group = { ...group, description: formatMdToSafeHTML(group.description) } as Group
     next()
   } else {
     res.render('error/not-found')
