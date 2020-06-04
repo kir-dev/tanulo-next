@@ -77,3 +77,13 @@ pickerEnd.on('hide', () => {
     setPickerValue(pickerStart, endLocal.addMinutes(-5))
   }
 })
+
+window.addEventListener('click', e => {
+  if (!document.getElementById('pickerStart') != e.target) {
+    pickerStart.hide()
+  }
+
+  if (!document.getElementById('pickerEnd') != e.target) {
+    pickerEnd.hide()
+  }
+})

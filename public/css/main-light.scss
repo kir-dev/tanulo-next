@@ -2,7 +2,7 @@
 // -------------------------
 
 html {
-  background-color: #f1f3fa;
+  transition: all 250ms ease 50ms;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
   min-height: 100%;
 }
@@ -52,42 +52,4 @@ article.message.alert-detail {
 // Bulma components. The order matters, add new components
 // after the `base/_all` import
 @import "../../node_modules/bulma/bulma.sass";
-
-@import "../../node_modules/bulma-tooltip/src/sass/index.sass";
-@import "../../node_modules/@creativebulma/bulma-tagsinput/src/sass/index.sass";
-@import "../../node_modules/bulma-calendar/src/sass/index.sass";
-
-@import './group.scss';
-@import './room.scss';
-@import './margin-padding.scss';
-
-// Body left and right margin
-@media screen and (min-width: 1408px) {
-  body {
-    margin: 0 25rem;
-  }
-}
-
-@media screen and (max-width: 1407px) {
-  body {
-    margin: 0 15rem;
-  }
-}
-
-@media screen and (max-width: 1215px) {
-  body {
-    margin: 0 10rem;
-  }
-}
-
-@media screen and (max-width: 1023px) {
-  body {
-    margin: 0 5rem;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  body {
-    margin: 0rem;
-  }
-}
+@import "./additions.scss";

@@ -1,0 +1,38 @@
+@import "../../node_modules/bulma-tooltip/src/sass/index.sass";
+@import "../../node_modules/@creativebulma/bulma-tagsinput/src/sass/index.sass";
+@import "../../node_modules/bulma-calendar/src/sass/index.sass";
+
+@import "./group.scss";
+@import "./room.scss";
+@import "./margin-padding.scss";
+
+// Body left and right margin
+@media screen and (min-width: 1408px) {
+    body {
+        margin: 0 25rem;
+    }
+}
+
+@media screen and (max-width: 1407px) {
+    body {
+        margin: 0 15rem;
+    }
+}
+
+@media screen and (max-width: 1215px) {
+    body {
+        margin: 0 10rem;
+    }
+}
+
+@media screen and (max-width: 1023px) {
+    body {
+        margin: 0 5rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        margin: 0rem;
+    }
+}

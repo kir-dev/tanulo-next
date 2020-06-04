@@ -7,7 +7,9 @@ html(lang='hu')
     title TanulóSCH
     meta(name='csrf-token', content=_csrf)
     link(rel='shortcut icon', href='/images/favicon.png')
-    link(rel='stylesheet', href='/css/main.css')
+    link(type="text/css", rel='stylesheet', href='/css/main-dark.css', id="dark-theme-css")
+    link(type="text/css", rel='stylesheet', href='/css/main-light.css', id="light-theme-css")
+    script(src='/js/themes.js')
     block styles
 
   body
