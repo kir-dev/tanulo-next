@@ -1,19 +1,18 @@
 // Managing theme changes:
 const darkId = 'dark-theme-css'
 const lightId = 'light-theme-css'
+const darkEl = document.querySelector(`link[id="${darkId}"]`)
+const lightEl = document.querySelector(`link[id="${lightId}"]`)
 
-function setDarkCss() {
-  darkEl = document.querySelector(`link[id="${darkId}"]`)
-  lightEl = document.querySelector(`link[id="${lightId}"]`)
-  darkEl.media = ''
-  lightEl.media = 'none'
-}
-
-function setLightCss() {
-  darkEl = document.querySelector(`link[id="${darkId}"]`)
-  lightEl = document.querySelector(`link[id="${lightId}"]`)
-  lightEl.media = ''
-  darkEl.media = 'none'
+function changeCssToDark(toDark) {
+  if (toDark) {
+    darkEl.media = ''
+    lightEl.media = 'none'
+  }
+  else {
+    lightEl.media = ''
+    darkEl.media = 'none'
+  }
 }
 
 // Sets up the needed css
@@ -22,13 +21,13 @@ function setCssBeforeLoading() {
   const styleSheet = localStorage.getItem('stylesheet-key')
   if ((typeof styleSheet == 'undefined') || (styleSheet == null)) {
     localStorage.setItem('stylesheet-key', lightId)
-    setLightCss()
+    changeCssToDark(false)
   }
   else if (styleSheet === lightId) {
-    setLightCss()
+    changeCssToDark(false)
   }
   else {
-    setDarkCss()
+    changeCssToDark(true)
   }
 }
 
@@ -40,10 +39,10 @@ function changeTheme() {
   const styleSheet = localStorage.getItem('stylesheet-key')
   if ((typeof styleSheet == 'undefined')  || (styleSheet == null) || (styleSheet === lightId)) {
     localStorage.setItem('stylesheet-key', darkId)
-    setDarkCss()
+    changeCssToDark(true)
   }
   else {
     localStorage.setItem('stylesheet-key', lightId)
-    setLightCss()
+    changeCssToDark(false)
   }
 }

@@ -91,6 +91,8 @@ $navbar-dropdown-item-active-color: $link;
 
 $dropdown-content-background-color: $background;
 $dropdown-item-color: $text;
+$dropdown-item-hover-color: $text;
+$dropdown-item-hover-background-color: darken($background, 2);
 
 $progress-value-background-color: $grey-lighter;
 
