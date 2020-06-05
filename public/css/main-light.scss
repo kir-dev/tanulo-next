@@ -1,55 +1,11 @@
-// Scaffolding
-// -------------------------
-
 html {
-  transition: all 250ms ease 50ms;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
-  min-height: 100%;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-
-  main {
-    background-color: #fff;
-    margin-bottom: 2rem;
-    padding: 1rem;
-    flex: 1;
-  }
-
-  footer.page-footer {
-    padding-bottom: 0.5rem;
-  }
+body main {
+  background-color: #fff;
 }
 
-#alert {
-  position: fixed;
-  z-index: 999;
-  top: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  cursor: pointer;
-}
-
-@keyframes slide-down {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-article.message.alert-detail {
-  animation: slide-down 0.3s ease-in;
-}
-
-// Bulma components. The order matters, add new components
-// after the `base/_all` import
+// Bulma components. The order matters, add common components in additions.scss
 @import "../../node_modules/bulma/bulma.sass";
 @import "./additions.scss";
