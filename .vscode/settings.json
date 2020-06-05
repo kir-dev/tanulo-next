@@ -20,5 +20,6 @@
   "typescript.referencesCodeLens.enabled": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
-  }
+  },
+  "files.insertFinalNewline": true
 }

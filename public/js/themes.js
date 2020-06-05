@@ -4,15 +4,14 @@ const lightId = 'light-theme-css'
 const darkEl = document.querySelector(`link[id="${darkId}"]`)
 const lightEl = document.querySelector(`link[id="${lightId}"]`)
 
-function changeCssToDark(toDark) {
-  if (toDark) {
-    darkEl.media = ''
-    lightEl.media = 'none'
-  }
-  else {
-    lightEl.media = ''
-    darkEl.media = 'none'
-  }
+function setCssDark() {
+  darkEl.media = ''
+  lightEl.media = 'none'
+}
+
+function setCssLight() {
+  lightEl.media = ''
+  darkEl.media = 'none'
 }
 
 // Sets up the needed css
@@ -21,13 +20,13 @@ function setCssBeforeLoading() {
   const styleSheet = localStorage.getItem('stylesheet-key')
   if ((typeof styleSheet == 'undefined') || (styleSheet == null)) {
     localStorage.setItem('stylesheet-key', lightId)
-    changeCssToDark(false)
+    setCssLight()
   }
   else if (styleSheet === lightId) {
-    changeCssToDark(false)
+    setCssLight()
   }
   else {
-    changeCssToDark(true)
+    setCssDark()
   }
 }
 
@@ -39,10 +38,10 @@ function changeTheme() {
   const styleSheet = localStorage.getItem('stylesheet-key')
   if ((typeof styleSheet == 'undefined')  || (styleSheet == null) || (styleSheet === lightId)) {
     localStorage.setItem('stylesheet-key', darkId)
-    changeCssToDark(true)
+    setCssDark()
   }
   else {
     localStorage.setItem('stylesheet-key', lightId)
-    changeCssToDark(false)
+    setCssLight()
   }
 }
