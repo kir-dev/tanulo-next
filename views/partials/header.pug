@@ -11,6 +11,12 @@ nav.navbar(role='navigation' aria-label='main navigation')
       a.navbar-item(href='/groups') Csoportok
       a.navbar-item(href='/tickets') Hibajegyek
     .navbar-end
+      a.navbar-item(onclick='changeTheme()')
+        span.icon.is-small
+          i.fas.fa-moon
+        span \
+        span.icon.is-small
+          i.fas.fa-sun
       if !loggedIn
         .navbar-item
           .buttons

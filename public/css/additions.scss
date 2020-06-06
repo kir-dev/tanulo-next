@@ -1,9 +1,6 @@
-// Scaffolding
-// -------------------------
-
+// Common scaffolding
 html {
-  background-color: #f1f3fa;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+  transition: all 250ms ease 50ms;
   min-height: 100%;
 }
 
@@ -13,7 +10,6 @@ body {
   min-height: 100vh;
 
   main {
-    background-color: #fff;
     margin-bottom: 2rem;
     padding: 1rem;
     flex: 1;
@@ -49,17 +45,15 @@ article.message.alert-detail {
   animation: slide-down 0.3s ease-in;
 }
 
-// Bulma components. The order matters, add new components
-// after the `base/_all` import
-@import "../../node_modules/bulma/bulma.sass";
-
+// Additional bulma extensions
 @import "../../node_modules/bulma-tooltip/src/sass/index.sass";
 @import "../../node_modules/@creativebulma/bulma-tagsinput/src/sass/index.sass";
 @import "../../node_modules/bulma-calendar/src/sass/index.sass";
 
-@import './group.scss';
-@import './room.scss';
-@import './margin-padding.scss';
+// Own imports
+@import "./group.scss";
+@import "./room.scss";
+@import "./margin-padding.scss";
 
 // Body left and right margin
 @media screen and (min-width: 1408px) {
