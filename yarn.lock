@@ -687,10 +687,10 @@
   resolved "https://registry.yarnpkg.com/@types/linkify-it/-/linkify-it-2.1.0.tgz#ea3dd64c4805597311790b61e872cbd1ed2cd806"
   integrity sha512-Q7DYAOi9O/+cLLhdaSvKdaumWyHbm7HAk/bFwwyTuU0arR5yyCeW5GOoqt4tJTpDRxhpx9Q8kQL6vMpuw9hDSw==
 
-"@types/lusca@^1.6.1":
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/@types/lusca/-/lusca-1.6.1.tgz#39c352ad0a8597566d7beeb28ba8343bf450d21d"
-  integrity sha512-/W+YaK0aJUt1XU0/bpVR4p1LAh7zva4bDfgijfzFhF+A/On3hQmXzezQDrVG3Kv3EaLWQeKvp8uNdXUmGjFyWg==
+"@types/lusca@^1.6.2":
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/@types/lusca/-/lusca-1.6.2.tgz#3fee8d9db4b6cd30540a35044c7a152bbf0dcb18"
+  integrity sha512-ZsMbyANM6PdOHOMo/LmgEIjelh8G54yi3i+Mqm/9AiWUX9SgTc874hJiHts6brEKQlD9oDVSxL/2o+tYkYc59w==
   dependencies:
     "@types/express" "*"
 
