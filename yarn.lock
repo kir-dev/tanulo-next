@@ -792,10 +792,10 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.3.tgz#7ee330ba7caafb98090bece86a5ee44115904c2c"
   integrity sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
 
-"@types/sanitize-html@^1.23.0":
-  version "1.23.0"
-  resolved "https://registry.yarnpkg.com/@types/sanitize-html/-/sanitize-html-1.23.0.tgz#4ed2d6bdd44cb6ae027bd0a428142220da4334a7"
-  integrity sha512-yl0HvhWOZWzmkGEBQLKYf+BtotvbGLFhCejuBvwyM1Q23RliLXNfviuOMLQ/nCRFWR2yI0LRRiaH/Oz7CIpCGw==
+"@types/sanitize-html@^1.23.1":
+  version "1.23.1"
+  resolved "https://registry.yarnpkg.com/@types/sanitize-html/-/sanitize-html-1.23.1.tgz#914f12acef9999ec630c847cd52f63d37ba68943"
+  integrity sha512-crF+uCXmQYM4+8XPaKgzZAcD8LaPSdA/kM9I7trCmcj4iMusQH6bVfUnuXe/9bHfP2MYLCz6jpYZFkg9Vxuu4A==
   dependencies:
     htmlparser2 "^4.1.0"
 

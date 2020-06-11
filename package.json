@@ -67,7 +67,7 @@
     "@types/passport": "^1.0.3",
     "@types/passport-oauth2": "^1.4.9",
     "@types/pug": "^2.0.4",
-    "@types/sanitize-html": "^1.23.0",
+    "@types/sanitize-html": "^1.23.1",
     "@types/shelljs": "^0.8.8",
     "@types/supertest": "^2.0.9",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
