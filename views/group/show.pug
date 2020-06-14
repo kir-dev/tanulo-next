@@ -6,7 +6,7 @@ block content
       .column.is-narrow
         h1.title= group.name
       .column.has-text-right
-        .dropdown.is-right
+        .dropdown.is-right.has-text-left
           .dropdown-trigger
             button.button(aria-haspopup="true", aria-controls="dropdown-menu")
               span.icon
@@ -75,7 +75,7 @@ block content
               each tag in group.tags.split(",")
                 span &nbsp;
                 span.tag.is-info.is-medium= tag
-    
+
     if group.description
       p.menu-label Leírás
       article.message.content
