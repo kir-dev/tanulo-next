@@ -5,11 +5,11 @@ block styles
 
 block content
   h1.title Új csoport felvétele
-  form(method="POST", action="/groups", id="group-form")
+  form(id="group-form")
     .field
       label.label(for="name") Csoport neve
       .control
-        input.input(type="text", name="name", id="name", placeholder="Analízis ZH1 készülés", value=`${name? name : ''}`, required)
+        input.input(type="text", name="name", id="name", placeholder="Analízis ZH1 készülés", value=`${name? name : ''}`, required, maxlength="100")
     .field
       label.label Címkék (8)
       .control
@@ -57,6 +57,7 @@ block scripts
   if description
     script const description = !{JSON.stringify(description)}
   script(src="/js/picker.js")
+  script(src="/js/group.js")
   script(src="https://unpkg.com/easymde@2.10.1/dist/easymde.min.js")
   script(src="/js/md-editor.js")
   script(src="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tagsinput@1.0.2/dist/js/bulma-tagsinput.min.js")
