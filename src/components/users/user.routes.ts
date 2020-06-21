@@ -8,8 +8,7 @@ const router = Router()
 
 router.get('/:id', isAuthenticated, getUser, (req, res) =>
   res.render('user/show', {
-    userToShow: req.userToShow,
-    user: req.user
+    userToShow: req.userToShow
   })
 )
 

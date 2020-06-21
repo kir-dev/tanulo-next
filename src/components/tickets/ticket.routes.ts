@@ -5,7 +5,6 @@ import multer from 'multer'
 
 import { isAdmin, isAuthenticated } from '../../config/passport'
 import { DATE_FORMAT, ROOMS } from '../../util/constants'
-import { User } from '../users/user'
 import { createTicket, getTickets, removeTicket } from './ticket.service'
 import { handeValidationError } from '../../util/errorHandlers'
 
@@ -14,7 +13,6 @@ const router = Router()
 router.get('/', isAuthenticated, getTickets, (req, res) =>
   res.render('ticket/index', {
     tickets: req.tickets,
-    admin: (req.user as User)?.admin,
     format,
     DATE_FORMAT
   }))

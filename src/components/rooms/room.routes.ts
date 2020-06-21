@@ -5,7 +5,7 @@ import { ROOMS } from '../../util/constants'
 
 export const index = async (req: Request, res: Response) => {
   const busyRooms = await getBusyRooms()
-  res.render('room/index', { busyRooms, ROOMS, user: req.user })
+  res.render('room/index', { busyRooms, ROOMS })
 }
 
 const show = async (req: Request, res: Response) => {
