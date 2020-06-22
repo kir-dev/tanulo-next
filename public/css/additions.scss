@@ -8,6 +8,8 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  max-width: 80rem;
+  margin: 0 auto;
 
   main {
     margin-bottom: 2rem;
@@ -54,34 +56,3 @@ article.message.alert-detail {
 @import "./group.scss";
 @import "./room.scss";
 @import "./margin-padding.scss";
-
-// Body left and right margin
-@media screen and (min-width: 1408px) {
-  body {
-    margin: 0 25rem;
-  }
-}
-
-@media screen and (max-width: 1407px) {
-  body {
-    margin: 0 15rem;
-  }
-}
-
-@media screen and (max-width: 1215px) {
-  body {
-    margin: 0 10rem;
-  }
-}
-
-@media screen and (max-width: 1023px) {
-  body {
-    margin: 0 5rem;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  body {
-    margin: 0rem;
-  }
-}
