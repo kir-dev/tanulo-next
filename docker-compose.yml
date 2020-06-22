@@ -1,7 +1,7 @@
 version: "3.5"
 
 services:
-  tanulo:
+  web:
     build:
       context: .
       dockerfile: Dockerfile
@@ -19,9 +19,9 @@ services:
     image: postgres
     restart: always
     environment:
-      POSTGRES_USER: tanulo
-      POSTGRES_PASSWORD: tanulo
-      POSTGRES_DB: tanulo
+      POSTGRES_USER: "${DB_USERNAME}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+      POSTGRES_DB: "${DB_DATABASE}"
     networks:
       tanulo-network:
         aliases:
