@@ -12,7 +12,7 @@ function generateWebCalendar(data, calendarEl, room) {
         type: 'timeGrid',
         duration: { days: 1 },
         buttonText: 'nap',
-        slotLabelFormat: { 
+        slotLabelFormat: {
           hour: 'numeric',
           minute: '2-digit',
           omitZeroMinute: false
@@ -51,7 +51,7 @@ function generateMobileCalendar(data, calendarEl, room) {
         type: 'timeGrid',
         duration: { days: 1 },
         buttonText: 'nap',
-        slotLabelFormat: { 
+        slotLabelFormat: {
           hour: 'numeric',
           minute: '2-digit',
           omitZeroMinute: false
