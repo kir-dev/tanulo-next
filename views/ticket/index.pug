@@ -13,7 +13,7 @@ block content
           .card-header-title
             .title Szint: #{ticket.roomNumber}
               .subtitle ##{ticket.id}
-          if admin
+          if user.admin
             a.card-header-icon(type="button", onclick=`deleteTicket(${ticket.id})`)
               span.icon.is-medium.has-text-danger
                 i.fas.fa-lg.fa-trash-alt
@@ -24,7 +24,6 @@ block content
             span.icon
               i.fas.fa-paper-plane
             time= format(ticket.createdAt, DATE_FORMAT)
-            
     else
       p Nincsenek hibajegyek
 
