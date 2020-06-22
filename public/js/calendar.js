@@ -1,69 +1,61 @@
+const commonCalendarOptions = {
+  plugins: ['interaction', 'timeGrid', 'dayGrid'],
+  views: {
+    timeGridOneDay: {
+      type: 'timeGrid',
+      duration: { days: 1 },
+      buttonText: 'nap',
+      slotLabelFormat: {
+        hour: 'numeric',
+        minute: '2-digit',
+        omitZeroMinute: false
+      },
+      nowIndicator: true
+    }
+  },
+  buttonText: {
+    today: 'ma',
+    month: 'hónap',
+    week: 'hét',
+  },
+  nowIndicator: true,
+  locale: 'hu',
+  selectable: true,
+  eventClick: (calEvent) =>
+    (location.href = `/groups/${calEvent.event.groupId}`)
+}
+
 function generateWebCalendar(data, calendarEl, room) {
   const calendar = new FullCalendar.Calendar(calendarEl, {
-    plugins: ['interaction', 'timeGrid', 'dayGrid'],
+    ...commonCalendarOptions,
     header: {
       left: 'prev,next today',
       center: 'title',
-      right: 'timeGridOneDay,timeGridWeek,dayGridMonth'
+      right: 'timeGridOneDay,timeGridWeek,dayGridMonth',
     },
     defaultView: 'timeGridWeek',
-    views: {
-      timeGridOneDay: {
-        type: 'timeGrid',
-        duration: { days: 1 },
-        buttonText: 'nap',
-        slotLabelFormat: {
-          hour: 'numeric',
-          minute: '2-digit',
-          omitZeroMinute: false
-        },
-        nowIndicator: true
-      }
-    },
-    buttonText: {
-      today: 'ma',
-      month: 'hónap',
-      week: 'hét'
-    },
-    locale: 'hu',
-    selectable: true,
     events: data,
-    select: info =>
-      location.href = `/groups/new?start=${info.startStr}&end=${info.endStr}&roomId=${room}`
-    ,
-    eventClick: calEvent =>
-      location.href = `/groups/${calEvent.event.groupId}`
+    select: (info) => {
+      if (info.view.type === 'dayGridMonth') {
+        calendar.gotoDate(info.start)
+        calendar.changeView('timeGridOneDay')
+      } else {
+        location.href = `/groups/new?start=${info.startStr}&end=${info.endStr}&roomId=${room}`
+      }
+    }
   })
   return calendar
 }
 
 function generateMobileCalendar(data, calendarEl, room) {
   const calendar = new FullCalendar.Calendar(calendarEl, {
-    plugins: ['interaction', 'timeGrid', 'dayGrid'],
+    ...commonCalendarOptions,
     header: {
       left: 'title',
       center: '',
       right: 'timeGridOneDay,dayGridMonth'
     },
     defaultView: 'timeGridOneDay',
-    views: {
-      timeGridOneDay: {
-        type: 'timeGrid',
-        duration: { days: 1 },
-        buttonText: 'nap',
-        slotLabelFormat: {
-          hour: 'numeric',
-          minute: '2-digit',
-          omitZeroMinute: false
-        },
-        nowIndicator: true
-      }
-    },
-    buttonText: {
-      today: 'ma',
-      month: 'hónap',
-      week: 'hét'
-    },
     customButtons: {
       prevWeek: {
         text: '-7',
@@ -91,11 +83,9 @@ function generateMobileCalendar(data, calendarEl, room) {
       weekday: 'short',
       day: 'numeric'
     },
-    locale: 'hu',
     aspectRatio: 0.75,
-    selectable: true,
     events: data,
-    select: info => {
+    select: (info) => {
       if (info.view.type === 'dayGridMonth') {
         calendar.gotoDate(info.start)
         calendar.changeView('timeGridOneDay')
@@ -103,9 +93,7 @@ function generateMobileCalendar(data, calendarEl, room) {
       else {
         location.href = `/groups/new?start=${info.startStr}&end=${info.endStr}&roomId=${room}`
       }
-    },
-    eventClick: calEvent =>
-      location.href = `/groups/${calEvent.event.groupId}`
+    }
   })
   return calendar
 }
