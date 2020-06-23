@@ -30,14 +30,14 @@ block content
               if tags.length > 4
                 span &nbsp;...
         footer.card-footer
-          .card-footer-item(title="Kezdés időpontja")
+          .card-footer-item(title=`${dateFns.format(group.startDate, dateFns.DATE_FORMAT)}`)
             span.icon
               i.fas.fa-play
-            span #{format(group.startDate, DATE_FORMAT)}
-          .card-footer-item(title="Befejezés időpontja")
+            span #{dateFns.formatDistanceToNowStrict(group.startDate, { addSuffix: true, locale: dateFns.huLocale })}
+          .card-footer-item(title="Időtartam")
             span.icon
-              i.fas.fa-stop
-            span #{format(group.endDate, DATE_FORMAT)}
+              i.fas.fa-stopwatch
+            span #{dateFns.formatDistanceStrict(group.startDate, group.endDate, { locale: dateFns.huLocale })}
     else
       p.has-margin-top-10 Nincsenek megjelenítendő csoportok
 
