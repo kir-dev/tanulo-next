@@ -9,7 +9,7 @@ import multer from 'multer'
 
 import { isAuthenticated } from '../../config/passport'
 import { DATE_FORMAT, ROOMS } from '../../util/constants'
-import { handleValidationError } from '../../util/errorHandlers'
+import { handleValidationError, checkIdParam } from '../../util/validators'
 import { User } from '../users/user'
 import {
   isGroupOwner,
@@ -57,13 +57,17 @@ router.post('/',
   (req: Request, res: Response) => res.sendStatus(201)
 )
 
-router.get('/:id', isAuthenticated, getGroup, (req, res) => {
-  const joined = req.group.users.some(u => u.id === (req.user as User).id)
-  const isOwner = req.group.ownerId === (req.user as User).id
-  res.render('group/show', {
-    group: req.group, joined, isOwner, format, DATE_FORMAT
+router.get('/:id',
+  isAuthenticated,
+  checkIdParam,
+  getGroup,
+  (req, res) => {
+    const joined = req.group.users.some(u => u.id === (req.user as User).id)
+    const isOwner = req.group.ownerId === (req.user as User).id
+    res.render('group/show', {
+      group: req.group, joined, isOwner, format, DATE_FORMAT
+    })
   })
-})
 
 router.post('/:id/join',
   isAuthenticated,
@@ -87,16 +91,20 @@ router.delete('/:id',
   (req, res) => res.status(204).send('Csoport sikeresen törölve')
 )
 
-router.get('/:id/copy', isAuthenticated, getGroup, (req, res) =>
-  res.render('group/new', {
-    roomId: req.group.room,
-    name: req.group.name,
-    description: req.group.description,
-    tags: req.group.tags,
-    ROOMS
-  })
+router.get('/:id/copy',
+  isAuthenticated,
+  checkIdParam,
+  getGroup,
+  (req, res) =>
+    res.render('group/new', {
+      roomId: req.group.room,
+      name: req.group.name,
+      description: req.group.description,
+      tags: req.group.tags,
+      ROOMS
+    })
 )
 
-router.get('/:id/export', isAuthenticated, getGroup, createICSEvent)
+router.get('/:id/export', isAuthenticated, checkIdParam, getGroup, createICSEvent)
 
 export default router

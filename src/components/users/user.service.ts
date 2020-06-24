@@ -14,7 +14,7 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
     .withGraphFetched('groups')
 
   if (!user) {
-    res.redirect('error/not-found')
+    res.render('error/not-found')
   } else {
     req.userToShow = user
     next()
@@ -36,13 +36,7 @@ export const toggleAdmin = async (req: Request, res: Response, next: NextFunctio
 
 export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
   const id = (req.user as User).id
-  const modifiedCount = await User.query()
-    .findById(id)
-    .patch({ ...req.body })
-
-  if (modifiedCount === 1) {
-    req.user = await User.query().findById(id)
-  }
+  req.user = await User.query().patchAndFetchById(id, { ...req.body })
 
   next()
 }

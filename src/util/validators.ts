@@ -16,3 +16,10 @@ export function handleValidationError(statusCode: number) {
   }
 }
 
+export function checkIdParam(req: Request, res: Response, next: NextFunction) {
+  if (isNaN(parseInt(req.params.id))) {
+    res.render('error/not-found')
+  } else {
+    next()
+  }
+}

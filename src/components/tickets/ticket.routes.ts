@@ -6,7 +6,7 @@ import multer from 'multer'
 import { isAdmin, isAuthenticated } from '../../config/passport'
 import { DATE_FORMAT, ROOMS } from '../../util/constants'
 import { createTicket, getTickets, removeTicket } from './ticket.service'
-import { handleValidationError } from '../../util/errorHandlers'
+import { handleValidationError } from '../../util/validators'
 
 const router = Router()
 
