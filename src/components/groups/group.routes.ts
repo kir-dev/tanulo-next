@@ -1,4 +1,9 @@
-import format from 'date-fns/format'
+import {
+  format,
+  formatDistanceToNowStrict,
+  formatDistanceStrict
+} from 'date-fns'
+import huLocale from 'date-fns/locale/hu'
 import { Router } from 'express'
 
 import { isAuthenticated } from '../../config/passport'
@@ -13,8 +18,13 @@ router.get('/', isAuthenticated, getGroups, (req, res) => {
   res.render('group/index', {
     groups: req.groups,
     paginationOpt: req.paginationOptions,
-    format,
-    DATE_FORMAT
+    dateFns: {
+      format,
+      formatDistanceStrict,
+      formatDistanceToNowStrict,
+      huLocale,
+      DATE_FORMAT
+    }
   })
 })
 
