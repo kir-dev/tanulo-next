@@ -9,7 +9,7 @@ import { Router } from 'express'
 import { isAuthenticated } from '../../config/passport'
 import { DATE_FORMAT, ROOMS } from '../../util/constants'
 import { User } from '../users/user'
-import { isGroupOwner, joinGroup, leaveGroup } from './group.middlewares'
+import { isGroupOwner, joinGroup, leaveGroup, createICSEvent } from './group.middlewares'
 import { createGroup, getGroup, getGroups, removeGroup } from './group.service'
 
 const router = Router()
@@ -78,5 +78,7 @@ router.get('/:id/copy', isAuthenticated, getGroup, (req, res) =>
     ROOMS
   })
 )
+
+router.get('/:id/export', isAuthenticated, getGroup, createICSEvent)
 
 export default router
