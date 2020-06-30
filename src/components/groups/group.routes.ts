@@ -10,7 +10,7 @@ import multer from 'multer'
 
 import { isAuthenticated } from '../../config/passport'
 import { DATE_FORMAT, ROOMS } from '../../util/constants'
-import { handeValidationError } from '../../util/errorHandlers'
+import { handleValidationError } from '../../util/errorHandlers'
 import { User } from '../users/user'
 import { isGroupOwner, joinGroup, leaveGroup, createICSEvent } from './group.middlewares'
 import { createGroup, getGroup, getGroups, removeGroup } from './group.service'
@@ -79,7 +79,7 @@ router.post('/',
   isAuthenticated,
   multer().none(),
   validateGroup(),
-  handeValidationError(400),
+  handleValidationError(400),
   createGroup,
   joinGroup,
   (req: Request, res: Response) => res.sendStatus(201)
