@@ -1,6 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
 import { validationResult } from 'express-validator'
 
+export interface ValidationError {
+  msg: string
+}
+
 export function handeValidationError(statusCode: number) {
   return function (req: Request, res: Response, next: NextFunction) {
     const errors = validationResult(req)
