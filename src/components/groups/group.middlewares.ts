@@ -1,4 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
+import * as ics from 'ics'
+import { writeFileSync } from 'fs'
+import winston from 'winston'
 
 import { User } from '../users/user'
 import { Group } from './group'
@@ -34,4 +37,47 @@ export const isGroupOwner = async (req: Request, res: Response, next: NextFuncti
   } else {
     res.render('error/forbidden')
   }
+}
+
+export const createICSEvent = (req: Request, res: Response) => {
+  const group = req.group
+  const { startDate, endDate } = group
+
+  const event: ics.EventAttributes = {
+    title: group.name,
+    description: group.description,
+    start: [
+      startDate.getFullYear(),
+      startDate.getMonth() + 1,
+      startDate.getDate(),
+      startDate.getHours(),
+      startDate.getMinutes()
+    ],
+    end: [
+      endDate.getFullYear(),
+      endDate.getMonth() + 1,
+      endDate.getDate(),
+      endDate.getHours(),
+      endDate.getMinutes()
+    ],
+    location: `SCH ${group.room.toString()}. emeleti tanuló`,
+    url: `https://tanulo.sch.bme.hu/groups/${group.id}`,
+    categories: group.tags ? group.tags.split(',') : null
+  }
+
+  ics.createEvent(event, (err, value) => {
+    if (err) {
+      winston.error(err.message)
+      return res.status(500).send({ message: err.message })
+    }
+    const path = '/tmp/event.ics'
+
+    try {
+      writeFileSync(path, value)
+      res.download(path)
+    } catch (error) {
+      winston.error(error.message)
+      res.sendStatus(500)
+    }
+  })
 }

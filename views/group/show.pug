@@ -3,28 +3,36 @@ extends ../layouts/main
 block content
   .group-show
     .columns
-      .column.is-narrow
+      .column
         h1.title= group.name
-      .column.has-text-right
-        .dropdown.is-right.has-text-left
-          .dropdown-trigger
-            button.button(aria-haspopup="true", aria-controls="dropdown-menu")
-              span.icon
-                i.fas.fa-sliders-h
-              span.icon.is-small
-                i.fas.fa-angle-down
-          .dropdown-menu(id="dropdown-menu", role="menu")
-            .dropdown-content
-              a.dropdown-item(href=`/groups/${group.id}/copy`)
+      .column.is-narrow
+        .columns.has-text-right.is-mobile
+          .column.is-narrow
+            form(action=`/groups/${group.id}/export`, method="get")
+              button.button.is-secondary(type="submit")
                 span.icon
-                  i.fas.fa-copy
-                span &nbsp;Másolás
-              if isOwner
-                hr.dropdown-divider
-                a.dropdown-item(onclick=`deleteGroup(${group.id})`)
-                  span.icon.has-text-danger
-                    i.fas.fa-trash-alt
-                  span.has-text-danger &nbsp;Törlés
+                  i.fas.fa-file-export
+                span &nbsp;Exportálás
+          .column.is-narrow
+            .dropdown.is-right.has-text-left
+              .dropdown-trigger
+                button.button(aria-haspopup="true", aria-controls="dropdown-menu")
+                  span.icon
+                    i.fas.fa-sliders-h
+                  span.icon.is-small
+                    i.fas.fa-angle-down
+              .dropdown-menu(id="dropdown-menu", role="menu")
+                .dropdown-content
+                  a.dropdown-item(href=`/groups/${group.id}/copy`)
+                    span.icon
+                      i.fas.fa-copy
+                    span &nbsp;Másolás
+                  if isOwner
+                    hr.dropdown-divider
+                    a.dropdown-item(onclick=`deleteGroup(${group.id})`)
+                      span.icon.has-text-danger
+                        i.fas.fa-trash-alt
+                      span.has-text-danger &nbsp;Törlés
 
     - const [startDate, startTime] = format(group.startDate, DATE_FORMAT).split(' ')
     - const [endDate, endTime] = format(group.endDate, DATE_FORMAT).split(' ')
