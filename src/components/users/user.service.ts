@@ -35,9 +35,14 @@ export const toggleAdmin = async (req: Request, res: Response, next: NextFunctio
 }
 
 export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
-  await User.query()
+  const id = (req.user as User).id
+  const modifiedCount = await User.query()
+    .findById(id)
     .patch({ ...req.body })
-    .findById((req.user as User).id)
+
+  if (modifiedCount === 1) {
+    req.user = await User.query().findById(id)
+  }
 
   next()
 }

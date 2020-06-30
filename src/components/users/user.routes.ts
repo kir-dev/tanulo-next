@@ -1,6 +1,8 @@
 import { Router } from 'express'
+import { check } from 'express-validator'
 
-import { isAuthenticated, isAdmin } from '../../config/passport'
+import { isAdmin, isAuthenticated } from '../../config/passport'
+import { handeValidationError } from '../../util/errorHandlers'
 import { User } from './user'
 import { getUser, toggleAdmin, updateUser } from './user.service'
 
@@ -24,21 +26,13 @@ router.patch('/:id',
     }
     next()
   },
-  (req, res, next) => {
-    const floor = req.body.floor
-    if (!(floor == null || (floor >= 3 && floor <= 18))) {
-      return res.status(400).json(
-        {
-          errors: [
-            { msg: 'A szint csak üres vagy 3 és 18 közötti szám lehet' }
-          ]
-        }
-      )
-    }
-    next()
-  },
+  check('floor')
+    .optional({ nullable: true })
+    .isInt({ gt: 2, lt: 19 })
+    .withMessage('A szint csak üres vagy 3 és 18 közötti szám lehet'),
+  handeValidationError(400),
   updateUser,
-  (req, res) => res.sendStatus(200)
+  (req, res) => res.json(req.user)
 )
 
 export default router

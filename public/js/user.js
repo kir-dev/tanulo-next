@@ -2,7 +2,7 @@
 function updateUser(id) {
   const floorEl = document.getElementById('floor-input')
   const floor = parseInt(floorEl.value)
-  if (!isNaN(floor) && (floor < 3 || floor > 18)) {
+  if (floorEl.value !== '' && (floor < 3 || floor > 18)) {
     displayMessage('danger', 'A szint üres vagy 3 és 18 közötti szám lehet')
   } else {
     fetch(`/users/${id}`, {
@@ -15,6 +15,8 @@ function updateUser(id) {
       .then(async res => {
         switch (res.status) {
         case 200:
+          const user = await res.json()
+          floorEl.value = user.floor
           displayMessage('success', 'Sikeres mentés!')
           break
         case 400:

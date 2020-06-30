@@ -5,7 +5,7 @@ block content
   if user.id === userToShow.id
     .field.has-addons
       .control.has-icons-left
-        input.input(id="floor-input", type="number", placeholder="Szint", title="Szint", value=user.floor)
+        input.input(id="floor-input", type="number", min="3", max="18", placeholder="Szint", title="Szint", value=user.floor)
         span.icon.has-text-info.is-left
           i.fas.fa-fw.fa-building
         p.help Ha megadod a szinted, a főoldalon kiemelt helyen lesz
