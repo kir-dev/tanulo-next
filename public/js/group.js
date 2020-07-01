@@ -11,6 +11,11 @@ const deleteGroup = id => {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function submitExportForm() {
+  document.getElementById('export-form').submit()
+}
+
 const dropdown = document.querySelector('.dropdown')
 if (dropdown) {
   dropdown.addEventListener('click', event => {
