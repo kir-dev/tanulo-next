@@ -39,7 +39,7 @@ block content
               i.fas.fa-stopwatch
             span #{dateFns.formatDistanceStrict(group.startDate, group.endDate, { locale: dateFns.huLocale })}
     else
-      p.has-margin-top-10 Nincsenek megjelenítendő csoportok
+      p.mt-3 Nincsenek megjelenítendő csoportok
 
   if paginationOpt.pageNum > 1 && groups.length > 2
     include ./pagination
