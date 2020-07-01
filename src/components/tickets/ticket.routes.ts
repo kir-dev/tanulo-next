@@ -6,7 +6,7 @@ import multer from 'multer'
 import { isAdmin, isAuthenticated } from '../../config/passport'
 import { DATE_FORMAT, ROOMS } from '../../util/constants'
 import { createTicket, getTickets, removeTicket } from './ticket.service'
-import { handeValidationError } from '../../util/errorHandlers'
+import { handleValidationError } from '../../util/errorHandlers'
 
 const router = Router()
 
@@ -30,7 +30,7 @@ router.post('/',
       .notEmpty()              .withMessage('A leírás nem lehet üres')
       .isLength({ max: 500 })  .withMessage('A leírás max 500 karakter lehet')
   ],
-  handeValidationError(400),
+  handleValidationError(400),
   createTicket,
   (_req: Request, res: Response) => res.sendStatus(201)
 )

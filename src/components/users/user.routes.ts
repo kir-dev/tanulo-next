@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { check } from 'express-validator'
 
 import { isAdmin, isAuthenticated } from '../../config/passport'
-import { handeValidationError } from '../../util/errorHandlers'
+import { handleValidationError } from '../../util/errorHandlers'
 import { User } from './user'
 import { getUser, toggleAdmin, updateUser } from './user.service'
 
@@ -30,7 +30,7 @@ router.patch('/:id',
     .optional({ nullable: true })
     .isInt({ gt: 2, lt: 19 })
     .withMessage('A szint csak üres vagy 3 és 18 közötti szám lehet'),
-  handeValidationError(400),
+  handleValidationError(400),
   updateUser,
   (req, res) => res.json(req.user)
 )
