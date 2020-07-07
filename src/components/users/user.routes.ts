@@ -2,13 +2,14 @@ import { Router } from 'express'
 import { check } from 'express-validator'
 
 import { isAdmin, isAuthenticated } from '../../config/passport'
-import { handleValidationError } from '../../util/errorHandlers'
+import { handleValidationError, checkIdParam } from '../../util/validators'
 import { User } from './user'
+import { isSameUser } from './user.middlewares'
 import { getUser, toggleAdmin, updateUser } from './user.service'
 
 const router = Router()
 
-router.get('/:id', isAuthenticated, getUser, (req, res) =>
+router.get('/:id', isAuthenticated, checkIdParam, getUser, (req, res) =>
   res.render('user/show', {
     userToShow: req.userToShow
   })
@@ -31,6 +32,7 @@ router.patch('/:id',
     .isInt({ gt: 2, lt: 19 })
     .withMessage('A szint csak üres vagy 3 és 18 közötti szám lehet'),
   handleValidationError(400),
+  isSameUser,
   updateUser,
   (req, res) => res.json(req.user)
 )

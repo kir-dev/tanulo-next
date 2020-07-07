@@ -1,5 +1,6 @@
 import { Ticket } from './ticket'
 import { Request, Response, NextFunction } from 'express'
+
 import { formatMdToSafeHTML } from '../../util/convertMarkdown'
 
 export const getTickets = async (req: Request, _res: Response, next: NextFunction) => {
@@ -26,9 +27,7 @@ export const createTicket = async (req: Request, _res: Response, next: NextFunct
 export const removeTicket = async (req: Request, res: Response, next: NextFunction) => {
   const id = parseInt(req.params.id)
   if (!isNaN(id)) {
-    const deletedCount = await Ticket.query()
-      .findById(id)
-      .delete()
+    const deletedCount = await Ticket.query().deleteById(id)
 
     if (deletedCount === 0) {
       res.status(404).send({ message: 'Nem található hibajegy a megadott ID-val' })

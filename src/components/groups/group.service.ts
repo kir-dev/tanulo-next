@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction} from 'express'
+
 import { Group } from './group'
 import { User } from '../users/user'
 import { formatMdToSafeHTML } from '../../util/convertMarkdown'
@@ -55,11 +56,13 @@ export const createGroup = async (req: Request, res: Response, next: NextFunctio
 }
 
 export const removeGroup = async (req: Request, res: Response, next: NextFunction) => {
-  await Group.relatedQuery('users')
-    .for(req.group.id)
-    .unrelate()
+  await Group.transaction(async trx => {
+    await Group.relatedQuery('users', trx)
+      .for(req.group.id)
+      .unrelate()
 
-  await Group.query().deleteById(req.group.id)
+    await Group.query(trx).deleteById(req.group.id)
+  })
 
   next()
 }

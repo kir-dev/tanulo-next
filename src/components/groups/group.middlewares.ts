@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { check } from 'express-validator'
-import * as ics from 'ics'
 import { writeFileSync } from 'fs'
+import * as ics from 'ics'
 import winston from 'winston'
 
 import { User } from '../users/user'
