@@ -42,7 +42,7 @@
     "markdown-it": "^11.0.0",
     "multer": "^1.4.2",
     "node-fetch": "^2.6.0",
-    "objection": "^2.2.0",
+    "objection": "^2.2.1",
     "passport": "^0.4.0",
     "passport-oauth2": "^1.5.0",
     "pg": "^8.2.1",
