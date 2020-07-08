@@ -1411,12 +1411,11 @@ buffer-writer@2.0.0:
   resolved "https://registry.yarnpkg.com/buffer-writer/-/buffer-writer-2.0.0.tgz#ce7eb81a38f7829db09c873f2fbb792c0c98ec04"
   integrity sha512-a7ZpuTZU1TRtnwyCNW3I5dc0wWNC3VR9S++Ewyk2HHZdrO3CQJqSpd+95Us590V6AL7JqUAH2IwZ/398PmNFgw==
 
-bulma-calendar@^6.0.7:
-  version "6.0.7"
-  resolved "https://registry.yarnpkg.com/bulma-calendar/-/bulma-calendar-6.0.7.tgz#123b39c6f237745f1595254d5bb7c193feb0905b"
-  integrity sha512-hSb8Y8myovv0e0SIPLVPZGtaGIzL/6SkZM3JiK9OaqjcCZFtYYjBaYCpLstn93J95+46sf8KU9LHIxU4o+b1kg==
+bulma-calendar@^6.0.8:
+  version "6.0.8"
+  resolved "https://registry.yarnpkg.com/bulma-calendar/-/bulma-calendar-6.0.8.tgz#0cbc1bae2aeefa51858e64e4c2b55399bbb9d685"
+  integrity sha512-jCK5c//0LUTLU8CUMCBGZUbycsLApuKm0CsVVmCcymk+9k3hMsuhkfDtP3kHYgaM/Jr7XRNx/JfS/PMUTOkJhQ==
   dependencies:
-    bulma latest
     date-and-time "^0.6.3"
     date-fns "^1.29.0"
 
@@ -1429,11 +1428,6 @@ bulma@^0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.9.0.tgz#948c5445a49e9d7546f0826cb3820d17178a814f"
   integrity sha512-rV75CJkubNUroAt0qCRkjznZLoaXq/ctfMXsMvKSL84UetbSyx5REl96e8GoQ04G4Tkw0XF3STECffTOQrbzOQ==
-
-bulma@latest:
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.8.2.tgz#5d928f16ed4a84549c2873f95c92c38c69c631a7"
-  integrity sha512-vMM/ijYSxX+Sm+nD7Lmc1UgWDy2JcL2nTKqwgEqXuOMU+IGALbXd5MLt/BcjBAPLIx36TtzhzBcSnOP974gcqA==
 
 busboy@^0.2.11:
   version "0.2.14"
