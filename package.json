@@ -45,7 +45,7 @@
     "objection": "^2.2.1",
     "passport": "^0.4.0",
     "passport-oauth2": "^1.5.0",
-    "pg": "^8.2.1",
+    "pg": "^8.2.2",
     "pug": "^3.0.0",
     "sanitize-html": "^1.27.0",
     "winston": "^3.3.3"
