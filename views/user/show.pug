@@ -3,6 +3,7 @@ extends ../layouts/main
 block content
   h1.title= userToShow.name
   if user.id === userToShow.id
+    h2.subtitle.my-5 Személyes beállítások
     .field.has-addons
       .control.has-icons-left
         input.input(id="floor-input", type="number", min="3", max="18", placeholder="Szint", title="Szint", value=user.floor)
@@ -17,12 +18,33 @@ block content
         button.button.is-danger(type="submit") Admin jog megvonása
       else
         button.button.is-link(type="submit") Admin jog adása
-  h2.subtitle Csoportok
-  ul
-    each group in userToShow.groups
-      li
-        a(href=`/groups/${group.id}`)
-          p= group.name
+
+  - const isUpcoming = (element) => element.endDate > Date.now();
+  - const isOld = (element) => element.endDate <= Date.now()
+
+  if userToShow.groups.some(isUpcoming)
+    h3.subtitle.my-5 Közelgő csoportesemények
+  .columns.is-multiline
+    each group in userToShow.groups.filter(isUpcoming)
+      .column.is-one-quarter-desktop.is-half-tablet.is-full-mobile(style="overflow-wrap: break-word;")
+        a.box.is-radiusless(href=`/groups/${group.id}`)
+          if user.id === group.ownerId
+            .is-pulled-right
+              span.icon.is-size-7.pl-4.pb-4
+                i.fas.fa-fw.fa-crown
+          span= group.name
+
+  if userToShow.groups.some(isOld)
+    h3.subtitle.my-5 Elmúlt csoportesemények
+  .columns.is-multiline
+    each group in userToShow.groups.filter(isOld)
+      .column.is-one-quarter-desktop.is-half-tablet.is-full-mobile(style="overflow-wrap: break-word;")
+        a.box.is-radiusless(href=`/groups/${group.id}`)
+          if user.id === group.ownerId
+            .is-pulled-right
+              span.icon.is-size-7.pl-4.pb-4
+                i.fas.fa-fw.fa-crown
+          span= group.name
 
 block scripts
   script(src="/js/user.js")
