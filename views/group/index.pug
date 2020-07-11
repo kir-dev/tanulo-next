@@ -9,9 +9,9 @@ block content
   if paginationOpt.pageNum > 1
     include ./pagination
 
-  .cards.groups
+  .cards
     each group in groups
-      .card.group
+      .card.mb-2.mt-4
         a.card-header(href=`/groups/${group.id}`).is-shadowless
           .card-header-title
             .title #{group.name}
@@ -20,7 +20,7 @@ block content
             span.icon.is-medium(class=`has-text-${group.doNotDisturb ? 'danger': 'success'}`)
               i.fas.fa-lg(class=`fa-${group.doNotDisturb ? '': 'un'}lock`)
         .card-content
-          .content !{group.description}
+          .content.break-long-words !{group.description}
           if group.tags
             .has-text-right
               - const tags = group.tags.split(",")

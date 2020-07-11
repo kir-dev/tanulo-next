@@ -48,7 +48,7 @@ article.message.alert-detail {
 }
 
 .break-long-words {
-  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .has-no-flex {
@@ -61,5 +61,4 @@ article.message.alert-detail {
 @import "../../node_modules/bulma-calendar/src/sass/index.sass";
 
 // Own imports
-@import "./group.scss";
 @import "./room.scss";
