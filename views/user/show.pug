@@ -26,8 +26,8 @@ block content
     h3.subtitle.my-5 Közelgő csoportesemények
   .columns.is-multiline
     each group in userToShow.groups.filter(isUpcoming)
-      .column.is-one-quarter-desktop.is-half-tablet.is-full-mobile(style="overflow-wrap: break-word;")
-        a.box.is-radiusless(href=`/groups/${group.id}`)
+      .column.is-one-third-desktop.is-half-tablet.is-full-mobile.break-long-words
+        a.box.is-fullheight(href=`/groups/${group.id}`)
           if user.id === group.ownerId
             .is-pulled-right
               span.icon.is-size-7.pl-4.pb-4
@@ -38,8 +38,8 @@ block content
     h3.subtitle.my-5 Elmúlt csoportesemények
   .columns.is-multiline
     each group in userToShow.groups.filter(isOld)
-      .column.is-one-quarter-desktop.is-half-tablet.is-full-mobile(style="overflow-wrap: break-word;")
-        a.box.is-radiusless(href=`/groups/${group.id}`)
+      .column.is-one-third-desktop.is-half-tablet.is-full-mobile.break-long-words
+        a.box.is-fullheight(href=`/groups/${group.id}`)
           if user.id === group.ownerId
             .is-pulled-right
               span.icon.is-size-7.pl-4.pb-4

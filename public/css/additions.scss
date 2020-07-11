@@ -55,6 +55,10 @@ article.message.alert-detail {
   flex: unset;
 }
 
+.is-fullheight {
+  height: 100%;
+}
+
 // Additional bulma extensions
 @import "../../node_modules/bulma-tooltip/src/sass/index.sass";
 @import "../../node_modules/@creativebulma/bulma-tagsinput/src/sass/index.sass";
