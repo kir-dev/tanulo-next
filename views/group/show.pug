@@ -3,7 +3,7 @@ extends ../layouts/main
 block content
   .group-show
     .columns
-      .column.is-narrow
+      .column.is-narrow(style="flex: unset;")
         h1.title= group.name
       .column.has-text-right
         .dropdown.is-right.has-text-left
@@ -84,7 +84,7 @@ block content
     if group.description
       p.menu-label Leírás
       article.message.content
-        .message-body !{group.description}
+        .message-body(style="overflow-wrap: break-word;") !{group.description}
 
     table.table.is-fullwidth.is-hoverable
       thead
