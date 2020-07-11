@@ -3,6 +3,7 @@ import { check } from 'express-validator'
 import { writeFileSync } from 'fs'
 import * as ics from 'ics'
 import winston from 'winston'
+import { differenceInMinutes } from 'date-fns'
 
 import { User } from '../users/user'
 import { Group } from './group'
@@ -107,7 +108,7 @@ export const validateGroup = () => {
       .custom((value, { req }) => new Date(value).getTime() < new Date(req.body.endDate).getTime())
       .withMessage('A kezdés nem lehet korábban, mint a befejezés')
       .custom((value, { req }) => 
-        new Date(req.body.endDate).getTime() - new Date(value).getTime() <= 5*3600*1000)
+        differenceInMinutes(new Date(req.body.endDate), new Date(value)) <= 5*60)
       .withMessage('Az foglalás időtartama nem lehet hosszabb 5 óránál'),
     check('endDate', 'A befejezés időpontja kötelező')
       .exists({ checkFalsy: true, checkNull: true }),
