@@ -6,9 +6,9 @@ block content
       h1.title.is-1 Hibajegyek
     .column.is-narrow
       a.button.is-link(href="tickets/new") Új hibajegy
-  .cards.tickets
+  .cards
     each ticket in tickets
-      .card.ticket(id=`ticket-${ticket.id}`)
+      .card.mb-2.mt-4(id=`ticket-${ticket.id}`)
         header.card-header.is-shadowless
           .card-header-title
             .title Szint: #{ticket.roomNumber}
@@ -18,7 +18,7 @@ block content
               span.icon.is-medium.has-text-danger
                 i.fas.fa-lg.fa-trash-alt
         .card-content
-          .content !{ticket.description}
+          .content.break-long-words !{ticket.description}
         .card-footer
           .card-footer-item
             span.icon

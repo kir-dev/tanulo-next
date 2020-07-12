@@ -47,11 +47,18 @@ article.message.alert-detail {
   animation: slide-down 0.3s ease-in;
 }
 
+.break-long-words {
+  word-wrap: break-word;
+}
+
+.has-no-flex {
+  flex: unset;
+}
+
 // Additional bulma extensions
 @import "../../node_modules/bulma-tooltip/src/sass/index.sass";
 @import "../../node_modules/@creativebulma/bulma-tagsinput/src/sass/index.sass";
 @import "../../node_modules/bulma-calendar/src/sass/index.sass";
 
 // Own imports
-@import "./group.scss";
 @import "./room.scss";
