@@ -25,6 +25,10 @@ block content
                   i.fas.fa-copy
                 span &nbsp;Másolás
               if isOwner
+                a.dropdown-item(href=`/groups/${group.id}/edit`)
+                  span.icon
+                    i.fas.fa-edit
+                  span &nbsp;Módosítás
                 hr.dropdown-divider
                 a.dropdown-item(onclick=`deleteGroup(${group.id})`)
                   span.icon.has-text-danger

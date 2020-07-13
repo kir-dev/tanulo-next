@@ -44,8 +44,28 @@ const addGroup = (event) => {
   }
 }
 
+const editGroup = (event) => {
+  event.preventDefault()
+  const formData = new FormData(event.target)
+  const errors = validateGroup(formData)
+
+  if (errors.length) {
+    clearMessages()
+    errors.forEach((err) => displayMessage('danger', err))
+  } else {
+    fetch(`/groups/${groupId}`, { method: 'PUT', body: formData })
+      .then(handleResponse)
+      .catch((err) => displayMessage('danger', err))
+  }
+}
+
 const formEl = document.getElementById('group-form')
-formEl.addEventListener('submit', addGroup)
+formEl.addEventListener('submit', (event) => {
+  if (typeof isEditing !== 'undefined' && isEditing)
+    editGroup(event)
+  else
+    addGroup(event)
+})
 
 const calendarOptions = {
   plugins: ['timeGrid'],

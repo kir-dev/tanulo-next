@@ -17,7 +17,6 @@ const options = {
   dateFormat: 'YYYY-MM-DD',
   showClearButton: false,
   enableYearSwitch: false,
-  minDate: Date(),
   weekStart: 1,
   closeOnSelect: false,
   showHeader: false,
@@ -37,53 +36,51 @@ Array.from(clearButtons).forEach(button => {
 //Main logic for manipulating dates and times
 const now = new Date()
 now.setMinutes(0, 0, 0)
-let startDef = now.addHours(1)
-let endDef = now.addHours(2)
+let defDate = { start: now.addHours(1), end: now.addHours(2) }
 
 if (typeof range !== 'undefined') {
-  const parsedStart = new Date(range.start)
-  if (parsedStart >= now) {
-    startDef = parsedStart
-    endDef = new Date(range.end)
-  }
+  const parsed = { start: new Date(range.start), end: new Date(range.end) }
+
+  //In case of valid range selection or editing state, we can pass original range
+  if ((parsed.start >= now) || (typeof isEditing !== 'undefined' && isEditing))
+    defDate = parsed
   else
     displayMessage('warning', 'Múltbéli időintervallumban csoport nem hozható létre')
 }
 
-function setPickerValue(picker, value) {
-  picker.clear()
-  picker.value(value)
+function refreshPickerInput(picker) {
   picker.datePicker.refresh()
   picker.timePicker.refresh()
   picker.save()
 }
 
-setPickerValue(pickerStart, startDef)
-setPickerValue(pickerEnd, endDef)
+function setPickerValue(picker, value) {
+  picker.clear()
+  picker.value(value)
+  refreshPickerInput(picker)
+}
 
-//Bypassing illegal time input
+setPickerValue(pickerStart, defDate.start)
+setPickerValue(pickerEnd, defDate.end)
+
+//Preventing crossing ranges
 pickerStart.on('hide', () => {
-  const startLocal = new Date(pickerStart.value())
-  const endLocal = new Date(pickerEnd.value())
-  if (startLocal >= endLocal) {
-    setPickerValue(pickerEnd, startLocal.addMinutes(5))
-  }
+  const local = { start: new Date(pickerStart.value()), end: new Date(pickerEnd.value()) }
+  if (local.start >= local.end)
+    setPickerValue(pickerEnd, local.start.addMinutes(5))
 })
 
 pickerEnd.on('hide', () => {
-  const startLocal = new Date(pickerStart.value())
-  const endLocal = new Date(pickerEnd.value())
-  if (startLocal >= endLocal) {
-    setPickerValue(pickerStart, endLocal.addMinutes(-5))
-  }
+  const local = { start: new Date(pickerStart.value()), end: new Date(pickerEnd.value()) }
+  if (local.start >= local.end)
+    setPickerValue(pickerStart, local.end.addMinutes(-5))
 })
 
+//Closing picker when clicking out of it
 window.addEventListener('click', e => {
-  if (!document.getElementById('pickerStart') != e.target) {
+  if (!document.getElementById('pickerStart') != e.target)
     pickerStart.hide()
-  }
 
-  if (!document.getElementById('pickerEnd') != e.target) {
+  if (!document.getElementById('pickerEnd') != e.target)
     pickerEnd.hide()
-  }
 })

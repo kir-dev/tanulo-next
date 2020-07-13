@@ -138,6 +138,7 @@ export const checkConflicts = asyncWrapper(
               .andWhere('endDate', '<=', group.endDate)
           })
       })
+      .andWhereNot({ id: req.params.id ?? null })
 
     if (conflictingGroups.length) {
       res.status(400).json(
@@ -149,4 +150,5 @@ export const checkConflicts = asyncWrapper(
     } else {
       next()
     }
-  })
+  }
+)
