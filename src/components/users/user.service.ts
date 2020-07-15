@@ -11,7 +11,12 @@ interface OAuthUser {
 export const getUser = async (req: Request, res: Response, next: NextFunction) => {
   const user = await User.query()
     .findOne({ id: parseInt(req.params.id) })
-    .withGraphFetched('groups')
+    .withGraphFetched('groups(orderByEndDate)')
+    .modifiers({
+      orderByEndDate(builder) {
+        builder.orderBy('endDate', 'DESC')
+      }
+    })
 
   if (!user) {
     res.render('error/not-found')
