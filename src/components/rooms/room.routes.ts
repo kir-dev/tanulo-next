@@ -17,7 +17,7 @@ const show = asyncWrapper(async (req: Request, res: Response) => {
   }
 });
 
-const getGroupsForRoom = asyncWrapper(async (req: Request, res: Response, _next:NextFunction) => {
+const getGroupsForRoom = asyncWrapper(async (req: Request, res: Response, _next: NextFunction) => {
   const events = await getEventsForRoom(+req.params.id)
   res.json(
     events.map(event => ({
