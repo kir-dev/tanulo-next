@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 
 import { User } from './user'
+import { asyncWrapper } from '../../util/asyncWrapper';
 
 interface OAuthUser {
   displayName: string
@@ -8,7 +9,7 @@ interface OAuthUser {
   mail: string
 }
 
-export const getUser = async (req: Request, res: Response, next: NextFunction) => {
+export const getUser = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const user = await User.query()
     .findOne({ id: parseInt(req.params.id) })
     .withGraphFetched('groups(orderByEndDate)')
@@ -24,9 +25,9 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
     req.userToShow = user
     next()
   }
-}
+});
 
-export const toggleAdmin = async (req: Request, res: Response, next: NextFunction) => {
+export const toggleAdmin = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const user = await User.query().findOne({ id: parseInt(req.params.id) })
 
   if (!user) {
@@ -37,14 +38,14 @@ export const toggleAdmin = async (req: Request, res: Response, next: NextFunctio
       .where({ id: user.id })
     next()
   }
-}
+});
 
-export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+export const updateUser = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const id = (req.user as User).id
   req.user = await User.query().patchAndFetchById(id, { ...req.body })
 
   next()
-}
+});
 
 export const createUser = async (user: OAuthUser) => {
   return await User.transaction(async trx => {

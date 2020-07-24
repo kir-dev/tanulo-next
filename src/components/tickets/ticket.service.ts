@@ -2,16 +2,17 @@ import { Ticket } from './ticket'
 import { Request, Response, NextFunction } from 'express'
 
 import { formatMdToSafeHTML } from '../../util/convertMarkdown'
+import { asyncWrapper } from '../../util/asyncWrapper';
 
-export const getTickets = async (req: Request, _res: Response, next: NextFunction) => {
+export const getTickets = asyncWrapper(async (req: Request, _res: Response, next: NextFunction) => {
   req.tickets = (await Ticket.query().orderBy('createdAt', 'ASC')).map(ticket => {
     ticket.description = formatMdToSafeHTML(ticket.description)
     return ticket
   })
   next()
-}
+});
 
-export const createTicket = async (req: Request, _res: Response, next: NextFunction) => {
+export const createTicket = asyncWrapper(async (req: Request, _res: Response, next: NextFunction) => {
   await Ticket.transaction(async trx => {
     return await Ticket.query(trx)
       .insert(
@@ -22,9 +23,9 @@ export const createTicket = async (req: Request, _res: Response, next: NextFunct
       )
   })
   next()
-}
+});
 
-export const removeTicket = async (req: Request, res: Response, next: NextFunction) => {
+export const removeTicket = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const id = parseInt(req.params.id)
   if (!isNaN(id)) {
     const deletedCount = await Ticket.query().deleteById(id)
@@ -37,4 +38,4 @@ export const removeTicket = async (req: Request, res: Response, next: NextFuncti
   } else {
     res.status(404).send({ message: 'A megadott ID nem megfelelő formátumú' })
   }
-}
+});

@@ -1,22 +1,23 @@
-import { Request, Response, Router } from 'express'
+import { Request, Response, Router, NextFunction } from 'express'
 
 import { getBusyRooms, getEventsForRoom } from './room.service'
 import { ROOMS } from '../../util/constants'
+import { asyncWrapper } from '../../util/asyncWrapper';
 
-export const index = async (req: Request, res: Response) => {
+export const index = asyncWrapper(async (req: Request, res: Response) => {
   const busyRooms = await getBusyRooms()
   res.render('room/index', { busyRooms, ROOMS })
-}
+});
 
-const show = async (req: Request, res: Response) => {
+const show = asyncWrapper(async (req: Request, res: Response) => {
   if (+req.params.id <= 18 && +req.params.id >= 3) {
     res.render('room/calendar', { room: req.params.id })
   } else {
     res.redirect('/not-found')
   }
-}
+});
 
-const getGroupsForRoom = async (req: Request, res: Response) => {
+const getGroupsForRoom = asyncWrapper(async (req: Request, res: Response, _next:NextFunction) => {
   const events = await getEventsForRoom(+req.params.id)
   res.json(
     events.map(event => ({
@@ -26,7 +27,7 @@ const getGroupsForRoom = async (req: Request, res: Response) => {
       groupId: event.id
     }))
   )
-}
+});
 
 const router = Router()
 
