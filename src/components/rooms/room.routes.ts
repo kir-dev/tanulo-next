@@ -2,12 +2,12 @@ import { Request, Response, Router, NextFunction } from 'express'
 
 import { getBusyRooms, getEventsForRoom } from './room.service'
 import { ROOMS } from '../../util/constants'
-import { asyncWrapper } from '../../util/asyncWrapper';
+import { asyncWrapper } from '../../util/asyncWrapper'
 
 export const index = asyncWrapper(async (req: Request, res: Response) => {
   const busyRooms = await getBusyRooms()
   res.render('room/index', { busyRooms, ROOMS })
-});
+})
 
 const show = asyncWrapper(async (req: Request, res: Response) => {
   if (+req.params.id <= 18 && +req.params.id >= 3) {
@@ -15,7 +15,7 @@ const show = asyncWrapper(async (req: Request, res: Response) => {
   } else {
     res.redirect('/not-found')
   }
-});
+})
 
 const getGroupsForRoom = asyncWrapper(async (req: Request, res: Response, _next: NextFunction) => {
   const events = await getEventsForRoom(+req.params.id)
@@ -27,7 +27,7 @@ const getGroupsForRoom = asyncWrapper(async (req: Request, res: Response, _next:
       groupId: event.id
     }))
   )
-});
+})
 
 const router = Router()
 

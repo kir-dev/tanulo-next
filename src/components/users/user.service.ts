@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 
 import { User } from './user'
-import { asyncWrapper } from '../../util/asyncWrapper';
+import { asyncWrapper } from '../../util/asyncWrapper'
 
 interface OAuthUser {
   displayName: string
@@ -25,7 +25,7 @@ export const getUser = asyncWrapper(async (req: Request, res: Response, next: Ne
     req.userToShow = user
     next()
   }
-});
+})
 
 export const toggleAdmin = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const user = await User.query().findOne({ id: parseInt(req.params.id) })
@@ -38,14 +38,14 @@ export const toggleAdmin = asyncWrapper(async (req: Request, res: Response, next
       .where({ id: user.id })
     next()
   }
-});
+})
 
 export const updateUser = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const id = (req.user as User).id
   req.user = await User.query().patchAndFetchById(id, { ...req.body })
 
   next()
-});
+})
 
 export const createUser = async (user: OAuthUser) => {
   return await User.transaction(async trx => {
