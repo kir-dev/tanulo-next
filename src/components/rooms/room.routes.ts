@@ -1,4 +1,4 @@
-import { Request, Response, Router, NextFunction } from 'express'
+import { Request, Response, Router } from 'express'
 
 import { getBusyRooms, getEventsForRoom } from './room.service'
 import { ROOMS } from '../../util/constants'
@@ -17,7 +17,7 @@ const show = asyncWrapper(async (req: Request, res: Response) => {
   }
 })
 
-const getGroupsForRoom = asyncWrapper(async (req: Request, res: Response, _next: NextFunction) => {
+const getGroupsForRoom = asyncWrapper(async (req: Request, res: Response) => {
   const events = await getEventsForRoom(+req.params.id)
   res.json(
     events.map(event => ({
