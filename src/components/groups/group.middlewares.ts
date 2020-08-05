@@ -7,8 +7,9 @@ import { differenceInMinutes } from 'date-fns'
 
 import { User } from '../users/user'
 import { Group } from './group'
+import { asyncWrapper } from '../../util/asyncWrapper'
 
-export const joinGroup = async (req: Request, res: Response, next: NextFunction) => {
+export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const user = req.user as User
   const group = req.group
 
@@ -19,24 +20,24 @@ export const joinGroup = async (req: Request, res: Response, next: NextFunction)
       .relate(user.id)
   }
   next()
-}
-
-export const leaveGroup = async (req: Request, res: Response, next: NextFunction) => {
+})
+export const leaveGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   await Group.relatedQuery('users')
     .for(req.group.id)
     .unrelate()
     .where('user_id', (req.user as User).id)
 
   next()
-}
+})
 
-export const isGroupOwner = async (req: Request, res: Response, next: NextFunction) => {
-  if ((req.user as User)?.id === req.group.ownerId) {
-    next()
-  } else {
-    res.render('error/forbidden')
-  }
-}
+export const isGroupOwner = asyncWrapper(
+  async (req: Request, res: Response, next: NextFunction) => {
+    if ((req.user as User)?.id === req.group.ownerId) {
+      next()
+    } else {
+      res.render('error/forbidden')
+    }
+  })
 
 export const createICSEvent = (req: Request, res: Response) => {
   const group = req.group
@@ -119,32 +120,33 @@ export const validateGroup = () => {
   ]
 }
 
-export const checkConflicts = async (req: Request, res: Response, next: NextFunction) => {
-  const group = req.body as Group
-  const conflictingGroups = await Group.query()
-    .where({ room: group.room })
-    .andWhere(builder => {
-      builder
-        .where(bld => {
-          bld
-            .where('startDate', '<', group.endDate)
-            .andWhere('endDate', '>=', group.endDate)
-        })
-        .orWhere(bld => {
-          bld
-            .where('endDate', '>', group.startDate)
-            .andWhere('endDate', '<=', group.endDate)
-        })
-    })
+export const checkConflicts = asyncWrapper(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const group = req.body as Group
+    const conflictingGroups = await Group.query()
+      .where({ room: group.room })
+      .andWhere(builder => {
+        builder
+          .where(bld => {
+            bld
+              .where('startDate', '<', group.endDate)
+              .andWhere('endDate', '>=', group.endDate)
+          })
+          .orWhere(bld => {
+            bld
+              .where('endDate', '>', group.startDate)
+              .andWhere('endDate', '<=', group.endDate)
+          })
+      })
 
-  if (conflictingGroups.length) {
-    res.status(400).json(
-      {
-        errors: conflictingGroups.map(group =>
-          ({ msg: `Az időpont ütközik a(z) ${group.name} csoporttal` }))
-      }
-    )
-  } else {
-    next()
-  }
-}
+    if (conflictingGroups.length) {
+      res.status(400).json(
+        {
+          errors: conflictingGroups.map(group =>
+            ({ msg: `Az időpont ütközik a(z) ${group.name} csoporttal` }))
+        }
+      )
+    } else {
+      next()
+    }
+  })
