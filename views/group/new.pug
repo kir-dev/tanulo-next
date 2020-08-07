@@ -8,7 +8,10 @@ block styles
   link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.3.0/main.min.css")
 
 block content
-  h1.title Új csoport felvétele
+  if isEditing
+    h1.title Csoport módosítása
+  else
+    h1.title Új csoport felvétele
   form(id="group-form")
     .field
       label.label(for="name") Csoport neve
@@ -47,13 +50,21 @@ block content
         textarea.textarea(name="description", id="desc")
     .field
       .control
-        input(type="checkbox", name="doNotDisturb" id="doNotDisturb")
-        label.checkbox(for="doNotDisturb") Nem szeretném, hogy mások csatlakozzanak
+        input(type="checkbox", name="doNotDisturb", id="doNotDisturb", checked=(isEditing && doNotDisturb))
+        label.checkbox.pl-2.is-inline(for="doNotDisturb") Nem szeretném, hogy mások csatlakozzanak
     .field
       .control
-        button.button.is-link(type="submit", id="submitBtn", disabled)
-          i.fas.fa-plus
-          span &nbsp;Csoport létrehozása
+        if isEditing
+          a.button.is-danger.my-3.mr-3(href=`/groups/${groupId}`)
+            i.fas.fa-times
+            span &nbsp;Elvetés
+          button.button.is-link.my-3(type="submit", id="submitBtn", disabled)
+            i.fas.fa-check
+            span &nbsp;Mentés
+        else
+          button.button.is-link.my-3(type="submit", id="submitBtn", disabled)
+            i.fas.fa-plus
+            span &nbsp;Csoport létrehozása
   #quickviewDefault.quickview
     header.quickview-header
       p.title Szint foglaltsága
@@ -65,18 +76,21 @@ block content
 block scripts
   if start && end
     script const range = { start: !{JSON.stringify(start)}, end: !{JSON.stringify(end)} }
-  script(src="https://cdn.jsdelivr.net/npm/bulma-calendar@6.0.7/dist/js/bulma-calendar.min.js")
+  if isEditing
+    script const isEditing = true
+    script const groupId = !{JSON.stringify(groupId)}
   if description
     script const description = !{JSON.stringify(description)}
+  script(src="https://cdn.jsdelivr.net/npm/bulma-calendar@6.0.9/dist/js/bulma-calendar.min.js")
+  script(src="/js/picker.js")
   script(src="https://unpkg.com/easymde@2.10.1/dist/easymde.min.js")
+  script(src="/js/md-editor.js")
   script(src="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tagsinput@1.0.2/dist/js/bulma-tagsinput.min.js")
   script(src="https://unpkg.com/bulma-quickview@2.0.0/dist/js/bulma-quickview.min.js")
   script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.3.0/main.js')
   script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.js')
   script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.3.0/main.min.js')
-  script(src="/js/picker.js")
   script(src="/js/group/create.js")
-  script(src="/js/md-editor.js")
   script.
     new BulmaTagsInput('#tags', {
       maxTags: 8,

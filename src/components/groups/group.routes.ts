@@ -19,7 +19,7 @@ import {
   checkConflicts,
   validateGroup
 } from './group.middlewares'
-import { createGroup, getGroup, getGroups, removeGroup } from './group.service'
+import { createGroup, getGroup, getGroups, updateGroup, removeGroup } from './group.service'
 
 const router = Router()
 
@@ -103,6 +103,39 @@ router.get('/:id/copy',
       tags: req.group.tags,
       ROOMS
     })
+)
+
+router.get('/:id/edit',
+  isAuthenticated,
+  checkIdParam,
+  getGroup,
+  isGroupOwner,
+  (req, res) =>
+    res.render('group/new', {
+      roomId: req.group.room,
+      name: req.group.name,
+      start: req.group.startDate,
+      end: req.group.endDate,
+      description: req.group.description,
+      tags: req.group.tags,
+      doNotDisturb: req.group.doNotDisturb,
+      ROOMS,
+      isEditing: true,
+      groupId: req.group.id
+    })
+)
+
+router.put('/:id',
+  isAuthenticated,
+  checkIdParam,
+  getGroup,
+  isGroupOwner,
+  multer().none(),
+  validateGroup(),
+  handleValidationError(400),
+  checkConflicts,
+  updateGroup,
+  (req: Request, res: Response) => res.sendStatus(201)
 )
 
 router.get('/:id/export', isAuthenticated, checkIdParam, getGroup, createICSEvent)

@@ -28,7 +28,8 @@ export const getGroup = asyncWrapper(async (req: Request, res: Response, next: N
     .withGraphFetched('users')
 
   if (group) {
-    if (req.path.includes('/copy'))
+    // Getting raw description for /copy and /edit pages
+    if (/\/copy|\/edit/.test(req.path))
       req.group = group
     else
       req.group = { ...group, description: formatMdToSafeHTML(group.description) } as Group
@@ -52,6 +53,26 @@ export const createGroup = asyncWrapper(async (req: Request, res: Response, next
         ownerId: (req.user as User).id
       }
     )
+
+  next()
+})
+
+export const updateGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
+  await Group.query()
+    .patch({
+      name: req.body.name,
+      tags: req.body.tags ?? '',
+      room: parseInt(req.body.room),
+      description: req.body.description,
+      doNotDisturb: !!req.body.doNotDisturb,
+      startDate: new Date(req.body.startDate),
+      endDate: new Date(req.body.endDate)
+    })
+    .findById(req.params.id)
+    .catch((err) => {
+      console.log(err)
+      return next(err)
+    })
 
   next()
 })
