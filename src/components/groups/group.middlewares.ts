@@ -123,6 +123,8 @@ export const validateGroup = () => {
 export const checkConflicts = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
     const group = req.body as Group
+    group.startDate = new Date(req.body.startDate)
+    group.endDate = new Date(req.body.endDate)
     const conflictingGroups = await Group.query()
       .where({ room: group.room })
       .andWhere(builder => {
