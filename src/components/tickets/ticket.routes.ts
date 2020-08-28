@@ -4,8 +4,8 @@ import { check } from 'express-validator'
 import multer from 'multer'
 
 import { isAdmin, isAuthenticated } from '../../config/passport'
-import { DATE_FORMAT, ROOMS } from '../../util/constants'
-import { createTicket, getTickets, removeTicket } from './ticket.service'
+import { DATE_FORMAT, ROOMS, STATUSES } from '../../util/constants'
+import { createTicket, getTickets, moveTicket, removeTicket } from './ticket.service'
 import { handleValidationError } from '../../util/validators'
 
 const router = Router()
@@ -14,10 +14,26 @@ router.get('/', isAuthenticated, getTickets, (req, res) =>
   res.render('ticket/index', {
     tickets: req.tickets,
     format,
-    DATE_FORMAT
+    DATE_FORMAT,
+    STATUSES
   }))
 
 router.get('/new', isAuthenticated, (_req, res) => res.render('ticket/new', { ROOMS }))
+
+router.put('/:id',
+  isAuthenticated,
+  isAdmin,
+  multer().none(),
+  [
+    check('status')
+      .notEmpty()
+      .withMessage('A státusz nem lehet üres')
+      .isString()
+  ],
+  handleValidationError(400),
+  moveTicket, (_req, res) =>
+    res.sendStatus(201)
+)
 
 router.post('/',
   isAuthenticated,

@@ -1,3 +1,10 @@
 export const ROOMS = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
 
 export const DATE_FORMAT = 'yyyy-MM-dd HH:mm'
+
+export const STATUSES = new Map<string, string>([
+  [ 'SENT', 'Elküldve'],
+  ['IN_PROGRESS', 'Folyamatban'],
+  ['DONE', 'Kész'],
+  ['ARCHIVED', 'Archiválva']
+])
