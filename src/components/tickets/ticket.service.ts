@@ -1,4 +1,4 @@
-import { Ticket } from './ticket'
+import { statusType, Ticket } from './ticket'
 import { Request, Response, NextFunction } from 'express'
 
 import { formatMdToSafeHTML } from '../../util/convertMarkdown'
@@ -23,6 +23,13 @@ export const createTicket = asyncWrapper(
           }
         )
     })
+    next()
+  })
+
+export const moveTicket = asyncWrapper(
+  async (req: Request, _res: Response, next: NextFunction) => {
+    const id = parseInt(req.params.id)
+    await Ticket.query().findById(id).patch({ status: req.body.status || statusType.SENT })
     next()
   })
 

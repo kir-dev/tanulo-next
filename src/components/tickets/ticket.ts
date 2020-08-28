@@ -1,9 +1,17 @@
 import { Model } from 'objection'
 
+export enum statusType { 
+  SENT = 'SENT',
+  IN_PROGRESS = 'IN_PROGRESS',
+  DONE = 'DONE',
+  ARCHIVED ='ARCHIVED'
+}
+
 export class Ticket extends Model {
   id!: number
   description: string
   roomNumber: number
+  status: statusType
   createdAt: Date
 
   $beforeInsert() {
@@ -22,7 +30,8 @@ export class Ticket extends Model {
       properties: {
         id: { type: 'integer' },
         description: { type: 'string' , maxLenght: 500 },
-        roomNumber: { type: 'integer' }
+        roomNumber: { type: 'integer' },
+        status: { type: 'string' },
       }
     }
   }

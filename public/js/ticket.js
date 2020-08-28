@@ -70,3 +70,28 @@ function addTicket() {
       .catch((err) => displayMessage('danger', err))
   }
 }
+
+function moveTicket(id) {
+  const formEl = document.getElementById(`ticket-form-${id}`)
+  const formData = new FormData(formEl)
+  fetch(`/tickets/${id}`, { 
+    method: 'PUT', 
+    body: formData
+  })
+    .then(async (res) => {
+      switch (res.status) {
+      case 201:
+        location.href = '/tickets'
+        break
+      case 400:
+        const data = await res.json()
+        clearMessages()
+        data.errors.forEach((err) => displayMessage('danger', err.msg))
+        break
+      case 401:
+        displayMessage('danger', UNAUTHORIZED_MESSAGE)
+        break
+      }
+    })
+    .catch((err) => displayMessage('danger', err))
+}
