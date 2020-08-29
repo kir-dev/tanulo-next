@@ -1,6 +1,6 @@
 import { Model } from 'objection'
 
-export enum statusType { 
+export enum StatusType { 
   SENT = 'SENT',
   IN_PROGRESS = 'IN_PROGRESS',
   DONE = 'DONE',
@@ -11,7 +11,7 @@ export class Ticket extends Model {
   id!: number
   description: string
   roomNumber: number
-  status: statusType
+  status: StatusType
   createdAt: Date
 
   $beforeInsert() {
