@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "yarn run serve",
-    "build": "yarn run build-sass && yarn run build-ts && yarn run lint && yarn run copy-static-assets",
+    "build": "del-cli dist/ && yarn run build-sass && yarn run build-ts && yarn run lint && yarn run copy-static-assets",
     "build-prod": "yarn run build-sass && yarn run build-ts && yarn run copy-static-assets",
     "serve": "node dist/server.js",
     "migrate": "knex migrate:latest",
@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@creativebulma/bulma-tagsinput": "^1.0.2",
+    "agenda": "^3.1.0",
     "bulma": "^0.9.0",
     "bulma-calendar": "^6.0.9",
     "bulma-tooltip": "^3.0.2",
@@ -42,6 +43,7 @@
     "multer": "^1.4.2",
     "node-fetch": "^2.6.0",
     "objection": "^2.2.3",
+    "nodemailer": "^6.4.10",
     "passport": "^0.4.0",
     "passport-oauth2": "^1.5.0",
     "pg": "^8.3.3",
@@ -50,6 +52,7 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
+    "@types/agenda": "^2.0.8",
     "@types/compression": "^1.7.0",
     "@types/concurrently": "^5.2.1",
     "@types/errorhandler": "^1.5.0",
@@ -63,6 +66,7 @@
     "@types/node": "^14.6.1",
     "@types/node-fetch": "^2.5.7",
     "@types/node-sass": "^4.11.1",
+    "@types/nodemailer": "^6.4.0",
     "@types/passport": "^1.0.4",
     "@types/passport-oauth2": "^1.4.9",
     "@types/pug": "^2.0.4",
@@ -72,6 +76,7 @@
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
     "concurrently": "^5.3.0",
+    "del-cli": "^3.0.1",
     "eslint": "^6.4.0",
     "jest": "^25.5.4",
     "node-sass": "^4.14.1",

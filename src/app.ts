@@ -9,6 +9,7 @@ import passport from 'passport'
 
 import dbConfig = require('../knexfile')
 import { SESSION_SECRET } from './util/secrets'
+import agenda from './util/agenda'
 
 import userRouter from './components/users/user.routes'
 import ticketRouter from './components/tickets/ticket.routes'
@@ -18,6 +19,8 @@ import groupRouter from './components/groups/group.routes'
 const knex = Knex(dbConfig)
 
 Model.knex(knex)
+
+agenda.start()
 
 // Create Express server
 const app = express()

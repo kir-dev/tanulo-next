@@ -1,8 +1,9 @@
-import { Ticket } from './ticket'
-import { Request, Response, NextFunction } from 'express'
+import { NextFunction, Request, Response } from 'express'
 
+import agenda from '../../util/agenda'
 import { formatMdToSafeHTML } from '../../util/convertMarkdown'
 import { asyncWrapper } from '../../util/asyncWrapper'
+import { Ticket } from './ticket'
 
 export const getTickets = asyncWrapper(async (req: Request, _res: Response, next: NextFunction) => {
   req.tickets = (await Ticket.query().orderBy('createdAt', 'ASC')).map(ticket => {
@@ -23,6 +24,7 @@ export const createTicket = asyncWrapper(
           }
         )
     })
+    await agenda.now('new-ticket-notify')
     next()
   })
 
