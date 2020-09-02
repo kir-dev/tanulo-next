@@ -3,10 +3,33 @@ import { Request, Response, Router } from 'express'
 import { getBusyRooms, getEventsForRoom } from './room.service'
 import { ROOMS } from '../../util/constants'
 import { asyncWrapper } from '../../util/asyncWrapper'
+import { User } from '../users/user'
 
 export const index = asyncWrapper(async (req: Request, res: Response) => {
   const busyRooms = await getBusyRooms()
-  res.render('room/index', { busyRooms, ROOMS })
+  let rooms = ROOMS.map(floor => {
+    return {
+      floor,
+      busy: busyRooms.find(el => el.id == floor)
+    }
+  })
+  let userRoom
+  if (req.user) {
+    const user = (req.user as User)
+    const favorites = await User.relatedQuery('favorites').for(user.id)
+    if (favorites && favorites.length > 0)
+      rooms = rooms.map(room => {
+        return {
+          ...room,
+          favorite: favorites.some(el => el.room == room.floor)
+        }
+      }) 
+    if (user.floor && user.floor >= 3 && user.floor <= 18) {
+      userRoom = rooms.find(el => el.floor == user.floor)
+      rooms = rooms.filter(el => el.floor != user.floor)
+    }
+  } 
+  res.render('room/index', { rooms, userRoom })
 })
 
 const show = asyncWrapper(async (req: Request, res: Response) => {
