@@ -70,7 +70,7 @@ function addTicket() {
       .catch((err) => displayMessage('danger', err))
   }
 }
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function moveTicket(id) {
   const formEl = document.getElementById(`ticket-form-${id}`)
   const formData = new FormData(formEl)
