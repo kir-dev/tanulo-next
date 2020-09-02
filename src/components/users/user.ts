@@ -1,4 +1,5 @@
 import { Model } from 'objection'
+import { Favorite } from '../favorites/favorite'
 
 import { Group } from '../groups/group'
 
@@ -10,6 +11,7 @@ export class User extends Model {
   admin: boolean
   floor: number
   groups: Group[]
+  favorites: Favorite[]
   static get tableName() {
     return 'users'
   }
@@ -27,6 +29,15 @@ export class User extends Model {
             to: 'users_groups.groupId'
           },
           to: 'groups.id'
+        }
+      },
+      favorites: {
+        relation: Model.HasManyRelation,
+        modelClass: Favorite,
+
+        join: {
+          from: 'users.id',
+          to: 'favorites.userId'
         }
       }
     }

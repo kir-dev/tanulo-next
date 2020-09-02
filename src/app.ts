@@ -13,6 +13,7 @@ import { SESSION_SECRET } from './util/secrets'
 import userRouter from './components/users/user.routes'
 import ticketRouter from './components/tickets/ticket.routes'
 import roomRouter, { index } from './components/rooms/room.routes'
+import favoriteRouter from './components/favorites/favorite.routes'
 import groupRouter from './components/groups/group.routes'
 
 const knex = Knex(dbConfig)
@@ -72,6 +73,8 @@ app.use('/users', userRouter)
 app.use('/groups', groupRouter)
 
 app.use('/rooms', roomRouter)
+
+app.use('/favorites', favoriteRouter)
 
 app.use('/tickets', ticketRouter)
 
