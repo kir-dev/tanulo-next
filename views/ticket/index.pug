@@ -9,34 +9,36 @@ block content
   .cards
     each ticket in tickets
       .card.mb-2.mt-4(id=`ticket-${ticket.id}`)
-        header.card-header.is-shadowless
-          .card-header-title
+        header.card-header
+          .card-header-title.is-shadowless
             .title Szint: #{ticket.roomNumber}
               .subtitle ##{ticket.id}
-          if user.admin
-            form.ticket-status-selection(id=`ticket-form-${ticket.id}`)
-              .field
-                .control
-                  .select
-                    select(name="status", id="status", selected=ticket.status)
-                      each key in [...STATUSES.keys()]
-                        option(value=`${key}`, selected=key==ticket.status) #{STATUSES.get(key)}
-              .field
-                .control
-                  button.button.is-link(type="button", id="submitBtn", onclick=`moveTicket(${ticket.id})`)
-                    i.fas.fa-ticket-alt.mr-3
-                    span &nbsp;Hibajegy átmozgatása
-            a.card-header-icon(type="button", onclick=`deleteTicket(${ticket.id})`)
-              span.icon.is-medium.has-text-danger
-                i.fas.fa-lg.fa-trash-alt
+          a.card-header-icon(type="button", onclick=`deleteTicket(${ticket.id})`)
+            span.icon.is-medium.has-text-danger
+              i.fas.fa-lg.fa-trash-alt
         .card-content
           .content.break-long-words !{ticket.description}
           span Státusz: #{STATUSES.get(ticket.status) ? STATUSES.get(ticket.status): 'Ismeretlen'}
         .card-footer
           .card-footer-item
-            span.icon
+            span.icon.mr-2
               i.fas.fa-paper-plane
             time= format(ticket.createdAt, DATE_FORMAT)
+          .card-footer-item
+            if user.admin
+              form(id=`ticket-form-${ticket.id}`)
+                .columns
+                  .field.mt-3.ml-3
+                    .control
+                      .select
+                        select(name="status", id="status", selected=ticket.status)
+                          each key in [...STATUSES.keys()]
+                            option(value=`${key}`, selected=key==ticket.status) #{STATUSES.get(key)}
+                  .field.column.mb-0
+                    .control
+                      button.button.is-link(type="button", id="submitBtn", onclick=`moveTicket(${ticket.id})`)
+                        i.fas.fa-ticket-alt.mr-1
+                        span &nbsp; Átmozgatás
     else
       p Nincsenek hibajegyek
 
