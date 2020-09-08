@@ -2,9 +2,9 @@
 function deleteFavorite(room) {
   fetch(`/favorites/${room}`, { method: 'DELETE' })
     .then(async res => {
-		switch(res.status) {
+      switch(res.status) {
 		  case 201:
-			location.reload()
+        location.reload()
         	break
 		  case 401:
         	displayMessage('danger', UNAUTHORIZED_MESSAGE)
@@ -22,25 +22,25 @@ function deleteFavorite(room) {
 }
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function addFavorite(room) {
-	if (!room) {
-		displayMessage('danger', err)
+  if (!room) {
+    displayMessage('danger', err)
   	} else {
-		fetch('/favorites', { 
-			method: 'POST',  
-			headers: {
+    fetch('/favorites', { 
+      method: 'POST',  
+      headers: {
       			'Content-Type': 'application/json'
     		},
-			body: JSON.stringify({ room }), 
-		})
-    .then(async (res) => {
+      body: JSON.stringify({ room }), 
+    })
+      .then(async (res) => {
 		  switch (res.status) {
 		  	case 201:
 			    location.reload()
           break
 		  	case 401:
           displayMessage('danger', UNAUTHORIZED_MESSAGE)
-					break
-				case 403:
+          break
+        case 403:
         	displayMessage('danger', FORBIDDEN_MESSAGE)
         	break
 		  	case 404:
