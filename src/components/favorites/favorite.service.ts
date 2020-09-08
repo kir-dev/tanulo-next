@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express'
 
 import { asyncWrapper } from '../../util/asyncWrapper'
 import { User } from '../users/user'
-import { Favorite } from './favorite'
 
 export const addFavorite = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const favorites = await User.relatedQuery('favorites')
