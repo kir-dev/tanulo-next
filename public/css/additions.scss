@@ -59,6 +59,10 @@ article.message.alert-detail {
   height: 100%;
 }
 
+.is-clickable {
+  cursor: pointer;
+}
+
 // Additional bulma extensions
 @import "../../node_modules/bulma-tooltip/src/sass/index.sass";
 @import "../../node_modules/@creativebulma/bulma-tagsinput/src/sass/index.sass";

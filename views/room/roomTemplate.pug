@@ -2,7 +2,7 @@ mixin roomTemplate(room, favorite, group)
   .column.notification(class=`${!group ? 'is-success' : (!group.doNotDisturb? 'is-warning' : 'is-danger')}`)
     .columns.is-vcentered.is-gapless
       .column.is-narrow
-        span.icon.is-medium.has-text-warning.mr-2(onClick=`${favorite? `deleteFavorite(${room})` : `addFavorite(${room})`}`)
+        span.is-clickable.icon.is-medium.has-text-warning.mr-2(onClick=`${favorite? `deleteFavorite(${room})` : `addFavorite(${room})`}`)
           i.fa-lg.fa-star(class=`${favorite? 'fas' : 'far'}`)
         span.has-text-weight-bold.is-size-4 #{room}. emelet
       .column
