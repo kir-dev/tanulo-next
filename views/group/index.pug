@@ -9,9 +9,9 @@ block content
   if paginationOpt.pageNum > 1
     include ./pagination
 
-  .cards
+  .columns.is-desktop.is-multiline.is-centered
     each group in groups
-      .card.mb-2.mt-4
+      .column.is-5-desktop.card.mx-4.my-4.flex-column
         a.card-header(href=`/groups/${group.id}`).is-shadowless
           .card-header-title
             .title #{group.name}
