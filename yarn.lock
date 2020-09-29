@@ -298,10 +298,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@creativebulma/bulma-tagsinput@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@creativebulma/bulma-tagsinput/-/bulma-tagsinput-1.0.2.tgz#62411a9afc57809eff25d59eef25f22e3b31c36f"
-  integrity sha512-Cahgrmvne4MGx5X7G1jJm+lPif8cTbwmpBlXGM0tcZ30lJY9kc3hkXj6dTSOZ8I8nFyTOpbqTYcFeJbGXUzRNg==
+"@creativebulma/bulma-tagsinput@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@creativebulma/bulma-tagsinput/-/bulma-tagsinput-1.0.3.tgz#bbf38aad9a4ed0f04f2baa7832b21679cdc54462"
+  integrity sha512-uQg0KEBcvEmSfwozv2EkFtqai1+pwOgunt3YLlADjRuyKXQePcR3nPW4EDnLMsCt9XlDr4RLu5pcp3XwHIhaOQ==
 
 "@dabh/diagnostics@^2.0.2":
   version "2.0.2"
