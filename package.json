@@ -35,7 +35,7 @@
     "express-session": "^1.17.1",
     "express-validator": "^6.6.1",
     "ics": "^2.24.0",
-    "knex": "^0.21.5",
+    "knex": "^0.21.6",
     "lusca": "^1.6.1",
     "markdown-it": "^11.0.1",
     "multer": "^1.4.2",
