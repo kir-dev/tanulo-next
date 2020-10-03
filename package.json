@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@creativebulma/bulma-tagsinput": "^1.0.3",
-    "bulma": "^0.9.0",
+    "bulma": "^0.9.1",
     "bulma-calendar": "^6.0.9",
     "bulma-tooltip": "^3.0.2",
     "compression": "^1.7.4",
