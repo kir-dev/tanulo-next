@@ -4,14 +4,34 @@ block styles
   link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.3.1/main.min.css")
   link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.css")
   link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.3.0/main.min.css")
+  link(rel="stylesheet" href="https://unpkg.com/bulma-quickview@2.0.0/dist/css/bulma-quickview.min.css")
 
 block content
-  h1.title #{room}. emeleti tanuló
+  .columns.is-mobile.is-multiline.is-vcentered
+    .column.is-narrow.pr-1
+      h1.title.is-size-4.is-size-3-desktop #{room}. emeleti tanuló
+    .column.has-text-right.pl-1
+      button.button.is-secondary.ml-2(data-show="quickview", data-target="quickviewDefault", type="button") Szintváltás
   #calendar
 
+  #quickviewDefault.quickview
+    header.quickview-header
+      p.title Szintek naptárai
+      span.delete(data-dismiss="quickview")
+    .quickview-body
+      .quickview-block.px-3.py-4
+        each floor in ROOMS
+          if floor != room
+            .mx-3.my-1
+              a(href=`/rooms/${floor}`).button.is-link.is-outlined.is-fullwidth= floor + ". szint"
+        
+
 block scripts
+  script(src="https://unpkg.com/bulma-quickview@2.0.0/dist/js/bulma-quickview.min.js")
   script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.3.0/main.js')
   script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.js')
   script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.3.0/main.min.js')
   script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.3.0/main.min.js')
   script(src='/js/calendar.js')
+  script.
+    const quickviews = bulmaQuickview.attach()
