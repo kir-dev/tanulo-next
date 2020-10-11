@@ -31,6 +31,9 @@ export const leaveGroup = asyncWrapper(async (req: Request, res: Response, next:
   next()
 })
 
+/**
+ * @deprecated use isGroupOwnerOrAdmin instead 
+ */
 export const isGroupOwner = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
     if ((req.user as User)?.id === req.group.ownerId) {
@@ -38,7 +41,18 @@ export const isGroupOwner = asyncWrapper(
     } else {
       res.render('error/forbidden')
     }
-  })
+  }
+)
+
+export const isGroupOwnerOrAdmin = asyncWrapper(
+  async (req: Request, res: Response, next: NextFunction) => {
+    if (((req.user as User)?.id === req.group.ownerId) || ((req.user as User)?.admin)) {
+      next()
+    } else {
+      res.render('error/forbidden')
+    }
+  }
+)
 
 export const createICSEvent = (req: Request, res: Response) => {
   const group = req.group

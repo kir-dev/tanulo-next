@@ -12,12 +12,12 @@ import { DATE_FORMAT, ROOMS } from '../../util/constants'
 import { handleValidationError, checkIdParam } from '../../util/validators'
 import { User } from '../users/user'
 import {
-  isGroupOwner,
   joinGroup,
   leaveGroup,
   createICSEvent,
   checkConflicts,
-  validateGroup
+  validateGroup, 
+  isGroupOwnerOrAdmin
 } from './group.middlewares'
 import { createGroup, getGroup, getGroups, updateGroup, removeGroup } from './group.service'
 
@@ -64,8 +64,9 @@ router.get('/:id',
   (req, res) => {
     const joined = req.group.users.some(u => u.id === (req.user as User).id)
     const isOwner = req.group.ownerId === (req.user as User).id
+    const isAdmin = (req.user as User).admin
     res.render('group/show', {
-      group: req.group, joined, isOwner, format, DATE_FORMAT
+      group: req.group, joined, isOwner, format, DATE_FORMAT, isAdmin
     })
   })
 
@@ -86,7 +87,7 @@ router.post('/:id/leave',
 router.delete('/:id',
   isAuthenticated,
   getGroup,
-  isGroupOwner,
+  isGroupOwnerOrAdmin,
   removeGroup,
   (req, res) => res.status(204).send('Csoport sikeresen törölve')
 )
@@ -109,7 +110,7 @@ router.get('/:id/edit',
   isAuthenticated,
   checkIdParam,
   getGroup,
-  isGroupOwner,
+  isGroupOwnerOrAdmin,
   (req, res) =>
     res.render('group/new', {
       roomId: req.group.room,
@@ -129,7 +130,7 @@ router.put('/:id',
   isAuthenticated,
   checkIdParam,
   getGroup,
-  isGroupOwner,
+  isGroupOwnerOrAdmin,
   multer().none(),
   validateGroup(),
   handleValidationError(400),

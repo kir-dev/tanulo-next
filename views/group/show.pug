@@ -24,7 +24,7 @@ block content
                 span.icon
                   i.fas.fa-copy
                 span &nbsp;Másolás
-              if isOwner
+              if isOwner || isAdmin
                 a.dropdown-item(href=`/groups/${group.id}/edit`)
                   span.icon
                     i.fas.fa-edit
