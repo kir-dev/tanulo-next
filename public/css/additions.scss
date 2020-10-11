@@ -62,8 +62,9 @@ article.message.alert-detail {
 .flex-column {
   display: flex;
   flex-direction: column;
+  height: 100%;
 
-  > .card-footer {
+  >.flex-column-footer {
     margin-top: auto;
   }
 }
