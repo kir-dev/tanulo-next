@@ -35,6 +35,10 @@ block content
                   =room
         button.button.is-secondary.ml-2(data-show="quickview", data-target="quickviewDefault", type="button") Naptár
     .field
+      label.label Maximális létszám
+      .control
+        input.input(type="number", name="maxAttendees", placeholder="Alapértelmezetten 100", value=`${maxAttendees ? maxAttendees : ''}`, min=1, max=100)
+    .field
       label.label Kezdés ideje
       .control.has-icons-left
         input.input(type="datetime", id="pickerStart", name="startDate" required)
