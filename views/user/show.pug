@@ -4,14 +4,6 @@ block content
   h1.title= userToShow.name
   if user.id === userToShow.id
     h2.subtitle.my-5 Személyes beállítások
-    .field.has-addons
-      .control.has-icons-left
-        input.input(id="floor-input", type="number", min="3", max="18", placeholder="Szint", title="Szint", value=user.floor)
-        span.icon.has-text-info.is-left
-          i.fas.fa-fw.fa-building
-        p.help Ha megadod a szinted, a főoldalon kiemelt helyen lesz
-      .control
-        button.button.is-link(onclick=`updateUser(${user.id})`) Mentés
   if user.id !== userToShow.id && user.admin
     form(action=`/users/${userToShow.id}/admin`, method="post")
       if userToShow.admin

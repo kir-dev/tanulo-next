@@ -5,10 +5,6 @@ include roomTemplate.pug
 block content
   .title.is-size-2-mobile.is-size-1-desktop.mb-5 Tanulószobák
   .px-3.py-3
-    if userRoom
-      section.mb-5 A te szinted:
-      .columns.mb-5  
-        +roomTemplate(userRoom.floor, userRoom.favorite, userRoom.busy)  
     if user && rooms.some(el => el.favorite)
       section.mt-5.mb-5 A kedvenceid:
       each room in rooms
