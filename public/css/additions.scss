@@ -8,7 +8,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  max-width: 80rem;
+  max-width: 84rem;
   margin: 0 auto;
 
   main {
@@ -61,6 +61,16 @@ article.message.alert-detail {
 
 .is-clickable {
   cursor: pointer;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  >.flex-column-footer {
+    margin-top: auto;
+  }
 }
 
 // Additional bulma extensions

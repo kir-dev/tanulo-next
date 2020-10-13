@@ -7,7 +7,7 @@ import { asyncWrapper } from '../../util/asyncWrapper'
 
 export const getGroups = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const page = parseInt(req.query.page ?? 0)
-  const limit = 10
+  const limit = 20
   const pageObject = await Group.query().orderBy('createdAt', 'DESC').page(page, limit)
   req.groups = pageObject.results.map(group => {
     const raw = group.description.slice(0, 50) + (group.description.length > 50 ? ' ...' : '')

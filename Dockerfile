@@ -8,5 +8,5 @@ COPY .env /usr/src/app/.env
 COPY yarn.lock /usr/src/app/yarn.lock
 RUN yarn install
 COPY . /usr/src/app
-RUN yarn run build-prod
-CMD yarn run serve
+RUN yarn build:prod
+CMD yarn serve

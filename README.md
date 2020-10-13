@@ -46,6 +46,12 @@ psql -c 'create database "tanulo";'
 yarn run migrate
 ```
 
+- *Optional*: Set up seed in database
+
+```bash
+yarn run seed
+```
+
 - Build and run the project
 
 ```bash

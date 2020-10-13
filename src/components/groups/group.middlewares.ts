@@ -14,7 +14,8 @@ export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: 
   const group = req.group
 
   //Join group if not already in it, and it's not closed or it's the owner who joins.
-  if ((!group.doNotDisturb || (user.id === group.ownerId)) && !group.users?.includes(user)) {
+  if ((!group.doNotDisturb || (user.id === group.ownerId)) &&
+    !group.users?.find(it => it.id === user.id)) {
     await Group.relatedQuery('users')
       .for(group.id)
       .relate(user.id)
@@ -30,6 +31,9 @@ export const leaveGroup = asyncWrapper(async (req: Request, res: Response, next:
   next()
 })
 
+/**
+ * @deprecated use isGroupOwnerOrAdmin instead 
+ */
 export const isGroupOwner = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
     if ((req.user as User)?.id === req.group.ownerId) {
@@ -37,7 +41,18 @@ export const isGroupOwner = asyncWrapper(
     } else {
       res.render('error/forbidden')
     }
-  })
+  }
+)
+
+export const isGroupOwnerOrAdmin = asyncWrapper(
+  async (req: Request, res: Response, next: NextFunction) => {
+    if (((req.user as User)?.id === req.group.ownerId) || ((req.user as User)?.admin)) {
+      next()
+    } else {
+      res.render('error/forbidden')
+    }
+  }
+)
 
 export const createICSEvent = (req: Request, res: Response) => {
   const group = req.group
@@ -108,7 +123,7 @@ export const validateGroup = () => {
       .withMessage('Múltbéli kezdéssel csoport nem hozható létre')
       .custom((value, { req }) => new Date(value).getTime() < new Date(req.body.endDate).getTime())
       .withMessage('A kezdés nem lehet korábban, mint a befejezés')
-      .custom((value, { req }) => 
+      .custom((value, { req }) =>
         differenceInMinutes(new Date(req.body.endDate), new Date(value)) <= 5*60)
       .withMessage('A foglalás időtartama nem lehet hosszabb 5 óránál'),
     check('endDate', 'A befejezés időpontja kötelező')

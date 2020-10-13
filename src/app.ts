@@ -49,14 +49,16 @@ app.use((req, _res, next) => {
   // After successful login, redirect back to the intended page
   if (!req.user &&
     !req.path.match(/^\/auth/) &&
-    !req.path.match(/\./)) {
+    !req.path.match(/\./) &&
+    !req.path.match(/^rooms\/\d\/events$/)) {
+
     req.session.returnTo = req.path
   }
   next()
 })
 
 app.use(
-  express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 })
+  express.static(path.join(__dirname, '..', 'public'), { maxAge: 31557600000 })
 )
 
 /**
