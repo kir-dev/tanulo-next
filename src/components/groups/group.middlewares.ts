@@ -9,15 +9,30 @@ import { User } from '../users/user'
 import { Group } from './group'
 import { asyncWrapper } from '../../util/asyncWrapper'
 
+const getGroupAttendeeCount = async (groupId): Promise<number> => {
+  // No cleaner solution was found for selecting only the count
+  // ( Referring to: https://github.com/Vincit/objection.js/issues/1588 )
+  return (await Group.relatedQuery('users')
+    .for(groupId)
+    .count({count: '*'})
+  ).map(
+    // ts ignore added because 'count' property must exist due to previous line
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    count => count.count
+  )[0]
+}
+
 export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const user = req.user as User
   const group = req.group
+  const userCount = await getGroupAttendeeCount(group.id)
 
   // Join group if not already in it, and it's not closed or it's the owner who joins.
   // We only join the group if it is not full already
   if ((!group.doNotDisturb || (user.id === group.ownerId)) &&
     !group.users?.find(it => it.id === user.id) &&
-    ((await Group.relatedQuery('users').for(req.group.id)).length < (group.maxAttendees || 100))) {
+    userCount < (group.maxAttendees || 100)) {
     await Group.relatedQuery('users')
       .for(group.id)
       .relate(user.id)
@@ -140,10 +155,9 @@ export const validateGroup = () => {
   ]
 }
 
-export const checkMaxAttendees = asyncWrapper(
+export const checkValidMaxAttendeeLimit = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
-    const users: User[] = await Group.relatedQuery('users').for(req.params.id)
-    if (users.length > (req.body.maxAttendees || 100)) {
+    if (await getGroupAttendeeCount(req.params.id) > (req.body.maxAttendees || 100)) {
       res.status(400).json(
         {
           errors: [{msg: 'Nem lehet kisebb a maximum jelenlét, mint a jelenlegi'}]

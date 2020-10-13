@@ -17,7 +17,7 @@ import {
   createICSEvent,
   checkConflicts,
   validateGroup,
-  isGroupOwnerOrAdmin, checkMaxAttendees
+  isGroupOwnerOrAdmin, checkValidMaxAttendeeLimit
 } from './group.middlewares'
 import { createGroup, getGroup, getGroups, updateGroup, removeGroup } from './group.service'
 
@@ -136,7 +136,7 @@ router.put('/:id',
   validateGroup(),
   handleValidationError(400),
   checkConflicts,
-  checkMaxAttendees,
+  checkValidMaxAttendeeLimit,
   updateGroup,
   (req: Request, res: Response) => res.sendStatus(201)
 )
