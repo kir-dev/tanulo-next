@@ -1,14 +1,13 @@
-//Adding days, hours and minutes are be easier with these prototype methods
+//Adding hours and minutes are be easier with these prototype methods
+Date.prototype.addHours = function(h) {
+  const temp = new Date()
+  temp.setTime(this.getTime() + (h*60*60*1000))
+  return temp
+}
 Date.prototype.addMinutes = function(m) {
   const temp = new Date()
   temp.setTime(this.getTime() + (m*60*1000))
   return temp
-}
-Date.prototype.addHours = function(h) {
-  return this.addMinutes(h*60)
-}
-Date.prototype.addDays = function(h) {
-  return this.addHours(h*24)
 }
 
 //Setting up datetimepickers
@@ -37,7 +36,7 @@ Array.from(clearButtons).forEach(button => {
 //Main logic for manipulating dates and times
 const now = new Date()
 now.setMinutes(0, 0, 0)
-let defDate = { start: now.addHours(1), end: now.addDays(7).addHours(1) }
+let defDate = { start: now.addHours(1), end: now.addHours(2) }
 
 if (typeof range !== 'undefined') {
   const parsed = { start: new Date(range.start), end: new Date(range.end) }
