@@ -13,7 +13,6 @@ export const index = asyncWrapper(async (req: Request, res: Response) => {
       busy: busyRooms.find(el => el.id == floor)
     }
   })
-  let userRoom
   if (req.user) {
     const user = (req.user as User)
     const favorites = await User.relatedQuery('favorites').for(user.id)
@@ -23,13 +22,9 @@ export const index = asyncWrapper(async (req: Request, res: Response) => {
           ...room,
           favorite: favorites.some(el => el.room == room.floor)
         }
-      }) 
-    if (user.floor && user.floor >= 3 && user.floor <= 18) {
-      userRoom = rooms.find(el => el.floor == user.floor)
-      rooms = rooms.filter(el => el.floor != user.floor)
-    }
-  } 
-  res.render('room/index', { rooms, userRoom })
+      })
+  }
+  res.render('room/index', { rooms })
 })
 
 const show = asyncWrapper(async (req: Request, res: Response) => {
