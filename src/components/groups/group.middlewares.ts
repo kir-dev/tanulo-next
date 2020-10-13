@@ -5,7 +5,7 @@ import * as ics from 'ics'
 import winston from 'winston'
 import { differenceInMinutes } from 'date-fns'
 
-import { User } from '../users/user'
+import { RoleType, User } from '../users/user'
 import { Group } from './group'
 import { asyncWrapper } from '../../util/asyncWrapper'
 
@@ -46,7 +46,8 @@ export const isGroupOwner = asyncWrapper(
 
 export const isGroupOwnerOrAdmin = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
-    if (((req.user as User)?.id === req.group.ownerId) || ((req.user as User)?.admin)) {
+    if (((req.user as User)?.id === req.group.ownerId)
+      || ((req.user as User)?.role == RoleType.ADMIN)) {
       next()
     } else {
       res.render('error/forbidden')

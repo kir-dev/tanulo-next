@@ -10,7 +10,7 @@ import multer from 'multer'
 import { isAuthenticated } from '../../config/passport'
 import { DATE_FORMAT, ROOMS } from '../../util/constants'
 import { handleValidationError, checkIdParam } from '../../util/validators'
-import { User } from '../users/user'
+import { RoleType, User } from '../users/user'
 import {
   joinGroup,
   leaveGroup,
@@ -64,7 +64,7 @@ router.get('/:id',
   (req, res) => {
     const joined = req.group.users.some(u => u.id === (req.user as User).id)
     const isOwner = req.group.ownerId === (req.user as User).id
-    const isAdmin = (req.user as User).admin
+    const isAdmin = (req.user as User).role == RoleType.ADMIN
     res.render('group/show', {
       group: req.group, joined, isOwner, format, DATE_FORMAT, isAdmin
     })

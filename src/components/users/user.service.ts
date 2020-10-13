@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 
-import { User } from './user'
+import { RoleType, User } from './user'
 import { asyncWrapper } from '../../util/asyncWrapper'
 
 interface OAuthUser {
@@ -27,14 +27,14 @@ export const getUser = asyncWrapper(async (req: Request, res: Response, next: Ne
   }
 })
 
-export const toggleAdmin = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
+export const updateRole = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const user = await User.query().findOne({ id: parseInt(req.params.id) })
 
   if (!user) {
     res.redirect('/not-found')
   } else {
     await User.query()
-      .patch({ admin: !user.admin })
+      .patch({ role: req.body.role })
       .where({ id: user.id })
     next()
   }
@@ -55,7 +55,7 @@ export const createUser = async (user: OAuthUser) => {
           name: user.displayName,
           email: user.mail,
           authSchId: user.internal_id,
-          admin: false
+          role: RoleType.USER
         }
       )
   })

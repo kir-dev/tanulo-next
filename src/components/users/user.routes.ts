@@ -1,22 +1,34 @@
 import { Router } from 'express'
 import { check } from 'express-validator'
+import { ROLES } from '../../util/constants'
 
 import { isAdmin, isAuthenticated } from '../../config/passport'
 import { handleValidationError, checkIdParam } from '../../util/validators'
-import { User } from './user'
+import { RoleType, User } from './user'
 import { isSameUser } from './user.middlewares'
-import { getUser, toggleAdmin, updateUser } from './user.service'
+import { getUser, updateRole, updateUser } from './user.service'
 
 const router = Router()
 
 router.get('/:id', isAuthenticated, checkIdParam, getUser, (req, res) =>
   res.render('user/show', {
-    userToShow: req.userToShow
+    userToShow: req.userToShow,
+    ROLES: ROLES
   })
 )
 
-router.post('/:id/admin', isAdmin, toggleAdmin, (req, res) =>
-  res.redirect(`/users/${req.params.id}`)
+router.patch('/:id/role',
+  isAdmin,
+  check('role')
+    .isString()
+    .custom((input) => { 
+      return [RoleType.ADMIN, RoleType.TICKET_ADMIN, RoleType.USER]
+        .some((element) => element == input)
+    })
+    .withMessage('Nem megfelelő role!'),
+  handleValidationError(400),
+  updateRole,
+  (req, res) => res.sendStatus(201)
 )
 
 router.patch('/:id',

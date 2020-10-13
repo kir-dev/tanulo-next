@@ -8,3 +8,9 @@ export const STATUSES = new Map<string, string>([
   ['DONE', 'Kész'],
   ['ARCHIVED', 'Archiválva']
 ])
+
+export const ROLES = new Map<string, string>([
+  [ 'ADMIN', 'Admin'],
+  ['TICKET_ADMIN', 'Hibajegy admin'],
+  ['USER', 'Felhasználó'],
+])
