@@ -36,7 +36,7 @@ export async function seed(knex: Knex): Promise<void> {
         endDate: (new Date( Date.now() + startSeed * (j + 1) + maxTwoHours )),
         room: i + startingFloor,
         doNotDisturb: (i * groupsPerFloor + j) % 16 == 1,
-        createdAt: (new Date()).toDateString(),
+        createdAt: new Date(),
         ownerId
       }
       console.log('\x1b[33m%s\x1b[0m', 
