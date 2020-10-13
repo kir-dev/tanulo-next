@@ -51,7 +51,7 @@ export const createGroup = asyncWrapper(async (req: Request, res: Response, next
         startDate: new Date(req.body.startDate),
         endDate: new Date(req.body.endDate),
         ownerId: (req.user as User).id,
-        maxAttendees: parseInt(req.body.maxAttendees) || 100 // This should be enough
+        maxAttendees: parseInt(req.body.maxAttendees) || 100
       }
     )
 

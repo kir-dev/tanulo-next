@@ -17,7 +17,8 @@ import {
   createICSEvent,
   checkConflicts,
   validateGroup,
-  isGroupOwnerOrAdmin, checkValidMaxAttendeeLimit
+  isGroupOwnerOrAdmin,
+  checkValidMaxAttendeeLimit
 } from './group.middlewares'
 import { createGroup, getGroup, getGroups, updateGroup, removeGroup } from './group.service'
 

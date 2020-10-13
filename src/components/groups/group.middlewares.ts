@@ -17,7 +17,7 @@ export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: 
   // We only join the group if it is not full already
   if ((!group.doNotDisturb || (user.id === group.ownerId)) &&
     !group.users?.find(it => it.id === user.id) &&
-    group.users.length < (group.maxAttendees || 100)) {
+    (group.users?.length || 0) < group.maxAttendees) {
     await Group.relatedQuery('users')
       .for(group.id)
       .relate(user.id)
