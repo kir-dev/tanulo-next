@@ -3,10 +3,11 @@ import { Request, Response, Router } from 'express'
 import { check } from 'express-validator'
 import multer from 'multer'
 
-import { isAuthenticated, isTicketOrSiteAdmin } from '../../config/passport'
+import { isAuthenticated, requireRoles } from '../../config/passport'
 import { DATE_FORMAT, ROOMS, STATUSES } from '../../util/constants'
 import { createTicket, getTickets, moveTicket, removeTicket } from './ticket.service'
 import { handleValidationError } from '../../util/validators'
+import { RoleType } from '../users/user'
 
 const router = Router()
 
@@ -22,7 +23,7 @@ router.get('/new', isAuthenticated, (_req, res) => res.render('ticket/new', { RO
 
 router.put('/:id',
   isAuthenticated,
-  isTicketOrSiteAdmin,
+  requireRoles(RoleType.ADMIN, RoleType.TICKET_ADMIN),
   multer().none(),
   [
     check('status')
@@ -51,7 +52,7 @@ router.post('/',
   (_req: Request, res: Response) => res.sendStatus(201)
 )
 
-router.delete('/:id', isAuthenticated, isTicketOrSiteAdmin, removeTicket, (_req, res) =>
+router.delete('/:id', isAuthenticated, requireRoles(RoleType.ADMIN, RoleType.TICKET_ADMIN), removeTicket, (_req, res) =>
   res.status(204).send('A hibajegy sikeresen törölve')
 )
 

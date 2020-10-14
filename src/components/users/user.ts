@@ -2,10 +2,10 @@ import { Model } from 'objection'
 
 import { Group } from '../groups/group'
 
-export enum RoleType { 
-    ADMIN = 'ADMIN',
-    TICKET_ADMIN = 'TICKET_ADMIN',
-    USER = 'USER'
+export enum RoleType {
+  ADMIN = 'ADMIN',
+  TICKET_ADMIN = 'TICKET_ADMIN',
+  USER = 'USER',
 }
 
 

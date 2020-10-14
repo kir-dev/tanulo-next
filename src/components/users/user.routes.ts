@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { check } from 'express-validator'
 import { ROLES } from '../../util/constants'
 
-import { isAdmin, isAuthenticated } from '../../config/passport'
+import { requireRoles, isAuthenticated } from '../../config/passport'
 import { handleValidationError, checkIdParam } from '../../util/validators'
 import { RoleType, User } from './user'
 import { isSameUser } from './user.middlewares'
@@ -18,11 +18,11 @@ router.get('/:id', isAuthenticated, checkIdParam, getUser, (req, res) =>
 )
 
 router.patch('/:id/role',
-  isAdmin,
+  requireRoles(RoleType.ADMIN),
   check('role')
     .isString()
     .custom((input) => { 
-      return [RoleType.ADMIN, RoleType.TICKET_ADMIN, RoleType.USER]
+      return [...ROLES.keys()]
         .some((element) => element == input)
     })
     .withMessage('Nem megfelelő role!'),

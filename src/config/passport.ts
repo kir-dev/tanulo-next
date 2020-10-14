@@ -74,36 +74,16 @@ export const isAuthenticated = (req: Request, res: Response, next: NextFunction)
 /**
  * Authorization Required middleware.
  */
-export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
-  if ((req.user as User)?.role == RoleType.ADMIN) {
-    next()
-  } else {
-    if (req.method !== 'GET') {
-      return res.sendStatus(403)
+export const requireRoles = (...roles: RoleType[]) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const role = (req.user as User)?.role
+    if (roles.some((element) => role == element)) {
+      next()
+    } else {
+      if (req.method !== 'GET') {
+        return res.sendStatus(403)
+      }
+      res.render('error/forbidden')
     }
-    res.render('error/forbidden')
-  }
-}
-
-export const isTicketAdmin = (req: Request, res: Response, next: NextFunction) => {
-  if ((req.user as User)?.role == RoleType.TICKET_ADMIN) {
-    next()
-  } else {
-    if (req.method !== 'GET') {
-      return res.sendStatus(403)
-    }
-    res.render('error/forbidden')
-  }
-}
-
-export const isTicketOrSiteAdmin = (req: Request, res: Response, next: NextFunction) => {
-  const role = (req.user as User)?.role
-  if (role == RoleType.ADMIN || role == RoleType.TICKET_ADMIN) {
-    next()
-  } else {
-    if (req.method !== 'GET') {
-      return res.sendStatus(403)
-    }
-    res.render('error/forbidden')
   }
 }
