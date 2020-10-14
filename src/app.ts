@@ -33,7 +33,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
   secret: SESSION_SECRET,
-  cookie: { maxAge: 1000 * 60 * 60 * 24 }
+  cookie: { maxAge: 7 * 1000 * 60 * 60 * 24 }
 }))
 app.use(passport.initialize())
 app.use(passport.session())
