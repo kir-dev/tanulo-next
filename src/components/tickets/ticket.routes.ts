@@ -52,8 +52,10 @@ router.post('/',
   (_req: Request, res: Response) => res.sendStatus(201)
 )
 
-router.delete('/:id', isAuthenticated, requireRoles(RoleType.ADMIN, RoleType.TICKET_ADMIN), removeTicket, (_req, res) =>
-  res.status(204).send('A hibajegy sikeresen törölve')
+router.delete('/:id',
+  isAuthenticated,
+  requireRoles(RoleType.ADMIN, RoleType.TICKET_ADMIN),
+  removeTicket, (_req, res) => res.status(204).send('A hibajegy sikeresen törölve')
 )
 
 export default router
