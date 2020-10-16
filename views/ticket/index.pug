@@ -13,9 +13,10 @@ block content
           .card-header-title.is-shadowless
             .title Szint: #{ticket.roomNumber}
               .subtitle ##{ticket.id}
-          a.card-header-icon(type="button", onclick=`deleteTicket(${ticket.id})`)
-            span.icon.is-medium.has-text-danger
-              i.fas.fa-lg.fa-trash-alt
+          if user.role == 'ADMIN' || user.role == 'TICKET_ADMIN'
+            a.card-header-icon(type="button", onclick=`deleteTicket(${ticket.id})`)
+              span.icon.is-medium.has-text-danger
+                i.fas.fa-lg.fa-trash-alt
         .card-content
           .content.break-long-words !{ticket.description}
           span Státusz: #{STATUSES.get(ticket.status) ? STATUSES.get(ticket.status): 'Ismeretlen'}
@@ -24,8 +25,8 @@ block content
             span.icon.mr-2
               i.fas.fa-paper-plane
             time= format(ticket.createdAt, DATE_FORMAT)
-          .card-footer-item
-            if user.admin
+          if user.role == 'ADMIN' || user.role == 'TICKET_ADMIN'
+            .card-footer-item            
               form(id=`ticket-form-${ticket.id}`)
                 .columns
                   .field.mt-3.ml-3

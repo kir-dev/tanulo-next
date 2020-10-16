@@ -12,12 +12,21 @@ block content
         p.help Ha megadod a szinted, a főoldalon kiemelt helyen lesz
       .control
         button.button.is-link(onclick=`updateUser(${user.id})`) Mentés
-  if user.id !== userToShow.id && user.admin
-    form(action=`/users/${userToShow.id}/admin`, method="post")
-      if userToShow.admin
-        button.button.is-danger(type="submit") Admin jog megvonása
-      else
-        button.button.is-link(type="submit") Admin jog adása
+  if user.role == 'ADMIN'
+    h2.subtitle.my-5 Felhasználó jogainak beállítása
+    form(action=`/users/${userToShow.id}/role`, method="post")
+      .columns
+        .field.mt-3.ml-3
+          .control
+            .select
+              select(name="role", id="role", selected=userToShow.role)
+                each key in [...ROLES.keys()]
+                  option(value=`${key}`, selected=key==userToShow.role) #{ROLES.get(key)}
+        .field.column.mb-0
+          .control
+            button.button.is-link(type="button", id="submitBtn", onclick=`updateRole(${userToShow.id})`)
+              i.fas.fa-user-shield.mr-1
+              span &nbsp; Módosítás
 
   - const isUpcoming = (element) => element.endDate > Date.now();
   - const isOld = (element) => element.endDate <= Date.now()

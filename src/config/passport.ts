@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 import passport from 'passport'
 import { Strategy } from 'passport-oauth2'
 
-import { User } from '../components/users/user'
+import { RoleType, User } from '../components/users/user'
 import { createUser } from '../components/users/user.service'
 
 const AUTH_SCH_URL = 'https://auth.sch.bme.hu'
@@ -74,13 +74,16 @@ export const isAuthenticated = (req: Request, res: Response, next: NextFunction)
 /**
  * Authorization Required middleware.
  */
-export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
-  if ((req.user as User)?.admin) {
-    next()
-  } else {
-    if (req.method !== 'GET') {
-      return res.sendStatus(403)
+export const requireRoles = (...roles: RoleType[]) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const role = (req.user as User)?.role
+    if (roles.some((element) => role == element)) {
+      next()
+    } else {
+      if (req.method !== 'GET') {
+        return res.sendStatus(403)
+      }
+      res.render('error/forbidden')
     }
-    res.render('error/forbidden')
   }
 }

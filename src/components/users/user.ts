@@ -2,12 +2,19 @@ import { Model } from 'objection'
 
 import { Group } from '../groups/group'
 
+export enum RoleType {
+  ADMIN = 'ADMIN',
+  TICKET_ADMIN = 'TICKET_ADMIN',
+  USER = 'USER',
+}
+
+
 export class User extends Model {
   id!: number
   name: string
   email: string
   authSchId: string
-  admin: boolean
+  role: RoleType
   floor: number
   groups: Group[]
   static get tableName() {
