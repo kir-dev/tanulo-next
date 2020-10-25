@@ -1996,11 +1996,6 @@ date-fns@^2.0.1, date-fns@^2.16.1:
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.16.1.tgz#05775792c3f3331da812af253e1a935851d3834b"
   integrity sha512-sAJVKx/FqrLYHAQeN7VpJrPhagZc9R4ImZIWYRFZaaohR3KzmuK88touwsSwSVT8Qcbd4zoDsnGfX4GFB4imyQ==
 
-dayjs@^1.8.33:
-  version "1.8.35"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.35.tgz#67118378f15d31623f3ee2992f5244b887606888"
-  integrity sha512-isAbIEenO4ilm6f8cpqvgjZCsuerDAz2Kb7ri201AiNn58aqXuaLJEnCtfIMdCvERZHNGRY5lDMTr/jdAnKSWQ==
-
 db-errors@^0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/db-errors/-/db-errors-0.2.3.tgz#a6a38952e00b20e790f2695a6446b3c65497ffa2"
@@ -3225,13 +3220,12 @@ iconv-lite@0.4.24, iconv-lite@^0.4.24:
   dependencies:
     safer-buffer ">= 2.1.2 < 3"
 
-ics@^2.25.0:
-  version "2.25.0"
-  resolved "https://registry.yarnpkg.com/ics/-/ics-2.25.0.tgz#fc0e0f09927576bec7f938b10f243df665654c3b"
-  integrity sha512-J76FmJ2NgGN7JP6abx6BmOL7np4JFdJ+eZ2JHBK/AA8MqAWVxmETmeY8EncM2ci3jNbsbMbpN2mXSKd6/Ps5wQ==
+ics@^2.26.0:
+  version "2.26.0"
+  resolved "https://registry.yarnpkg.com/ics/-/ics-2.26.0.tgz#67c17d6bcac02b1547cc97bfbe3b99f057900b39"
+  integrity sha512-j9ffwzVlO4h7iXP0V/3ma55fT+mnk9fS2NsIo9tu0SAnJ9B92qTeJ7r23nscBkNEfzy6yCXBm+3cI6CeFFG24A==
   dependencies:
     "@hapi/joi" "^17.1.1"
-    dayjs "^1.8.33"
     uuid "^3.3.3"
 
 ignore-by-default@^1.0.1:
