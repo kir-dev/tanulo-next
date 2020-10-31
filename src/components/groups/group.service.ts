@@ -50,7 +50,8 @@ export const createGroup = asyncWrapper(async (req: Request, res: Response, next
         doNotDisturb: !!req.body.doNotDisturb,
         startDate: new Date(req.body.startDate),
         endDate: new Date(req.body.endDate),
-        ownerId: (req.user as User).id
+        ownerId: (req.user as User).id,
+        maxAttendees: parseInt(req.body.maxAttendees) || 100
       }
     )
 
@@ -58,6 +59,7 @@ export const createGroup = asyncWrapper(async (req: Request, res: Response, next
 })
 
 export const updateGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
+
   await Group.query()
     .patch({
       name: req.body.name,
@@ -66,7 +68,8 @@ export const updateGroup = asyncWrapper(async (req: Request, res: Response, next
       description: req.body.description,
       doNotDisturb: !!req.body.doNotDisturb,
       startDate: new Date(req.body.startDate),
-      endDate: new Date(req.body.endDate)
+      endDate: new Date(req.body.endDate),
+      maxAttendees: parseInt(req.body.maxAttendees) || 100
     })
     .findById(req.params.id)
     .catch((err) => {
@@ -75,6 +78,7 @@ export const updateGroup = asyncWrapper(async (req: Request, res: Response, next
     })
 
   next()
+
 })
 
 export const removeGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {

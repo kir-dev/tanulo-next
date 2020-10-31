@@ -14,6 +14,7 @@ export class Group extends Model {
   ownerId: number
   users: User[]
   createdAt: Date
+  maxAttendees: number
 
   $beforeInsert() {
     this.createdAt = new Date()
@@ -55,7 +56,8 @@ export class Group extends Model {
         tags: { type: 'string' },
         room: { type: 'integer' },
         startDate: { type: 'datetime' },
-        endDate: { type: 'datetime' }
+        endDate: { type: 'datetime' },
+        maxAttendees: { type: 'integer' }
       }
     }
   }

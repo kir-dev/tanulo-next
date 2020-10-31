@@ -36,6 +36,7 @@ export async function seed(knex: Knex): Promise<void> {
         endDate: (new Date( Date.now() + startSeed * (j + 1) + maxTwoHours )),
         room: i + startingFloor,
         doNotDisturb: (i * groupsPerFloor + j) % 16 == 1,
+        maxAttendees: 100,
         createdAt: new Date(),
         ownerId
       }

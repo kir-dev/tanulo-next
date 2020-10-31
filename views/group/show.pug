@@ -93,8 +93,8 @@ block content
     table.table.is-fullwidth.is-hoverable
       thead
         .columns
-          .column.menu-label Résztvevők
-          if !joined && !group.doNotDisturb
+          .column.menu-label Résztvevők #{group.users.length} / #{group.maxAttendees}
+          if !joined && !group.doNotDisturb && (group.users.length < group.maxAttendees)
             .column.is-narrow
               form(action=`/groups/${group.id}/join`, method="post")
                 button.button.is-primary(type="submit")

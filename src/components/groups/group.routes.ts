@@ -16,8 +16,9 @@ import {
   leaveGroup,
   createICSEvent,
   checkConflicts,
-  validateGroup, 
-  isGroupOwnerOrAdmin
+  validateGroup,
+  isGroupOwnerOrAdmin,
+  checkValidMaxAttendeeLimit
 } from './group.middlewares'
 import { createGroup, getGroup, getGroups, updateGroup, removeGroup } from './group.service'
 
@@ -122,7 +123,8 @@ router.get('/:id/edit',
       doNotDisturb: req.group.doNotDisturb,
       ROOMS,
       isEditing: true,
-      groupId: req.group.id
+      groupId: req.group.id,
+      maxAttendees: req.group.maxAttendees
     })
 )
 
@@ -135,6 +137,7 @@ router.put('/:id',
   validateGroup(),
   handleValidationError(400),
   checkConflicts,
+  checkValidMaxAttendeeLimit,
   updateGroup,
   (req: Request, res: Response) => res.sendStatus(201)
 )

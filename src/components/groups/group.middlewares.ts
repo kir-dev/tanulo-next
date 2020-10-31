@@ -13,9 +13,11 @@ export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: 
   const user = req.user as User
   const group = req.group
 
-  //Join group if not already in it, and it's not closed or it's the owner who joins.
+  // Join group if not already in it, and it's not closed or it's the owner who joins.
+  // We only join the group if it is not full already
   if ((!group.doNotDisturb || (user.id === group.ownerId)) &&
-    !group.users?.find(it => it.id === user.id)) {
+    !group.users?.find(it => it.id === user.id) &&
+    (group.users?.length || 0) < group.maxAttendees) {
     await Group.relatedQuery('users')
       .for(group.id)
       .relate(user.id)
@@ -132,9 +134,26 @@ export const validateGroup = () => {
     check('description', 'A leírás max 500 karakter lehet')
       .optional({ nullable: true })
       .isString()
-      .isLength({ max: 500 })
+      .isLength({ max: 500 }),
+    check('maxAttendees', 'Legalább 1, maximum 100 fő vehet részt!')
+      .optional({ checkFalsy: true })
+      .isInt({ min: 1, max: 100 })
   ]
 }
+
+export const checkValidMaxAttendeeLimit = asyncWrapper(
+  async (req: Request, res: Response, next: NextFunction) => {
+    if (req.group.users.length > (req.body.maxAttendees || 100)) {
+      res.status(400).json(
+        {
+          errors: [{msg: 'Nem lehet kisebb a maximum jelenlét, mint a jelenlegi'}]
+        }
+      )
+    } else {
+      next()
+    }
+  }
+)
 
 export const checkConflicts = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
