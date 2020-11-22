@@ -75,7 +75,7 @@
     "eslint": "^6.4.0",
     "faker": "^5.1.0",
     "jest": "^25.5.4",
-    "node-sass": "^4.14.1",
+    "node-sass": "^5.0.0",
     "nodemon": "^2.0.6",
     "shelljs": "^0.8.4",
     "supertest": "^5.0.0",
