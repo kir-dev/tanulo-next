@@ -7,6 +7,15 @@ block content
     .column.is-narrow
       a.button.is-link(href="tickets/new") Új hibajegy
   .cards
+    details 
+      summary Mire vonatkozik egy hibajegy? 
+      p
+        | A megadható hibajegyek egy adott 
+        b tanulószoba esetleges hibái 
+        t lehetnek. 
+        i (pl. összefirkált tábla, törött szék, stb.) 
+      br
+
     each ticket in tickets
       .card.mb-2.mt-4(id=`ticket-${ticket.id}`)
         header.card-header
