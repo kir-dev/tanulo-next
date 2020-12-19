@@ -2,8 +2,6 @@ extends ../layouts/main
 
 block content
   h1.title= userToShow.name
-  if user.id === userToShow.id
-    h2.subtitle.my-5 Személyes beállítások
   if user.id !== userToShow.id && user.admin
     form(action=`/users/${userToShow.id}/admin`, method="post")
       if userToShow.admin
