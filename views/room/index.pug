@@ -6,13 +6,12 @@ block content
   .title.is-size-2-mobile.is-size-1-desktop.mb-5 Tanulószobák
   .px-3.py-3
     if user && rooms.some(el => el.favorite)
-      section.mt-5.mb-5 A kedvenceid:
       each room in rooms
         if room.favorite
           .columns.mb-5
             +roomTemplate(room.floor, room.favorite, room.busy)  
     if rooms.some(el => !el.favorite)
-      section.mt-5.mb-5 Szintek:
+      hr
       each room in rooms
         if !room.favorite
           .columns.mb-5
