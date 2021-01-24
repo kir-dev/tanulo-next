@@ -45,7 +45,7 @@ if (typeof range !== 'undefined') {
   if ((parsed.start >= now) || (typeof isEditing !== 'undefined' && isEditing))
     defDate = parsed
   else
-    displayMessage('warning', 'Múltbéli időintervallumban csoport nem hozható létre')
+    displayMessage('Múltbéli időintervallumban csoport nem hozható létre')
 }
 
 function refreshPickerInput(picker) {

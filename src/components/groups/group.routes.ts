@@ -40,8 +40,8 @@ router.get('/', isAuthenticated, getGroups, (req, res) => {
 
 router.get('/new', isAuthenticated, (req, res) =>
   res.render('group/new', {
-    start: req.query?.start?.split(' ')[0].slice(0, -3),
-    end: req.query?.end?.split(' ')[0].slice(0, -3),
+    start: (req.query?.start as string)?.split(' ')[0].slice(0, -3),
+    end: (req.query?.end as string)?.split(' ')[0].slice(0, -3),
     roomId: req.query?.roomId,
     ROOMS
   })

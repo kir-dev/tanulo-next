@@ -2,7 +2,7 @@ const submitBtn = document.getElementById('submitBtn')
 const textArea = document.getElementById('desc')
 const charLimit = 500
 
-function listenLength(el, characterCount) {  
+function listenLength(el, characterCount) {
   if (characterCount > charLimit) {
     el.innerHTML = 'Túl hosszú!'
     el.setAttribute('style', 'color:red;')
@@ -22,7 +22,7 @@ const easyMDE = new EasyMDE({
     '|', 'undo', 'redo', '|', 'guide'
   ],
   forceSync: true,
-  autoDownloadFontAwesome: false,
+  autoDownloadFontAwesome: true,
   spellChecker: false,
   placeholder: 'Kattints az utmutató gombjára a részletekért...',
   status: [{

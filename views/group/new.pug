@@ -2,80 +2,68 @@ extends ../layouts/main
 
 block styles
   link(rel="stylesheet" href="https://unpkg.com/easymde@2.10.1/dist/easymde.min.css")
-  link(rel="stylesheet" href="https://unpkg.com/bulma-quickview@2.0.0/dist/css/bulma-quickview.min.css")
   link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.3.1/main.min.css")
   link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.css")
   link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.3.0/main.min.css")
+  link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-calendar@6.0.9/dist/css/bulma-calendar.min.css")
+  link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify@3.22.0/dist/tagify.css")
 
 block content
-  if isEditing
-    h1.title Csoport módosítása
-  else
-    h1.title Új csoport felvétele
-  form(id="group-form")
-    .field
-      label.label(for="name") Csoport neve
-      .control
-        input.input(type="text", name="name", id="name", placeholder="Analízis ZH1 készülés", value=`${name? name : ''}`, required, maxlength="100")
-    .field
-      label.label Címkék (8)
-      .control
-        input.input(type="tags", name="tags", id="tags", placeholder="Adj hozzá címkéket...", value=`${tags? tags : ''}`)
-    .field
-      label.label(for="room") Szint
-      .control
-        .select
-          select(name="room", id="room")
+  h1(class='title') #{isEditing ? 'Csoport módosítása' : 'Új csoport felvétele'}
+  div(class='relative flex flex-col items-center justify-center sm:px-4' x-data="{ open: false }")
+    form(id="group-form" class='flex flex-col max-w-6xl p-3 mx-4 my-4 space-y-4 sm:w-full sm:p-6 rounded-2xl bg-default shadow-full')
+      div
+        label(for="name" class='text-lg font-bold') Csoport neve
+        input(type="text", name="name", id="name", value=`${name ? name : ''}`, required, maxlength="100", class="w-full px-3 py-2 rounded form-element")
+      div
+        label(class='text-lg font-bold' for='tags') Címkék (8)
+        input(type="tags", name="tags", id="tags", class="w-full px-3 py-2 rounded form-element")
+      div
+        label(for="room" class='text-lg font-bold') Szint
+        div(class='flex flex-row items-center space-x-4')
+          select(name="room", id="room", class='rounded form-element')
             each room in ROOMS
               if roomId == room
-                option(value=`${room}`, selected='selected')
-                  =room
+                option(value=`${room}`, selected='selected')= room
               else
-                option(value=`${room}`)
-                  =room
-        button.button.is-secondary.ml-2(data-show="quickview", data-target="quickviewDefault", type="button") Naptár
-    .field
-      label.label Maximális létszám
-      .control
-        input.input(type="number", name="maxAttendees", placeholder="Alapértelmezetten 100", value=`${maxAttendees ? maxAttendees : ''}`, min=1, max=100)
-    .field
-      label.label Kezdés ideje
-      .control.has-icons-left
-        input.input(type="datetime", id="pickerStart", name="startDate" required)
-      p.help Vizsgáld felül, jól vitted-e be az adatokat!
-    .field
-      label.label Befejezés ideje
-      .control.has-icons-left
-        input.input(type="datetime", id="pickerEnd", name="endDate" required)
-      p.help Vizsgáld felül, jól vitted-e be az adatokat!
-    .field
-      label.label(for="desc") Leírás
-      .control
-        textarea.textarea(name="description", id="desc")
-    .field
-      .control
-        input(type="checkbox", name="doNotDisturb", id="doNotDisturb", checked=(isEditing && doNotDisturb))
-        label.checkbox.pl-2.is-inline(for="doNotDisturb") Nem szeretném, hogy mások csatlakozzanak
-    .field
-      .control
+                option(value=`${room}`)= room
+          button(type="button", class="px-2 py-1 border border-gray-600 rounded-md hover:border-gray-500", @click="open = true") Naptár
+      div
+        label(class='text-lg font-bold' for="maxAttendees") Maximális létszám
+        br
+        input(type="number" name="maxAttendees" id="maxAttendees" placeholder="Alapértelmezetten 100" value=`${maxAttendees ? maxAttendees : ''}` min=1 max=100 class="rounded form-element")
+      div
+        label(class='text-lg font-bold') Kezdés ideje
+        input(type="datetime", id="pickerStart", name="startDate", required)
+      div
+        label(class='text-lg font-bold') Befejezés ideje
+        input(type="datetime", id="pickerEnd", name="endDate", required)
+      div
+        label(for="desc" class='text-lg font-bold') Leírás
+        textarea(name="description", id="desc")
+      div
+        input(type="checkbox", name="doNotDisturb", id="doNotDisturb", checked=(isEditing && doNotDisturb) class='text-lg font-bold rounded-sm')
+        label(for="doNotDisturb" class="ml-1") Nem szeretném, hogy mások csatlakozzanak
+      div
         if isEditing
-          a.button.is-danger.my-3.mr-3(href=`/groups/${groupId}`)
-            i.fas.fa-times
-            span &nbsp;Elvetés
-          button.button.is-link.my-3(type="submit", id="submitBtn", disabled)
-            i.fas.fa-check
-            span &nbsp;Mentés
+          div(class="space-x-4")
+            a(href=`/groups/${groupId}` class='bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-700 btn animate-hover') Elvetés
+            button(type="submit", id="submitBtn", class='btn btn-primary animate-hover') Mentés
         else
-          button.button.is-link.my-3(type="submit", id="submitBtn", disabled)
-            i.fas.fa-plus
-            span &nbsp;Csoport létrehozása
-  #quickviewDefault.quickview
-    header.quickview-header
-      p.title Szint foglaltsága
-      span.delete(data-dismiss="quickview")
-    .quickview-body
-      .quickview-block.px-3.py-4
-        #side-calendar
+          button(type="submit", id="submitBtn", class='self-start btn btn-primary animate-hover') Csoport létrehozása
+    div(class="fixed inset-0 max-w-md overflow-hidden" x-show="open" x-cloak)
+      div(class='absolute top-0 right-0 flex pt-4 pr-2 -ml-8 sm:-ml-10 sm:pr-4')
+        button(aria-label='Close panel' class='text-gray-300 transition duration-150 ease-in-out hover:text-white' @click="open = false")
+          //- Heroicon name: x
+          svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
+            path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 18L18 6M6 6l12 12')
+      //- TODO: side-calendar
+      //- div(class="flex flex-col h-full py-6 space-y-6 bg-white shadow-xl bg-default")
+      //-   header(class='px-4 sm:px-6')
+      //-     h2(class="text-lg font-medium leading-7") Szint foglaltsága
+      //-   div(class='relative flex-1 px-4 sm:px-6')
+      //-     div(class='absolute inset-0 h-screen px-4 sm:px-6')
+      //-       #side-calendar
 
 block scripts
   if start && end
@@ -85,20 +73,21 @@ block scripts
     script const groupId = !{JSON.stringify(groupId)}
   if description
     script const description = !{JSON.stringify(description)}
+  if tags
+    script const tags = !{JSON.stringify(tags)}
   script(src="https://cdn.jsdelivr.net/npm/bulma-calendar@6.0.9/dist/js/bulma-calendar.min.js")
   script(src="/js/picker.js")
   script(src="https://unpkg.com/easymde@2.10.1/dist/easymde.min.js")
   script(src="/js/md-editor.js")
-  script(src="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tagsinput@1.0.3/dist/js/bulma-tagsinput.min.js")
-  script(src="https://unpkg.com/bulma-quickview@2.0.0/dist/js/bulma-quickview.min.js")
+  script(src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@3.22.0/dist/tagify.min.js")
   script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.3.0/main.js')
   script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.js')
   script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.3.0/main.min.js')
   script(src="/js/group/create.js")
   script.
-    new BulmaTagsInput('#tags', {
-      maxTags: 8,
-      maxChars: 30,
-      tagClass: 'is-info'
+    const tagsInput = document.querySelector('input[name=tags]')
+    const tagify = new Tagify(tagsInput, {
+      editTags: false
     })
-    const quickviews = bulmaQuickview.attach()
+    if (isEditing && tags)
+      tagify.addTags(tags.split(','))

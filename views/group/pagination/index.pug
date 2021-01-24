@@ -1,0 +1,28 @@
+include ./activeButton.pug
+include ./inactiveButton.pug
+
+div(class='my-5')
+  nav(role="pagination", aria-label="pagination" class='w-1/2 mx-auto text-xl font-bold sm:text-lg')
+    if paginationOpt.pageNum <= 5
+      div(class='flex flex-row items-center justify-center space-x-2')
+        - for (i = 0; i < paginationOpt.pageNum; i++) {
+          if i == paginationOpt.current
+            //- current page
+            +activeButton(`/groups?page=${i}`, i + 1)
+          else
+            +inactiveButton(`/groups?page=${i}`, i + 1)
+        - }
+    else
+      div(class='flex flex-row items-center justify-center space-x-2')
+        if paginationOpt.current >= 2
+          +inactiveButton(`/groups?page=0`, 1)
+          span &hellip;
+        if paginationOpt.current >= 1
+          +inactiveButton(`/groups?page=${paginationOpt.current - 1}`, paginationOpt.current)
+          //- current page
+        +activeButton(`/groups?page=${paginationOpt.current}`, paginationOpt.current + 1)
+        if paginationOpt.current <= paginationOpt.pageNum - 2
+          +inactiveButton(`/groups?page=${paginationOpt.current + 1}`, paginationOpt.current + 2)
+        if paginationOpt.current <= paginationOpt.pageNum - 3
+          span &hellip;
+          +inactiveButton(`/groups?page=${paginationOpt.pageNum - 1}`, paginationOpt.pageNum)

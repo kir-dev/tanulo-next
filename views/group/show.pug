@@ -1,118 +1,123 @@
 extends ../layouts/main
 
 block content
-  .group-show
-    .columns
-      .column.has-no-flex
-        h1.title= group.name
-      .column.has-text-right
-        .dropdown.is-right.has-text-left
-          .dropdown-trigger
-            button.button(aria-haspopup="true", aria-controls="dropdown-menu")
-              span.icon
-                i.fas.fa-sliders-h
-              span.icon.is-small
-                i.fas.fa-angle-down
-          .dropdown-menu(id="dropdown-menu", role="menu")
-            .dropdown-content
-              form(action=`/groups/${group.id}/export`, method="get", id="export-form")
-                a.dropdown-item(onclick="submitExportForm()")
-                  span.icon
-                    i.fas.fa-file-export
+  - const [startDate, startTime] = format(group.startDate, DATE_FORMAT).split(' ')
+  - const [endDate, endTime] = format(group.endDate, DATE_FORMAT).split(' ')
+  div(class='flex flex-row items-center mb-8 mr-4 space-x-4')
+    h1(class='truncate title')= group.name
+    if !joined && !group.doNotDisturb
+      form(action=`/groups/${group.id}/join`, method="post")
+        button(type="submit" class='text-xl btn btn-primary animate-hover') Csatlakozás
+    else if !isOwner && joined
+      form(action=`/groups/${group.id}/leave`, method="post")
+        button(type="submit" class='text-xl bg-yellow-400 btn btn-primary animate-hover dark:text-black hover:bg-yellow-500') Kilépés
+  div(class='flex flex-col px-8 pt-6 pb-8 mx-6 sm:px-16 lg:flex-row lg:justify-between rounded-2xl bg-default md:mx-16 lg:mx-24 xl:mx-40 shadow-full')
+    div(class='mr-4 space-y-4')
+      div
+        div(class='relative flex flex-row items-center justify-start' x-data="{ open: false }")
+          h2(class='mr-4 text-3xl uppercase') Adatok
+          button(class='flex flex-row items-center p-1 space-x-2 border border-gray-500 rounded-md focus:outline-none hover:border-gray-700 dark:hover:border-gray-300' @click="open = true")
+            //- Heroicon name: adjustments
+            svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
+              path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4')
+            //- Heroicon name: chevron-down
+            svg(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5')
+                path(fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd')
+          template(x-if="open")
+            div(class='absolute top-0 left-0 z-50 flex flex-col p-3 ml-32 space-y-4 rounded-md bg-default shadow-full' @click.away="open = false"
+              x-transition:enter="transition ease-out duration-300"
+              x-transition:enter-start="opacity-0 transform -translate-y-6"
+              x-transition:enter-end="opacity-100 transform translate-y-0"
+              x-transition:leave="transition ease-in duration-100"
+              x-transition:leave-start="opacity-100 transform translate-y-0"
+              x-transition:leave-end="opacity-0 transform -translate-y-6")
+              form(action=`/groups/${group.id}/export`, method="get", id="export-form" class='flex flex-row items-center')
+                a(onclick="submitExportForm()" class='flex flex-row items-center cursor-pointer hover:text-purple-500 animate-hover')
+                  //- Heroicon name: document-download
+                  svg(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5')
+                    path(fill-rule='evenodd' d='M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z' clip-rule='evenodd')
                   span &nbsp;Exportálás
-              a.dropdown-item(href=`/groups/${group.id}/copy`)
-                span.icon
-                  i.fas.fa-copy
+              a(href=`/groups/${group.id}/copy` class='flex flex-row items-center hover:text-purple-500 animate-hover')
+                //- Heroicon name: duplicate
+                svg(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5')
+                  path(d='M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z')
+                  path(d='M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z')
                 span &nbsp;Másolás
               if isOwner || isAdmin
-                a.dropdown-item(href=`/groups/${group.id}/edit`)
-                  span.icon
-                    i.fas.fa-edit
+                a(href=`/groups/${group.id}/edit` class='flex flex-row items-center hover:text-purple-500 animate-hover')
+                  //- Heroicon name: pencil-alt
+                  svg(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5')
+                    path(d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z')
+                    path(fill-rule='evenodd' d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z' clip-rule='evenodd')
                   span &nbsp;Módosítás
                 hr.dropdown-divider
-                a.dropdown-item(onclick=`deleteGroup(${group.id})`)
-                  span.icon.has-text-danger
-                    i.fas.fa-trash-alt
+                a(onclick=`deleteGroup(${group.id})` class='flex flex-row items-center cursor-pointer hover:text-red-500 animate-hover')
+                  //- Heroicon name: trash
+                  svg(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5')
+                    path(fill-rule='evenodd' d='M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z' clip-rule='evenodd')
                   span.has-text-danger &nbsp;Törlés
 
-    - const [startDate, startTime] = format(group.startDate, DATE_FORMAT).split(' ')
-    - const [endDate, endTime] = format(group.endDate, DATE_FORMAT).split(' ')
-
-    table.table.is-fullwidth
-      thead
-        p.menu-label Adatok
-      tbody
-        tr
-          td
-            span.icon.has-text-info
-              i.fas.fa-fw.fa-building
-            span &nbsp;#{group.room}. szint
-          td
+        ul(class='flex flex-col mt-3 ml-6 space-y-4 text-lg')
+          li(class='flex flex-row items-center space-x-2')
             if group.doNotDisturb
-              span.icon.has-text-info
-                i.fas.fa-fw.fa-lock
-              span.has-tooltip-bottom(data-tooltip="A szervező letiltotta a csatlakozást") &nbsp;Zárt
-                sup ?
+              //- Heroicon name: lock-closed
+              svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6')
+                path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z')
+              span Zárt
+                sup(title='A szervező letiltotta a csatlakozást') ?
             else
-              span.icon.has-text-info
-                i.fas.fa-fw.fa-unlock
-              span.has-tooltip-bottom(data-tooltip="Szabad a csatlakozás") &nbsp;Nyílt
-                sup ?
-        tr
+              //- Heroicon name: lock-open
+              svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6')
+                path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z')
+              span Nyílt
+                sup(title='Szabad a csatlakozás') ?
+          li(class='flex flex-row items-center space-x-2')
+            //- Heroicon name: office-building
+            svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
+              path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4')
+            span #{group.room}. emelet
           if startDate == endDate
-            td(colspan="2")
-              span.icon.has-text-info
-                i.fas.fa-fw.fa-calendar
-              span &nbsp;#{startDate}
+            li(class='flex flex-row items-center space-x-2')
+              //- Heroicon name: calendar
+              svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6')
+                path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z')
+              span= startDate
                 strong &nbsp;#{startTime}-#{endTime}
           else
-            td
-              span.icon.has-text-info
-                i.fas.fa-fw.fa-calendar
-              span &nbsp;#{startDate}
-                strong &nbsp;#{startTime}
-            td
-              span.icon.has-text-info
-                i.fas.fa-fw.fa-stop
-              span &nbsp;#{endDate}
-                strong &nbsp;#{endTime}
-        if group.tags
-          tr
-            td(colspan="2")
-              span.icon.has-text-info
-                i.fas.fa-fw.fa-tags
-              each tag in group.tags.split(",")
-                span &nbsp;
-                span.tag.is-info.is-medium.mb-1= tag
-
-    if group.description
-      p.menu-label Leírás
-      article.message.content
-        .message-body.break-long-words !{group.description}
-
-    table.table.is-fullwidth.is-hoverable
-      thead
-        .columns
-          .column.menu-label Résztvevők #{group.users.length} / #{group.maxAttendees}
-          if !joined && !group.doNotDisturb && (group.users.length < group.maxAttendees)
-            .column.is-narrow
-              form(action=`/groups/${group.id}/join`, method="post")
-                button.button.is-primary(type="submit")
-                  i.fas.fa-sign-in-alt
-                  span &nbsp;Csatlakozás
-          else if !isOwner && joined
-            .column.is-narrow
-              form(action=`/groups/${group.id}/leave`, method="post")
-                button.button.is-warning(type="submit")
-                  i.fas.fa-sign-out-alt
-                  span &nbsp;Kilépés
-      tbody
+            li(class='flex flex-col items-start space-y-4 sm:space-y-0 sm:space-x-6 sm:items-center sm:flex-row')
+              div(class='flex flex-row items-center')
+                //- Heroicon name: calendar
+                svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6')
+                  path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z')
+                span &nbsp;#{startDate}
+                  strong &nbsp;#{startTime}
+              div(class='flex flex-row items-center')
+                //- Heroicon name: stop
+                svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6')
+                  path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 12a9 9 0 11-18 0 9 9 0 0118 0z')
+                  path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z')
+                span &nbsp;#{endDate}
+                  strong &nbsp;#{endTime}
+          if group.tags
+            li(class='flex flex-row items-center space-x-2')
+              //- Heroicon name: tag
+              svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6 mb-1')
+                path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z')
+              ul(class='flex flex-row flex-wrap items-center')
+                each tag in group.tags.split(",")
+                  li(class='px-3 py-1 mb-1 mr-2 text-sm text-white bg-yellow-600 rounded-md')= tag
+      if group.description
+        div
+          h2(class='mb-3 text-3xl uppercase') Leírás
+          div(class='px-4 py-2 ml-6 text-lg break-all border-l-2 border-gray-700 bg-default') !{group.description}
+    div(class='mt-4 mr-10 lg:pl-10 lg:border-l lg:mt-0')
+      h2(class='mb-3 text-3xl uppercase') Résztvevők
+      div(class='flex flex-col items-start space-y-2 text-xl')
         each user in group.users
-          tr
-            td
-              a.has-text-link(href=`/users/${user.id}`)= user.name
-              if user.id === group.ownerId
-                span.ml-3.tag.is-info.is-rounded Szervező
+          div(class='flex flex-row items-center ml-6 space-x-2')
+            a(href=`/users/${user.id}` class='lg:whitespace-no-wrap hover:text-blue-500')= user.name
+            if user.id === group.ownerId
+              span(class='px-3 py-1 text-sm text-white bg-purple-500 rounded-full') Szervező
 
 block scripts
   script(src='/js/group/show.js')

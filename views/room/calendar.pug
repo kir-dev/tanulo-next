@@ -6,19 +6,14 @@ block styles
   link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.3.0/main.min.css")
 
 block content
-  .columns.is-mobile.is-multiline.is-vcentered
-    .column.is-narrow.pr-1
-      #floorchange.dropdown
-        .dropdown-trigger
-          button.button.is-medium(aria-haspopup='true' aria-controls='dropdown-menu')
-            span #{room}. emelet
-            span.icon.is-small
-              i.fas.fa-angle-down(aria-hidden='true')
-        #dropdown-menu.dropdown-menu(role='menu')
-          .dropdown-content
-            each floor in ROOMS.filter((r) => r != room)
-              a(href=`/rooms/${floor}`).dropdown-item= floor + ". emelet"
-  #calendar
+  div(class="ml-4")
+    select(class='rounded form-element' onchange='window.location.href=this.value')
+      each floor in ROOMS
+        option(value=`${floor}` selected=floor==room ? 'selected' : false)
+          a(href=`/rooms/${floor}`)= floor + ". emelet"
+  div(class='flex flex-col items-center justify-center')
+    div(class='max-w-6xl p-3 mx-4 my-4 sm:p-6 rounded-2xl bg-default shadow-full')
+      #calendar
 
 block scripts
   script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.3.0/main.js')
@@ -26,4 +21,3 @@ block scripts
   script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.3.0/main.min.js')
   script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.3.0/main.min.js')
   script(src='/js/room/calendar.js')
-  script(src='/js/room/dropdown.js')

@@ -5,11 +5,6 @@ export const getBusyRooms = async () => {
   return (await Group.query()
     .where('startDate', '<', currentTime)
     .andWhere('endDate', '>', currentTime))
-    ?.map(group => ({
-      id: group.room,
-      groupId: group.id,
-      doNotDisturb: group.doNotDisturb
-    }))
 }
 
 export const getEventsForRoom = async (roomId: number) =>

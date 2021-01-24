@@ -6,7 +6,7 @@ import { formatMdToSafeHTML } from '../../util/convertMarkdown'
 import { asyncWrapper } from '../../util/asyncWrapper'
 
 export const getGroups = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
-  const page = parseInt(req.query.page ?? 0)
+  const page = isNaN(Number(req.query.page)) ? 0 : Number(req.query.page)
   const limit = 20
   const pageObject = await Group.query().orderBy('createdAt', 'DESC').page(page, limit)
   req.groups = pageObject.results.map(group => {

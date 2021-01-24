@@ -1,5 +1,6 @@
 import express from 'express'
 import compression from 'compression'
+import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import Knex from 'knex'
 import lusca from 'lusca'
@@ -27,6 +28,7 @@ app.set('port', process.env.PORT || 3000)
 app.set('views', path.join(__dirname, '..', 'views'))
 app.set('view engine', 'pug')
 app.use(compression())
+app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(session({
@@ -49,10 +51,16 @@ app.use((req, _res, next) => {
   if (!req.user &&
     !req.path.match(/^\/auth/) &&
     !req.path.match(/\./) &&
-    !req.path.match(/^rooms\/\d\/events$/)) {
+    !req.path.match(/^\/rooms\/\d\/events$/)) {
 
     req.session.returnTo = req.path
   }
+  next()
+})
+
+app.use((req, _res, next) => {
+  const theme = req.cookies.theme || 'light'
+  app.locals.theme = theme
   next()
 })
 

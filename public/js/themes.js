@@ -1,47 +1,28 @@
-// Managing theme changes:
-const darkId = 'dark-theme-css'
-const lightId = 'light-theme-css'
-const darkEl = document.querySelector(`link[id="${darkId}"]`)
-const lightEl = document.querySelector(`link[id="${lightId}"]`)
-
-function setCssDark() {
-  darkEl.media = ''
-  lightEl.media = 'none'
-}
-
-function setCssLight() {
-  lightEl.media = ''
-  darkEl.media = 'none'
-}
-
-// Sets up the needed css
-// Will be calling the function once browser parsed the icon and link elements
-function setCssBeforeLoading() {
-  const styleSheet = localStorage.getItem('stylesheet-key')
-  if ((typeof styleSheet == 'undefined') || (styleSheet == null)) {
-    localStorage.setItem('stylesheet-key', lightId)
-    setCssLight()
+function getCookie(cname) {
+  const name = cname + '='
+  const decodedCookie = decodeURIComponent(document.cookie)
+  const ca = decodedCookie.split(';')
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i]
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1)
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length)
+    }
   }
-  else if (styleSheet === lightId) {
-    setCssLight()
-  }
-  else {
-    setCssDark()
-  }
+  return ''
 }
-
-// Calling the function before parsing ends and css is applied to avoid flickering
-setCssBeforeLoading()
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function changeTheme() {
-  const styleSheet = localStorage.getItem('stylesheet-key')
-  if ((typeof styleSheet == 'undefined')  || (styleSheet == null) || (styleSheet === lightId)) {
-    localStorage.setItem('stylesheet-key', darkId)
-    setCssDark()
-  }
-  else {
-    localStorage.setItem('stylesheet-key', lightId)
-    setCssLight()
+  if (getCookie('theme') === 'dark') {
+    document.cookie = 'theme=light;path=/;SameSite=Lax'
+    window.document.documentElement.classList.add('light')
+    window.document.documentElement.classList.remove('dark')
+  } else {
+    document.cookie = 'theme=dark;path=/;SameSite=Lax'
+    window.document.documentElement.classList.add('dark')
+    window.document.documentElement.classList.remove('light')
   }
 }

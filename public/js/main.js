@@ -4,31 +4,10 @@ const UNAUTHORIZED_MESSAGE = 'Ehhez a művelethez bejelentkezés szükséges'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const FORBIDDEN_MESSAGE = 'Ehhez a művelethez admin jogosultság szükséges'
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Get all "navbar-burger" elements
-  const $navbarBurgers = Array.from(document.querySelectorAll('.navbar-burger')).slice()
-
-  // Check if there are any navbar burgers
-  if ($navbarBurgers.length > 0) {
-    // Add a click event on each of them
-    $navbarBurgers.forEach(el => {
-      el.addEventListener('click', () => {
-        // Get the target from the "data-target" attribute
-        const target = el.dataset.target
-        const $target = document.getElementById(target)
-
-        // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-        el.classList.toggle('is-active')
-        $target.classList.toggle('is-active')
-      })
-    })
-  }
-})
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function displayMessage(type, message) {
+function displayMessage(message) {
   const errorEl = document.createElement('article')
-  errorEl.classList.add('message', 'alert-detail', `is-${type}`)
+  errorEl.classList.add('p-6', 'text-gray-900', 'bg-red-100', 'border-l-4', 'border-red-500')
 
   const errorMessageEl = document.createElement('div')
   errorMessageEl.classList.add('message-body')
