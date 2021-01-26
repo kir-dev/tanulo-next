@@ -10,12 +10,60 @@ module.exports = {
       colors: {
         'indigo-1000': '#211f5b',
       },
+      typography: (theme) => ({
+        dark: {
+          css: {
+            color: 'white',
+            strong: {
+              color: 'white',
+              'font-weight': 'bold',
+            },
+            h1: {
+              color: 'white',
+              'margin-top': '0'
+            },
+            h2: {
+              color: 'white',
+              'margin-top': '0'
+            },
+            h3: {
+              color: 'white',
+              'margin-top': '0'
+            },
+            h4: {
+              color: 'white',
+              'margin-top': '0'
+            },
+            p: {
+              color: 'white',
+              'margin-top': '0',
+              'margin-bottom': '1em'
+            },
+            'ul > li': {
+              '&::before': {
+                'background-color': 'white',
+                'font-weight': 'bold'
+              }
+            },
+            'ol > li': {
+              '&::before': {
+                color: 'white',
+                'font-weight': 'bold'
+              }
+            }
+          }
+        }
+      })
     },
   },
   variants: {
     display: ['responsive', 'group-hover'],
+    extend: {
+      typography: ['dark']
+    }
   },
   plugins: [
+    require('@tailwindcss/typography'),
     require('@tailwindcss/forms'),
   ],
 }

@@ -109,7 +109,8 @@ block content
       if group.description
         div
           h2(class='mb-3 text-3xl uppercase') Leírás
-          div(class='px-4 py-2 ml-6 text-lg break-all border-l-2 border-gray-700 bg-default') !{group.description}
+          div(class='px-4 py-2 ml-6 text-lg break-all border-l-2 border-gray-700 bg-default')
+            div(class='prose lg:prose-xl dark:prose-dark') !{group.description}
     div(class='mt-4 mr-10 lg:pl-10 lg:border-l lg:mt-0')
       h2(class='mb-3 text-3xl uppercase') Résztvevők
       div(class='flex flex-col items-start space-y-2 text-xl')
