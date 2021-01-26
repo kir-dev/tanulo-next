@@ -31,7 +31,7 @@ block content
       div
         label(class='text-lg font-bold' for="maxAttendees") Maximális létszám
         br
-        input(type="number" name="maxAttendees" id="maxAttendees" placeholder="Alapértelmezetten 100" value=`${maxAttendees ? maxAttendees : ''}` min=1 max=100 class="rounded form-element")
+        input(type="number" name="maxAttendees" id="maxAttendees" placeholder="100" value=`${maxAttendees ? maxAttendees : ''}` min=1 max=100 class="rounded form-element")
       div
         label(class='text-lg font-bold') Kezdés ideje
         input(type="datetime", id="pickerStart", name="startDate", required)
