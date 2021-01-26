@@ -2,7 +2,7 @@ function getCookie(cname) {
   const name = cname + '='
   const decodedCookie = decodeURIComponent(document.cookie)
   const ca = decodedCookie.split(';')
-  for(let i = 0; i <ca.length; i++) {
+  for (let i = 0; i < ca.length; i++) {
     let c = ca[i]
     while (c.charAt(0) == ' ') {
       c = c.substring(1)
@@ -18,11 +18,9 @@ function getCookie(cname) {
 function changeTheme() {
   if (getCookie('theme') === 'dark') {
     document.cookie = 'theme=light;path=/;SameSite=Lax'
-    window.document.documentElement.classList.add('light')
-    window.document.documentElement.classList.remove('dark')
+
   } else {
     document.cookie = 'theme=dark;path=/;SameSite=Lax'
-    window.document.documentElement.classList.add('dark')
-    window.document.documentElement.classList.remove('light')
   }
+  window.document.documentElement.className = getCookie('theme')
 }
