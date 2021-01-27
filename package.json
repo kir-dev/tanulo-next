@@ -6,7 +6,7 @@
   "scripts": {
     "start": "yarn serve",
     "build": "yarn build:ts && yarn build:css && yarn lint && yarn copy:static-assets",
-    "build:prod": "yarn build:ts && yarn build:css && yarn copy:static-assets",
+    "build:prod": "yarn build:ts && yarn build:css:prod && yarn copy:static-assets",
     "serve": "node dist/src/server.js",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
@@ -16,6 +16,7 @@
     "watch:test": "yarn test --watchAll",
     "build:ts": "etsc",
     "build:css": "postcss public/css/tailwind.css -o dist/public/css/styles.css",
+    "build:css:prod": "NODE_ENV=production yarn build:css",
     "watch:css": "yarn build:css -w",
     "watch:fe": "concurrently -k -p \"[{name}]\" -n \"Css,Static\" -c \"yellow.bold,cyan.bold\" \"yarn watch:css\" \"yarn watch:static-assets\"",
     "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\"",
