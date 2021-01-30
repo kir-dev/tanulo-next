@@ -16,11 +16,7 @@ function getCookie(cname) {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function changeTheme() {
-  if (getCookie('theme') === 'dark') {
-    document.cookie = 'theme=light;path=/;SameSite=Lax'
-
-  } else {
-    document.cookie = 'theme=dark;path=/;SameSite=Lax'
-  }
-  window.document.documentElement.className = getCookie('theme')
+  const newTheme = getCookie('theme') === 'dark' ? 'light' : 'dark'
+  document.cookie = `theme=${newTheme};path=/;SameSite=Lax`
+  window.document.documentElement.className = newTheme
 }
