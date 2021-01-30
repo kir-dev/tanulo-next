@@ -1,6 +1,10 @@
 module.exports = {
   darkMode: 'class',
-  purge: ['./views/**/*.pug'],
+  purge: {
+    enabled: true,
+    preserveHtmlElements: false,
+    content: ['./views/**/*.pug', './public/**/*.js'],
+  },
   theme: {
     extend: {
       boxShadow: {
