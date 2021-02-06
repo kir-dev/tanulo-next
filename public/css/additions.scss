@@ -59,6 +59,10 @@ article.message.alert-detail {
   height: 100%;
 }
 
+.is-clickable {
+  cursor: pointer;
+}
+
 .flex-column {
   display: flex;
   flex-direction: column;
