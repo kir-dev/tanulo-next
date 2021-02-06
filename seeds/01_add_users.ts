@@ -1,5 +1,6 @@
 import * as Knex from 'knex'
 import faker from 'faker'
+import { RoleType } from '../src/components/users/user'
 
 export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries not considering FK constraints
@@ -10,9 +11,9 @@ export async function seed(knex: Knex): Promise<void> {
   for (let i = 0; i < userCount; ++i) {
     const user = {
       name: faker.name.findName(),
-      email: faker.internet.email(), 
+      email: faker.internet.email(),
       authSchId: faker.random.uuid(),
-      admin: false 
+      role: RoleType.USER,
     }
     console.log('\x1b[33m%s\x1b[0m', `User: #${i+1} ${user.name}`)
     userArray.push(user)
