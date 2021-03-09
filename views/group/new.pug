@@ -2,11 +2,12 @@ extends ../layouts/main
 
 block styles
   link(rel="stylesheet" href="https://unpkg.com/easymde@2.10.1/dist/easymde.min.css")
-  link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.3.1/main.min.css")
-  link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.css")
-  link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.3.0/main.min.css")
-  link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-calendar@6.0.9/dist/css/bulma-calendar.min.css")
+  //- link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.3.1/main.min.css")
+  //- link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.css")
+  //- link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.3.0/main.min.css")
   link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify@3.22.0/dist/tagify.css")
+  link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css")
+  link(rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css")
 
 block content
   h1(class='title') #{isEditing ? 'Csoport módosítása' : 'Új csoport felvétele'}
@@ -32,12 +33,12 @@ block content
         label(class='text-lg font-bold' for="maxAttendees") Maximális létszám
         br
         input(type="number" name="maxAttendees" id="maxAttendees" placeholder="100" value=`${maxAttendees ? maxAttendees : ''}` min=1 max=100 class="rounded form-element")
-      div
+      div(class='flex flex-col items-start')
         label(class='text-lg font-bold') Kezdés ideje
-        input(type="datetime", id="pickerStart", name="startDate", required)
-      div
+        input(type="text", id="pickerStart", name="startDate", required, data-input, class="flatpickr")
+      div(class='flex flex-col items-start')
         label(class='text-lg font-bold') Befejezés ideje
-        input(type="datetime", id="pickerEnd", name="endDate", required)
+        input(type="text", id="pickerEnd", name="endDate", required, data-input, class="flatpickr")
       div
         label(for="desc" class='text-lg font-bold') Leírás
         textarea(name="description", id="desc")
@@ -75,14 +76,14 @@ block scripts
     script const description = !{JSON.stringify(description)}
   if tags
     script const tags = !{JSON.stringify(tags)}
-  script(src="https://cdn.jsdelivr.net/npm/bulma-calendar@6.0.9/dist/js/bulma-calendar.min.js")
-  script(src="/js/picker.js")
-  script(src="https://unpkg.com/easymde@2.10.1/dist/easymde.min.js")
-  script(src="/js/md-editor.js")
+  script(src="https://cdn.jsdelivr.net/npm/flatpickr")
   script(src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@3.22.0/dist/tagify.min.js")
-  script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.3.0/main.js')
-  script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.js')
-  script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.3.0/main.min.js')
+  script(src="https://unpkg.com/easymde@2.10.1/dist/easymde.min.js")
+  //- script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.3.0/main.js')
+  //- script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.js')
+  //- script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.3.0/main.min.js')
+  script(src="/js/picker.js")
+  script(src="/js/md-editor.js")
   script(src="/js/group/create.js")
   script.
     const tagsInput = document.querySelector('input[name=tags]')

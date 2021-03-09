@@ -14,7 +14,7 @@ module.exports = {
       colors: {
         'indigo-1000': '#211f5b',
       },
-      typography: (theme) => ({
+      typography: () => ({
         dark: {
           css: {
             color: 'white',
