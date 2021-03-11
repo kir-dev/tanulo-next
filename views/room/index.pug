@@ -13,7 +13,7 @@ block content
         else
           +roomTemplate(user.floor, false)
         div(class='h-px max-w-3xl mx-auto mt-8 mb-6 bg-gray-700 rounded')
-    div(class='py-2 space-y-12')
+    div(class='py-2 space-y-8')
       - const otherRooms = (user) ? ROOMS.filter(it => it !== user.floor) : ROOMS
       each room in otherRooms
         if busyRooms.some(it => it.room === room)
