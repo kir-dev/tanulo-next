@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   darkMode: 'class',
   purge: {
@@ -13,6 +16,7 @@ module.exports = {
       },
       colors: {
         'indigo-1000': '#211f5b',
+        orange: colors.orange,
       },
       typography: () => ({
         dark: {
