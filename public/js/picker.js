@@ -13,14 +13,17 @@ Date.prototype.addMinutes = function(m) {
 //Main logic for manipulating dates and times
 const now = new Date()
 now.setMinutes(0, 0, 0)
-const defDate = { start: now.addHours(1), end: now.addHours(2) }
+let startDef = now.addHours(1)
+let endDef = now.addHours(2)
 
 if (typeof range !== 'undefined') {
   const parsedStart = flatpickr.parseDate(range.start, 'Y-m-dTH:i')
   if (parsedStart >= now) {
     startDef = parsedStart
     endDef = flatpickr.parseDate(range.end, 'Y-m-dTH:i')
-  } else displayMessage('Hiba: múltbéli időintervallumban csoport nem hozható létre.')
+  } else {
+    displayMessage('Hiba: múltbéli időintervallumban csoport nem hozható létre.')
+  }
 }
 
 const options = {
@@ -34,12 +37,12 @@ const options = {
 
 const pickerStart = flatpickr('#pickerStart', {
   ...options,
-  defaultDate: defDate.start,
+  defaultDate: startDef,
 })
 
 const pickerEnd = flatpickr('#pickerEnd', {
   ...options,
-  defaultDate: defDate.end,
+  defaultDate: endDef,
 })
 
 //Watching out for illegal DateTime ranges between start and end:
