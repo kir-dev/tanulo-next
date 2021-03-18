@@ -1,31 +1,75 @@
-nav.navbar(role='navigation' aria-label='main navigation')
-  .navbar-brand
-    a.navbar-item(href='/') TanulóSCH
-    a.navbar-burger.burger(role='button' aria-label='menu' aria-expanded='false' data-target='navbarMenu')
-      span(aria-hidden='true')
-      span(aria-hidden='true')
-      span(aria-hidden='true')
-  #navbarMenu.navbar-menu
-    .navbar-start
-      a.navbar-item(href='/') Kezdőlap
-      a.navbar-item(href='/groups') Csoportok
-      a.navbar-item(href='/tickets') Hibajegyek
-    .navbar-end
-      a.navbar-item(onclick='changeTheme()')
-        span.icon.is-small
-          i.fas.fa-moon
-        span \
-        span.icon.is-small
-          i.fas.fa-sun
+header(x-data="{ open: false }")
+  nav(class='flex flex-row items-center justify-between px-6 py-4 text-xl')
+    a(href='/' class='text-xl font-bold nav-link') TanulóSCH
+    div(class='flex flex-row items-center space-x-6')
+      a(onclick='changeTheme()' class='cursor-pointer nav-link md:hidden')
+        //- Heroicon name: sun
+        svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
+          path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z')
+      button(type='button' @click="open = !open" class='inline-block md:hidden')
+        svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6 nav-link')
+          //- Heroicon name: menu
+          template(x-if='!open')
+            path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 6h16M4 12h16M4 18h16'
+              x-transition:enter="transition ease-out duration-300"
+              x-transition:enter-start="opacity-0"
+              x-transition:enter-end="opacity-100"
+              x-transition:leave="transition ease-in duration-100"
+              x-transition:leave-start="opacity-100"
+              x-transition:leave-end="opacity-0")
+          template(x-if='open')
+            //- Heroicon name: x
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"
+              x-transition:enter="transition ease-out duration-300"
+              x-transition:enter-start="opacity-0"
+              x-transition:enter-end="opacity-100"
+              x-transition:leave="transition ease-in duration-100"
+              x-transition:leave-start="opacity-100"
+              x-transition:leave-end="opacity-0")
+    div(class='hidden md:block')
+      div(class='flex flex-row items-center justify-around space-x-10')
+        a(onclick='changeTheme()' class='cursor-pointer nav-link')
+          //- Heroicon name: sun
+          svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
+            path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z')
+        a(href='/' class='nav-link') Kezdőlap
+        a(href='/groups' class='nav-link') Csoportok
+        a(href='/tickets' class='nav-link') Hibajegyek
+        if !loggedIn
+          a(href='/auth/oauth' class='btn btn-primary animate-hover')
+            strong Bejelentkezés
+        else
+          div(class='group')
+            div(class='flex flex-row items-center')
+              strong= user.name
+              //- Heroicon name: chevron-down
+              svg(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5 ml-2')
+                path(fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd')
+
+            div(class='absolute z-50 hidden p-4 rounded-lg shadow-lg group-hover:block bg-default')
+              div(class='flex flex-col space-y-2 dropdown-menu')
+                a(href=`/users/${user.id}` class='nav-link') Profil
+                a(href="/logout" class='nav-link') Kijelentkezés
+
+  template(x-if='open')
+    nav(class='flex flex-col px-6 mb-3 space-y-2 md:hidden'
+      x-transition:enter="transition ease-out duration-300"
+      x-transition:enter-start="opacity-0 transform -translate-y-6"
+      x-transition:enter-end="opacity-100 transform translate-y-0"
+      x-transition:leave="transition ease-in duration-100"
+      x-transition:leave-start="opacity-100 transform translate-y-0"
+      x-transition:leave-end="opacity-0 transform -translate-y-6")
+      a(href='/' class='text-lg nav-link') Kezdőlap
+      a(href='/groups' class='text-lg nav-link') Csoportok
+      a(href='/tickets' class='text-lg nav-link') Hibajegyek
       if !loggedIn
-        .navbar-item
-          .buttons
-            a.button.is-primary(href='/auth/oauth')
-              strong AuthSCH bejelentkezés
+        a(href='/auth/oauth' class='self-start flex-initial text-center btn btn-primary animate-hover')
+          strong Bejelentkezés
       else
-        .navbar-item.has-dropdown.is-hoverable
-          .navbar-link
-            strong= user.name
-          .navbar-dropdown
-            a.navbar-item(href=`/users/${user.id}`) Profil
-            a.navbar-item(href="/logout") Kijelentkezés
+        div(class='flex flex-row items-center')
+          strong(class='text-xl')= user.name
+          //- Heroicon name: chevron-down
+          svg(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5 mt-1 ml-1')
+            path(fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd')
+        a(href=`/users/${user.id}` class='my-1 ml-2 text-lg nav-link') Profil
+        a(href="/logout" class='ml-2 text-lg nav-link') Kijelentkezés

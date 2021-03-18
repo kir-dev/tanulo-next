@@ -1,5 +1,5 @@
 doctype html
-html(lang='hu')
+html(lang='hu' class=`${theme}`)
   head
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
@@ -7,19 +7,19 @@ html(lang='hu')
     title TanulóSCH
     meta(name='csrf-token', content=_csrf)
     link(rel='shortcut icon', href='/images/favicon.png')
-    link(type="text/css", rel='stylesheet', href='/css/main-dark.css', id="dark-theme-css")
-    link(type="text/css", rel='stylesheet', href='/css/main-light.css', id="light-theme-css")
+    link(type="text/css", rel='stylesheet', href='/css/styles.css')
     script(src='/js/themes.js')
     block styles
 
-  body
-    div(id="alert")
+  body(class='flex flex-col min-h-screen text-gray-800 transition-colors duration-300 dark:text-gray-200 bg-gradient-to-b from-blue-200 to-purple-200 dark:from-indigo-1000 dark:to-purple-900')
+    #alert(class='fixed z-50 cursor-pointer')
     include ../partials/header
 
-    main
+    main(class='flex-1')
       block content
 
     include ../partials/footer
+    script(src='/js/polyfills.js')
     script(src='/js/main.js')
-    script(src="https://use.fontawesome.com/releases/v5.3.1/js/all.js")
+    script(src='https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.0/dist/alpine.min.js' defer)
     block scripts

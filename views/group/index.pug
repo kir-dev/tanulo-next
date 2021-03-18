@@ -1,46 +1,54 @@
 extends ../layouts/main
 
 block content
-  .columns.is-mobile.is-multiline.is-vcentered
-    .column.is-narrow
-      h1.title.is-size-3.is-size-1-desktop Csoportok
-    .column.is-narrow
-      a.button.is-link(href="/groups/new") Új csoport
+  div(class='flex flex-row items-center space-x-4')
+    h1(class='title') Csoportok
+    a(href='/groups/new' class='text-xl btn btn-primary dark:bg-indigo-500 dark:text-gray-100 dark:hover:bg-indigo-600 animate-hover') Új csoport
   if paginationOpt.pageNum > 1
-    include ./pagination
+    include ./pagination/index
 
-  .columns.is-desktop.is-multiline.is-centered
+  div(class='grid grid-cols-1 xl:mx-32 lg:grid-cols-2 gap-y-8 gap-x-8 m-6')
     each group in groups
-      .column.is-6-desktop
-        .card.flex-column
-          a.card-header(href=`/groups/${group.id}`).is-shadowless
-            .card-header-title
-              .title #{group.name}
-                .subtitle Szint: #{group.room}
-            .py-5.px-5
-              span.icon(class=`has-text-${group.doNotDisturb ? 'danger': 'success'}`)
-                i.fas.fa-lg(class=`fa-${group.doNotDisturb ? '': 'un'}lock`)
-          .card-content.flex-column
-            .content.break-long-words !{group.description}
-            if group.tags
-              .has-text-right.flex-column-footer
-                - const tags = group.tags.split(",")
-                each tag in tags.slice(0, 4)
-                  span &nbsp;
-                  span.tag.is-info= tag
-                if tags.length > 4
-                  span &nbsp;...
-          footer.card-footer.flex-column-footer
-            .card-footer-item(title=`${dateFns.format(group.startDate, dateFns.DATE_FORMAT)}`)
-              span.icon
-                i.fas.fa-play
+      div(class='flex flex-col px-4 py-2 transition duration-300 ease-in-out transform rounded-lg sm:px-8 sm:py-4 bg-default shadow-full hover:-translate-y-2')
+        a(href=`/groups/${group.id}` class='flex flex-row items-center justify-between mb-4 hover:text-purple-500')
+          h2(class='text-3xl md:text-4xl' title=`${group.name}`)= group.name
+          if group.doNotDisturb
+            //- Heroicon name: lock-closed
+            svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6 text-red-500')
+              path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z')
+          else
+            //- Heroicon name: lock-open
+            svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6 text-green-500')
+              path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z')
+
+        div(class='space-y-2')
+          div(class='flex flex-row items-center space-x-2 text-gray-600 dark:text-gray-400')
+            //- Heroicon name: office-building
+            svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
+              path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4')
+            span(class='text-lg sm:text-xl') #{group.room}. emelet
+          div(class='ml-8 break-words') !{group.description}
+        footer(class='mt-auto')
+          if group.tags
+            div(class='flex flex-wrap mt-2 flew-row')
+              - const tags = group.tags.split(",")
+              each tag in tags.slice(0, 4)
+                span(class='px-3 py-1 mb-1 mr-2 text-xs text-white bg-yellow-600 rounded-md md:text-sm')= tag
+              if tags.length > 4
+                span &nbsp;...
+          div(class='flex flex-row items-center justify-around pt-3 pb-2 sm:pb-0')
+            div(title=`${dateFns.format(group.startDate, dateFns.DATE_FORMAT)}` class='flex flex-row items-center space-x-1')
+              //- Heroicon name: calendar
+              svg(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5')
+                path(fill-rule='evenodd' d='M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z' clip-rule='evenodd')
               span #{dateFns.formatDistanceToNowStrict(group.startDate, { addSuffix: true, locale: dateFns.huLocale })}
-            .card-footer-item(title="Időtartam")
-              span.icon
-                i.fas.fa-stopwatch
+            div(title="Időtartam" class='flex flex-row items-center space-x-1')
+              //- Heroicon name: clock
+              svg(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5')
+                path(fill-rule='evenodd' d='M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z' clip-rule='evenodd')
               span #{dateFns.formatDistanceStrict(group.startDate, group.endDate, { locale: dateFns.huLocale })}
     else
-      p.mt-3 Nincsenek megjelenítendő csoportok
+      p(class='mt-3') Nincsenek megjelenítendő csoportok
 
   if paginationOpt.pageNum > 1 && groups.length > 2
-    include ./pagination
+    include ./pagination/index

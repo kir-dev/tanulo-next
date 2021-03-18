@@ -9,18 +9,18 @@ function deleteTicket(id) {
           ticket.parentNode.removeChild(ticket)
           break
         case 401:
-          displayMessage('danger', UNAUTHORIZED_MESSAGE)
+          displayMessage(UNAUTHORIZED_MESSAGE)
           break
         case 403:
-          displayMessage('danger', FORBIDDEN_MESSAGE)
+          displayMessage(FORBIDDEN_MESSAGE)
           break
         case 404:
           data = await res.json()
-          displayMessage('danger', data.message)
+          displayMessage(data.message)
           break
         }
       })
-      .catch(err => displayMessage('danger', err))
+      .catch(err => displayMessage(err))
   }
 }
 
@@ -49,7 +49,7 @@ function addTicket() {
 
   if (errors.length) {
     clearMessages()
-    errors.forEach(err => displayMessage('danger', err))
+    errors.forEach(err => displayMessage(err))
   } else {
     fetch('/tickets', { method: 'POST', body: formData })
       .then(async (res) => {
@@ -60,22 +60,23 @@ function addTicket() {
         case 400:
           const data = await res.json()
           clearMessages()
-          data.errors.forEach((err) => displayMessage('danger', err.msg))
+          data.errors.forEach((err) => displayMessage(err.msg))
           break
         case 401:
-          displayMessage('danger', UNAUTHORIZED_MESSAGE)
+          displayMessage(UNAUTHORIZED_MESSAGE)
           break
         }
       })
-      .catch((err) => displayMessage('danger', err))
+      .catch((err) => displayMessage(err))
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function moveTicket(id) {
   const formEl = document.getElementById(`ticket-form-${id}`)
   const formData = new FormData(formEl)
-  fetch(`/tickets/${id}`, { 
-    method: 'PUT', 
+  fetch(`/tickets/${id}`, {
+    method: 'PUT',
     body: formData
   })
     .then(async (res) => {
@@ -86,12 +87,12 @@ function moveTicket(id) {
       case 400:
         const data = await res.json()
         clearMessages()
-        data.errors.forEach((err) => displayMessage('danger', err.msg))
+        data.errors.forEach((err) => displayMessage(err.msg))
         break
       case 401:
-        displayMessage('danger', UNAUTHORIZED_MESSAGE)
+        displayMessage(UNAUTHORIZED_MESSAGE)
         break
       }
     })
-    .catch((err) => displayMessage('danger', err))
+    .catch((err) => displayMessage(err))
 }

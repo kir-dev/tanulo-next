@@ -3,7 +3,7 @@ function updateUser(id) {
   const floorEl = document.getElementById('floor-input')
   const floor = parseInt(floorEl.value)
   if (floorEl.value !== '' && (floor < 3 || floor > 18)) {
-    displayMessage('danger', 'A szint üres vagy 3 és 18 közötti szám lehet')
+    displayMessage('A szint üres vagy 3 és 18 közötti szám lehet')
   } else {
     fetch(`/users/${id}`, {
       method: 'PATCH',
@@ -17,18 +17,17 @@ function updateUser(id) {
         case 200:
           const user = await res.json()
           floorEl.value = user.floor
-          displayMessage('success', 'Sikeres mentés!')
           break
         case 400:
           const data = await res.json()
           clearMessages()
-          data.errors.forEach(err => displayMessage('danger', err.msg))
+          data.errors.forEach(err => displayMessage(err.msg))
           break
         case 401:
-          displayMessage('danger', UNAUTHORIZED_MESSAGE)
+          displayMessage(UNAUTHORIZED_MESSAGE)
           break
         default:
-          displayMessage('danger', 'Nem várt hiba történt')
+          displayMessage('Nem várt hiba történt')
           break
         }
       })
@@ -42,7 +41,7 @@ function updateRole(id) {
   const role = roleEl.value
   console.log(role)
   if (role == '' || !(role == 'ADMIN' || role == 'TICKET_ADMIN' || role == 'USER')) {
-    displayMessage('danger', 'A felhasználói jogkör nem megfelelő.')
+    displayMessage('A felhasználói jogkör nem megfelelő.')
   } else {
     fetch(`/users/${id}/role`, {
       method: 'PATCH',
@@ -59,13 +58,13 @@ function updateRole(id) {
         case 400:
           const data = await res.json()
           clearMessages()
-          data.errors.forEach((err) => displayMessage('danger', err.msg))
+          data.errors.forEach((err) => displayMessage(err.msg))
           break
         case 403:
-          displayMessage('danger', UNAUTHORIZED_MESSAGE)
+          displayMessage(UNAUTHORIZED_MESSAGE)
           break
         }
       })
-      .catch((err) => displayMessage('danger', err))
+      .catch((err) => displayMessage(err))
   }
 }

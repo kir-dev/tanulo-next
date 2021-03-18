@@ -1,6 +1,6 @@
 extend ../layouts/main
 
 block content
-  .has-text-centered
-    h4.title.mb-4 Az oldal megtekintéséhez bejelentkezés szükséges!
-  img(src="https://http.cat/401", alt="Bejelentkezés szükséges", style="width: 100%;")
+  div(class="flex flex-col items-center px-4 text-center")
+    h1(class="mb-4 text-3xl md:text-5xl") Az oldal megtekintéséhez bejelentkezés szükséges!
+    img(src="https://http.cat/401", alt="Bejelentkezés szükséges")

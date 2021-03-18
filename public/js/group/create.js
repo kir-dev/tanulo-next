@@ -21,10 +21,10 @@ const handleResponse = async (res) => {
   case 400:
     const data = await res.json()
     clearMessages()
-    data.errors.forEach((err) => displayMessage('danger', err.msg))
+    data.errors.forEach((err) => displayMessage(err.msg))
     break
   case 401:
-    displayMessage('danger', UNAUTHORIZED_MESSAGE)
+    displayMessage(UNAUTHORIZED_MESSAGE)
     break
   }
 }
@@ -33,14 +33,19 @@ const addGroup = (event) => {
   event.preventDefault()
   const formData = new FormData(event.target)
   const errors = validateGroup(formData)
+  if (formData.get('tags')) {
+    const tags = JSON.parse(formData.get('tags'))
+    const parsedTags = tags.map((it) => it.value).join(',')
+    formData.set('tags', parsedTags)
+  }
 
   if (errors.length) {
     clearMessages()
-    errors.forEach((err) => displayMessage('danger', err))
+    errors.forEach((err) => displayMessage(err))
   } else {
     fetch('/groups', { method: 'POST', body: formData })
       .then(handleResponse)
-      .catch((err) => displayMessage('danger', err))
+      .catch((err) => displayMessage(err))
   }
 }
 
@@ -48,14 +53,19 @@ const editGroup = (event) => {
   event.preventDefault()
   const formData = new FormData(event.target)
   const errors = validateGroup(formData)
+  if (formData.get('tags')) {
+    const tags = JSON.parse(formData.get('tags'))
+    const parsedTags = tags.map((it) => it.value).join(',')
+    formData.set('tags', parsedTags)
+  }
 
   if (errors.length) {
     clearMessages()
-    errors.forEach((err) => displayMessage('danger', err))
+    errors.forEach((err) => displayMessage(err))
   } else {
     fetch(`/groups/${groupId}`, { method: 'PUT', body: formData })
       .then(handleResponse)
-      .catch((err) => displayMessage('danger', err))
+      .catch((err) => displayMessage(err))
   }
 }
 
@@ -103,35 +113,36 @@ const calendarOptions = {
   aspectRatio: 0.7
 }
 
-const createCalendar = (room) => {
-  const calendarEl = document.getElementById('side-calendar')
-  while (calendarEl.firstChild) {
-    calendarEl.firstChild.remove()
-  }
+// TODO: side-calendar
+// const createCalendar = (room) => {
+//   const calendarEl = document.getElementById('side-calendar')
+//   while (calendarEl.firstChild) {
+//     calendarEl.firstChild.remove()
+//   }
 
-  fetch(`/rooms/${room}/events`)
-    .then((res) => res.json())
-    .then((data) => {
-      const calendar = new FullCalendar.Calendar(calendarEl, {
-        ...calendarOptions,
-        customButtons: {
-          prevWeek: {
-            text: '-7',
-            click: () => calendar.incrementDate({ days: -7 }),
-          },
-          nextWeek: {
-            text: '+7',
-            click: () => calendar.incrementDate({ days: 7 }),
-          },
-        },
-        events: data,
-      })
-      calendar.render()
-    })
-}
+//   fetch(`/rooms/${room}/events`)
+//     .then((res) => res.json())
+//     .then((data) => {
+//       const calendar = new FullCalendar.Calendar(calendarEl, {
+//         ...calendarOptions,
+//         customButtons: {
+//           prevWeek: {
+//             text: '-7',
+//             click: () => calendar.incrementDate({ days: -7 }),
+//           },
+//           nextWeek: {
+//             text: '+7',
+//             click: () => calendar.incrementDate({ days: 7 }),
+//           },
+//         },
+//         events: data,
+//       })
+//       calendar.render()
+//     })
+// }
 
-const roomSelector = document.getElementById('room')
-createCalendar(roomSelector.value)
-roomSelector.addEventListener('change', (event) => {
-  createCalendar(event.target.value)
-})
+// const roomSelector = document.getElementById('room')
+// createCalendar(roomSelector.value)
+// roomSelector.addEventListener('change', (event) => {
+//   createCalendar(event.target.value)
+// })
