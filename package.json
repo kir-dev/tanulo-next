@@ -79,7 +79,7 @@
     "concurrently": "^6.0.0",
     "esbuild-node-tsc": "^1.2.0",
     "eslint": "^6.4.0",
-    "faker": "^5.1.0",
+    "faker": "^5.5.1",
     "jest": "^25.5.4",
     "nodemon": "^2.0.7",
     "postcss-cli": "^8.0.0",
