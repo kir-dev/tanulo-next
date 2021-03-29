@@ -70,7 +70,7 @@
     "@types/node-fetch": "^2.5.7",
     "@types/passport": "^1.0.6",
     "@types/passport-oauth2": "^1.4.9",
-    "@types/sanitize-html": "^1.27.0",
+    "@types/sanitize-html": "^1.27.1",
     "@types/shelljs": "^0.8.8",
     "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
