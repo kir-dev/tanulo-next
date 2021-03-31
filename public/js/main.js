@@ -5,9 +5,15 @@ const UNAUTHORIZED_MESSAGE = 'Ehhez a művelethez bejelentkezés szükséges'
 const FORBIDDEN_MESSAGE = 'Ehhez a művelethez admin jogosultság szükséges'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function displayMessage(message) {
+function displayMessage(message, type = 'danger') {
   const errorEl = document.createElement('article')
-  errorEl.classList.add('p-6', 'text-gray-900', 'bg-red-100', 'border-l-4', 'border-red-500')
+  if (type === 'danger') {
+    errorEl.classList.add('p-6', 'text-gray-900', 'bg-red-100', 'border-l-4', 'border-red-500')
+  } else if (type === 'success') {
+    errorEl.classList.add('p-6', 'text-green-600', 'bg-green-100', 'border-l-4', 'border-green-500')
+  } else {
+    errorEl.classList.add('p-6', 'text-yellow-500', 'bg-yellow-100', 'border-l-4', 'border-yellow-500')
+  }
 
   const errorMessageEl = document.createElement('div')
   errorMessageEl.classList.add('message-body')
