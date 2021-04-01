@@ -82,14 +82,14 @@ function moveTicket(id) {
     .then(async (res) => {
       switch (res.status) {
       case 201:
-        location.href = '/tickets'
+        displayMessage('Hibajegy státusza sikeresen megváltoztatva!', 'success')
         break
       case 400:
         const data = await res.json()
         clearMessages()
         data.errors.forEach((err) => displayMessage(err.msg))
         break
-      case 401:
+      case 401: 
         displayMessage(UNAUTHORIZED_MESSAGE)
         break
       }
