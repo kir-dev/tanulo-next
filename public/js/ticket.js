@@ -89,7 +89,7 @@ function moveTicket(id) {
         clearMessages()
         data.errors.forEach((err) => displayMessage(err.msg))
         break
-      case 401: 
+      case 401:
         displayMessage(UNAUTHORIZED_MESSAGE)
         break
       }
