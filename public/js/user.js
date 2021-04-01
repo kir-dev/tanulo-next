@@ -17,7 +17,7 @@ function updateUser(id) {
         case 200:
           const user = await res.json()
           floorEl.value = user.floor
-          displayMessage("Saját szint sikeresen frissítve!", 'success')
+          displayMessage('Saját szint sikeresen frissítve!', 'success')
           break
         case 400:
           const data = await res.json()
