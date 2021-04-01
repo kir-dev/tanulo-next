@@ -67,7 +67,7 @@ const parseUsageData = (rawData: RawUsageData[], today: Date) => {
  * Get the number of events in every room on the next seven days.
  *
  * The result doesn't include keys with zero events.
- * @returns Map<roomId, Map<daysUntil, numEvents>>
+ * @returns Map<roomId, Map<dayOfWeekString, colorRGB>>
  */
 export const getUsageData = async () => {
   const today = toDate(new Date())
