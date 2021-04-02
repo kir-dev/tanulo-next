@@ -855,10 +855,10 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.3.tgz#7ee330ba7caafb98090bece86a5ee44115904c2c"
   integrity sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
 
-"@types/sanitize-html@^1.27.0":
-  version "1.27.0"
-  resolved "https://registry.yarnpkg.com/@types/sanitize-html/-/sanitize-html-1.27.0.tgz#77702dc856f16efecc005014c1d2e45b1f2cbc56"
-  integrity sha512-j7Vnh3P7W4ZcoRsHNO2HpwA2m1d0c2+l39xqSQqH0+WlfcvKypgZp45eCC7NJ75ZyXPxNb2PSbIL6LtZ6E0Qbw==
+"@types/sanitize-html@^1.27.2":
+  version "1.27.2"
+  resolved "https://registry.yarnpkg.com/@types/sanitize-html/-/sanitize-html-1.27.2.tgz#f7bf16ca4b1408278f97ae737f0377a08a10b35c"
+  integrity sha512-DrH26m7CV6PB4YVckjbSIx+xloB7HBolr9Ctm0gZBffSu5dDV4yJKFQGPquJlReVW+xmg59gx+b/8/qYHxZEuw==
   dependencies:
     htmlparser2 "^4.1.0"
 
