@@ -5,21 +5,28 @@ const UNAUTHORIZED_MESSAGE = 'Ehhez a művelethez bejelentkezés szükséges'
 const FORBIDDEN_MESSAGE = 'Ehhez a művelethez admin jogosultság szükséges'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function displayMessage(message) {
-  const errorEl = document.createElement('article')
-  errorEl.classList.add('p-6', 'text-gray-900', 'bg-red-100', 'border-l-4', 'border-red-500')
+function displayMessage(message, type = 'danger') {
+  const messageEL = document.createElement('article')
+  messageEL.classList.add('p-6', 'border-l-4')
+  if (type === 'danger') {
+    messageEL.classList.add('text-gray-900', 'bg-red-100', 'border-red-500')
+  } else if (type === 'success') {
+    messageEL.classList.add('text-green-900', 'bg-green-100', 'border-green-500')
+  } else {
+    messageEL.classList.add('text-yellow-900', 'bg-yellow-100', 'border-yellow-500')
+  }
 
-  const errorMessageEl = document.createElement('div')
-  errorMessageEl.classList.add('message-body')
-  errorMessageEl.textContent = message
+  const messageBodyEl = document.createElement('div')
+  messageBodyEl.classList.add('message-body')
+  messageBodyEl.textContent = message
 
-  errorEl.appendChild(errorMessageEl)
+  messageEL.appendChild(messageBodyEl)
 
   const alertEl = document.getElementById('alert')
-  alertEl.append(errorEl)
+  alertEl.append(messageEL)
 
-  errorEl.addEventListener('click', () => errorEl.remove(), { once: true })
-  setTimeout(() => errorEl.remove(), 4000)
+  messageEL.addEventListener('click', () => messageEL.remove(), { once: true })
+  setTimeout(() => messageEL.remove(), 4000)
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
