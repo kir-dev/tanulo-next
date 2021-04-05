@@ -2,12 +2,9 @@
 const colors = require('tailwindcss/colors')
 
 module.exports = {
+  mode: 'jit',
   darkMode: 'class',
-  purge: {
-    enabled: true,
-    preserveHtmlElements: false,
-    content: ['./views/**/*.pug', './public/**/*.js'],
-  },
+  purge:  ['./views/**/*.pug', './public/**/*.js'],
   theme: {
     extend: {
       boxShadow: {
@@ -63,12 +60,6 @@ module.exports = {
         }
       })
     },
-  },
-  variants: {
-    display: ['responsive', 'group-hover'],
-    extend: {
-      typography: ['dark']
-    }
   },
   plugins: [
     require('@tailwindcss/typography'),

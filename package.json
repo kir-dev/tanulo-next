@@ -6,7 +6,7 @@
   "scripts": {
     "start": "yarn serve",
     "build": "yarn build:ts && yarn build:css && yarn lint && yarn copy:static-assets",
-    "build:prod": "yarn build:ts && yarn build:css:prod && yarn copy:static-assets",
+    "build:prod": "yarn build:ts && yarn build:css && yarn copy:static-assets",
     "serve": "node dist/src/server.js",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
@@ -15,9 +15,8 @@
     "test": "jest --forceExit --coverage --verbose",
     "watch:test": "yarn test --watchAll",
     "build:ts": "etsc",
-    "build:css": "postcss public/css/tailwind.css -o dist/public/css/styles.css",
-    "build:css:prod": "NODE_ENV=production yarn build:css",
-    "watch:css": "yarn build:css -w",
+    "build:css": "NODE_ENV=production postcss public/css/tailwind.css -o dist/public/css/styles.css",
+    "watch:css": "NODE_ENV=development postcss public/css/tailwind.css -o dist/public/styles.css -w",
     "watch:fe": "concurrently -k -p \"[{name}]\" -n \"Css,Static\" -c \"yellow.bold,cyan.bold\" \"yarn watch:css\" \"yarn watch:static-assets\"",
     "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\"",
     "copy:static-assets": "node -r esm copyStaticAssets.js",
@@ -52,7 +51,7 @@
     "postcss-nested": "^5.0.5",
     "pug": "^3.0.2",
     "sanitize-html": "^1.27.4",
-    "tailwindcss": "^2.0.2",
+    "tailwindcss": "^2.1.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {
