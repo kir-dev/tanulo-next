@@ -1,6 +1,7 @@
 import { Group } from '../groups/group'
 import { toDate, addOneWeek } from '../../util/time'
 import { raw } from 'objection'
+import { DAYS_OF_WEEK, ROOMS } from '../../util/constants'
 
 export const getBusyRooms = async () => {
   const currentTime = new Date()
@@ -32,45 +33,41 @@ const fetchUsageData =
       .select('room')
       .select(raw('date(start_date) as day'))
       .select(raw('count(*) as many'))
-      .where('startDate', '>=', start)
-      .where('endDate', '<', end)
+      .where('endDate', '>=', start)
+      .where('startDate', '<', end)
       .groupBy('room')
       .groupByRaw('date(start_date)')
       .groupByRaw('date(start_date)') as unknown as Promise<RawUsageData[]>
   }
 
-/**
- * Convert the usage data from array to map
- */
 const parseUsageData = (rawData: RawUsageData[], today: Date) => {
-  const data = rawData.map(({ room, day, many }) => {
-    return {
-      daysUntil: (7 + day.getDay() - today.getDay()) % 7,
-      many: Number.parseInt(many + ''),
-      room,
-    }
-  })
 
-  const result = new Map<number, Map<number, number>>()
-  for (const { room, daysUntil, many } of data) {
-    if (!result.has(room)) {
-      result.set(room, new Map())
-    }
+  const result = new Map<number, { day: typeof DAYS_OF_WEEK[number], many: number }[]>()
 
-    result.get(room).set(daysUntil, many)
+  // generate empty data
+  for (const room of ROOMS) {
+    const roomResult = DAYS_OF_WEEK.map((_, d) => ({
+      day: DAYS_OF_WEEK[(today.getDay() + d -1) % 7],
+      many: 0
+    }))
+    result.set(room, roomResult)
+  }
+
+  // fill data
+  for (const { room, day, many } of rawData) {
+    const daysUntil = (7 + day.getDay() - today.getDay()) % 7
+    result.get(room)[daysUntil].many = Number(many)
   }
 
   return result
 }
 
 /**
- * Get the number of events in every room on the next seven days.
- *
- * The result doesn't include keys with zero events.
- * @returns Map<roomId, Map<dayOfWeekString, colorRGB>>
+ * Usage data for the next seven days for all rooms
  */
 export const getUsageData = async () => {
-  const today = toDate(new Date())
-  const usageData = await fetchUsageData(today, addOneWeek(today))
+  const now = new Date()
+  const today = toDate(now)
+  const usageData = await fetchUsageData(now, addOneWeek(today))
   return parseUsageData(usageData, today)
 }

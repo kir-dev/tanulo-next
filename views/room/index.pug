@@ -9,15 +9,15 @@ block content
       div(class='pt-3')
         if busyRooms.some(it => it.room === user.floor)
           - const group = busyRooms.find(it => it.room === user.floor)
-          +roomTemplate(user.floor, group, usageData.get(user.floor) || new Map(), DAYS_OF_WEEK)
+          +roomTemplate(user.floor, group, usageData.get(user.floor))
         else
-          +roomTemplate(user.floor, false, usageData.get(user.floor) || new Map(), DAYS_OF_WEEK)
+          +roomTemplate(user.floor, false, usageData.get(user.floor))
         div(class='h-px max-w-3xl mx-auto mt-8 mb-6 bg-gray-700 rounded')
     div(class='py-2 space-y-8')
       - const otherRooms = (user) ? ROOMS.filter(it => it !== user.floor) : ROOMS
       each room in otherRooms
         if busyRooms.some(it => it.room === room)
           - const group = busyRooms.find(it => it.room === room)
-          +roomTemplate(room, group, usageData.get(room) || new Map(), DAYS_OF_WEEK)
+          +roomTemplate(room, group, usageData.get(room))
         else
-          +roomTemplate(room, false, usageData.get(room) || new Map(), DAYS_OF_WEEK)
+          +roomTemplate(room, false, usageData.get(room))
