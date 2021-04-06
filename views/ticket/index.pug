@@ -32,10 +32,9 @@ block content
           if user.role === "ADMIN"
             form(id=`ticket-form-${ticket.id}` class='flex flex-row items-center mb-2 space-x-3')
               div(class='relative')
-                select(name="status", id="status", selected=ticket.status, class='rounded form-element')
+                select(name="status", id="status", selected=ticket.status, class='rounded form-element', onChange =`moveTicket(${ticket.id})`)
                   each key in [...STATUSES.keys()]
                     option(value=`${key}`, selected=key==ticket.status) #{STATUSES.get(key)}
-              button(type="button", id="submitBtn", onclick=`moveTicket(${ticket.id})`, class='btn btn-primary dark:bg-indigo-500 dark:text-gray-100 dark:hover:bg-indigo-600 animate-hover') Mentés
     else
       p Nincsenek hibajegyek
 
