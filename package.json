@@ -72,7 +72,7 @@
     "@types/passport-oauth2": "^1.4.9",
     "@types/sanitize-html": "^1.27.2",
     "@types/shelljs": "^0.8.8",
-    "@types/supertest": "^2.0.10",
+    "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
     "chokidar-cli": "^2.1.0",
