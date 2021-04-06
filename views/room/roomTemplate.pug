@@ -23,8 +23,8 @@ mixin roomTemplate(room, group, weekData, DAYS_OF_WEEK)
               a(href=`/groups/${group.id}` class='ml-1 text-blue-600 overflow-clip animate-hover hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-600')= group.name
             span &nbsp;#{format(group.startDate, 'HH:mm')}-#{format(group.endDate, 'HH:mm')}
 
-    div(class='flex flex-col space-x-4 sm:mt-0')
-      div(class='mt-3')
+    div(class='flex flex-col')
+      div(class='mt-3 flex space-x-4 sm:mt-0 sm:justify-end')
         a(href=`/groups/new/?roomId=${room}` class='flex flex-row px-3 space-x-2 bg-orange-300 hover:bg-orange-400 dark:bg-purple-400 dark:hover:bg-purple-500 animate-hover btn')
           svg(xmlns='http://www.w3.org/2000/svg' alt="Foglalás" aria-label="Foglalás" fill='none' viewbox='0 0 24 24' stroke='black' class='w-6 h-6 dark:text-gray-50')
             path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4')
@@ -34,9 +34,12 @@ mixin roomTemplate(room, group, weekData, DAYS_OF_WEEK)
             path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z')
           span(class='text-black') Naptár
 
-      div(class='my-1')
-        svg(width='210' height='50')
+      div(class='my-2 flex lg:justify-evenly sm:pl-2')
+        div(class='flex items-center justify-between')
+          span(class='mx-2') foglaltság:
+          div
           each val, index in DAYS_OF_WEEK
-            rect.ContributionCalendar-day(width='20' height='20' x=`${index*30}` y='0' rx='2' ry='2' fill="green" fill-opacity=`${( weekData.get(index) || 0 ) / 5 + 0.2 }`)
-            text.ContributionCalendar-label(x=`${index*30}` y='40')= val
+            div(class='flex flex-col mx-1 text-center text-sm font-light')
+              span(class='mx-auto rounded-sm' style='width: 15px; height: 15px; background-color: green;')
+              span= val
 
