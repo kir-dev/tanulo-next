@@ -30,11 +30,10 @@ block content
               path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 19l9 2-9-18-9 18 9-2zm0 0v-8')
             time= format(ticket.createdAt, DATE_FORMAT)
           if user.role === "ADMIN"
-            form(id=`ticket-form-${ticket.id}` class='flex flex-row items-center mb-2 space-x-3')
-              div(class='relative')
-                select(name="status", id="status", selected=ticket.status, class='rounded form-element', onChange =`moveTicket(${ticket.id})`)
-                  each key in [...STATUSES.keys()]
-                    option(value=`${key}`, selected=key==ticket.status) #{STATUSES.get(key)}
+            form(id=`ticket-form-${ticket.id}`)
+              select(name="status", id="status", selected=ticket.status, class='rounded form-element', onChange =`moveTicket(${ticket.id})`)
+                each key in [...STATUSES.keys()]
+                  option(value=`${key}`, selected=key==ticket.status) #{STATUSES.get(key)}
     else
       p Nincsenek hibajegyek
 
