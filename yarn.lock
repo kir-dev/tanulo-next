@@ -4496,10 +4496,10 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-lusca@^1.6.1:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/lusca/-/lusca-1.6.1.tgz#f7445e50c720030f5ee53d1336e9e53d1786c34f"
-  integrity sha512-+JzvUMH/rsE/4XfHdDOl70bip0beRcHSviYATQM0vtls59uVtdn1JMu4iD7ZShBpAmFG8EnaA+PrYG9sECMIOQ==
+lusca@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/lusca/-/lusca-1.7.0.tgz#a5d979f1b51776e60d41e0ca98f886f1b8b95502"
+  integrity sha512-msnrplCfY7zaqlZBDEloCIKld+RUeMZVeWzSPaGUKeRXFlruNSdKg2XxCyR+zj6BqzcXhXlRnvcvx6rAGgsvMA==
   dependencies:
     tsscmp "^1.0.5"
 
