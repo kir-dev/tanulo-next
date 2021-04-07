@@ -33,7 +33,7 @@ router.put('/:id',
   ],
   handleValidationError(400),
   moveTicket, (_req, res) =>
-    res.sendStatus(201)
+    res.json(STATUSES.get(_req.body.status))
 )
 
 router.post('/',
