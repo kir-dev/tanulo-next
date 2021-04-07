@@ -73,9 +73,9 @@ block scripts
     script const isEditing = true
     script const groupId = !{JSON.stringify(groupId)}
   if description
-    script const description = !{JSON.stringify(description)}
+    script const description = decodeURIComponent(!{JSON.stringify(encodeURIComponent(description))})
   if tags
-    script const tags = !{JSON.stringify(tags)}
+    script const tags = decodeURIComponent(!{JSON.stringify(encodeURIComponent(tags))})
   script(src="https://cdn.jsdelivr.net/npm/flatpickr")
   script(src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@3.22.0/dist/tagify.min.js")
   script(src="https://unpkg.com/easymde@2.10.1/dist/easymde.min.js")
