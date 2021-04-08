@@ -81,7 +81,10 @@ function moveTicket(id) {
   })
     .then(async (res) => {
       switch (res.status) {
-      case 201:
+      case 200:
+        const status = await res.json()
+        const labelEl = document.getElementById(`ticket-label-${id}`)
+        labelEl.innerHTML = status
         displayMessage('Hibajegy státusza sikeresen megváltoztatva!', 'success')
         break
       case 400:

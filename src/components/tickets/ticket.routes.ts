@@ -32,8 +32,8 @@ router.put('/:id',
       .isString()
   ],
   handleValidationError(400),
-  moveTicket, (_req, res) =>
-    res.sendStatus(201)
+  moveTicket, (req, res) =>
+    res.json(STATUSES.get(req.body.status))
 )
 
 router.post('/',
