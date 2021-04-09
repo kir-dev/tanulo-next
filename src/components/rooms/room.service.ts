@@ -1,7 +1,7 @@
 import { Group } from '../groups/group'
 import { toDate, addOneWeek } from '../../util/time'
-import { raw } from 'objection'
 import { DAYS_OF_WEEK, ROOMS } from '../../util/constants'
+import { RawUsageData } from './rawusagedata'
 
 export const getBusyRooms = async () => {
   const currentTime = new Date()
@@ -13,32 +13,21 @@ export const getBusyRooms = async () => {
 export const getEventsForRoom = async (roomId: number) =>
   await Group.query().where({ room: roomId })
 
-/**
- * The number of events in a room on a given day
- */
-interface RawUsageData {
-  room: number
-  day: Date
-  many: number | string
+const fetchUsageData = async (start: Date, end: Date) => {
+  //! unhandled case:
+  // meeting starts before midnight, ends after
+  // The event will not be registrated for the next day
+
+  return RawUsageData
+    .query()
+    .select('room')
+    .select('startDate as day')
+    .count('* as many')
+    .where('endDate', '>=', start)
+    .andWhere('startDate', '<', end)
+    .groupBy('room')
+    .groupBy('startDate') as Promise<RawUsageData[]>
 }
-
-const fetchUsageData =
-  async (start: Date, end: Date) => {
-    //! unhandled case:
-    // meeting starts before midnight, ends after
-    // The event will not be registrated for the next day
-
-    return Group
-      .query()
-      .select('room')
-      .select(raw('date(start_date) as day'))
-      .select(raw('count(*) as many'))
-      .where('endDate', '>=', start)
-      .where('startDate', '<', end)
-      .groupBy('room')
-      .groupByRaw('date(start_date)')
-      .groupByRaw('date(start_date)') as unknown as Promise<RawUsageData[]>
-  }
 
 const parseUsageData = (rawData: RawUsageData[], today: Date) => {
 
