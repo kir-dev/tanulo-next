@@ -16,7 +16,7 @@
     "watch:test": "yarn test --watchAll",
     "build:ts": "etsc",
     "build:css": "NODE_ENV=production postcss public/css/tailwind.css -o dist/public/css/styles.css",
-    "watch:css": "NODE_ENV=development postcss public/css/tailwind.css -o dist/public/styles.css -w",
+    "watch:css": "NODE_ENV=development postcss public/css/tailwind.css -o dist/public/css/styles.css -w",
     "watch:fe": "concurrently -k -p \"[{name}]\" -n \"Css,Static\" -c \"yellow.bold,cyan.bold\" \"yarn watch:css\" \"yarn watch:static-assets\"",
     "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\"",
     "copy:static-assets": "node -r esm copyStaticAssets.js",
