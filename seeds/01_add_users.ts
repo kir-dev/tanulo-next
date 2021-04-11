@@ -12,7 +12,7 @@ export async function seed(knex: Knex): Promise<void> {
     const user = {
       name: faker.name.findName(),
       email: faker.internet.email(),
-      authSchId: faker.random.uuid(),
+      authSchId: faker.datatype.uuid(),
       role: RoleType.USER,
     }
     console.log('\x1b[33m%s\x1b[0m', `User: #${i+1} ${user.name}`)
