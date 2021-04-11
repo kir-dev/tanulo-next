@@ -21,8 +21,8 @@ const fetchUsageData = async (start: Date, end: Date) => {
   return RawUsageData
     .query()
     .select('room')
-    .select('startDate as day')
-    .count('* as many')
+    .select({day: 'startDate'})
+    .count()
     .where('endDate', '>=', start)
     .andWhere('startDate', '<', end)
     .groupBy('room')
@@ -31,21 +31,21 @@ const fetchUsageData = async (start: Date, end: Date) => {
 
 const parseUsageData = (rawData: RawUsageData[], today: Date) => {
 
-  const result = new Map<number, { day: typeof DAYS_OF_WEEK[number], many: number }[]>()
+  const result = new Map<number, { day: typeof DAYS_OF_WEEK[number], count: number }[]>()
 
   // generate empty data
   for (const room of ROOMS) {
     const roomResult = DAYS_OF_WEEK.map((_, d) => ({
       day: DAYS_OF_WEEK[(today.getDay() + d) % 7],
-      many: 0
+      count: 0
     }))
     result.set(room, roomResult)
   }
 
   // fill data
-  for (const { room, day, many } of rawData) {
+  for (const { room, day, count } of rawData) {
     const daysUntil = (7 + day.getDay() - today.getDay()) % 7
-    result.get(room)[daysUntil].many = Number(many)
+    result.get(room)[daysUntil].count = Number(count)
   }
 
   return result

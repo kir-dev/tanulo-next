@@ -6,5 +6,5 @@ import { Group } from '../groups/group'
 export class RawUsageData extends Group {
   room: number
   day: Date
-  many: number | string
+  count: number
 }

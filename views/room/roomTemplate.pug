@@ -41,5 +41,5 @@ mixin roomTemplate(room, group, weekData)
           each dayData in weekData
             div(class='flex flex-col mx-1 text-center text-sm font-light')
               - GREENS = ["#D2F9C8", "#A3EE91", "#69DA4D", "#42962E", "#0E2D06"]
-              span(class='mx-auto rounded-sm h-4 w-4' style=`background-color: ${GREENS[Math.min(dayData.many, 4)]}`)
+              span(class='mx-auto rounded-sm h-4 w-4' style=`background-color: ${GREENS[Math.min(dayData.count, 4)]}`)
               span= dayData.day
