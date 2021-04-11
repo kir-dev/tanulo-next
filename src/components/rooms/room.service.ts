@@ -2,6 +2,7 @@ import { startOfDay, addDays, addWeeks, differenceInDays } from 'date-fns'
 import { Group } from '../groups/group'
 import { DAYS_OF_WEEK, ROOMS } from '../../util/constants'
 import { RawUsageData } from './rawusagedata'
+import { raw } from 'objection'
 
 export const getBusyRooms = async () => {
   const currentTime = new Date()
@@ -21,12 +22,12 @@ const fetchUsageData = async (start: Date, end: Date) => {
   return RawUsageData
     .query()
     .select('room')
-    .select({day: 'startDate'})
+    .select({ day: raw('date(start_date)') })
     .count()
     .where('endDate', '>=', start)
     .andWhere('startDate', '<', end)
     .groupBy('room')
-    .groupBy('startDate') as Promise<RawUsageData[]>
+    .groupBy('day') as Promise<RawUsageData[]>
 }
 
 const parseUsageData = (rawData: RawUsageData[], today: Date) => {
