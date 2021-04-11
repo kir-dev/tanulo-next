@@ -36,7 +36,7 @@ const parseUsageData = (rawData: RawUsageData[], today: Date) => {
   // generate empty data
   for (const room of ROOMS) {
     const roomResult = DAYS_OF_WEEK.map((_, d) => ({
-      day: DAYS_OF_WEEK[(today.getDay() + d -1) % 7],
+      day: DAYS_OF_WEEK[(today.getDay() + d) % 7],
       many: 0
     }))
     result.set(room, roomResult)
