@@ -1,5 +1,5 @@
+import { startOfDay, addDays, addWeeks, differenceInDays } from 'date-fns'
 import { Group } from '../groups/group'
-import { toDate, addOneWeek } from '../../util/time'
 import { DAYS_OF_WEEK, ROOMS } from '../../util/constants'
 import { RawUsageData } from './rawusagedata'
 
@@ -36,7 +36,7 @@ const parseUsageData = (rawData: RawUsageData[], today: Date) => {
   // generate empty data
   for (const room of ROOMS) {
     const roomResult = DAYS_OF_WEEK.map((_, d) => ({
-      day: DAYS_OF_WEEK[(today.getDay() + d) % 7],
+      day: DAYS_OF_WEEK[addDays(today, d).getDay()],
       count: 0
     }))
     result.set(room, roomResult)
@@ -44,7 +44,7 @@ const parseUsageData = (rawData: RawUsageData[], today: Date) => {
 
   // fill data
   for (const { room, day, count } of rawData) {
-    const daysUntil = (7 + day.getDay() - today.getDay()) % 7
+    const daysUntil = differenceInDays(day, today)
     result.get(room)[daysUntil].count = Number(count)
   }
 
@@ -56,7 +56,7 @@ const parseUsageData = (rawData: RawUsageData[], today: Date) => {
  */
 export const getUsageData = async () => {
   const now = new Date()
-  const today = toDate(now)
-  const usageData = await fetchUsageData(now, addOneWeek(today))
+  const today = startOfDay(now)
+  const usageData = await fetchUsageData(now, addWeeks(today, 1))
   return parseUsageData(usageData, today)
 }
