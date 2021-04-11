@@ -12,25 +12,25 @@ export async function seed(knex: Knex): Promise<void> {
   for (let i = 0; i < floorCount; ++i) {
     for (let j = 0; j < groupsPerFloor; ++j) {
       // Compose description
-      let description = faker.random.boolean()? 
+      let description = faker.datatype.boolean()?
         ('## ' + faker.random.words(5)) : faker.random.words(6)
 
       description += '\n'
 
-      for (let k = 0; k < faker.random.number(3) + 2; ++k) {
+      for (let k = 0; k < faker.datatype.number(3) + 2; ++k) {
         description += '* ' + faker.lorem.words(3) + '\n'
       }
 
 
       // Compose group
-      const startSeed = faker.random.number(500) * 1_000_000 * (faker.random.boolean()? -1 : 1)
-      const maxTwoHours = faker.random.number(6600) * 1000 + 600_000
+      const startSeed = faker.datatype.number(500) * 1_000_000 * (faker.datatype.boolean()? -1 : 1)
+      const maxTwoHours = faker.datatype.number(6600) * 1000 + 600_000
       const ownerId = (i * groupsPerFloor + j) % 16 + 1
       const groupId = (i * groupsPerFloor + j) + 1
 
       const group = {
         name: faker.company.catchPhrase(),
-        tags: faker.random.words(faker.random.number(5)).split(' ').join(','),
+        tags: faker.random.words(faker.datatype.number(5)).split(' ').join(','),
         description,
         startDate: (new Date( Date.now() + startSeed * (j + 1) )),
         endDate: (new Date( Date.now() + startSeed * (j + 1) + maxTwoHours )),
@@ -40,7 +40,7 @@ export async function seed(knex: Knex): Promise<void> {
         createdAt: new Date(),
         ownerId
       }
-      console.log('\x1b[33m%s\x1b[0m', 
+      console.log('\x1b[33m%s\x1b[0m',
         `Group: #${groupId} ${group.name}, floor: ${group.room}, owner: ${group.ownerId}`)
       groupArray.push(group)
 
