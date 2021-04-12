@@ -171,4 +171,4 @@ If you are interested in seeing ESLint feedback as soon as possible, I strongly 
 ## License
 
 Copyright (c) Kir-Dev.
-Licensed under the [MIT](LICENSE.txt) License.
+Licensed under the [MIT](https://github.com/kir-dev/tanulo-next/blob/master/LICENSE) License.
