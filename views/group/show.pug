@@ -18,10 +18,10 @@ block content
           h2(class='mr-4 text-3xl uppercase') Adatok
           button(class='flex flex-row items-center p-1 space-x-2 border border-gray-500 rounded-md focus:outline-none hover:border-gray-700 dark:hover:border-gray-300' @click="open = true")
             //- Heroicon name: adjustments
-            svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
+            svg(xmlns='http://www.w3.org/2000/svg' alt="Lehetőségek" aria-label="Lehetőségek" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
               path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4')
             //- Heroicon name: chevron-down
-            svg(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5')
+            svg(xmlns='http://www.w3.org/2000/svg' alt="Lenyíló menü" aria-label="Lenyíló menü" viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5')
                 path(fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd')
           template(x-if="open")
             div(class='absolute top-0 left-0 z-50 flex flex-col p-3 ml-32 space-y-4 rounded-md bg-default shadow-full' @click.away="open = false"
@@ -34,26 +34,26 @@ block content
               form(action=`/groups/${group.id}/export`, method="get", id="export-form" class='flex flex-row items-center')
                 a(onclick="submitExportForm()" class='flex flex-row items-center cursor-pointer hover:text-purple-500 animate-hover')
                   //- Heroicon name: document-download
-                  svg(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5')
+                  svg(xmlns='http://www.w3.org/2000/svg' alt="Letöltés" aria-label="Letöltés" viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5')
                     path(fill-rule='evenodd' d='M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z' clip-rule='evenodd')
                   span &nbsp;Exportálás
               a(href=`/groups/${group.id}/copy` class='flex flex-row items-center hover:text-purple-500 animate-hover')
                 //- Heroicon name: duplicate
-                svg(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5')
+                svg(xmlns='http://www.w3.org/2000/svg' alt="Másolás" aria-label="Másolás" viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5')
                   path(d='M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z')
                   path(d='M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z')
                 span &nbsp;Másolás
               if isOwner || isAdmin
                 a(href=`/groups/${group.id}/edit` class='flex flex-row items-center hover:text-purple-500 animate-hover')
                   //- Heroicon name: pencil-alt
-                  svg(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5')
+                  svg(xmlns='http://www.w3.org/2000/svg' alt="Módosítás" aria-label="Módosítás" viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5')
                     path(d='M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z')
                     path(fill-rule='evenodd' d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z' clip-rule='evenodd')
                   span &nbsp;Módosítás
                 hr.dropdown-divider
                 a(onclick=`deleteGroup(${group.id})` class='flex flex-row items-center cursor-pointer hover:text-red-500 animate-hover')
                   //- Heroicon name: trash
-                  svg(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5')
+                  svg(xmlns='http://www.w3.org/2000/svg' alt="Törlés" aria-label="Törlés" viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5')
                     path(fill-rule='evenodd' d='M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z' clip-rule='evenodd')
                   span.has-text-danger &nbsp;Törlés
 
@@ -61,25 +61,25 @@ block content
           li(class='flex flex-row items-center space-x-2')
             if group.doNotDisturb
               //- Heroicon name: lock-closed
-              svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6')
+              svg(xmlns='http://www.w3.org/2000/svg' alt="Zárt csoport" aria-label="Zárt csoport" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6')
                 path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z')
               span Zárt
                 sup(title='A szervező letiltotta a csatlakozást') ?
             else
               //- Heroicon name: lock-open
-              svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6')
+              svg(xmlns='http://www.w3.org/2000/svg' alt="Nyílt csoport" aria-label="Nyílt csoport" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6')
                 path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z')
               span Nyílt
                 sup(title='Szabad a csatlakozás') ?
           li(class='flex flex-row items-center space-x-2')
             //- Heroicon name: office-building
-            svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
+            svg(xmlns='http://www.w3.org/2000/svg' alt="Kollégium" aria-label="Kollégium" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
               path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4')
             span #{group.room}. emelet
           if startDate == endDate
             li(class='flex flex-row items-center space-x-2')
               //- Heroicon name: calendar
-              svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6')
+              svg(xmlns='http://www.w3.org/2000/svg' alt="Dátum" aria-label="Dátum" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6')
                 path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z')
               span= startDate
                 strong &nbsp;#{startTime}-#{endTime}
@@ -87,13 +87,13 @@ block content
             li(class='flex flex-col items-start space-y-4 sm:space-y-0 sm:space-x-6 sm:items-center sm:flex-row')
               div(class='flex flex-row items-center')
                 //- Heroicon name: calendar
-                svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6')
+                svg(xmlns='http://www.w3.org/2000/svg' alt="Dátum" aria-label="Dátum" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6')
                   path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z')
                 span &nbsp;#{startDate}
                   strong &nbsp;#{startTime}
               div(class='flex flex-row items-center')
                 //- Heroicon name: stop
-                svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6')
+                svg(xmlns='http://www.w3.org/2000/svg' alt="Időtartam" aria-label="Időtartam" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6')
                   path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 12a9 9 0 11-18 0 9 9 0 0118 0z')
                   path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z')
                 span &nbsp;#{endDate}
@@ -101,7 +101,7 @@ block content
           if group.tags
             li(class='flex flex-row items-center space-x-2')
               //- Heroicon name: tag
-              svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6 mb-1')
+              svg(xmlns='http://www.w3.org/2000/svg' alt="Címke" aria-label="Címke" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6 mb-1')
                 path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z')
               ul(class='flex flex-row flex-wrap items-center')
                 each tag in group.tags.split(",")

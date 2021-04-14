@@ -4,10 +4,10 @@ header(x-data="{ open: false }")
     div(class='flex flex-row items-center space-x-6')
       a(onclick='changeTheme()' aria-label="Sötét mód váltása" class='cursor-pointer nav-link md:hidden')
         //- Heroicon name: sun
-        svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
+        svg(xmlns='http://www.w3.org/2000/svg' alt="Sötét mód" aria-label="Sötét mód" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
           path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z')
       button(aria-label="Menü" type='button' @click="open = !open" class='inline-block md:hidden')
-        svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6 nav-link')
+        svg(xmlns='http://www.w3.org/2000/svg' alt="Menü" aria-label="Menü" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6 nav-link')
           //- Heroicon name: menu
           template(x-if='!open')
             path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 6h16M4 12h16M4 18h16'
@@ -30,7 +30,7 @@ header(x-data="{ open: false }")
       div(class='flex flex-row items-center justify-around space-x-10')
         a(onclick='changeTheme()' aria-label="Sötét mód váltása" class='cursor-pointer nav-link')
           //- Heroicon name: sun
-          svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
+          svg(xmlns='http://www.w3.org/2000/svg' alt="Sötét mód" aria-label="Sötét mód" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
             path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z')
         a(href='/' class='nav-link') Kezdőlap
         a(href='/groups' class='nav-link') Csoportok
@@ -43,7 +43,7 @@ header(x-data="{ open: false }")
             div(class='flex flex-row items-center')
               strong= user.name
               //- Heroicon name: chevron-down
-              svg(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5 ml-2')
+              svg(xmlns='http://www.w3.org/2000/svg' alt="Lenyíló menü" aria-label="Lenyíló menü" viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5 ml-2')
                 path(fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd')
 
             div(class='absolute z-50 hidden p-4 rounded-lg shadow-lg group-hover:block bg-default')
@@ -69,7 +69,7 @@ header(x-data="{ open: false }")
         div(class='flex flex-row items-center')
           strong(class='text-xl')= user.name
           //- Heroicon name: chevron-down
-          svg(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5 mt-1 ml-1')
+          svg(xmlns='http://www.w3.org/2000/svg' alt="Lenyíló menü" aria-label="Lenyíló menü" viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5 mt-1 ml-1')
             path(fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd')
         a(href=`/users/${user.id}` class='my-1 ml-2 text-lg nav-link') Profil
         a(href="/logout" class='ml-2 text-lg nav-link') Kijelentkezés

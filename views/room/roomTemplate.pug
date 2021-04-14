@@ -2,7 +2,7 @@ mixin roomTemplate(room, group)
   div(class='flex flex-col px-6 py-4 rounded-lg sm:flex-row sm:justify-between sm:items-center shadow-full bg-default')
     div(class='flex flex-row items-center')
       //- Heroicon name: office-building
-      svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6')
+      svg(xmlns='http://www.w3.org/2000/svg' alt="Kollégium" aria-label="Kollégium" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='flex-none w-6 h-6')
         path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4')
       div(class='ml-4')
         div(class='flex flex-col sm:flex-row')
@@ -14,21 +14,21 @@ mixin roomTemplate(room, group)
             div(class='flex flex-row items-center')
               if group.doNotDisturb
                 //- Heroicon name: lock-closed
-                svg(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 20 20' fill='currentColor' stroke='currentColor' class='flex-none w-4 h-4')
+                svg(xmlns='http://www.w3.org/2000/svg' alt="Zárt csoport" aria-label="Zárt csoport" viewbox='0 0 20 20' fill='currentColor' stroke='currentColor' class='flex-none w-4 h-4')
                   path(fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd")
               else
                 //- Heroicon name: lock-open
-                svg(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 20 20' fill='currentColor' class='flex-none w-4 h-4')
+                svg(xmlns='http://www.w3.org/2000/svg' alt="Nyílt csoport" aria-label="Nyílt csoport" viewbox='0 0 20 20' fill='currentColor' class='flex-none w-4 h-4')
                   path(d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z")
               a(href=`/groups/${group.id}` class='ml-1 text-blue-600 overflow-clip animate-hover hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-600')= group.name
             span &nbsp;#{format(group.startDate, 'HH:mm')}-#{format(group.endDate, 'HH:mm')}
 
     div(class='flex flex-row mt-3 space-x-4 sm:mt-0')
       a(href=`/groups/new/?roomId=${room}` class='flex flex-row px-3 space-x-2 bg-orange-300 hover:bg-orange-400 dark:bg-purple-400 dark:hover:bg-purple-500 animate-hover btn')
-        svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='black' class='w-6 h-6 dark:text-gray-50')
+        svg(xmlns='http://www.w3.org/2000/svg' alt="Foglalás" aria-label="Foglalás" fill='none' viewbox='0 0 24 24' stroke='black' class='w-6 h-6 dark:text-gray-50')
           path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4')
         span(class='text-black') Foglalás
       a(href=`/rooms/${room}` class='flex flex-row px-3 space-x-2 bg-yellow-300 hover:bg-yellow-400 dark:bg-blue-400 dark:hover:bg-blue-500 animate-hover btn')
-        svg(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='black' class='w-6 h-6')
+        svg(xmlns='http://www.w3.org/2000/svg' alt="Naptár" aria-label="Naptár" fill='none' viewbox='0 0 24 24' stroke='black' class='w-6 h-6')
           path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z')
         span(class='text-black') Naptár
