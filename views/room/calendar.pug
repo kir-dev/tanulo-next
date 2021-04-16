@@ -9,7 +9,7 @@ block content
       each floor in ROOMS
         option(value=`${floor}` selected=floor==room ? 'selected' : false)
           a(href=`/rooms/${floor}`)= floor + ". emelet"
-  div(class='max-w-6xl p-3 mx-auto my-4 sm:p-6 rounded-2xl bg-default shadow-full')
+  div(class='max-w-6xl p-3 mx-4 sm:mx-auto my-4 sm:p-6 rounded-2xl bg-default shadow-full')
       #calendar
 
 block scripts

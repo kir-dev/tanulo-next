@@ -74,7 +74,7 @@ function generateMobileCalendar(data, calendarEl, room) {
         }
       }
     },
-    footer: {
+    footerToolbar: {
       center: 'prevWeek,prev,today,next,nextWeek'
     },
     titleFormat: {
