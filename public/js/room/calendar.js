@@ -1,5 +1,4 @@
 const commonCalendarOptions = {
-  //plugins: ['interaction', 'timegrid', 'daygrid'],
   views: {
     timeGridOneDay: {
       type: 'timeGrid',
@@ -19,6 +18,7 @@ const commonCalendarOptions = {
     week: 'hét',
   },
   nowIndicator: true,
+  firstDay: 1,
   locale: 'hu',
   selectable: true,
   eventClick: (calEvent) =>
