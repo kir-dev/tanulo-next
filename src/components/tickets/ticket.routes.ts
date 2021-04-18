@@ -5,19 +5,25 @@ import multer from 'multer'
 
 import { isAuthenticated, requireRoles } from '../../config/passport'
 import { DATE_FORMAT, ROOMS, STATUSES } from '../../util/constants'
-import { createTicket, getTickets, moveTicket, removeTicket } from './ticket.service'
+import { createTicket, getAllTickets, getMyTickets,
+  moveTicket, removeTicket } from './ticket.service'
+
 import { handleValidationError } from '../../util/validators'
 import { RoleType } from '../users/user'
 
 const router = Router()
 
-router.get('/', isAuthenticated, getTickets, (req, res) =>
-  res.render('ticket/index', {
-    tickets: req.tickets,
-    format,
-    DATE_FORMAT,
-    STATUSES
-  }))
+router.get('/',
+  isAuthenticated,
+  getAllTickets,
+  getMyTickets, (req, res) =>
+    res.render('ticket/index', {
+      allTickets: req.allTickets,
+      myTickets: req.myTickets,
+      format,
+      DATE_FORMAT,
+      STATUSES
+    }))
 
 router.get('/new', isAuthenticated, (_req, res) => res.render('ticket/new', { ROOMS }))
 

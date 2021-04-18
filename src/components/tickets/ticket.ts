@@ -13,6 +13,7 @@ export class Ticket extends Model {
   roomNumber: number
   status: StatusType
   createdAt: Date
+  userId: number
 
   $beforeInsert() {
     this.createdAt = new Date()
@@ -25,13 +26,14 @@ export class Ticket extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['roomNumber', 'description'],
+      required: ['roomNumber', 'description', 'userId'],
 
       properties: {
         id: { type: 'integer' },
         description: { type: 'string' , maxLenght: 500 },
         roomNumber: { type: 'integer' },
         status: { type: 'string' },
+        userId: { type: 'integer' },
       }
     }
   }

@@ -4,13 +4,26 @@ import { Request, Response, NextFunction } from 'express'
 import { formatMdToSafeHTML } from '../../util/convertMarkdown'
 import { asyncWrapper } from '../../util/asyncWrapper'
 
-export const getTickets = asyncWrapper(async (req: Request, _res: Response, next: NextFunction) => {
-  req.tickets = (await Ticket.query().orderBy('createdAt', 'ASC')).map(ticket => {
-    ticket.description = formatMdToSafeHTML(ticket.description)
-    return ticket
+import { User } from '../users/user'
+
+export const getAllTickets = asyncWrapper(
+  async (req: Request, _res: Response, next: NextFunction) => {
+    req.allTickets = (await Ticket.query().orderBy('createdAt', 'ASC')).map(ticket => {
+      ticket.description = formatMdToSafeHTML(ticket.description)
+      return ticket
+    })
+    next()
   })
-  next()
-})
+
+export const getMyTickets = asyncWrapper(
+  async (req: Request, _res: Response, next: NextFunction) => {
+    req.myTickets = (await Ticket.query().where('userId', '=', (req.user as User).id)
+      .orderBy('createdAt', 'ASC')).map(ticket => {
+      ticket.description = formatMdToSafeHTML(ticket.description)
+      return ticket
+    })
+    next()
+  })
 
 export const createTicket = asyncWrapper(
   async (req: Request, _res: Response, next: NextFunction) => {
@@ -19,7 +32,8 @@ export const createTicket = asyncWrapper(
         .insert(
           {
             roomNumber: +req.body.roomNumber,
-            description: req.body.description
+            description: req.body.description,
+            userId: (req.user as User).id,
           }
         )
     })

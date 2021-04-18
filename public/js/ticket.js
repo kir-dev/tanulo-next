@@ -7,6 +7,8 @@ function deleteTicket(id) {
         case 204:
           const ticket = document.getElementById(`ticket-${id}`)
           ticket.parentNode.removeChild(ticket)
+          const myTicket = document.getElementById(`my-ticket-${id}`)
+          myTicket.parentNode.removeChild(myTicket)
           break
         case 401:
           displayMessage(UNAUTHORIZED_MESSAGE)
@@ -84,7 +86,9 @@ function moveTicket(id) {
       case 200:
         const status = await res.json()
         const labelEl = document.getElementById(`ticket-label-${id}`)
+        const labelMyEl = document.getElementById(`my-ticket-label-${id}`)
         labelEl.innerHTML = status
+        labelMyEl.innerHTML = status
         displayMessage('Hibajegy státusza sikeresen megváltoztatva!', 'success')
         break
       case 400:

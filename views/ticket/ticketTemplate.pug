@@ -1,0 +1,27 @@
+mixin ticketTemplate(ticket, own, format, DATE_FORMAT, STATUSES)
+  div(id=`${own ? 'my-' : ''}ticket-${ticket.id}` class='flex flex-col px-4 py-4 m-6 transition duration-300 ease-in-out transform rounded-lg sm:px-8 sm:py-6 bg-default shadow-full hover:-translate-y-2')
+    div(class='flex-1 space-y-2')
+      div(class='flex flex-row items-center justify-between space-x-2')
+        div(class='flex flex-row items-center space-x-2')
+          //- Heroicon name: office-building
+          svg(xmlns='http://www.w3.org/2000/svg' alt="Kollégium" aria-label="Kollégium" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
+            path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4')
+          div(class='flex items-center space-x-4')
+            h2(class='text-2xl sm:xt-3xl') #{ticket.roomNumber}. emelet
+            span(id=`${own ? 'my-' : ''}ticket-label-${ticket.id}` class='px-2 py-1 text-sm font-bold text-gray-600 border-2 border-gray-500 rounded-lg dark:text-gray-400') #{STATUSES.get(ticket.status) ? STATUSES.get(ticket.status): 'Ismeretlen'}
+        if (user.role === "ADMIN" || user.role === "TICKET_ADMIN")
+          a(type="button", onclick=`deleteTicket(${ticket.id})`)
+            svg(xmlns='http://www.w3.org/2000/svg' alt="Törlés" aria-label="Törlés" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6 text-red-500 cursor-pointer')
+              path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16')
+      div(class='ml-8 text-xl break-words') !{ticket.description}
+    div(class='flex flex-row flex-wrap items-center mt-3' :class="{ 'justify-between': user.role === 'ADMIN', 'justify-around': user.role !== 'ADMIN' }")
+      div(class='flex flex-row items-center mb-2 space-x-2')
+        //- Heroicon name: paper-airplane
+        svg(xmlns='http://www.w3.org/2000/svg' alt="Küldve" aria-label="Küldve" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
+          path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 19l9 2-9-18-9 18 9-2zm0 0v-8')
+        time= format(ticket.createdAt, DATE_FORMAT)
+      if (user.role === "ADMIN" || user.role === "TICKET_ADMIN") 
+        form(id=`ticket-form-${ticket.id}`)
+          select(name="status", id="status", selected=ticket.status, class='rounded form-element', onChange =`moveTicket(${ticket.id})`)
+            each key in [...STATUSES.keys()]
+              option(value=`${key}`, selected=key==ticket.status) #{STATUSES.get(key)}
