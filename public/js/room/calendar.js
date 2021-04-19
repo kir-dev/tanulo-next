@@ -1,5 +1,4 @@
 const commonCalendarOptions = {
-  plugins: ['interaction', 'timeGrid', 'dayGrid'],
   views: {
     timeGridOneDay: {
       type: 'timeGrid',
@@ -19,6 +18,7 @@ const commonCalendarOptions = {
     week: 'hét',
   },
   nowIndicator: true,
+  firstDay: 1,
   locale: 'hu',
   selectable: true,
   eventClick: (calEvent) =>
@@ -28,12 +28,12 @@ const commonCalendarOptions = {
 function generateWebCalendar(data, calendarEl, room) {
   const calendar = new FullCalendar.Calendar(calendarEl, {
     ...commonCalendarOptions,
-    header: {
+    headerToolbar: {
       left: 'prev,next today',
       center: 'title',
       right: 'timeGridOneDay,timeGridWeek,dayGridMonth',
     },
-    defaultView: 'timeGridWeek',
+    initialView: 'timeGridWeek',
     events: data,
     select: (info) => {
       if (info.view.type === 'dayGridMonth') {
@@ -50,12 +50,12 @@ function generateWebCalendar(data, calendarEl, room) {
 function generateMobileCalendar(data, calendarEl, room) {
   const calendar = new FullCalendar.Calendar(calendarEl, {
     ...commonCalendarOptions,
-    header: {
+    headerToolbar: {
       left: 'title',
       center: '',
       right: 'timeGridOneDay,dayGridMonth'
     },
-    defaultView: 'timeGridOneDay',
+    initialView: 'timeGridOneDay',
     customButtons: {
       prevWeek: {
         text: '-7',
@@ -74,7 +74,7 @@ function generateMobileCalendar(data, calendarEl, room) {
         }
       }
     },
-    footer: {
+    footerToolbar: {
       center: 'prevWeek,prev,today,next,nextWeek'
     },
     titleFormat: {

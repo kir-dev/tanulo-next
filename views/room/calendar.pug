@@ -1,9 +1,7 @@
 extend ../layouts/main
 
 block styles
-  link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.3.1/main.min.css")
-  link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.css")
-  link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.3.0/main.min.css")
+  link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.css")
 
 block content
   div(class="ml-4")
@@ -11,13 +9,10 @@ block content
       each floor in ROOMS
         option(value=`${floor}` selected=floor==room ? 'selected' : false)
           a(href=`/rooms/${floor}`)= floor + ". emelet"
-  div(class='flex flex-col items-center justify-center')
-    div(class='max-w-6xl p-3 mx-4 my-4 sm:p-6 rounded-2xl bg-default shadow-full')
+  div(class='max-w-6xl p-3 mx-4 sm:mx-auto my-4 sm:p-6 rounded-2xl bg-default shadow-full')
       #calendar
 
 block scripts
-  script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.3.0/main.js')
-  script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.js')
-  script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.3.0/main.min.js')
-  script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.3.0/main.min.js')
+  script(src='https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js')
+
   script(src='/js/room/calendar.js')
