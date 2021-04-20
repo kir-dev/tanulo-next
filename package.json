@@ -35,6 +35,7 @@
     "dotenv": "^8.2.0",
     "errorhandler": "^1.5.1",
     "express": "^4.17.1",
+    "express-rate-limit": "^5.2.6",
     "express-session": "^1.17.1",
     "express-validator": "^6.10.0",
     "ics": "^2.27.0",
