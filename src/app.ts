@@ -7,6 +7,7 @@ import lusca from 'lusca'
 import { Model } from 'objection'
 import path from 'path'
 import passport from 'passport'
+import RateLimit from 'express-rate-limit'
 
 import dbConfig = require('../knexfile')
 import { SESSION_SECRET } from './util/secrets'
@@ -41,6 +42,15 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(lusca.xframe('SAMEORIGIN'))
 app.use(lusca.xssProtection(true))
+
+// set up rate limiter: maximum requests per minute
+const limiter = new RateLimit({
+  windowMs: 1*60*1000, // 1 minute
+  max: 1000            // max number of requests
+})
+// apply rate limiter to all requests
+app.use(limiter)
+
 app.use((req, res, next) => {
   res.locals.loggedIn = req.isAuthenticated()
   res.locals.user = req.user
