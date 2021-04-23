@@ -6,7 +6,8 @@ import { PaginationOptions } from '../components/groups/paginationOptions'
 declare global {
   namespace Express {
     interface Request {
-      tickets: Ticket[]
+      otherTickets: Ticket[]
+      myTickets: Ticket[]
       groups: Group[]
       paginationOptions: PaginationOptions
       group: Group
