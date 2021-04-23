@@ -2334,20 +2334,20 @@ errorhandler@^1.5.1:
     accepts "~1.3.7"
     escape-html "~1.0.3"
 
-esbuild-node-tsc@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/esbuild-node-tsc/-/esbuild-node-tsc-1.4.0.tgz#8eeab9abebd386d38275cd3cba3174e9d7b0eaa1"
-  integrity sha512-RXFcvkffLLjJNkXxGoxVQQ0Cbo69qRIIMiGHA3x6A3CcdI6ZbkrhWWgK8f0Y52yW/hKOcq9epDoTI+JcB9KXmQ==
+esbuild-node-tsc@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/esbuild-node-tsc/-/esbuild-node-tsc-1.4.2.tgz#6afcf691cc37368270524edda253501a5f8e3a92"
+  integrity sha512-VUEEp+RTGLMhxWCclwYUPjnIqTB8GihU+28JL8Ol4IV4DEcqrfQbLqNdmC3NRIzFlQNJCP8p9Turv3aGuPCeJw==
   dependencies:
     cpy "^8.1.2"
-    esbuild "^0.11.10"
+    esbuild "^0.11.11"
     rimraf "^3.0.2"
     yargs "^16.2.0"
 
-esbuild@^0.11.10:
-  version "0.11.10"
-  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.11.10.tgz#f5d39e4d9cc130b78d751664fef1b663240f5545"
-  integrity sha512-XvGbf+UreVFA24Tlk6sNOqNcvF2z49XAZt4E7A4H80+yqn944QOLTTxaU0lkdYNtZKFiITNea+VxmtrfjvnLPA==
+esbuild@^0.11.11:
+  version "0.11.13"
+  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.11.13.tgz#f61bb9b62f1ea5b749537db78fafb11c9cc0e096"
+  integrity sha512-d5coY4dd4rVWle0WzrR8+32ukKtZroVJ/wJzOwbBEmoSFB/H3QME0l+3IAN5Sf3LtuoUSivdv1/b5rD7OykXeg==
 
 escalade@^3.1.1:
   version "3.1.1"
