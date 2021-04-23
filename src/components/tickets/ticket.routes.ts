@@ -5,8 +5,8 @@ import multer from 'multer'
 
 import { isAuthenticated, requireRoles } from '../../config/passport'
 import { DATE_FORMAT, ROOMS, STATUSES } from '../../util/constants'
-import { createTicket, getAllTickets, getMyTickets,
-  moveTicket, removeTicket } from './ticket.service'
+import { createTicket, getOtherTickets, getMyTickets,
+  moveTicket, removeTicket, checkTicketOwner } from './ticket.service'
 
 import { handleValidationError } from '../../util/validators'
 import { RoleType } from '../users/user'
@@ -15,10 +15,10 @@ const router = Router()
 
 router.get('/',
   isAuthenticated,
-  getAllTickets,
+  getOtherTickets,
   getMyTickets, (req, res) =>
     res.render('ticket/index', {
-      allTickets: req.allTickets,
+      otherTickets: req.otherTickets,
       myTickets: req.myTickets,
       format,
       DATE_FORMAT,
@@ -61,6 +61,12 @@ router.post('/',
 router.delete('/:id',
   isAuthenticated,
   requireRoles(RoleType.ADMIN, RoleType.TICKET_ADMIN),
+  removeTicket, (_req, res) => res.status(204).send('A hibajegy sikeresen törölve')
+)
+
+router.delete('/own/:id',
+  isAuthenticated,
+  checkTicketOwner,
   removeTicket, (_req, res) => res.status(204).send('A hibajegy sikeresen törölve')
 )
 

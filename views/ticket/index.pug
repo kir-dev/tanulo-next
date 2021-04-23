@@ -8,18 +8,18 @@ block content
     a(href='/tickets/new' class='flex-shrink-0 text-xl btn btn-primary dark:bg-indigo-500 dark:text-gray-100 dark:hover:bg-indigo-600 animate-hover') Új hibajegy
   div(class='p-5 mx-6 mt-4 bg-blue-300 border-l-4 border-blue-500 opacity-75 md:mx-auto md:w-1/2 dark:border-blue-500 dark:bg-blue-700')
     div(class='text-sm leading-tight text-black dark:text-white font-semibold') Ha bármi problémát észleltél egy tanulószobában, jelezd, hogy meg lehessen oldva!
-  h2 Saját hibajegyek
+  h1(class='subtitle') Saját hibajegyek
   div(class='grid grid-cols-1 xl:mx-32 lg:grid-cols-2' x-data="app()")
     each ticket in myTickets
-      +ticketTemplate(ticket, true, format, DATE_FORMAT, STATUSES)
+      +ticketTemplate(ticket, format, DATE_FORMAT, STATUSES, true)
     else
-      p Nincsen egy hibajegyed se
-  h2 Minden hibajegy
+      p(class="ml-6") Nincsen hibajegyed
+  h1(class='subtitle') Más hibajegyei
   div(class='grid grid-cols-1 xl:mx-32 lg:grid-cols-2' x-data="app()")
-    each ticket in allTickets
-      +ticketTemplate(ticket, false, format, DATE_FORMAT, STATUSES)
+    each ticket in otherTickets
+      +ticketTemplate(ticket, format, DATE_FORMAT, STATUSES, false)
     else
-      p Nincsenek hibajegyek
+      p(class="ml-6") Nincsenek hibajegyek
 
 block scripts
   script(src='/js/ticket.js')

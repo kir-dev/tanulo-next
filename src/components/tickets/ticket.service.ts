@@ -6,9 +6,10 @@ import { asyncWrapper } from '../../util/asyncWrapper'
 
 import { User } from '../users/user'
 
-export const getAllTickets = asyncWrapper(
+export const getOtherTickets = asyncWrapper(
   async (req: Request, _res: Response, next: NextFunction) => {
-    req.allTickets = (await Ticket.query().orderBy('createdAt', 'ASC')).map(ticket => {
+    req.otherTickets = (await Ticket.query().where('userId', '!=', (req.user as User).id)
+      .orderBy('createdAt', 'ASC')).map(ticket => {
       ticket.description = formatMdToSafeHTML(ticket.description)
       return ticket
     })
@@ -60,5 +61,15 @@ export const removeTicket = asyncWrapper(
       }
     } else {
       res.status(404).send({ message: 'A megadott ID nem megfelelő formátumú' })
+    }
+  })
+
+export const checkTicketOwner = asyncWrapper(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const ticket = await Ticket.query().findOne({ id: parseInt(req.params.id) })
+    if (ticket.userId == (req.user as User).id) {
+      next()
+    } else {
+      return res.sendStatus(403)
     }
   })

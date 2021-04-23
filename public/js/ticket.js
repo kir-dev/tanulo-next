@@ -1,14 +1,22 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function deleteTicket(id) {
+function deleteTicket(id, own) {
+  const url = `/tickets/${own ? 'own/' : ''}${id}`
   if (confirm('Biztosan törlöd?')) {
-    fetch(`/tickets/${id}`, { method: 'DELETE' })
+    fetch(url, { method: 'DELETE' })
       .then(async res => {
         switch(res.status) {
         case 204:
           const ticket = document.getElementById(`ticket-${id}`)
-          ticket.parentNode.removeChild(ticket)
-          const myTicket = document.getElementById(`my-ticket-${id}`)
-          myTicket.parentNode.removeChild(myTicket)
+          const container = ticket.parentNode
+          container.removeChild(ticket)
+          displayMessage('Hibajegy sikeresen törölve', 'success')
+
+          if (container.childElementCount == 0){
+            const text = document.createElement('p')
+            text.classList.add('ml-6')
+            text.innerHTML = own ? 'Nincsen hibajegyed' : 'Nincsenek hibajegyek'
+            container.appendChild(text)
+          }
           break
         case 401:
           displayMessage(UNAUTHORIZED_MESSAGE)
@@ -86,9 +94,7 @@ function moveTicket(id) {
       case 200:
         const status = await res.json()
         const labelEl = document.getElementById(`ticket-label-${id}`)
-        const labelMyEl = document.getElementById(`my-ticket-label-${id}`)
         labelEl.innerHTML = status
-        labelMyEl.innerHTML = status
         displayMessage('Hibajegy státusza sikeresen megváltoztatva!', 'success')
         break
       case 400:
