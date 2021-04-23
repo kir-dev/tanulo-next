@@ -13,7 +13,7 @@ block content
     each ticket in myTickets
       +ticketTemplate(ticket, format, DATE_FORMAT, STATUSES, true)
     else
-      p(class="ml-6") Nincsen hibajegyed
+      p(class="ml-6") Nincsenek hibajegyeid
   h1(class='subtitle') Más hibajegyei
   div(class='grid grid-cols-1 xl:mx-32 lg:grid-cols-2' x-data="app()")
     each ticket in otherTickets
