@@ -37,7 +37,7 @@
     "express": "^4.17.1",
     "express-rate-limit": "^5.2.6",
     "express-session": "^1.17.1",
-    "express-validator": "^6.10.0",
+    "express-validator": "^6.10.1",
     "ics": "^2.27.0",
     "knex": "^0.21.12",
     "lusca": "^1.7.0",
