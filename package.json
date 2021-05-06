@@ -31,7 +31,7 @@
     "autoprefixer": "^10.2.5",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
-    "date-fns": "^2.21.1",
+    "date-fns": "^2.21.2",
     "dotenv": "^8.2.0",
     "errorhandler": "^1.5.1",
     "express": "^4.17.1",
