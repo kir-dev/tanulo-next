@@ -6,16 +6,15 @@ describe('Calendar page test', () => {
 
     cy.url().should('include', '/rooms/3')
 
-    const today = new Date()
+    const today: Date = new Date()
 
-    cy.get('.fc-today').find('span')
+    cy.get('.fc-day-today').children().first()
       .should('include.text', `${today.getMonth() + 1}. ${today.getDate()}.`)
 
     cy.get('.fc-icon-chevron-right').click()
     cy.contains('ma').click()
 
-    cy.get('.fc-today').find('span')
+    cy.get('.fc-day-today').children().first()
       .should('include.text', `${today.getMonth() + 1}. ${today.getDate()}.`)
-
   })
 })
