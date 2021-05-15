@@ -7,6 +7,22 @@ module.exports = {
   purge:  ['./views/**/*.pug', './public/**/*.js'],
   theme: {
     extend: {
+      //alert animation
+      keyframes: {
+        'fade-in-down': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(-30px)'
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)'
+          },
+        }
+      },
+      animation: {
+        'fade-in-down': 'fade-in-down 0.8s ease-out'
+      },
       boxShadow: {
         full:
           '0px 4px 32px rgba(0, 0, 0, 0.3), 4px 0px 4px rgba(0, 0, 0, 0.1);',
