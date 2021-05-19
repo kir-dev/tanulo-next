@@ -7,7 +7,7 @@ const FORBIDDEN_MESSAGE = 'Ehhez a művelethez admin jogosultság szükséges'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function displayMessage(message, type = 'danger') {
   const messageEL = document.createElement('article')
-  messageEL.classList.add('p-6', 'border-l-4')
+  messageEL.classList.add('p-6', 'border-l-4', 'animate-fade-in-down')
   if (type === 'danger') {
     messageEL.classList.add('text-gray-900', 'bg-red-100', 'border-red-500')
   } else if (type === 'success') {
