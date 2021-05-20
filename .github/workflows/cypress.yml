@@ -27,6 +27,6 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           # Specify Browser since container image is compile with Firefox
-          browser: firefox
+          browser: chrome
           build: yarn build
           start: yarn start
