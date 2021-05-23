@@ -17,7 +17,7 @@ import ticketRouter from './components/tickets/ticket.routes'
 import roomRouter, { index } from './components/rooms/room.routes'
 import groupRouter from './components/groups/group.routes'
 
-const knex = Knex(dbConfig)
+const knex = Knex(dbConfig[process.env.NODE_ENV])
 
 Model.knex(knex)
 
