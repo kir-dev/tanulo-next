@@ -29,5 +29,4 @@ jobs:
           # Specify Browser since container image is compile with Firefox
           browser: chrome
           build: yarn build
-          wait-on: sudo service postgresql restart
           start: yarn start
