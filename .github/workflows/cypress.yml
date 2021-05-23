@@ -38,6 +38,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node_modules-build-
 
+      - name: Migration
+        uses: yarn migrate
+
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
@@ -45,7 +48,6 @@ jobs:
         with:
           # Specify Browser since container image is compile with Firefox
           browser: chrome
-          migrate: yarn migrate
           build: yarn build
           start: yarn start
         env:
