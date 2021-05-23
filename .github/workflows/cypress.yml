@@ -38,8 +38,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node_modules-build-
 
-      - name: Migration
-        uses: yarn migrate
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
@@ -59,5 +57,5 @@ jobs:
           DB_PORT: 5432
           DB_USERNAME: postgres
           DB_PASSWORD: postgres
-          DB_DATABASE: tanulo
+          DB_DATABASE: postgres
 
