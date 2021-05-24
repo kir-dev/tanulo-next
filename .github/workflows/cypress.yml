@@ -46,6 +46,7 @@ jobs:
         with:
           # Specify Browser since container image is compile with Firefox
           browser: chrome
+          wait-on: yarn migrate
           build: yarn build
           start: yarn start
         env:
