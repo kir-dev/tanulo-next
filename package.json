@@ -75,7 +75,7 @@
     "@typescript-eslint/parser": "^2.34.0",
     "chokidar-cli": "^2.1.0",
     "concurrently": "^6.0.2",
-    "cypress": "^7.2.0",
+    "cypress": "^7.4.0",
     "esbuild-node-tsc": "^1.4.2",
     "eslint": "^6.4.0",
     "faker": "^5.5.3",
