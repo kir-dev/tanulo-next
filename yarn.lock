@@ -1788,9 +1788,9 @@ express-session@^1.17.1:
     safe-buffer "5.2.0"
     uid-safe "~2.1.5"
 
-express-validator@^6.10.0:
-  version "6.10.1"
-  resolved "https://registry.npmjs.org/express-validator/-/express-validator-6.10.1.tgz"
+express-validator@^6.11.1:
+  version "6.11.1"
+  resolved "https://registry.yarnpkg.com/express-validator/-/express-validator-6.11.1.tgz#08c8451c0fb53bac9ba905eef4c15d3043ee847b"
   dependencies:
     lodash "^4.17.21"
     validator "^13.5.2"
