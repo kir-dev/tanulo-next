@@ -1,5 +1,7 @@
 extends ../layouts/main
 
+include ../modalTemplate.pug
+
 block content
   - const [startDate, startTime] = format(group.startDate, DATE_FORMAT).split(' ')
   - const [endDate, endTime] = format(group.endDate, DATE_FORMAT).split(' ')
@@ -9,8 +11,7 @@ block content
       form(action=`/groups/${group.id}/join`, method="post")
         button(type="submit" class='text-xl btn btn-primary animate-hover') Csatlakozás
     else if !isOwner && joined
-      form(action=`/groups/${group.id}/leave`, method="post")
-        button(type="submit" class='text-xl bg-yellow-400 btn btn-primary animate-hover dark:text-black hover:bg-yellow-500') Kilépés
+      button(type="button" class='text-xl bg-yellow-400 btn btn-primary animate-hover dark:text-black hover:bg-yellow-500' onClick=`toggleModal('/groups/${group.id}/leave', 'Biztosan ki akarsz lépni?', 'Biztosan ki akarsz lépni a(z) ${group.name} csoportból?', 'Kilépés')`) Kilépés
   div(class='flex flex-col px-8 pt-6 pb-8 mx-6 sm:px-16 lg:flex-row lg:justify-between rounded-2xl bg-default md:mx-16 lg:mx-24 xl:mx-40 shadow-full')
     div(class='mr-4 space-y-4')
       div
@@ -119,6 +120,11 @@ block content
             a(href=`/users/${user.id}` class='lg:whitespace-no-wrap hover:text-blue-500')= user.name
             if user.id === group.ownerId
               span(class='px-3 py-1 text-sm text-white bg-purple-500 rounded-full') Szervező
+            else if isOwner || isAdmin
+              button(type='button' class='px-3 py-1 text-sm text-white btn btn-primary animate-hover cursor-pointer' onClick=`toggleModal('/groups/${group.id}/kick/${user.id}', 'Biztosan ki akarod rúgni ${user.name}-t?', 'Biztosan ki akarod rúgni ${user.name}-t? Ezt később nem tudod visszavonni!', 'Kirúgás')`) Kirúgás
+
+  +modalTemplate()
+
 
 block scripts
   script(src='/js/group/show.js')

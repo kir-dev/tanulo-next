@@ -33,6 +33,47 @@ export const leaveGroup = asyncWrapper(async (req: Request, res: Response, next:
   next()
 })
 
+export const isMemberInGroup = 
+asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
+  const kickableUser = await User.query()
+    .findOne({ id: parseInt(req.params.userid) })
+
+  if (!kickableUser) {
+    res.status(400).json(
+      {
+        errors: [{msg: 'Nem létezik ilyen felhasználó!'}]
+      }
+    )
+  } else {
+    let inGroup = false
+    const usersInGroup = await Group.relatedQuery('users').for(req.group.id)
+    usersInGroup.map(user => {
+      if (user.id === kickableUser.id) {
+        inGroup = true
+      }
+    })
+
+    if (!inGroup) {
+      res.status(400).json(
+        {
+          errors: [{msg: 'Ez a felhasználó nem tagja ennek a csoportnak!'}]
+        }
+      )
+    } else {
+      next()
+    }
+  }
+})
+
+export const kickMember = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
+  await Group.relatedQuery('users')
+    .for(req.group.id)
+    .unrelate()
+    .where('user_id', req.params.userid)
+
+  next()
+})
+
 /**
  * @deprecated use isGroupOwnerOrAdmin instead 
  */
