@@ -34,12 +34,12 @@ mixin roomTemplate(room, group, weekData)
             path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z')
           span(class='text-black') Naptár
 
-      div(class='my-2 ml-2 flex flex-wrap')
+      div(class='mt-2 ml-2 flex flex-wrap')
         div(class='flex my-2 sm:my-0 ')
           span(class='mr-2 text-sm font-light') Foglaltság:
-        div(class='flex items-center justify-between sm:mt-0.5')
+        div(class='flex items-center justify-between space-x-2 sm:mt-0.5')
           - GREENS = [ 'bg-heatmap-0', 'bg-heatmap-1', 'bg-heatmap-2', 'bg-heatmap-3', 'bg-heatmap-4' ]
           each dayData in weekData
-            div(class='flex flex-col mx-1 text-center text-sm font-light')
+            div(class='flex flex-col text-center text-sm font-light')
               span(class=`mx-auto rounded-sm h-4 w-4 ${ GREENS[Math.min(dayData.count, 4)] }`)
               span= dayData.day

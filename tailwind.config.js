@@ -30,7 +30,7 @@ module.exports = {
       colors: {
         'indigo-1000': '#211f5b',
         orange: colors.orange,
-        'heatmap-0': '#E2F9C8',
+        'heatmap-0': '#D2F9C8',
         'heatmap-1': '#A3EE91',
         'heatmap-2': '#69DA4D',
         'heatmap-3': '#42962E',
