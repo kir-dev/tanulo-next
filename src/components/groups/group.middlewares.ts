@@ -39,11 +39,7 @@ asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
     .findOne({ id: parseInt(req.params.userid) })
 
   if (!kickableUser) {
-    res.status(400).json(
-      {
-        errors: [{msg: 'Nem létezik ilyen felhasználó!'}]
-      }
-    )
+    res.redirect('/not-found')
   } else {
     let inGroup = false
     const usersInGroup = await Group.relatedQuery('users').for(req.group.id)
@@ -52,13 +48,8 @@ asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
         inGroup = true
       }
     })
-
     if (!inGroup) {
-      res.status(400).json(
-        {
-          errors: [{msg: 'Ez a felhasználó nem tagja ennek a csoportnak!'}]
-        }
-      )
+      res.redirect('/not-found')
     } else {
       next()
     }
