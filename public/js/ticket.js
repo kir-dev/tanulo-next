@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function deleteTicket(id, own) {
   const url = `/tickets/${own ? 'own/' : ''}${id}`
-  toggleModal()
+  
   fetch(url, { method: 'DELETE' })
     .then(async res => {
       switch(res.status) {
