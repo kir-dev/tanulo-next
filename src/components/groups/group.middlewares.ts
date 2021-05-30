@@ -41,13 +41,8 @@ asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   if (!kickableUser) {
     res.redirect('/not-found')
   } else {
-    let inGroup = false
     const usersInGroup = await Group.relatedQuery('users').for(req.group.id)
-    usersInGroup.map(user => {
-      if (user.id === kickableUser.id) {
-        inGroup = true
-      }
-    })
+    const inGroup = usersInGroup.find(user => user.id === kickableUser.id)
     if (!inGroup) {
       res.redirect('/not-found')
     } else {

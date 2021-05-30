@@ -1,37 +1,35 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function deleteTicket(id, own) {
   const url = `/tickets/${own ? 'own/' : ''}${id}`
-  if (confirm('Biztosan törlöd?')) {
-    fetch(url, { method: 'DELETE' })
-      .then(async res => {
-        switch(res.status) {
-        case 204:
-          const ticket = document.getElementById(`ticket-${id}`)
-          const container = ticket.parentNode
-          container.removeChild(ticket)
-          displayMessage('Hibajegy sikeresen törölve', 'success')
-
-          if (container.childElementCount == 0){
-            const text = document.createElement('p')
-            text.classList.add('ml-6')
-            text.innerHTML = own ? 'Nincsen hibajegyed' : 'Nincsenek hibajegyek'
-            container.appendChild(text)
-          }
-          break
-        case 401:
-          displayMessage(UNAUTHORIZED_MESSAGE)
-          break
-        case 403:
-          displayMessage(FORBIDDEN_MESSAGE)
-          break
-        case 404:
-          data = await res.json()
-          displayMessage(data.message)
-          break
+  toggleModal()
+  fetch(url, { method: 'DELETE' })
+    .then(async res => {
+      switch(res.status) {
+      case 204:
+        const ticket = document.getElementById(`ticket-${id}`)
+        const container = ticket.parentNode
+        container.removeChild(ticket)
+        displayMessage('Hibajegy sikeresen törölve', 'success')
+        if (container.childElementCount == 0){
+          const text = document.createElement('p')
+          text.classList.add('ml-6')
+          text.innerHTML = own ? 'Nincsen hibajegyed' : 'Nincsenek hibajegyek'
+          container.appendChild(text)
         }
-      })
-      .catch(err => displayMessage(err))
-  }
+        break
+      case 401:
+        displayMessage(UNAUTHORIZED_MESSAGE)
+        break
+      case 403:
+        displayMessage(FORBIDDEN_MESSAGE)
+        break
+      case 404:
+        data = await res.json()
+        displayMessage(data.message)
+        break
+      }
+    })
+    .catch(err => displayMessage(err))
 }
 
 function validateTicket(data) {

@@ -1,4 +1,7 @@
-mixin modalTemplate(route, title, desc, buttonText)
+//- action: what should happen when the user confirms their action with the modal
+//- if isActionFunction is true, then action should be a function (as a string) that the button's onClick method can call
+//- otherwise action should be a route to which a form will send a post request
+mixin modalTemplate(action, title, desc, buttonText, isActionFunction)
   div(class="modal hidden fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true")
     div(class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0")
       //- modal overlay
@@ -18,15 +21,18 @@ mixin modalTemplate(route, title, desc, buttonText)
               div(class="mt-2")
                 p(class="text-sm text-gray-500" id='modal-desc')= desc
         div(class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse")
-          form(action=route, method="post" id='modal-form')
+          form(action=action, method="post" id='modal-form' class=`${isActionFunction ? 'hidden':''}`)
             button(type="submit" id='submit-button' class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 btn btn-primary text-base font-medium text-white animate-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-400 sm:ml-3 sm:w-auto sm:text-sm")= buttonText
+          button(type="button" id='func-button' onClick=action class=`${!isActionFunction ? 'hidden' : ''} w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 btn btn-primary text-base font-medium text-white animate-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-400 sm:ml-3 sm:w-auto sm:text-sm`)= buttonText
           button(type="button" onClick='toggleModal()' class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-100 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm") Mégse
   
+  //- ommitted parameters won't be changed
   script.
-    function toggleModal(newRoute, newTitle, newDesc, newButtonText) {
+    function toggleModal(newAction, newTitle, newDesc, newButtonText, newIsActionFunction = 0) {
       const title = document.getElementById('modal-title')
       const description = document.getElementById('modal-desc')
-      const button = document.getElementById('submit-button')
+      const submitButton = document.getElementById('submit-button')
+      const funcButton = document.getElementById('func-button')
       const form = document.getElementById('modal-form')
 
       if (newTitle) {
@@ -36,10 +42,22 @@ mixin modalTemplate(route, title, desc, buttonText)
         description.innerHTML = newDesc
       }
       if (newButtonText) {
-        button.innerHTML = newButtonText
+        submitButton.innerHTML = newButtonText
+        funcButton.innerHTML = newButtonText
       }
-      if (newRoute) {
-        form.action = newRoute
+      if (newAction) {
+        form.action = newAction
+        funcButton.setAttribute( 'onClick', `javascript: ${newAction}`)
+      }
+
+      if (newIsActionFunction !== 0) {
+        if (newIsActionFunction) {
+          form.classList.add('hidden')
+          funcButton.classList.remove('hidden')
+        } else {
+          funcButton.classList.add('hidden')
+          form.classList.remove('hidden')
+        }
       }
 
       const modal = document.querySelector('.modal')

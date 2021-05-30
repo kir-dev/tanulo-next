@@ -11,7 +11,12 @@ block content
       form(action=`/groups/${group.id}/join`, method="post")
         button(type="submit" class='text-xl btn btn-primary animate-hover') Csatlakozás
     else if !isOwner && joined
-      button(type="button" class='text-xl bg-yellow-400 btn btn-primary animate-hover dark:text-black hover:bg-yellow-500' onClick=`toggleModal('/groups/${group.id}/leave', 'Biztosan ki akarsz lépni?', 'Biztosan ki akarsz lépni a(z) ${group.name} csoportból?', 'Kilépés')`) Kilépés
+      button(type="button" class='text-xl bg-yellow-400 btn btn-primary animate-hover dark:text-black hover:bg-yellow-500' onClick=`toggleModal(
+        '/groups/${group.id}/leave',
+        'Biztosan ki akarsz lépni?',
+        'Biztosan ki akarsz lépni a(z) ${group.name} csoportból?',
+        'Kilépés',
+        false)`) Kilépés
   div(class='flex flex-col px-8 pt-6 pb-8 mx-6 sm:px-16 lg:flex-row lg:justify-between rounded-2xl bg-default md:mx-16 lg:mx-24 xl:mx-40 shadow-full')
     div(class='mr-4 space-y-4')
       div
@@ -52,7 +57,13 @@ block content
                     path(fill-rule='evenodd' d='M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z' clip-rule='evenodd')
                   span &nbsp;Módosítás
                 hr.dropdown-divider
-                a(onclick=`deleteGroup(${group.id})` class='flex flex-row items-center cursor-pointer hover:text-red-500 animate-hover')
+                a(onclick=`toggleModal(
+                  'deleteGroup(${group.id})',
+                  'Biztosan törlöd ezt a csoportot?',
+                  'Biztosan törlöd a(z) ${group.name} csoportot? Ezt később nem tudod visszavonni!',
+                  'Törlés',
+                  true)`
+                  class='flex flex-row items-center cursor-pointer hover:text-red-500 animate-hover' @click='open = false')
                   //- Heroicon name: trash
                   svg(xmlns='http://www.w3.org/2000/svg' alt="Törlés" aria-label="Törlés" viewbox='0 0 20 20' fill='currentColor' class='w-5 h-5')
                     path(fill-rule='evenodd' d='M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z' clip-rule='evenodd')
@@ -121,7 +132,12 @@ block content
             if user.id === group.ownerId
               span(class='px-3 py-1 text-sm text-white bg-purple-500 rounded-full') Szervező
             else if isOwner || isAdmin
-              button(type='button' class='px-3 py-1 text-sm text-white btn btn-primary animate-hover cursor-pointer' onClick=`toggleModal('/groups/${group.id}/kick/${user.id}', 'Biztosan ki akarod rúgni ${user.name}-t?', 'Biztosan ki akarod rúgni ${user.name}-t? Ezt később nem tudod visszavonni!', 'Kirúgás')`) Kirúgás
+              button(type='button' class='px-3 py-1 text-sm text-white btn btn-primary animate-hover cursor-pointer' onClick=`toggleModal(
+                '/groups/${group.id}/kick/${user.id}',
+                'Biztosan ki akarod rúgni ${user.name}-t?',
+                'Biztosan ki akarod rúgni ${user.name}-t? Ezt később nem tudod visszavonni!',
+                'Kirúgás',
+                false)`) Kirúgás
 
   +modalTemplate()
 
