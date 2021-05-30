@@ -35,19 +35,12 @@ export const leaveGroup = asyncWrapper(async (req: Request, res: Response, next:
 
 export const isMemberInGroup = 
 asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
-  const kickableUser = await User.query()
-    .findOne({ id: parseInt(req.params.userid) })
-
-  if (!kickableUser) {
-    res.redirect('/not-found')
+  const kickableUser = await Group.relatedQuery('users').for(req.group.id)
+    .findOne({ userId: parseInt(req.params.userid) })
+  if (kickableUser) {
+    next()
   } else {
-    const usersInGroup = await Group.relatedQuery('users').for(req.group.id)
-    const inGroup = usersInGroup.find(user => user.id === kickableUser.id)
-    if (!inGroup) {
-      res.redirect('/not-found')
-    } else {
-      next()
-    }
+    res.redirect('/not-found')
   }
 })
 

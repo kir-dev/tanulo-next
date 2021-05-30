@@ -26,40 +26,5 @@ mixin modalTemplate(action, title, desc, buttonText, isActionFunction)
           button(type="button" id='func-button' onClick=action class=`${!isActionFunction ? 'hidden' : ''} w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 btn btn-primary text-base font-medium text-white animate-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-400 sm:ml-3 sm:w-auto sm:text-sm`)= buttonText
           button(type="button" onClick='toggleModal()' class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-100 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm") Mégse
   
-  //- ommitted parameters won't be changed
-  script.
-    function toggleModal(newAction, newTitle, newDesc, newButtonText, newIsActionFunction = 0) {
-      const title = document.getElementById('modal-title')
-      const description = document.getElementById('modal-desc')
-      const submitButton = document.getElementById('submit-button')
-      const funcButton = document.getElementById('func-button')
-      const form = document.getElementById('modal-form')
-
-      if (newTitle) {
-        title.innerHTML = newTitle
-      }
-      if (newDesc) {
-        description.innerHTML = newDesc
-      }
-      if (newButtonText) {
-        submitButton.innerHTML = newButtonText
-        funcButton.innerHTML = newButtonText
-      }
-      if (newAction) {
-        form.action = newAction
-        funcButton.setAttribute( 'onClick', `javascript: ${newAction}`)
-      }
-
-      if (newIsActionFunction !== 0) {
-        if (newIsActionFunction) {
-          form.classList.add('hidden')
-          funcButton.classList.remove('hidden')
-        } else {
-          funcButton.classList.add('hidden')
-          form.classList.remove('hidden')
-        }
-      }
-
-      const modal = document.querySelector('.modal')
-      modal.classList.toggle('hidden')
-    }
+  script(src='../public/js/modal.js')
+  
