@@ -1,5 +1,5 @@
-export const ROOMS = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
-
+export const ROOMS = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18] as const
+export const DAYS_OF_WEEK = ['Va', 'Hé', 'Ke', 'Sze', 'Csü', 'Pé', 'Szo'] as const
 export const DATE_FORMAT = 'yyyy-MM-dd HH:mm'
 
 export const STATUSES = new Map<string, string>([
