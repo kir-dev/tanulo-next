@@ -248,9 +248,9 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
-"@types/faker@^5.5.5":
-  version "5.5.5"
-  resolved "https://registry.npmjs.org/@types/faker/-/faker-5.5.5.tgz"
+"@types/faker@^5.5.6":
+  version "5.5.6"
+  resolved "https://registry.yarnpkg.com/@types/faker/-/faker-5.5.6.tgz#039b700a9d8ad9150ecc842bf5e717e2027b6f75"
 
 "@types/glob@*", "@types/glob@^7.1.1":
   version "7.1.3"
