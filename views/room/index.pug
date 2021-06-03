@@ -4,16 +4,18 @@ include roomTemplate.pug
 
 block content
   h1(class='title') Tanulószobák
-  div(class='px-6 pt-3 md:mx-16 lg:mx-24 xl:mx-40')
-    if user && user.floor && user.floor >= 3 && user.floor <= 18
-      div(class='pt-3')
-        if busyRooms.some(it => it.room === user.floor)
-          - const group = busyRooms.find(it => it.room === user.floor)
-          +roomTemplate(user.floor, group, usageData.get(user.floor))
-        else
-          +roomTemplate(user.floor, false, usageData.get(user.floor))
-        div(class='h-px max-w-3xl mx-auto mt-8 mb-6 bg-gray-700 rounded')
-    div(class='py-2 space-y-8')
+  div(class='px-6 pt-3 xl:mx-52')
+    div(class='grid grid-cols-1 lg:grid-cols-2 gap-y-8 gap-x-8')
+      if user && user.floor && user.floor >= 3 && user.floor <= 18
+        div(class='pt-3')
+          if busyRooms.some(it => it.room === user.floor)
+            - const group = busyRooms.find(it => it.room === user.floor)
+            +roomTemplate(user.floor, group, usageData.get(user.floor))
+          else
+            +roomTemplate(user.floor, false, usageData.get(user.floor))
+    if user && user.floor
+      div(class='h-px max-w-3xl mx-auto mt-8 mb-6 bg-gray-700 rounded')
+    div(class='grid grid-cols-1 lg:grid-cols-2 gap-y-8 gap-x-8')
       - const otherRooms = (user) ? ROOMS.filter(it => it !== user.floor) : ROOMS
       each room in otherRooms
         if busyRooms.some(it => it.room === room)
