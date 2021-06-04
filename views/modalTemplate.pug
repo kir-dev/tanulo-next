@@ -5,7 +5,7 @@ mixin modalTemplate(action, title, desc, buttonText, isActionFunction)
   div(class="modal hidden fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true")
     div(class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0")
       //- modal overlay
-      div(class="fixed inset-0 bg-gray-500 dark:bg-gray-800 bg-opacity-75 dark:bg-opacity-75 transition-opacity" onClick='toggleModal()' aria-hidden="true")
+      div(class="fixed inset-0 bg-gray-500 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-75 transition-opacity" onClick='toggleModal()' aria-hidden="true")
 
       span(class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true") &#8203;
       //- modal
@@ -24,7 +24,7 @@ mixin modalTemplate(action, title, desc, buttonText, isActionFunction)
           form(action=action, method="post" id='modal-form' class=`${isActionFunction ? 'hidden':''} mx-1`)
             button(type="submit" id='submit-button' class="mx-1 w-full sm:w-auto text-lg inline-flex justify-center px-4 py-2 btn btn-primary text-white ")= buttonText
           button(type="button" id='func-button' onClick=`toggleModal();${action};` class=`${!isActionFunction ? 'hidden' : ''} mx-2 w-full sm:w-auto text-lg inline-flex justify-center px-4 py-2 btn btn-primary text-white`)= buttonText
-          button(type="button" onClick='toggleModal()' class="mt-2 mx-1 w-full inline-flex justify-center px-4 py-2 text-lg btn bg-gray-200 animate-hover dark:bg-gray-600 dark:hover:bg-gray-700 dark:text-white sm:mt-0 sm:ml-3 sm:w-auto") Mégse
+          button(type="button" onClick='toggleModal()' class="mt-2 mx-1 w-full inline-flex justify-center px-4 py-2 text-lg btn bg-gray-200 hover:bg-gray-300 animate-hover dark:bg-gray-600 dark:hover:bg-gray-700 dark:text-white sm:mt-0 sm:ml-3 sm:w-auto") Mégse
   
   script(src='/js/modal.js')
   
