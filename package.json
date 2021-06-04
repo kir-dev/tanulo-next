@@ -25,7 +25,7 @@
     "watch:debug": "concurrently -k -p \"[{name}]\" -n \"Css,Static,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"yarn watch:css\" \"yarn watch:static-assets\" \"yarn serve:debug\""
   },
   "dependencies": {
-    "@tailwindcss/forms": "^0.3.2",
+    "@tailwindcss/forms": "^0.3.3",
     "@tailwindcss/typography": "^0.4.1",
     "autoprefixer": "^10.2.6",
     "compression": "^1.7.4",
