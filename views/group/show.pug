@@ -127,7 +127,7 @@ block content
       h2(class='mb-3 text-3xl uppercase') Résztvevők
       div(class='flex flex-col items-start space-y-2 text-xl')
         each user in group.users
-          div(class='flex flex-row items-center ml-6 space-x-2')
+          div(class='w-full flex flex-row justify-between items-center ml-6 space-x-2')
             a(href=`/users/${user.id}` class='lg:whitespace-no-wrap hover:text-blue-500')= user.name
             if user.id === group.ownerId
               span(class='px-3 py-1 text-sm text-white bg-purple-500 rounded-full') Szervező
