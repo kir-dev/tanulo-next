@@ -10,7 +10,6 @@ function listenLength(el, characterCount) {
   }
   else {
     el.innerHTML = characterCount + ' / ' + charLimit
-    el.setAttribute('style', 'color:grey;')
     submitBtn.disabled = false
   }
 }

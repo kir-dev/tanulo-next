@@ -9,7 +9,7 @@ mixin roomTemplate(room, group, weekData)
               path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4')
             span(class='mr-2 text-2xl font-bold') #{room}. emelet
             div(class='flex flex-row')
-              span(class=`font-bold text-sm uppercase border border-2 py-1 px-2 rounded-md ${group ? 'text-red-600 dark:text-red-500 border-red-600 dark:border-red-500' : 'text-green-600 dark:text-green-500 border-green-600 dark:border-green-500'}`) #{`${group ? 'foglalt' : 'szabad'}`}
+              span(class=`font-bold text-sm uppercase border border-2 py-1 px-2 rounded-md ${group ? 'text-red-600 dark:text-red-500 border-red-600 dark:border-red-500' : 'text-green-700 dark:text-green-500 border-green-700 dark:border-green-500'}`) #{`${group ? 'foglalt' : 'szabad'}`}
           if group
             div(class='flex flex-row flex-wrap items-center text-lg')
               div(class='flex flex-row items-center')
