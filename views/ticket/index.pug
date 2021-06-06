@@ -1,6 +1,7 @@
 extends ../layouts/main
 
 include ticketTemplate.pug
+include ../modalTemplate.pug
 
 block content
   div(class='flex flex-row items-center space-x-4')
@@ -20,6 +21,12 @@ block content
       +ticketTemplate(ticket, format, DATE_FORMAT, STATUSES, false)
     else
       p(class="ml-6") Nincsenek hibajegyek
+
+  +modalTemplate('',
+    'Biztosan törlöd ezt a hibajegyet?',
+    'Ezt később nem tudod visszavonni!',
+    'Törlés',
+    true)
 
 block scripts
   script(src='/js/ticket.js')

@@ -33,6 +33,26 @@ export const leaveGroup = asyncWrapper(async (req: Request, res: Response, next:
   next()
 })
 
+export const isMemberInGroup = 
+asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
+  const kickableUser = await Group.relatedQuery('users').for(req.group.id)
+    .findOne({ userId: parseInt(req.params.userid) })
+  if (kickableUser) {
+    next()
+  } else {
+    res.redirect('/not-found')
+  }
+})
+
+export const kickMember = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
+  await Group.relatedQuery('users')
+    .for(req.group.id)
+    .unrelate()
+    .where('user_id', req.params.userid)
+
+  next()
+})
+
 /**
  * @deprecated use isGroupOwnerOrAdmin instead 
  */
