@@ -34,10 +34,10 @@ block content
         br
         input(type="number" name="maxAttendees" id="maxAttendees" placeholder="100" value=`${maxAttendees ? maxAttendees : ''}` min=1 max=100 class="rounded form-element")
       div(class='flex flex-col items-start')
-        label(class='text-lg font-bold') Kezdés ideje
+        label(class='text-lg font-bold' for="pickerStart") Kezdés ideje
         input(type="text", id="pickerStart", name="startDate", required, data-input, class="flatpickr")
       div(class='flex flex-col items-start')
-        label(class='text-lg font-bold') Befejezés ideje
+        label(class='text-lg font-bold' for="pickerEnd") Befejezés ideje
         input(type="text", id="pickerEnd", name="endDate", required, data-input, class="flatpickr")
       div
         label(for="desc" class='text-lg font-bold') Leírás

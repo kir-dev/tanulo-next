@@ -13,6 +13,10 @@
 @tailwind utilities;
 
 @layer components {
+  .chars {
+    @apply text-gray-800 dark:text-gray-100;
+  }
+
   .bg-default {
     @apply bg-gray-50 dark:bg-gray-800;
   }
@@ -30,7 +34,7 @@
   }
 
   .btn-primary {
-    @apply bg-red-400 hover:bg-red-500 dark:bg-indigo-500 text-gray-100 dark:hover:bg-indigo-600 ;
+    @apply bg-red-600 hover:bg-red-700 dark:bg-indigo-600 text-white dark:hover:bg-indigo-700;
   }
 
   .title {
