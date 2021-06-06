@@ -14,6 +14,8 @@ import { RoleType, User } from '../users/user'
 import {
   joinGroup,
   leaveGroup,
+  isMemberInGroup,
+  kickMember,
   createICSEvent,
   checkConflicts,
   validateGroup,
@@ -83,6 +85,14 @@ router.post('/:id/leave',
   getGroup,
   leaveGroup,
   (req, res) => res.redirect('/groups')
+)
+router.post('/:id/kick/:userid',
+  isAuthenticated,
+  getGroup,
+  isGroupOwnerOrAdmin,
+  isMemberInGroup,
+  kickMember,
+  (req, res) => res.redirect(`/groups/${req.params.id}`)
 )
 
 router.delete('/:id',
