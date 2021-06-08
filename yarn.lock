@@ -263,9 +263,9 @@
   dependencies:
     "@types/express" "*"
 
-"@types/markdown-it@^12.0.1":
-  version "12.0.1"
-  resolved "https://registry.npmjs.org/@types/markdown-it/-/markdown-it-12.0.1.tgz"
+"@types/markdown-it@^12.0.2":
+  version "12.0.2"
+  resolved "https://registry.yarnpkg.com/@types/markdown-it/-/markdown-it-12.0.2.tgz#153e5477970ed2a47b2f619ed4ab66f870de8a04"
   dependencies:
     "@types/highlight.js" "^9.7.0"
     "@types/linkify-it" "*"
