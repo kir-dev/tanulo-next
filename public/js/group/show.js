@@ -7,7 +7,7 @@ const deleteGroup = (id) => {
         location.href = '/groups'
       }
     })
-    .catch((err) => sendMessage(err))
+    .catch((err) => displayMessage(err))
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

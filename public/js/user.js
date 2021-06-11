@@ -32,7 +32,7 @@ function updateUser(id) {
           break
         }
       })
-      .catch((err) => console.error(err))
+      .catch((err) => displayMessage(err))
   }
 }
 
