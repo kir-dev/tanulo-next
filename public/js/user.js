@@ -54,6 +54,7 @@ function updateRole(id) {
       .then(async res => {
         switch (res.status) {
         case 201:
+          sendMessage('Felhasználó rangja sikeresen frissítve', 'success')
           location.href = `/users/${id}`
           break
         case 400:

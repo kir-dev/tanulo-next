@@ -4,6 +4,7 @@ const UNAUTHORIZED_MESSAGE = 'Ehhez a művelethez bejelentkezés szükséges'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const FORBIDDEN_MESSAGE = 'Ehhez a művelethez admin jogosultság szükséges'
 
+// this function displays a message right away
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function displayMessage(message, type = 'danger') {
   const messageEL = document.createElement('article')
@@ -28,6 +29,25 @@ function displayMessage(message, type = 'danger') {
   messageEL.addEventListener('click', () => messageEL.remove(), { once: true })
   setTimeout(() => messageEL.remove(), 4000)
 }
+
+// this function displays a message on the next reload
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function sendMessage(message, type = 'danger') {
+  document.cookie = `message=${JSON.stringify({
+    mes: message, 
+    type: type
+  })};path=/;SameSite=Lax;`
+}
+
+// display the message that is stored in a cookie
+window.addEventListener('DOMContentLoaded', () => {
+  const cookie = getCookie('message')
+  if (cookie) {
+    const {mes, type} = JSON.parse(cookie)
+    displayMessage(mes, type)
+    document.cookie = 'message= ;path=/;SameSite=Lax;expires = Thu, 01 Jan 1970 00:00:00 GMT'
+  }
+})
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function clearMessages() {
