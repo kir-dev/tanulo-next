@@ -63,6 +63,7 @@ function addTicket() {
       .then(async (res) => {
         switch (res.status) {
         case 201:
+          sendMessage('Hibajegy sikeresen létrehozva', 'success')
           location.href = '/tickets'
           break
         case 400:
