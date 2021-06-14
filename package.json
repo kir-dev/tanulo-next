@@ -75,7 +75,7 @@
     "chokidar-cli": "^2.1.0",
     "concurrently": "^6.2.0",
     "cypress": "^7.5.0",
-    "esbuild-node-tsc": "^1.4.2",
+    "esbuild-node-tsc": "^1.5.0",
     "eslint": "^6.4.0",
     "faker": "^5.5.3",
     "nodemon": "^2.0.7",
