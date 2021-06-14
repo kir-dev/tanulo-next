@@ -10,9 +10,9 @@ block content
         div(class='pt-3')
           if busyRooms.some(it => it.room === user.floor)
             - const group = busyRooms.find(it => it.room === user.floor)
-            +roomTemplate(user.floor, group, usageData.get(user.floor))
+            +roomTemplate(user.floor, group, false, usageData.get(user.floor))
           else
-            +roomTemplate(user.floor, false, usageData.get(user.floor))
+            +roomTemplate(user.floor, false, false, usageData.get(user.floor))
     if user && user.floor
       div(class='h-px max-w-3xl mx-auto mt-8 mb-6 bg-gray-700 rounded')
     div(class='grid grid-cols-1 lg:grid-cols-2 gap-y-8 gap-x-8')
@@ -20,6 +20,6 @@ block content
       each room in otherRooms
         if busyRooms.some(it => it.room === room)
           - const group = busyRooms.find(it => it.room === room)
-          +roomTemplate(room, group, usageData.get(room))
+          +roomTemplate(room, group, false, usageData.get(room))
         else
-          +roomTemplate(room, false, usageData.get(room))
+          +roomTemplate(room, false, false, usageData.get(room))

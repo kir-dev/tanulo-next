@@ -1,4 +1,4 @@
-mixin roomTemplate(room, group, weekData)
+mixin roomTemplate(room, currentGroup, upnextGroup, weekData)
   div(class='px-6 py-4 rounded-lg sm:justify-between shadow-full bg-default')
     div(class='flex flex-col justify-between h-full')
       div(class='flex flex-row flex-wrap justify-between')
@@ -9,11 +9,11 @@ mixin roomTemplate(room, group, weekData)
               path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4')
             span(class='mr-2 text-2xl font-bold') #{room}. emelet
             div(class='flex flex-row')
-              span(class=`font-bold text-sm uppercase border border-2 py-1 px-2 rounded-md ${group ? 'text-red-600 dark:text-red-500 border-red-600 dark:border-red-500' : 'text-green-700 dark:text-green-500 border-green-700 dark:border-green-500'}`) #{`${group ? 'foglalt' : 'szabad'}`}
-          if group
+              span(class=`font-bold text-sm uppercase border border-2 py-1 px-2 rounded-md ${currentGroup ? 'text-red-600 dark:text-red-500 border-red-600 dark:border-red-500' : 'text-green-700 dark:text-green-500 border-green-700 dark:border-green-500'}`) #{`${currentGroup ? 'foglalt' : 'szabad'}`}
+          if currentGroup
             div(class='flex flex-row flex-wrap items-center text-lg')
               div(class='flex flex-row items-center')
-                if group.doNotDisturb
+                if currentGroup.doNotDisturb
                   //- Heroicon name: lock-closed
                   svg(xmlns='http://www.w3.org/2000/svg' alt="Zárt csoport" aria-label="Zárt csoport" viewbox='0 0 20 20' fill='currentColor' stroke='currentColor' class='flex-none w-4 h-4')
                     path(fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd")
@@ -21,8 +21,21 @@ mixin roomTemplate(room, group, weekData)
                   //- Heroicon name: lock-open
                   svg(xmlns='http://www.w3.org/2000/svg' alt="Nyílt csoport" aria-label="Nyílt csoport" viewbox='0 0 20 20' fill='currentColor' class='flex-none w-4 h-4')
                     path(d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z")
-                a(href=`/groups/${group.id}` class='ml-1 text-blue-600 overflow-clip animate-hover hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-600')= group.name
-              span &nbsp;#{format(group.startDate, 'HH:mm')}-#{format(group.endDate, 'HH:mm')}
+                a(href=`/groups/${currentGroup.id}` class='ml-1 text-blue-600 overflow-clip animate-hover hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-600')= currentGroup.name
+              span &nbsp;#{format(currentGroup.startDate, 'HH:mm')}-#{format(currentGroup.endDate, 'HH:mm')}
+          if upnextGroup
+            div(class='flex flex-row flex-wrap items-center text-lg')
+              div(class='flex flex-row items-center')
+                if upnextGroup.doNotDisturb
+                  //- Heroicon name: lock-closed
+                  svg(xmlns='http://www.w3.org/2000/svg' alt="Zárt csoport" aria-label="Zárt csoport" viewbox='0 0 20 20' fill='currentColor' stroke='currentColor' class='flex-none w-4 h-4')
+                    path(fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd")
+                else
+                  //- Heroicon name: lock-open
+                  svg(xmlns='http://www.w3.org/2000/svg' alt="Nyílt csoport" aria-label="Nyílt csoport" viewbox='0 0 20 20' fill='currentColor' class='flex-none w-4 h-4')
+                    path(d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z")
+                a(href=`/groups/${upnextGroup.id}` class='ml-1 text-blue-600 overflow-clip animate-hover hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-600')= upnextGroup.name
+              span &nbsp;#{format(upnextGroup.startDate, 'HH:mm')}-#{format(upnextGroup.endDate, 'HH:mm')}
 
         div(class='mt-2 flex flex-wrap sm:mt-0')
           div(class='self-start')

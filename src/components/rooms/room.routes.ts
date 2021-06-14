@@ -1,14 +1,15 @@
 import { Request, Response, Router } from 'express'
 import { format } from 'date-fns'
 
-import { getBusyRooms, getEventsForRoom, getUsageData } from './room.service'
+import { getBusyRooms, getEventsForRoom, getUpnextRooms, getUsageData } from './room.service'
 import { ROOMS } from '../../util/constants'
 import { asyncWrapper } from '../../util/asyncWrapper'
 
 export const index = asyncWrapper(async (req: Request, res: Response) => {
   const busyRooms = await getBusyRooms()
+  const upnextRooms = await getUpnextRooms()
   const usageData = await getUsageData()
-  res.render('room/index', { busyRooms, ROOMS, format, usageData })
+  res.render('room/index', { busyRooms, upnextRooms, ROOMS, format, usageData })
 })
 
 const show = asyncWrapper(async (req: Request, res: Response) => {
