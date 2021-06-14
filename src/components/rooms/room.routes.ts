@@ -8,6 +8,7 @@ import { asyncWrapper } from '../../util/asyncWrapper'
 export const index = asyncWrapper(async (req: Request, res: Response) => {
   const busyRooms = await getBusyRooms()
   const upnextRooms = await getUpnextRooms()
+  console.log(upnextRooms)
   const usageData = await getUsageData()
   res.render('room/index', { busyRooms, upnextRooms, ROOMS, format, usageData })
 })

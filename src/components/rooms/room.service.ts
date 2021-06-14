@@ -11,12 +11,12 @@ export const getBusyRooms = async () => {
     .andWhere('endDate', '>', currentTime))
 }
 
+// Returns all the groups up next of all rooms
 export const getUpnextRooms = async () => {
   const currentTime = new Date()
-  return (await Group.query()
+  const laterGroups = await Group.query()
     .where('startDate', '>', currentTime)
-    .orderBy('startDate')
-    .first())
+  return laterGroups
 }
 
 export const getEventsForRoom = async (roomId: number) =>

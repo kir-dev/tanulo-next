@@ -7,19 +7,16 @@ block content
   div(class='px-6 pt-3 xl:mx-52')
     div(class='grid grid-cols-1 lg:grid-cols-2 gap-y-8 gap-x-8')
       if user && user.floor && user.floor >= 3 && user.floor <= 18
-        div(class='pt-3')
-          if busyRooms.some(it => it.room === user.floor)
-            - const group = busyRooms.find(it => it.room === user.floor)
-            +roomTemplate(user.floor, group, false, usageData.get(user.floor))
-          else
-            +roomTemplate(user.floor, false, false, usageData.get(user.floor))
+        div(class='pt-3')          
+          - const currentGroup = busyRooms.find(it => it.room === user.floor)
+          - const upnextGroup = upnextRooms.find(it => it.room === user.floor)
+          +roomTemplate(user.floor, currentGroup, upnextGroup, usageData.get(user.floor))
     if user && user.floor
       div(class='h-px max-w-3xl mx-auto mt-8 mb-6 bg-gray-700 rounded')
     div(class='grid grid-cols-1 lg:grid-cols-2 gap-y-8 gap-x-8')
       - const otherRooms = (user) ? ROOMS.filter(it => it !== user.floor) : ROOMS
       each room in otherRooms
-        if busyRooms.some(it => it.room === room)
-          - const group = busyRooms.find(it => it.room === room)
-          +roomTemplate(room, group, false, usageData.get(room))
-        else
-          +roomTemplate(room, false, false, usageData.get(room))
+        - const currentGroup = busyRooms.find(it => it.room === room)
+        - const upnextGroups = upnextRooms.filter(it => it.room === room)
+        - const upnextGroup = upnextGroups == [] ? undefined : upnextGroups.reduce((a, b) => { return a.startDate < b.startDate ? a : b })
+        +roomTemplate(room, currentGroup, upnextGroup, usageData.get(room))
