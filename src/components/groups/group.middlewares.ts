@@ -120,6 +120,28 @@ export const createICSEvent = (req: Request, res: Response) => {
   })
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function isValidHttpsUrl(str) {
+  let url
+  try {
+    url = new URL(str)
+  } catch (_) {
+    return false
+  } // not catching bad top lvl domain (1 character)
+
+  const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+    '(\\#[-a-z\\d_]*)?$','i') // fragment locator
+  // not allowing '(' and ')'
+  // catching 1 character TLD
+
+  console.log('cuteus chungus')
+  return !!pattern.test(str) && url.protocol === 'https:'
+}
+
 export const validateGroup = () => {
   return [
     check('name', 'A csoport neve max 100 karakter hosszú nem üres szöveg lehet')
@@ -135,11 +157,22 @@ export const validateGroup = () => {
       .withMessage('Max 8 címke adható hozzá')
       .custom((value: string) => value.split(',').every(it => it.length <= 30))
       .withMessage('A címkék egyenként max 30 karakter hosszúak lehetnek'),
-    check('room')
-      .exists({ checkNull: true })
+    check()
+      .custom((value) => {console.log(value)
+        return true
+      })
+      .custom((value) => (value.type !== 'floor' || value.room))
       .withMessage('A szint nem lehet üres')
-      .isInt({ gt: 2, lt: 19 })
-      .withMessage('A szint csak 3 és 18 közötti értéket vehet fel'),
+      .custom((value) => (!value.room || !(value.room < 3 || value.room > 18)))
+      .withMessage('A szint csak 3 és 18 közötti értéket vehet fel')
+      .custom((value) => (value.type !== 'link' || value.link))
+      .withMessage('A link megadása kötelező')
+      .custom((value) => (!value.link || value.link.length <= 100 || !isValidHttpsUrl(value.link)))
+      .withMessage('A link maximum 100 karakter hosszú lehet')
+      .custom((value) => (value.type !== 'palce' || value.place))
+      .withMessage('A hely megadása kötelező')
+      .custom((value) => (!value.place || value.place.length <= 100))
+      .withMessage('A hely maximum 100 karakter hosszú lehet'),
     check('startDate')
       .exists({ checkNull: true, checkFalsy: true })
       .isAfter()
@@ -177,7 +210,10 @@ export const checkValidMaxAttendeeLimit = asyncWrapper(
 
 export const checkConflicts = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
-    const group = req.body as Group
+    const { type, ...group } = req.body as Group & { type: string }
+    if (type !== 'floor') {
+      return next()
+    }
     group.startDate = new Date(req.body.startDate)
     group.endDate = new Date(req.body.endDate)
     const conflictingGroups = await Group.query()

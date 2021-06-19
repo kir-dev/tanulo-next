@@ -45,7 +45,9 @@ export const createGroup = asyncWrapper(async (req: Request, res: Response, next
       {
         name: req.body.name,
         tags: req.body.tags ?? '',
-        room: parseInt(req.body.room),
+        room: req.body.room ? parseInt(req.body.room) : null,
+        link: req.body.link,
+        place: req.body.place,
         description: req.body.description,
         doNotDisturb: !!req.body.doNotDisturb,
         startDate: new Date(req.body.startDate),
@@ -64,7 +66,9 @@ export const updateGroup = asyncWrapper(async (req: Request, res: Response, next
     .patch({
       name: req.body.name,
       tags: req.body.tags ?? '',
-      room: parseInt(req.body.room),
+      room: req.body.room ? parseInt(req.body.room) : null,
+      link: req.body.link,
+      place: req.body.place,
       description: req.body.description,
       doNotDisturb: !!req.body.doNotDisturb,
       startDate: new Date(req.body.startDate),

@@ -110,6 +110,8 @@ router.get('/:id/copy',
   (req, res) =>
     res.render('group/new', {
       roomId: req.group.room,
+      link: req.group.link,
+      place: req.group.place,
       name: req.group.name,
       description: req.group.description,
       tags: req.group.tags,
@@ -125,6 +127,8 @@ router.get('/:id/edit',
   (req, res) =>
     res.render('group/new', {
       roomId: req.group.room,
+      link: req.group.link,
+      place: req.group.place,
       name: req.group.name,
       start: req.group.startDate,
       end: req.group.endDate,

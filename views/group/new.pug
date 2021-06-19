@@ -19,15 +19,25 @@ block content
       div
         label(class='text-lg font-bold' for='tags') Címkék (8)
         input(type="tags", name="tags", id="tags", class="w-full px-3 py-2 rounded form-element")
-      div
-        label(for="room" class='text-lg font-bold') Szint
+      div(class="flex space-x-2")
+        button(type="button", id="floorBtn", onclick="selectMeetingPlace('floor')", class='self-start btn btn-meeting-default animate-hover' class=`${(!isEditing || roomId) ? 'btn-meeting-selected' : ''}`) Szint
+        button(type="button", id="linkBtn", onclick="selectMeetingPlace('link')", class='self-start btn btn-meeting-default animate-hover' class=`${(isEditing && link) ? 'btn-meeting-selected' : ''}`) Link
+        button(type="button", id="otherBtn", onclick="selectMeetingPlace('other')", class='self-start btn btn-meeting-default animate-hover' class=`${(isEditing && place) ? 'btn-meeting-selected' : ''}`) Egyéb
+      div(id = "floorDiv" class=`${(!isEditing || !(link || place)) ? '' : 'hidden'}`)
+        label(for="floorInput" class='text-lg font-bold') Szint
         div(class='flex flex-row items-center space-x-4')
-          select(name="room", id="room", class='rounded form-element')
+          select(name="room", id="floorInput", class='rounded form-element')
             each room in ROOMS
               if roomId == room
                 option(value=`${room}`, selected='selected')= room
               else
                 option(value=`${room}`)= room
+      div(id="linkDiv" class=`${(isEditing && link) ? '' : 'hidden'}` )
+        label(class='text-lg font-bold' for='link') Link
+        input(type="text", name="link", id="linkInput", maxlength="100", class="w-full px-3 py-2 rounded form-element", value=`${(isEditing && link) ? link : ''}`)
+      div(id="otherDiv" class=`${(isEditing && place) ? '' : 'hidden'}`)
+        label(class='text-lg font-bold' for='otherInput') Más hely
+        input(type="text", name="place", id="otherInput", maxlength="100", class="w-full px-3 py-2 rounded form-element", value=`${(isEditing && place) ? place : ''}`)
           //- button(type="button", class="px-2 py-1 border border-gray-600 rounded-md hover:border-gray-500", @click="open = true") Naptár
       div
         label(class='text-lg font-bold' for="maxAttendees") Maximális létszám
