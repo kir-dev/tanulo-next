@@ -138,7 +138,6 @@ function isValidHttpsUrl(str) {
   // not allowing '(' and ')'
   // catching 1 character TLD
 
-  console.log('cuteus chungus')
   return !!pattern.test(str) && url.protocol === 'https:'
 }
 
@@ -158,9 +157,6 @@ export const validateGroup = () => {
       .custom((value: string) => value.split(',').every(it => it.length <= 30))
       .withMessage('A címkék egyenként max 30 karakter hosszúak lehetnek'),
     check()
-      .custom((value) => {console.log(value)
-        return true
-      })
       .custom((value) => (value.type !== 'floor' || value.room))
       .withMessage('A szint nem lehet üres')
       .custom((value) => (!value.room || !(value.room < 3 || value.room > 18)))
