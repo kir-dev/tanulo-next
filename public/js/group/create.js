@@ -72,6 +72,8 @@ const validateGroup = (data) => {
     }
     if (!isValidHttpsUrl(link)) {
       errors.push('Hibás link')
+      errors.push('A linknek így kell kinéznie: https://valami.valami)')
+      errors.push('Pl: https://tanulo.sch.bme.hu')
     }
   }
 
