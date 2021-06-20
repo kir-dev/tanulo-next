@@ -9,6 +9,7 @@ import { RoleType, User } from '../users/user'
 import { Group } from './group'
 import { asyncWrapper } from '../../util/asyncWrapper'
 import sendMessage from '../../util/sendMessage'
+import transporter from '../../config/email'
 
 export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const user = req.user as User
@@ -26,6 +27,21 @@ export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: 
     await Group.relatedQuery('users')
       .for(group.id)
       .relate(user.id)
+
+    //const emailRecepient = await User.query().findOne({id: group.ownerId})
+    transporter.sendMail({
+      from: 'noreply@tanulo.sch.bme.hu',
+      to: /*emailRecepient.email*/'feketesamu@gmail.com',
+      subject: 'Csatlakoztak a csoportodba!',
+      text: `${user.name} csatlakozott a(z) ${group.name} csoportodba!`,
+      html: `<h2>${user.name} csatlakozott a(z) ${group.name} csoportodba!</h2>`
+    }, (err, info) => {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log(info)
+      }
+    })
   }
   next()
 })
@@ -38,7 +54,7 @@ export const leaveGroup = asyncWrapper(async (req: Request, res: Response, next:
   next()
 })
 
-export const isMemberInGroup = 
+export const isMemberInGroup =
 asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const kickableUser = await Group.relatedQuery('users').for(req.group.id)
     .findOne({ userId: parseInt(req.params.userid) })
@@ -59,7 +75,7 @@ export const kickMember = asyncWrapper(async (req: Request, res: Response, next:
 })
 
 /**
- * @deprecated use isGroupOwnerOrAdmin instead 
+ * @deprecated use isGroupOwnerOrAdmin instead
  */
 export const isGroupOwner = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
