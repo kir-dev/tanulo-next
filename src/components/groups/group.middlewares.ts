@@ -138,7 +138,7 @@ function isValidHttpsUrl(str) {
   // not allowing '(' and ')'
   // catching 1 character TLD
 
-  return !!pattern.test(str) && url.protocol === 'https:'
+  return pattern.test(str) && url.protocol === 'https:'
 }
 
 export const validateGroup = () => {

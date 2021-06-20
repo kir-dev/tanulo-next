@@ -10,21 +10,12 @@ function selectMeetingPlace(kind) {
   selectedButton.classList.add('btn-meeting-selected')
   selectedInputField.required = true
   selectedWrapper.classList.remove('hidden')
-  const otherMeetingPlaces = MEETING_PLACES.filter(it => it !== kind)
-  otherMeetingPlaces
-    .map((it) => document.getElementById(`${it}Btn`))
-    .forEach((it) => {
-      it.classList.remove('btn-meeting-selected')
-    })
-  otherMeetingPlaces
-    .map((it) => document.getElementById(`${it}Input`))
-    .forEach((it) => {
-      it.required = false
-      it.value = ''
-    })
-  otherMeetingPlaces
-    .map((it) => document.getElementById(`${it}Div`))
-    .forEach((it) => it.classList.add('hidden'))
+
+  MEETING_PLACES.filter(it => it !== kind).forEach(otherPlace => {
+    document.getElementById(`${otherPlace}Btn`).classList.remove('btn-meeting-selected')
+    document.getElementById(`${otherPlace}Input`).required = false
+    document.getElementById(`${otherPlace}Div`).classList.add('hidden')
+  })
 }
 
 function isValidHttpsUrl(str) {
@@ -44,7 +35,7 @@ function isValidHttpsUrl(str) {
   // not allowing '(' and ')'
   // catching 1 character TLD
 
-  return !!pattern.test(str) && url.protocol === 'https:'
+  return pattern.test(str) && url.protocol === 'https:'
 }
 
 const validateGroup = (data) => {
@@ -56,6 +47,14 @@ const validateGroup = (data) => {
 
   if (meetingPlace !== 'floor') {
     data.set('room', undefined)
+  }
+
+  if (meetingPlace !== 'link') {
+    data.set('link', '')
+  }
+
+  if (meetingPlace !== 'other') {
+    data.set('place', '')
   }
 
   if (!name) {
