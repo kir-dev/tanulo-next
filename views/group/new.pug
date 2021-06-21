@@ -19,11 +19,13 @@ block content
       div
         label(class='text-lg font-bold' for='tags') Címkék (8)
         input(type="tags", name="tags", id="tags", class="w-full px-3 py-2 rounded form-element")
-      div(class="flex space-x-2")
-        button(type="button", id="floorBtn", onclick="selectMeetingPlace('floor')", class='self-start btn btn-meeting-default animate-hover' class=`${(!isEditing || roomId) ? 'btn-meeting-selected' : ''}`) Szint
-        button(type="button", id="linkBtn", onclick="selectMeetingPlace('link')", class='self-start btn btn-meeting-default animate-hover' class=`${(isEditing && link) ? 'btn-meeting-selected' : ''}`) Link
-        button(type="button", id="otherBtn", onclick="selectMeetingPlace('other')", class='self-start btn btn-meeting-default animate-hover' class=`${(isEditing && place) ? 'btn-meeting-selected' : ''}`) Egyéb
-      div(id = "floorDiv" class=`${(!isEditing || !(link || place)) ? '' : 'hidden'}`)
+      div
+        label(class='text-lg font-bold' for='buttons') Helyszín
+        div(class="flex space-x-2" id="buttons")
+          button(type="button", id="floorBtn", onclick="selectMeetingPlace('floor')", class='self-start btn btn-meeting-default animate-hover' class=`${(!isEditing || roomId) ? 'btn-meeting-selected' : ''}`) Tanulószoba
+          button(type="button", id="linkBtn", onclick="selectMeetingPlace('link')", class='self-start btn btn-meeting-default animate-hover' class=`${(isEditing && link) ? 'btn-meeting-selected' : ''}`) Online
+          button(type="button", id="otherBtn", onclick="selectMeetingPlace('other')", class='self-start btn btn-meeting-default animate-hover' class=`${(isEditing && place) ? 'btn-meeting-selected' : ''}`) Egyéb
+      div(id = "floorDiv" class=`${(!isEditing || roomId) ? '' : 'hidden'}`)
         label(for="floorInput" class='text-lg font-bold') Szint
         div(class='flex flex-row items-center space-x-4')
           select(name="room", id="floorInput", class='rounded form-element')
