@@ -1,30 +1,13 @@
 import nodemailer from 'nodemailer'
 
-//const transporter = nodemailer.createTransport({
-//  host: 'mail.sch.bme.hu',
-//  port: 80,
-//  secure: true,
-//  auth: {
-//    user: 'noreply@tanulo.sch.bme.hu',
-//    pass: process.env.EMAIL_PWD
-//  },
-//  tls: {
-//    ciphers:'SSLv3'
-//  }
-//})
-//
 const transporter = nodemailer.createTransport({
-  host: 'mail.sch.bme.hu',
-  port: 993,
-  secure: false,
+  host: process.env.EMAIL_HOST,
+  port: parseInt(process.env.EMAIL_PORT),
+  secure: false, // upgrade later with STARTTLS
   auth: {
-    user: 'noreply@tanulo.sch.bme.hu',
+    user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PWD
   },
-  tls: {
-    ciphers:'SSLv3'
-  }
 })
-
 
 export default transporter

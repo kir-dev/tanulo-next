@@ -5,7 +5,7 @@ import multer from 'multer'
 
 import { isAuthenticated, requireRoles } from '../../config/passport'
 import { DATE_FORMAT, ROOMS, STATUSES } from '../../util/constants'
-import { createTicket, getOtherTickets, getMyTickets,
+import { createTicket, sendEmailToTicketAdmins, getOtherTickets, getMyTickets,
   moveTicket, removeTicket, checkTicketOwner } from './ticket.service'
 
 import { handleValidationError } from '../../util/validators'
@@ -55,6 +55,7 @@ router.post('/',
   ],
   handleValidationError(400),
   createTicket,
+  sendEmailToTicketAdmins,
   (_req: Request, res: Response) => res.sendStatus(201)
 )
 

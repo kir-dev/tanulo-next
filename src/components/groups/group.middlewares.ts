@@ -9,7 +9,7 @@ import { RoleType, User } from '../users/user'
 import { Group } from './group'
 import { asyncWrapper } from '../../util/asyncWrapper'
 import sendMessage from '../../util/sendMessage'
-import transporter from '../../config/email'
+import {sendEmail} from '../../util/sendEmail'
 
 export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const user = req.user as User
@@ -19,32 +19,35 @@ export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: 
   // We only join the group if it is not full already
   if (group.doNotDisturb && (user.id !== group.ownerId)){
     sendMessage(res, 'Ez egy privát csoport!')
+    res.redirect(`/groups/${req.params.id}`)
   } else if (group.users?.find(it => it.id === user.id)) {
     sendMessage(res, 'Már tagja vagy ennek a csoportnak!')
+    res.redirect(`/groups/${req.params.id}`)
   } else if ((group.users?.length || 0) >= group.maxAttendees) {
     sendMessage(res, 'Ez a csoport már tele van!')
+    res.redirect(`/groups/${req.params.id}`)
   } else {
     await Group.relatedQuery('users')
       .for(group.id)
       .relate(user.id)
-
-    //const emailRecepient = await User.query().findOne({id: group.ownerId})
-    transporter.sendMail({
-      from: 'noreply@tanulo.sch.bme.hu',
-      to: /*emailRecepient.email*/'feketesamu@gmail.com',
-      subject: 'Csatlakoztak a csoportodba!',
-      text: `${user.name} csatlakozott a(z) ${group.name} csoportodba!`,
-      html: `<h2>${user.name} csatlakozott a(z) ${group.name} csoportodba!</h2>`
-    }, (err, info) => {
-      if (err) {
-        console.log(err)
-      } else {
-        console.log(info)
-      }
-    })
   }
   next()
 })
+
+export const sendEmailToOwner = asyncWrapper(
+  async (req: Request, res: Response, next: NextFunction) =>  {
+    const user = req.user as User
+    const group = req.group
+
+    const emailRecepient = await User.query().findOne({id: group.ownerId})
+    sendEmail([emailRecepient], {
+      subject: 'Csatlakoztak egy csoportodba!',
+      body: `${user.name} csatlakozott a(z) ${group.name} csoportodba!`,
+      link: `/groups/${group.id}`,
+      linkTitle: 'Csoport megtekintése'
+    })
+    next()
+  })
 export const leaveGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   await Group.relatedQuery('users')
     .for(req.group.id)
@@ -73,6 +76,18 @@ export const kickMember = asyncWrapper(async (req: Request, res: Response, next:
 
   next()
 })
+
+export const sendEmailToMember = asyncWrapper(
+  async (req: Request, res: Response, next: NextFunction) =>  {
+    const group = req.group
+
+    const emailRecepient = await User.query().findOne({id: req.params.userid})
+    sendEmail([emailRecepient], {
+      subject: 'Kirúgtak egy csoportból!',
+      body: `A(z) ${group.name} csoport szervezője vagy egy admin kirúgott a csoportból.`,
+    })
+    next()
+  })
 
 /**
  * @deprecated use isGroupOwnerOrAdmin instead
