@@ -3,10 +3,11 @@ const deleteGroup = (id) => {
   fetch(`/groups/${id}`, { method: 'DELETE' })
     .then((res) => {
       if (res.status === 204) {
+        sendMessage('Csoport sikeresen törölve', 'success')
         location.href = '/groups'
       }
     })
-    .catch((err) => console.error(err))
+    .catch((err) => displayMessage(err))
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

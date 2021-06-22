@@ -83,9 +83,10 @@ const validateGroup = (data) => {
   return errors
 }
 
-const handleResponse = async (res) => {
+const handleResponse = async (res, edited) => {
   switch (res.status) {
   case 201:
+    sendMessage(`Csoport sikeresen ${edited ? 'frissítve' : 'létrehozva'}`, 'success')
     location.href = '/groups'
     break
   case 400:
@@ -118,7 +119,7 @@ const addGroup = (event) => {
     errors.forEach((err) => displayMessage(err))
   } else {
     fetch('/groups', { method: 'POST', body: formData })
-      .then(handleResponse)
+      .then((res) => handleResponse(res, false))
       .catch((err) => displayMessage(err))
   }
 }
@@ -142,7 +143,7 @@ const editGroup = (event) => {
     errors.forEach((err) => displayMessage(err))
   } else {
     fetch(`/groups/${groupId}`, { method: 'PUT', body: formData })
-      .then(handleResponse)
+      .then((res) => handleResponse(res, true))
       .catch((err) => displayMessage(err))
   }
 }

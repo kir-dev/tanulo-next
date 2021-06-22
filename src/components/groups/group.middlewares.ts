@@ -8,6 +8,7 @@ import { differenceInMinutes } from 'date-fns'
 import { RoleType, User } from '../users/user'
 import { Group } from './group'
 import { asyncWrapper } from '../../util/asyncWrapper'
+import sendMessage from '../../util/sendMessage'
 
 export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const user = req.user as User
@@ -15,9 +16,13 @@ export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: 
 
   // Join group if not already in it, and it's not closed or it's the owner who joins.
   // We only join the group if it is not full already
-  if ((!group.doNotDisturb || (user.id === group.ownerId)) &&
-    !group.users?.find(it => it.id === user.id) &&
-    (group.users?.length || 0) < group.maxAttendees) {
+  if (group.doNotDisturb && (user.id !== group.ownerId)){
+    sendMessage(res, 'Ez egy privát csoport!')
+  } else if (group.users?.find(it => it.id === user.id)) {
+    sendMessage(res, 'Már tagja vagy ennek a csoportnak!')
+  } else if ((group.users?.length || 0) >= group.maxAttendees) {
+    sendMessage(res, 'Ez a csoport már tele van!')
+  } else {
     await Group.relatedQuery('users')
       .for(group.id)
       .relate(user.id)
