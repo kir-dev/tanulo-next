@@ -16,7 +16,7 @@ export const sendEmail = (recipients: User[], email: Email) => {
       subject: email.subject,
       text: email.body,
       html: `<html>
-                <body style="min-height: 100vh;color: rgba(31, 41, 55, 1);
+                <body style="min-height: 50vh;color: rgba(31, 41, 55, 1);
                             background: rgb(191,219,254);
                             background: linear-gradient(180deg, rgba(191,219,254,1)
                              0%, rgba(221,214,254,1) 100%);
