@@ -27,7 +27,7 @@ export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: 
     await Group.relatedQuery('users')
       .for(group.id)
       .relate(user.id)
-    next()
+    return next()
   }
   res.redirect(`/groups/${req.params.id}`)
 })
