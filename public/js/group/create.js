@@ -1,15 +1,85 @@
+let meetingPlace = 'floor'
+const MEETING_PLACES = ['floor', 'link', 'other'] 
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function selectMeetingPlace(kind) {
+  meetingPlace = kind
+  const selectedButton = document.getElementById(`${kind}Btn`)
+  const selectedInputField = document.getElementById(`${kind}Input`)
+  const selectedWrapper = document.getElementById(`${kind}Div`)
+  selectedButton.classList.add('btn-meeting-selected')
+  selectedInputField.required = true
+  selectedWrapper.classList.remove('hidden')
+
+  MEETING_PLACES.filter(it => it !== kind).forEach(otherPlace => {
+    document.getElementById(`${otherPlace}Btn`).classList.remove('btn-meeting-selected')
+    document.getElementById(`${otherPlace}Input`).required = false
+    document.getElementById(`${otherPlace}Div`).classList.add('hidden')
+  })
+}
+
+function isValidHttpsUrl(str) {
+  let url
+  try {
+    url = new URL(str)
+  } catch (_) {
+    return false
+  } // not catching bad top lvl domain (1 character)
+
+  const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+    '(\\#[-a-z\\d_]*)?$','i') // fragment locator
+  // not allowing '(' and ')'
+  // catching 1 character TLD
+
+  return pattern.test(str) && url.protocol === 'https:'
+}
+
 const validateGroup = (data) => {
   const errors = []
   const room = parseInt(data.get('room'))
   const name = data.get('name')
+  const place = data.get('place')
+  const link = data.get('link')
+
+  if (meetingPlace !== 'floor') {
+    data.set('room', undefined)
+  }
+
+  if (meetingPlace !== 'link') {
+    data.set('link', '')
+  }
+
+  if (meetingPlace !== 'other') {
+    data.set('place', '')
+  }
 
   if (!name) {
     errors.push('A név kitöltése kötelező')
   }
 
-  if (typeof room !== 'number' || room < 3 || room > 18) {
+  if (meetingPlace === 'floor' && (typeof room !== 'number' || room < 3 || room > 18)) {
     errors.push('A szint csak 3 és 18 közötti szám lehet')
   }
+
+  if (meetingPlace === 'link') {
+    if (!link) {
+      errors.push('A link megadása kötelező.')
+    }
+    if (!isValidHttpsUrl(link)) {
+      errors.push('Hibás link')
+      errors.push('A linknek így kell kinéznie: https://valami.valami)')
+      errors.push('Pl: https://tanulo.sch.bme.hu')
+    }
+  }
+
+  if (meetingPlace === 'other' && !place) {
+    errors.push('A találkozási hely megadása kötelező.')
+  }
+
   return errors
 }
 
@@ -39,6 +109,10 @@ const addGroup = (event) => {
     const parsedTags = tags.map((it) => it.value).join(',')
     formData.set('tags', parsedTags)
   }
+  formData.append('type', meetingPlace)
+  if (meetingPlace !== 'floor') {
+    formData.delete('room')
+  }
 
   if (errors.length) {
     clearMessages()
@@ -59,6 +133,10 @@ const editGroup = (event) => {
     const parsedTags = tags.map((it) => it.value).join(',')
     formData.set('tags', parsedTags)
   }
+  formData.append('type', meetingPlace)
+  if (meetingPlace !== 'floor') {
+    formData.delete('room')
+  }
 
   if (errors.length) {
     clearMessages()
@@ -78,7 +156,8 @@ formEl.addEventListener('submit', (event) => {
     addGroup(event)
 })
 
-const calendarOptions = {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const calendarOptions = { // TODO: side-calendar, eslint-disable not needed
   plugins: ['timeGrid'],
   views: {
     timeGridOneDay: {

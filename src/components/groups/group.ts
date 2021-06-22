@@ -9,7 +9,9 @@ export class Group extends Model {
   description: string
   startDate: Date
   endDate: Date
-  room: number
+  room?: number
+  link?: string
+  place?: string
   doNotDisturb: boolean
   ownerId: number
   users: User[]
@@ -46,7 +48,7 @@ export class Group extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['name', 'description', 'doNotDisturb', 'tags', 'room', 'startDate', 'endDate'],
+      required: ['name', 'description', 'doNotDisturb', 'tags', 'startDate', 'endDate'],
 
       properties: {
         id: { type: 'integer' },
@@ -54,7 +56,9 @@ export class Group extends Model {
         description: { type: 'string' },
         doNotDisturb: { type: 'boolean' },
         tags: { type: 'string' },
-        room: { type: 'integer' },
+        room: { type: ['number', 'null'] },
+        link: { type: 'string' },
+        place: { type: 'string' },
         startDate: { type: 'datetime' },
         endDate: { type: 'datetime' },
         maxAttendees: { type: 'integer' }
