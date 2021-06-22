@@ -120,7 +120,6 @@ export const createICSEvent = (req: Request, res: Response) => {
   })
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function isValidHttpsUrl(str) {
   let url
   try {

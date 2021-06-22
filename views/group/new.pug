@@ -97,10 +97,4 @@ block scripts
   script(src="/js/picker.js")
   script(src="/js/md-editor.js")
   script(src="/js/group/create.js")
-  script.
-    const tagsInput = document.querySelector('input[name=tags]')
-    const tagify = new Tagify(tagsInput, {
-      editTags: false
-    })
-    if (isEditing && tags)
-      tagify.addTags(tags.split(','))
+  script(src="/js/tags.js")
