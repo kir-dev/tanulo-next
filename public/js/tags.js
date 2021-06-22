@@ -1,4 +1,4 @@
-function transformTag(tagData){
+function transformTag(tagData) {
   tagData.style = 'line-height: normal;'
 }
 
