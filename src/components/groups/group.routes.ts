@@ -13,9 +13,11 @@ import { handleValidationError, checkIdParam } from '../../util/validators'
 import { RoleType, User } from '../users/user'
 import {
   joinGroup,
+  sendEmailToOwner,
   leaveGroup,
   isMemberInGroup,
   kickMember,
+  sendEmailToMember,
   createICSEvent,
   checkConflicts,
   validateGroup,
@@ -77,6 +79,7 @@ router.post('/:id/join',
   isAuthenticated,
   getGroup,
   joinGroup,
+  sendEmailToOwner,
   (req, res) => res.redirect(`/groups/${req.params.id}`)
 )
 
@@ -92,6 +95,7 @@ router.post('/:id/kick/:userid',
   isGroupOwnerOrAdmin,
   isMemberInGroup,
   kickMember,
+  sendEmailToMember,
   (req, res) => res.redirect(`/groups/${req.params.id}`)
 )
 
