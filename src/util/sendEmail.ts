@@ -17,7 +17,7 @@ export const sendEmail = (recipients: User[], email: Email) => {
         to: user.email,
         subject: email.subject,
         text: email.body,
-        html: generateEmailHTML(user.name, email)
+        html: generateEmailHTML(user, email)
       }, (err) => {
         if (err) {
           console.log(err)

@@ -56,8 +56,7 @@ export const createUser = async (user: OAuthUser) => {
           name: user.displayName,
           email: user.mail,
           authSchId: user.internal_id,
-          role: RoleType.USER,
-          wantEmail: true
+          role: RoleType.USER
         }
       )
   })
