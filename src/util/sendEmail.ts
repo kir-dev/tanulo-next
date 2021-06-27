@@ -11,7 +11,7 @@ export interface Email {
 
 export const sendEmail = (recipients: User[], email: Email) => {
   if (process.env.NODE_ENV === 'production') {
-    recipients.forEach(user => {
+    recipients.filter(user => user.wantEmail).forEach(user => {
       transporter.sendMail({
         from: `TanulóSCH <${process.env.EMAIL_USER}>`,
         to: user.email,

@@ -9,13 +9,14 @@ export enum RoleType {
 }
 
 
-export class User extends Model {
+export class User extends Model { 
   id!: number
   name: string
   email: string
   authSchId: string
   role: RoleType
   floor: number
+  wantEmail: boolean
   groups: Group[]
   static get tableName() {
     return 'users'
@@ -48,7 +49,8 @@ export class User extends Model {
         id: { type: 'integer' },
         name: { type: 'string', minLength: 1, maxLength: 255 },
         authSchId: { type: 'string' },
-        floor: { type: ['integer', 'null'] }
+        floor: { type: ['integer', 'null'] },
+        wantEmail: { type: 'boolean'}
       }
     }
   }
