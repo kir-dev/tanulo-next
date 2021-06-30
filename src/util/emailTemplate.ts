@@ -1,4 +1,5 @@
 import { Email } from './sendEmail'
+import { User } from '../components/users/user'
 
 const styles = {
   body: `"min-height: 50vh;
@@ -38,20 +39,22 @@ const styles = {
         margin-top:2rem;
         margin-bottom: 0px;"`
 }
-export const generateEmailHTML = (username: string, email: Email) => {
+export const generateEmailHTML = (user: User, email: Email) => {
   return `<html>
   <body style=${styles.body}>
       <div style=${styles.titleDiv}>
           <h1 style=${styles.title}>TanulóSCH</h1>
       </div>
       <div style=${styles.container}>
-          <h2 style=${styles.greeting}>Kedves ${username}!</h2>
+          <h2 style=${styles.greeting}>Kedves ${user.name}!</h2>
           <p>${email.body}</p>
           <a style=${styles.button} href=https://tanulo.sch.bme.hu${email.link || ''}>
             ${email.linkTitle || 'TanulóSCH'}
           </a>
           <p style=${styles.smallText}>
-            Ez egy automatikusan gerenált üzenet, kérjük ne válaszolj rá!
+            Ez egy automatikusan gerenált üzenet, kérjük ne válaszolj rá! <br>
+             Ha nem szeretnél több emailt kapni, akkor ezt a
+             <a href="https://tanulo.sch.bme.hu/users/${user.id}"> profilodon</a> beállíthatod. <br>
              Kérdés esetén írj a <a href="mailto:kir-dev@sch.bme.hu">kir-dev@sch.bme.hu</a> címre!
           </p>
       </div>
