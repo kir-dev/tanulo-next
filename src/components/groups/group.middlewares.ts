@@ -23,6 +23,8 @@ export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: 
     sendMessage(res, 'Már tagja vagy ennek a csoportnak!')
   } else if ((group.users?.length || 0) >= group.maxAttendees) {
     sendMessage(res, 'Ez a csoport már tele van!')
+  } else if (group.endDate < new Date()) {
+    sendMessage(res, 'Ez a csoport már lejárt!')
   } else {
     await Group.relatedQuery('users')
       .for(group.id)
