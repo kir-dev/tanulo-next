@@ -2,6 +2,7 @@ import errorHandler from 'errorhandler'
 
 import app from './app'
 import { ENVIRONMENT } from './util/secrets'
+import { agenda } from './util/agendaJobs'
 
 /**
  * Error Handler. Provides full stack - remove for production
@@ -20,4 +21,5 @@ app.listen(app.get('port'), () => {
     app.get('env')
   )
   console.log('  Press CTRL-C to stop\n')
+  agenda.start()
 })

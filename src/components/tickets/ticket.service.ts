@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express'
 
 import { formatMdToSafeHTML } from '../../util/convertMarkdown'
 import { asyncWrapper } from '../../util/asyncWrapper'
-import { sendEmail } from '../../util/sendEmail'
+import { agenda } from '../../util/agendaJobs'
 import { RoleType } from '../users/user'
 
 import { User } from '../users/user'
@@ -48,12 +48,15 @@ export const sendEmailToTicketAdmins = asyncWrapper(
     const ticket = req.body
 
     const emailRecepients = await User.query().where({ role: RoleType.TICKET_ADMIN })
-    sendEmail(emailRecepients, {
-      subject: `Új hibajegyet vettek fel a ${ticket.roomNumber}. emeleti tanulószobába!`,
-      body: `Új hibajegyet vettek fel a ${ticket.roomNumber}. emeleti tanulószobába!
-       A hibajegy tartalma: "${ticket.description}"`,
-      link: '/tickets',
-      linkTitle: 'Hibajegy megtekintése'
+    await agenda.now('send email', {
+      users: emailRecepients,
+      email: {
+        subject: `Új hibajegyet vettek fel a ${ticket.roomNumber}. emeleti tanulószobába!`,
+        body: `Új hibajegyet vettek fel a ${ticket.roomNumber}. emeleti tanulószobába!
+        A hibajegy tartalma: "${ticket.description}"`,
+        link: '/tickets',
+        linkTitle: 'Hibajegy megtekintése'
+      }
     })
     next()
   })

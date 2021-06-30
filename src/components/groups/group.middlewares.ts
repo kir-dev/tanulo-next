@@ -9,7 +9,7 @@ import { RoleType, User } from '../users/user'
 import { Group } from './group'
 import { asyncWrapper } from '../../util/asyncWrapper'
 import sendMessage from '../../util/sendMessage'
-import { sendEmail } from '../../util/sendEmail'
+import { agenda } from '../../util/agendaJobs'
 
 export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const user = req.user as User
@@ -38,11 +38,14 @@ export const sendEmailToOwner = asyncWrapper(
     const group = req.group
 
     const emailRecepient = await User.query().findOne({ id: group.ownerId })
-    sendEmail([emailRecepient], {
-      subject: 'Csatlakoztak egy csoportodba!',
-      body: `${user.name} csatlakozott a(z) ${group.name} csoportodba!`,
-      link: `/groups/${group.id}`,
-      linkTitle: 'Csoport megtekintése'
+    await agenda.now('send email', {
+      users: [emailRecepient],
+      email: {
+        subject: 'Csatlakoztak egy csoportodba!',
+        body: `${user.name} csatlakozott a(z) ${group.name} csoportodba!`,
+        link: `/groups/${group.id}`,
+        linkTitle: 'Csoport megtekintése'
+      }
     })
     next()
   })
@@ -78,9 +81,12 @@ export const kickMember = asyncWrapper(async (req: Request, res: Response, next:
 export const sendEmailToMember = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) =>  {
     const emailRecepient = await User.query().findOne({ id: req.params.userid })
-    sendEmail([emailRecepient], {
-      subject: 'Kirúgtak egy csoportból!',
-      body: `A(z) ${req.group.name} csoport szervezője vagy egy admin kirúgott a csoportból.`,
+    await agenda.now('send email', {
+      users: [emailRecepient],
+      email: {
+        subject: 'Kirúgtak egy csoportból!',
+        body: `A(z) ${req.group.name} csoport szervezője vagy egy admin kirúgott a csoportból.`,
+      }
     })
     next()
   })
