@@ -14,6 +14,8 @@ import { sendEmail } from '../../util/sendEmail'
 export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const user = req.user as User
   const group = req.group
+  const isAnon = req.body.isAnon === 'on'
+
 
   // Join group if not already in it, and it's not closed or it's the owner who joins.
   // We only join the group if it is not full already
@@ -26,7 +28,7 @@ export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: 
   } else {
     await Group.relatedQuery('users')
       .for(group.id)
-      .relate(user.id)
+      .relate({id: user.id, isAnon})
     return next()
   }
   res.redirect(`/groups/${req.params.id}`)

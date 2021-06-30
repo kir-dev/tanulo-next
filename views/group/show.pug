@@ -10,6 +10,8 @@ block content
     if !joined && !group.doNotDisturb
       form(action=`/groups/${group.id}/join`, method="post")
         button(type="submit" class='text-xl btn btn-primary animate-hover') Csatlakozás
+        label(for="isAnon") Név nélkül?
+        input(type="checkbox" name="isAnon")
     else if !isOwner && joined
       button(type="button" class='text-xl bg-yellow-400 btn btn-primary animate-hover dark:text-black hover:bg-yellow-500' onClick=`toggleModal(
         '/groups/${group.id}/leave',
