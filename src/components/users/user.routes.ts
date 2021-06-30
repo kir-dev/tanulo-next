@@ -10,18 +10,24 @@ import { getUser, updateRole, updateUser } from './user.service'
 
 const router = Router()
 
-router.get('/:id', isAuthenticated, checkIdParam, getUser, (req, res) =>
+router.get('/:id', isAuthenticated, checkIdParam, getUser, (req, res) => {
+  const u = req.userToShow
+  const viewsSelf = u.id == (req.user as User).id
+  const isAdmin = (req.user as User).role !== RoleType.USER
+
+  const groups =  viewsSelf || isAdmin ? u.groups : u.groups.filter(g => !g.isAnon)
+
   res.render('user/show', {
-    userToShow: req.userToShow,
+    userToShow: { ...req.userToShow, groups },
     ROLES: ROLES
   })
-)
+})
 
 router.patch('/:id/role',
   requireRoles(RoleType.ADMIN),
   check('role')
     .isString()
-    .custom((input) => { 
+    .custom((input) => {
       return [...ROLES.keys()]
         .some((element) => element == input)
     })

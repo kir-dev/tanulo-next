@@ -18,6 +18,11 @@ export class Group extends Model {
   createdAt: Date
   maxAttendees: number
 
+  /**
+   * See {@link User.isAnon}
+   */
+  isAnon: boolean
+
   $beforeInsert() {
     this.createdAt = new Date()
   }

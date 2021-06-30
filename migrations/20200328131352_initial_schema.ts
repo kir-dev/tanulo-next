@@ -46,7 +46,7 @@ export async function up(knex: Knex): Promise<void> {
         .inTable('groups')
         .index()
 
-      table.boolean('isAnon')
+      table.boolean('isAnon').defaultTo(0)
     })
 }
 
