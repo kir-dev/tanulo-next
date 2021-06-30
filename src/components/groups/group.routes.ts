@@ -68,10 +68,11 @@ router.get('/:id',
   getGroup,
   (req, res) => {
     const joined = req.group.users.some(u => u.id === (req.user as User).id)
-    const isOwner = req.group.ownerId === (req.user as User).id
+    const userId = (req.user as User).id
+    const isOwner = req.group.ownerId === userId
     const isAdmin = (req.user as User).role == RoleType.ADMIN
     res.render('group/show', {
-      group: req.group, joined, isOwner, format, DATE_FORMAT, isAdmin
+      group: req.group, joined, isOwner, format, DATE_FORMAT, isAdmin, userId
     })
   })
 
