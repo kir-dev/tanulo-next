@@ -27,10 +27,9 @@ passport.use(
       _profile: unknown,
       done: (err: Error, user: User) => void
     ) => {
-      const randId = Math.random() * 100 | 0
-      const responseUser = {
-        'internal_id': randId+'', displayName: 'testuser' + randId, mail: randId+'test@test.net'
-      }
+      const responseUser = await fetch(
+        `${AUTH_SCH_URL}/api/profile?access_token=${accessToken}`
+      ).then(res => res.json())
 
       const user = await User.query().findOne({ authSchId: responseUser.internal_id })
 
