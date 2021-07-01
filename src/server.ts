@@ -21,5 +21,7 @@ app.listen(app.get('port'), () => {
     app.get('env')
   )
   console.log('  Press CTRL-C to stop\n')
-  agenda.start()
+  if (process.env.NODE_ENV === 'production') {
+    agenda.start()
+  }
 })

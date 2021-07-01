@@ -1,6 +1,5 @@
-import transporter from '../config/email'
 import { User } from '../components/users/user'
-import { generateEmailHTML } from './emailTemplate'
+import { agenda } from './agendaJobs'
 
 export interface Email {
   subject: string
@@ -9,20 +8,11 @@ export interface Email {
   linkTitle?: string
 }
 
-export const sendEmail = (recipients: User[], email: Email) => {
+export const sendEmail = async (recipients: User[], email: Email) => {
   if (process.env.NODE_ENV === 'production') {
-    recipients.filter(user => user.wantEmail).forEach(user => {
-      transporter.sendMail({
-        from: `TanulóSCH <${process.env.EMAIL_USER}>`,
-        to: user.email,
-        subject: email.subject,
-        text: email.body,
-        html: generateEmailHTML(user, email)
-      }, (err) => {
-        if (err) {
-          console.log(err)
-        }
-      })
+    await agenda.now('send email', {
+      users: recipients,
+      email: email
     })
   }
 }
