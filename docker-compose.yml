@@ -28,7 +28,17 @@ services:
           - postgresql.db
     volumes:
       - postgres:/var/lib/postgresql/tanulo-data
+  mongodb:
+    image: mongo
+    restart: always
+    volumes:
+      - mongo-volume:/data/db
+    networks:
+      tanulo-network:
+        aliases:
+          - mongodb
 volumes:
   postgres:
+  mongo-volume:
 networks:
   tanulo-network:
