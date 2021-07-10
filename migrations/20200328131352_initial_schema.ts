@@ -45,6 +45,8 @@ export async function up(knex: Knex): Promise<void> {
         .references('id')
         .inTable('groups')
         .index()
+
+      table.boolean('isAnon').defaultTo(0)
     })
 }
 

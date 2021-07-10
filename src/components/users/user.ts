@@ -22,6 +22,14 @@ export class User extends Model {
     return 'users'
   }
 
+
+  /**
+   * Should the user's name displayed only for admins?
+   *
+   * Only available when the user object is graph fetched with a group
+   */
+  isAnon: boolean
+
   static get relationMappings() {
     return {
       groups: {
@@ -32,7 +40,8 @@ export class User extends Model {
           from: 'users.id',
           through: {
             from: 'users_groups.userId',
-            to: 'users_groups.groupId'
+            to: 'users_groups.groupId',
+            extra: ['isAnon']
           },
           to: 'groups.id'
         }

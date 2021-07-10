@@ -18,6 +18,11 @@ export class Group extends Model {
   createdAt: Date
   maxAttendees: number
 
+  /**
+   * See {@link User.isAnon}
+   */
+  isAnon: boolean
+
   $beforeInsert() {
     this.createdAt = new Date()
   }
@@ -37,7 +42,8 @@ export class Group extends Model {
           // ManyToMany relation needs the `through` object to describe the join table.
           through: {
             from: 'users_groups.groupId',
-            to: 'users_groups.userId'
+            to: 'users_groups.userId',
+            extra: ['isAnon']
           },
           to: 'users.id'
         }
