@@ -46,7 +46,7 @@
     "nodemailer": "6.6.2",
     "objection": "2.2.15",
     "passport": "0.4.1",
-    "passport-oauth2": "1.5.0",
+    "passport-oauth2": "1.6.0",
     "pg": "8.6.0",
     "postcss": "8.3.5",
     "postcss-nested": "5.0.5",
