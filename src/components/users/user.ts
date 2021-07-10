@@ -18,11 +18,12 @@ export class User extends Model {
   floor: number
   wantEmail: boolean
   groups: Group[]
-  static get tableName() {
+  static get tableName(): string {
     return 'users'
   }
 
-  static get relationMappings() {
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  static get relationMappings(): Record<string, any> {
     return {
       groups: {
         relation: Model.ManyToManyRelation,
@@ -40,7 +41,8 @@ export class User extends Model {
     }
   }
 
-  static get jsonSchema() {
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  static get jsonSchema(): Record<string, any> {
     return {
       type: 'object',
       required: ['name', 'email', 'authSchId'],

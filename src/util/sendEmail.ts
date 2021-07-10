@@ -9,7 +9,7 @@ export interface Email {
   linkTitle?: string
 }
 
-export const sendEmail = (recipients: User[], email: Email) => {
+export const sendEmail = (recipients: User[], email: Email): void => {
   if (process.env.NODE_ENV === 'production') {
     recipients.filter(user => user.wantEmail).forEach(user => {
       transporter.sendMail({
