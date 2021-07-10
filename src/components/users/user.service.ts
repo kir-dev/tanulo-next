@@ -48,7 +48,7 @@ export const updateUser = asyncWrapper(async (req: Request, res: Response, next:
   next()
 })
 
-export const createUser = async (user: OAuthUser) => {
+export const createUser = async (user: OAuthUser): Promise<User> => {
   return await User.transaction(async trx => {
     return await User.query(trx)
       .insert(

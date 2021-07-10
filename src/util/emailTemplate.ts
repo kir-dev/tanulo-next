@@ -39,7 +39,8 @@ const styles = {
         margin-top:2rem;
         margin-bottom: 0px;"`
 }
-export const generateEmailHTML = (user: User, email: Email) => {
+
+export const generateEmailHTML = (user: User, email: Email): string => {
   return `<html>
   <body style=${styles.body}>
       <div style=${styles.titleDiv}>
