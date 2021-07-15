@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction} from 'express'
+import { Request, Response, NextFunction } from 'express'
 
 import { Group } from './group'
 import { User } from '../users/user'
@@ -8,7 +8,11 @@ import { asyncWrapper } from '../../util/asyncWrapper'
 export const getGroups = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const page = isNaN(Number(req.query.page)) ? 0 : Number(req.query.page)
   const limit = 20
-  const pageObject = await Group.query().orderBy('createdAt', 'DESC').page(page, limit)
+  const pageObject = req.query.past === 'true' ?
+    await Group.query().where('endDate', '<', new Date())
+      .orderBy('startDate', 'DESC').page(page, limit) :
+    await Group.query().where('endDate', '>=', new Date())
+      .orderBy('startDate', 'ASC').page(page, limit)
   req.groups = pageObject.results.map(group => {
     const raw = group.description.slice(0, 50) + (group.description.length > 50 ? ' ...' : '')
     group.description = formatMdToSafeHTML(raw)

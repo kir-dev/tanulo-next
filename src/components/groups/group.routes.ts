@@ -4,7 +4,7 @@ import {
   formatDistanceStrict
 } from 'date-fns'
 import huLocale from 'date-fns/locale/hu'
-import { Request, Response, Router} from 'express'
+import { Request, Response, Router } from 'express'
 import multer from 'multer'
 
 import { isAuthenticated } from '../../config/passport'
@@ -31,6 +31,7 @@ const router = Router()
 router.get('/', isAuthenticated, getGroups, (req, res) => {
   res.render('group/index', {
     groups: req.groups,
+    past: req.query.past,
     paginationOpt: req.paginationOptions,
     dateFns: {
       format,
