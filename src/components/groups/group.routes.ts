@@ -60,7 +60,7 @@ router.post('/',
   checkConflicts,
   createGroup,
   joinGroup,
-  (req: Request, res: Response) => res.sendStatus(201)
+  (req: Request, res: Response) => res.status(201).json({ id: req.group.id })
 )
 
 router.get('/:id',
@@ -158,7 +158,7 @@ router.put('/:id',
   checkConflicts,
   checkValidMaxAttendeeLimit,
   updateGroup,
-  (req: Request, res: Response) => res.sendStatus(201)
+  (req: Request, res: Response) => res.status(201).json({ id: req.group.id })
 )
 
 router.get('/:id/export', isAuthenticated, checkIdParam, getGroup, createICSEvent)
