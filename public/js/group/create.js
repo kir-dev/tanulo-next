@@ -156,32 +156,36 @@ formEl.addEventListener('submit', (event) => {
     addGroup(event)
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const calendarOptions = { // TODO: side-calendar, eslint-disable not needed
-  plugins: ['timeGrid'],
+// TODO: side-calendar rendering issue
+const calendarOptions = {
   views: {
     timeGridOneDay: {
       type: 'timeGrid',
       duration: { days: 1 },
+      buttonText: 'nap',
       slotLabelFormat: {
         hour: 'numeric',
         minute: '2-digit',
-        omitZeroMinute: false,
+        omitZeroMinute: false
       },
-      nowIndicator: true,
-    },
+    }
   },
-  buttonText: { today: 'ma' },
+  buttonText: {
+    today: 'ma',
+    month: 'hónap',
+    week: 'hét',
+  },
   nowIndicator: true,
+  firstDay: 1,
   locale: 'hu',
   selectable: false,
-  header: {
+  headerToolbar: {
     left: '',
     center: 'title',
-    right: '',
+    right: ''
   },
-  defaultView: 'timeGridOneDay',
-  footer: {
+  initialView: 'timeGridOneDay',
+  footerToolbar: {
     center: 'prevWeek,prev,today,next,nextWeek'
   },
   titleFormat: {
@@ -190,39 +194,39 @@ const calendarOptions = { // TODO: side-calendar, eslint-disable not needed
     weekday: 'short',
     day: 'numeric'
   },
-  aspectRatio: 0.7
+  aspectRatio: 0.75,
+  contentHeight: 370
 }
 
-// TODO: side-calendar
-// const createCalendar = (room) => {
-//   const calendarEl = document.getElementById('side-calendar')
-//   while (calendarEl.firstChild) {
-//     calendarEl.firstChild.remove()
-//   }
+const createCalendar = (room) => {
+  const calendarEl = document.getElementById('side-calendar')
+  while (calendarEl.firstChild) {
+    calendarEl.firstChild.remove()
+  }
 
-//   fetch(`/rooms/${room}/events`)
-//     .then((res) => res.json())
-//     .then((data) => {
-//       const calendar = new FullCalendar.Calendar(calendarEl, {
-//         ...calendarOptions,
-//         customButtons: {
-//           prevWeek: {
-//             text: '-7',
-//             click: () => calendar.incrementDate({ days: -7 }),
-//           },
-//           nextWeek: {
-//             text: '+7',
-//             click: () => calendar.incrementDate({ days: 7 }),
-//           },
-//         },
-//         events: data,
-//       })
-//       calendar.render()
-//     })
-// }
+  fetch(`/rooms/${room}/events`)
+    .then((res) => res.json())
+    .then((data) => {
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        ...calendarOptions,
+        customButtons: {
+          prevWeek: {
+            text: '-7',
+            click: () => calendar.incrementDate({ days: -7 }),
+          },
+          nextWeek: {
+            text: '+7',
+            click: () => calendar.incrementDate({ days: 7 }),
+          },
+        },
+        events: data,
+      })
+      calendar.render()
+    })
+}
 
-// const roomSelector = document.getElementById('room')
-// createCalendar(roomSelector.value)
-// roomSelector.addEventListener('change', (event) => {
-//   createCalendar(event.target.value)
-// })
+const roomSelector = document.getElementById('floorInput')
+createCalendar(roomSelector.value)
+roomSelector.addEventListener('change', (event) => {
+  createCalendar(event.target.value)
+})

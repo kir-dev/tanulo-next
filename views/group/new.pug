@@ -2,9 +2,7 @@ extends ../layouts/main
 
 block styles
   link(rel="stylesheet" href="https://unpkg.com/easymde@2.15.0/dist/easymde.min.css")
-  //- link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.3.1/main.min.css")
-  //- link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.css")
-  //- link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.3.0/main.min.css")
+  link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.css")
   link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify@3.22.0/dist/tagify.css")
   link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css")
   link(rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css")
@@ -40,7 +38,7 @@ block content
       div(id="otherDiv" class=`${(isEditing && place) ? '' : 'hidden'}`)
         label(class='text-lg font-bold' for='otherInput') Más hely
         input(type="text", name="place", id="otherInput", maxlength="100", class="w-full px-3 py-2 rounded form-element", value=`${(isEditing && place) ? place : ''}`)
-          //- button(type="button", class="px-2 py-1 border border-gray-600 rounded-md hover:border-gray-500", @click="open = true") Naptár
+      button(type="button" class="self-start btn btn-meeting-default animate-hover" @click="open = true") Naptár
       div
         label(class='text-lg font-bold' for="maxAttendees") Maximális létszám
         br
@@ -70,13 +68,12 @@ block content
           //- Heroicon name: x
           svg(xmlns='http://www.w3.org/2000/svg' alt="Bezárás" aria-label="Bezárás" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
             path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 18L18 6M6 6l12 12')
-      //- TODO: side-calendar
-      //- div(class="flex flex-col h-full py-6 space-y-6 bg-white shadow-xl bg-default")
-      //-   header(class='px-4 sm:px-6')
-      //-     h2(class="text-lg font-medium leading-7") Szint foglaltsága
-      //-   div(class='relative flex-1 px-4 sm:px-6')
-      //-     div(class='absolute inset-0 h-screen px-4 sm:px-6')
-      //-       #side-calendar
+      div(class="flex flex-col h-full py-6 space-y-6 bg-white shadow-xl bg-default")
+        header(class='px-4 sm:px-6')
+          h2(class="text-lg font-medium leading-7") Szint foglaltsága
+        div(class='relative flex-1 px-4 sm:px-6')
+          div(class='absolute inset-0 h-screen px-4 sm:px-6')
+            #side-calendar
 
 block scripts
   if start && end
@@ -91,9 +88,7 @@ block scripts
   script(src="https://cdn.jsdelivr.net/npm/flatpickr")
   script(src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@3.22.0/dist/tagify.min.js")
   script(src="https://unpkg.com/easymde@2.15.0/dist/easymde.min.js")
-  //- script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.3.0/main.js')
-  //- script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.js')
-  //- script(src='https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.3.0/main.min.js')
+  script(src='https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js')
   script(src="/js/picker.js")
   script(src="/js/md-editor.js")
   script(src="/js/group/create.js")
