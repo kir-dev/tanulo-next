@@ -194,8 +194,7 @@ const calendarOptions = {
     weekday: 'short',
     day: 'numeric'
   },
-  aspectRatio: 0.75,
-  contentHeight: 370
+  height: '100%',
 }
 
 const createCalendar = (room) => {
