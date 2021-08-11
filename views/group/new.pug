@@ -38,7 +38,7 @@ block content
       div(id="otherDiv" class=`${(isEditing && place) ? '' : 'hidden'}`)
         label(class='text-lg font-bold' for='otherInput') Más hely
         input(type="text", name="place", id="otherInput", maxlength="100", class="w-full px-3 py-2 rounded form-element", value=`${(isEditing && place) ? place : ''}`)
-      button(type="button" class="self-start btn btn-meeting-default animate-hover" @click="open = true") Naptár
+      button(type="button" class="self-start btn btn-meeting-default animate-hover mt-2" x-on:click="open = !open" id="calendar-button") Naptár
       div
         label(class='text-lg font-bold' for="maxAttendees") Maximális létszám
         br

@@ -194,38 +194,50 @@ const calendarOptions = {
     weekday: 'short',
     day: 'numeric'
   },
-  height: '100%',
+  height: '100%'
 }
 
-const createCalendar = (room) => {
-  const calendarEl = document.getElementById('side-calendar')
-  while (calendarEl.firstChild) {
-    calendarEl.firstChild.remove()
-  }
+let calendarGlobal
 
+const refetchCalendar = (room) => {
+  const events = calendarGlobal.getEvents()
+  events.forEach((event) => event.remove())
+  
   fetch(`/rooms/${room}/events`)
     .then((res) => res.json())
     .then((data) => {
-      const calendar = new FullCalendar.Calendar(calendarEl, {
-        ...calendarOptions,
-        customButtons: {
-          prevWeek: {
-            text: '-7',
-            click: () => calendar.incrementDate({ days: -7 }),
-          },
-          nextWeek: {
-            text: '+7',
-            click: () => calendar.incrementDate({ days: 7 }),
-          },
-        },
-        events: data,
-      })
-      calendar.render()
+      data.forEach((event) => calendarGlobal.addEvent(event))
     })
 }
 
-const roomSelector = document.getElementById('floorInput')
-createCalendar(roomSelector.value)
-roomSelector.addEventListener('change', (event) => {
-  createCalendar(event.target.value)
+document.addEventListener('DOMContentLoaded', () => {
+  const calendarEl = document.getElementById('side-calendar')
+
+  calendarGlobal = new FullCalendar.Calendar(calendarEl, {
+    ...calendarOptions,
+    customButtons: {
+      prevWeek: {
+        text: '-7',
+        click: () => calendar.incrementDate({ days: -7 }),
+      },
+      nextWeek: {
+        text: '+7',
+        click: () => calendar.incrementDate({ days: 7 }),
+      },
+    },
+    events: []
+  })
+  calendarGlobal.render()
+
+  const roomSelector = document.getElementById('floorInput')
+  refetchCalendar(roomSelector.value)
+  roomSelector.addEventListener('change', (event) => {
+    refetchCalendar(event.target.value)
+  })
+})
+
+// Workaround: fullcalendar render well only if resize happens
+const calendarButton = document.getElementById('calendar-button')
+calendarButton.addEventListener('click', () => {
+  window.dispatchEvent(new Event('resize')) 
 })
