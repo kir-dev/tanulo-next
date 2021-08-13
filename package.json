@@ -47,7 +47,7 @@
     "objection": "2.2.15",
     "passport": "0.4.1",
     "passport-oauth2": "1.6.0",
-    "pg": "8.6.0",
+    "pg": "8.7.1",
     "postcss": "8.3.6",
     "postcss-nested": "5.0.6",
     "pug": "3.0.2",
