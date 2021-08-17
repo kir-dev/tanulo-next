@@ -24,7 +24,7 @@ passport.use(
     async (
       accessToken: string,
       _refreshToken: string,
-      _profile: {},
+      _profile: unknown,
       done: (err: Error, user: User) => void
     ) => {
       const responseUser = await fetch(
@@ -55,7 +55,9 @@ passport.deserializeUser(async (id: number, done) => {
 /**
  * Login Required middleware.
  */
-export const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
+export const isAuthenticated =
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+(req: Request, res: Response, next: NextFunction): Response<any, Record<string, any>> => {
   const contentType = req.headers['content-type']
 
   if (req.isAuthenticated()) {
@@ -75,7 +77,8 @@ export const isAuthenticated = (req: Request, res: Response, next: NextFunction)
  * Authorization Required middleware.
  */
 export const requireRoles = (...roles: RoleType[]) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  return (req: Request, res: Response, next: NextFunction): Response<any, Record<string, any>> => {
     const role = (req.user as User)?.role
     if (roles.some((element) => role == element)) {
       next()

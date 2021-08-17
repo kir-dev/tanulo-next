@@ -6,10 +6,14 @@ block content
     if user.id === userToShow.id
       div
         h2(class='mb-2 text-lg') Személyes beállítások
-        div
+        div(class="flex flex-col")
+          label(for="floor-input" class='') Szint
           input(id="floor-input", type="number", min="3", max="18", placeholder="Szint", title="Szint", value=user.floor, class='w-1/2 rounded-md form-element sm:w-1/4')
-          button(onclick=`updateUser(${user.id})` class='ml-2 btn btn-primary animate-hover') Mentés
         p(class='text-sm') Ha megadod a szinted, a főoldalon kiemelt helyen lesz
+      div(class="space-x-2")
+        input(type="checkbox" class="rounded" checked=user.wantEmail id="emailCheckbox" name="emailCheckbox")
+        label(for="emailCheckbox") Email értesítések
+      button(onclick=`updateUser(${user.id})` class='btn btn-primary animate-hover') Mentés
     if user.role == 'ADMIN'
       div
         h2(class='mb-2') Felhasználó jogainak beállítása

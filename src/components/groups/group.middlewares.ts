@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { check } from 'express-validator'
+import { check, ValidationChain } from 'express-validator'
 import { writeFileSync } from 'fs'
 import * as ics from 'ics'
 import winston from 'winston'
@@ -23,6 +23,8 @@ export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: 
     sendMessage(res, 'Már tagja vagy ennek a csoportnak!')
   } else if ((group.users?.length || 0) >= group.maxAttendees) {
     sendMessage(res, 'Ez a csoport már tele van!')
+  } else if (group.endDate < new Date()) {
+    sendMessage(res, 'Ez a csoport már véget ért!')
   } else {
     await Group.relatedQuery('users')
       .for(group.id)
@@ -109,7 +111,7 @@ export const isGroupOwnerOrAdmin = asyncWrapper(
   }
 )
 
-export const createICSEvent = (req: Request, res: Response) => {
+export const createICSEvent = (req: Request, res: Response): void => {
   const group = req.group
   const { startDate, endDate } = group
 
@@ -172,7 +174,7 @@ function isValidHttpsUrl(str) {
   return pattern.test(str) && url.protocol === 'https:'
 }
 
-export const validateGroup = () => {
+export const validateGroup = (): ValidationChain[] => {
   return [
     check('name', 'A csoport neve max 100 karakter hosszú nem üres szöveg lehet')
       .isString()

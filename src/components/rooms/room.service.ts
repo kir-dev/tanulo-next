@@ -4,14 +4,19 @@ import { DAYS_OF_WEEK, ROOMS } from '../../util/constants'
 import { RawUsageData } from './rawusagedata'
 import { raw } from 'objection'
 
-export const getBusyRooms = async () => {
+type ParsedUsageData = Map<number, {
+  day: typeof DAYS_OF_WEEK[number]
+  count: number
+}[]>
+
+export const getBusyRooms = async (): Promise<Group[]> => {
   const currentTime = new Date()
   return (await Group.query()
     .where('startDate', '<', currentTime)
     .andWhere('endDate', '>', currentTime))
 }
 
-export const getEventsForRoom = async (roomId: number) =>
+export const getEventsForRoom = async (roomId: number): Promise<Group[]> =>
   await Group.query().where({ room: roomId })
 
 const fetchUsageData = async (start: Date, end: Date) => {
@@ -30,7 +35,7 @@ const fetchUsageData = async (start: Date, end: Date) => {
     .groupBy('day') as Promise<RawUsageData[]>
 }
 
-const parseUsageData = (rawData: RawUsageData[], today: Date) => {
+const parseUsageData = (rawData: RawUsageData[], today: Date): ParsedUsageData => {
 
   const result = new Map<number, { day: typeof DAYS_OF_WEEK[number], count: number }[]>()
 
@@ -57,7 +62,7 @@ const parseUsageData = (rawData: RawUsageData[], today: Date) => {
 /**
  * Usage data for the next seven days for all rooms
  */
-export const getUsageData = async () => {
+export const getUsageData = async (): Promise<ParsedUsageData> => {
   const now = new Date()
   const today = startOfDay(now)
   const usageData = await fetchUsageData(now, addWeeks(today, 1))

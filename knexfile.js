@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 require('dotenv').config()
 require('ts-node/register')
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { knexSnakeCaseMappers } = require('objection')
 
 module.exports = {
