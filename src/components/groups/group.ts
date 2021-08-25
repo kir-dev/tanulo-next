@@ -2,6 +2,11 @@ import { Model } from 'objection'
 
 import { User } from '../users/user'
 
+export enum GroupKind {
+  classic = 'classic',
+  anonymous = 'anonymous'
+}
+
 export class Group extends Model {
   id!: number
   name: string
@@ -17,6 +22,8 @@ export class Group extends Model {
   users: User[]
   createdAt: Date
   maxAttendees: number
+
+  kind = GroupKind.classic
 
   $beforeInsert(): void {
     this.createdAt = new Date()
@@ -63,7 +70,8 @@ export class Group extends Model {
         place: { type: 'string' },
         startDate: { type: 'datetime' },
         endDate: { type: 'datetime' },
-        maxAttendees: { type: 'integer' }
+        maxAttendees: { type: 'integer' },
+        kind: { type: 'string' }
       }
     }
   }
