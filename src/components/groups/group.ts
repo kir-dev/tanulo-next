@@ -3,8 +3,8 @@ import { Model } from 'objection'
 import { User } from '../users/user'
 
 export enum GroupKind {
-  classic = 'classic',
-  anonymous = 'anonymous'
+  classic = 'CLASSIC',
+  anonymous = 'ANONYMOUS'
 }
 
 export class Group extends Model {
