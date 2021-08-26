@@ -50,7 +50,7 @@ const parseUsageData = (rawData: RawUsageData[], today: Date): ParsedUsageData =
 
   // fill data
   for (const { room, day, count } of rawData) {
-    const daysUntil = differenceInDays(day, today)
+    const daysUntil = Math.max(0, differenceInDays(day, today))
     if (room) {
       result.get(room)[daysUntil].count = Number(count)
     }
