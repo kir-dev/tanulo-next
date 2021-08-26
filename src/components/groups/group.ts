@@ -1,6 +1,7 @@
 import { Model } from 'objection'
 
 import { User } from '../users/user'
+import { GroupMember } from './groupMember'
 
 export enum GroupKind {
   classic = 'CLASSIC',
@@ -19,7 +20,7 @@ export class Group extends Model {
   place?: string
   doNotDisturb: boolean
   ownerId: number
-  users: User[]
+  users: GroupMember[]
   createdAt: Date
   maxAttendees: number
 
@@ -45,7 +46,8 @@ export class Group extends Model {
           // ManyToMany relation needs the `through` object to describe the join table.
           through: {
             from: 'users_groups.groupId',
-            to: 'users_groups.userId'
+            to: 'users_groups.userId',
+            extra: ['group_role']
           },
           to: 'users.id'
         }

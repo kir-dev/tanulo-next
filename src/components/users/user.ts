@@ -1,6 +1,6 @@
 import { Model } from 'objection'
 
-import { Group } from '../groups/group'
+import { Group, GroupOfUser } from './groupOfUser'
 
 export enum RoleType {
   ADMIN = 'ADMIN',
@@ -17,7 +17,7 @@ export class User extends Model {
   role: RoleType
   floor: number
   wantEmail: boolean
-  groups: Group[]
+  groups: GroupOfUser[]
   static get tableName(): string {
     return 'users'
   }
@@ -33,7 +33,8 @@ export class User extends Model {
           from: 'users.id',
           through: {
             from: 'users_groups.userId',
-            to: 'users_groups.groupId'
+            to: 'users_groups.groupId',
+            extra: ['group_role']
           },
           to: 'groups.id'
         }

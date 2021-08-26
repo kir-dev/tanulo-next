@@ -6,18 +6,23 @@ import winston from 'winston'
 import { differenceInMinutes } from 'date-fns'
 
 import { RoleType, User } from '../users/user'
-import { Group } from './group'
+import { Group, GroupKind } from './group'
 import { asyncWrapper } from '../../util/asyncWrapper'
 import sendMessage from '../../util/sendMessage'
 import { sendEmail } from '../../util/sendEmail'
+import { GroupRole } from './grouprole';
 
 export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const user = req.user as User
   const group = req.group
 
+  let role: GroupRole | null = null
+
   // Join group if not already in it, and it's not closed or it's the owner who joins.
   // We only join the group if it is not full already
-  if (group.doNotDisturb && (user.id !== group.ownerId)){
+  if (user.id == group.ownerId) {
+    role = GroupRole.owner
+  } else if (group.doNotDisturb) {
     sendMessage(res, 'Ez egy privát csoport!')
   } else if (group.users?.find(it => it.id === user.id)) {
     sendMessage(res, 'Már tagja vagy ennek a csoportnak!')
@@ -26,11 +31,19 @@ export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: 
   } else if (group.endDate < new Date()) {
     sendMessage(res, 'Ez a csoport már véget ért!')
   } else {
+    role = group.kind === GroupKind.anonymous ? GroupRole.unapproved : GroupRole.member
+  }
+
+  if (role !== null) {
     await Group.relatedQuery('users')
       .for(group.id)
-      .relate(user.id)
+      .relate({
+        id: user.id,
+        group_role: role // eslint-disable-line @typescript-eslint/camelcase
+      } as unknown)
     return next()
   }
+
   res.redirect(`/groups/${req.params.id}`)
 })
 
