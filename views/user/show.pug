@@ -31,8 +31,6 @@ block content
     - const isUpcoming = (group) => group.endDate > Date.now();
     - const isOld = (group) => group.endDate <= Date.now()
 
-    - console.log(userToShow.groups.filter(isVisible))
-
     div(class='space-y-2')
       - console.log('&###########################################x', userToShow.groups.filter(isVisible))
       if userToShow.groups.filter(isVisible).some(isUpcoming)
