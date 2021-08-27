@@ -7,12 +7,17 @@ import { handleValidationError, checkIdParam } from '../../util/validators'
 import { RoleType, User } from './user'
 import { isSameUser } from './user.middlewares'
 import { getUser, updateRole, updateUser } from './user.service'
+import { GroupKind } from '../groups/group'
+import { GroupRole } from './../groups/grouprole'
 
 const router = Router()
 
 router.get('/:id', isAuthenticated, checkIdParam, getUser, (req, res) =>
   res.render('user/show', {
     userToShow: req.userToShow,
+    GroupKind,
+    GroupRole,
+    userId: (req.user as User).id,
     ROLES: ROLES
   })
 )
@@ -21,7 +26,7 @@ router.patch('/:id/role',
   requireRoles(RoleType.ADMIN),
   check('role')
     .isString()
-    .custom((input) => { 
+    .custom((input) => {
       return [...ROLES.keys()]
         .some((element) => element == input)
     })
