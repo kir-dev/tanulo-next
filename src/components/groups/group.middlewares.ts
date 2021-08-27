@@ -81,6 +81,17 @@ export const isMemberInGroup =
     }
   })
 
+export const approveMember = asyncWrapper(
+  async (req: Request, res: Response, next: NextFunction) => {
+    await Group.relatedQuery('users')
+      .for(req.group.id)
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      .patch({ group_role: GroupRole.member } as unknown)
+      .where('user_id', req.params.userid)
+
+    next()
+  })
+
 export const kickMember = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   await Group.relatedQuery('users')
     .for(req.group.id)

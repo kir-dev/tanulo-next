@@ -16,6 +16,7 @@ import {
   sendEmailToOwner,
   leaveGroup,
   isMemberInGroup,
+  approveMember,
   kickMember,
   sendEmailToMember,
   createICSEvent,
@@ -89,6 +90,17 @@ router.post('/:id/leave',
   leaveGroup,
   (req, res) => res.redirect('/groups')
 )
+
+router.post('/:id/approve/:userid',
+  isAuthenticated,
+  getGroup,
+  isGroupOwnerOrAdmin,
+  isMemberInGroup,
+  approveMember,
+  sendEmailToMember,
+  (req, res) => res.redirect(`/groups/${req.params.id}`)
+)
+
 router.post('/:id/kick/:userid',
   isAuthenticated,
   getGroup,
