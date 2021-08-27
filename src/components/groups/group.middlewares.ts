@@ -1,3 +1,4 @@
+import { Email } from './../../util/sendEmail'
 import { NextFunction, Request, Response } from 'express'
 import { check, ValidationChain } from 'express-validator'
 import { writeFileSync } from 'fs'
@@ -53,12 +54,21 @@ export const sendEmailToOwner = asyncWrapper(
     const group = req.group
 
     const emailRecepient = await User.query().findOne({ id: group.ownerId })
-    sendEmail([emailRecepient], {
-      subject: 'Csatlakoztak egy csoportodba!',
-      body: `${user.name} csatlakozott a(z) ${group.name} csoportodba!`,
-      link: `/groups/${group.id}`,
-      linkTitle: 'Csoport megtekintése'
-    })
+    const emails: Record<GroupKind, Email> = {
+      [GroupKind.classic]: {
+        subject: 'Csatlakoztak egy csoportodba!',
+        body: `${user.name} csatlakozott a(z) ${group.name} csoportodba!`,
+        link: `/groups/${group.id}`,
+        linkTitle: 'Csoport megtekintése'
+      },
+      [GroupKind.private]: {
+        subject: 'Csatlakoznának egy csoportodba!',
+        body: `${user.name} csatlakozna a(z) ${group.name} csoportodba!`,
+        link: `/groups/${group.id}`,
+        linkTitle: 'Csoport megtekintése'
+      }
+    }
+    sendEmail([emailRecepient], emails[group.kind])
     next()
   })
 export const leaveGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
