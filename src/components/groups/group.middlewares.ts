@@ -245,7 +245,13 @@ export const validateGroup = (): ValidationChain[] => {
       .isLength({ max: 500 }),
     check('maxAttendees', 'Legalább 1, maximum 100 fő vehet részt!')
       .optional({ checkFalsy: true })
-      .isInt({ min: 1, max: 100 })
+      .isInt({ min: 1, max: 100 }),
+    check('kind', 'A csoport típusa')
+      .isString()
+      .trim()
+      .default(GroupKind.classic)
+      .toUpperCase()
+      .isIn(Object.values(GroupKind))
   ]
 }
 

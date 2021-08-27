@@ -27,6 +27,7 @@ import {
 } from './group.middlewares'
 import { createGroup, getGroup, getGroups, updateGroup, removeGroup } from './group.service'
 import { GroupRole } from './grouprole'
+import { GroupKind } from './group'
 
 const router = Router()
 
@@ -87,6 +88,7 @@ router.get('/:id',
       isAdmin,
       canSeeMembers,
       canModerate,
+      GroupKind,
       GroupRole,
       userId,
       userRole: group.users.find(x => x.id === userId)?.groupRole
