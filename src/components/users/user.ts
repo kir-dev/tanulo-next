@@ -53,7 +53,7 @@ export class User extends Model {
         name: { type: 'string', minLength: 1, maxLength: 255 },
         authSchId: { type: 'string' },
         floor: { type: ['integer', 'null'] },
-        wantEmail: { type: 'boolean'}
+        wantEmail: { type: 'boolean' }
       }
     }
   }

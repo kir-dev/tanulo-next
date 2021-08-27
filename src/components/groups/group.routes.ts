@@ -4,7 +4,7 @@ import {
   formatDistanceStrict
 } from 'date-fns'
 import huLocale from 'date-fns/locale/hu'
-import { Request, Response, Router} from 'express'
+import { Request, Response, Router } from 'express'
 import multer from 'multer'
 
 import { isAuthenticated } from '../../config/passport'
