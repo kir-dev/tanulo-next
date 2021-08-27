@@ -150,6 +150,7 @@ router.get('/:id/copy',
       name: req.group.name,
       description: req.group.description,
       tags: req.group.tags,
+      kind: req.group.kind,
       ROOMS
     })
 )
@@ -173,7 +174,8 @@ router.get('/:id/edit',
       ROOMS,
       isEditing: true,
       groupId: req.group.id,
-      maxAttendees: req.group.maxAttendees
+      maxAttendees: req.group.maxAttendees,
+      kind: req.group.kind,
     })
 )
 

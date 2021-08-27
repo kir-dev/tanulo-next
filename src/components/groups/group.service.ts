@@ -74,7 +74,8 @@ export const updateGroup = asyncWrapper(async (req: Request, res: Response, next
       doNotDisturb: !!req.body.doNotDisturb,
       startDate: new Date(req.body.startDate),
       endDate: new Date(req.body.endDate),
-      maxAttendees: parseInt(req.body.maxAttendees) || 100
+      maxAttendees: parseInt(req.body.maxAttendees) || 100,
+      kind: req.body.kind
     })
     .findById(req.params.id)
     .catch((err) => {
