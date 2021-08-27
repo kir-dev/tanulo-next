@@ -24,7 +24,10 @@ block content
           button(type="button", id="submitBtn", onclick=`updateRole(${userToShow.id})`, class='ml-2 btn btn-primary animate-hover') Módosítás
 
     - const isPublic = (group) => group.kind === GroupKind.classic
-    - const isVisible = (group) => isPublic(group) || group.groupRole === GroupRole.owner || userToShow.id === userId
+    - const isOwner = (group) => group.groupRole === GroupRole.owner
+    - const viewingSelf = userToShow.id === userId
+    - const ownsGroup = (group) => group.ownerId === userId
+    - const isVisible = (group) => isPublic(group) || isOwner(group) || viewingSelf || ownsGroup(group)
     - const isUpcoming = (group) => group.endDate > Date.now();
     - const isOld = (group) => group.endDate <= Date.now()
 
