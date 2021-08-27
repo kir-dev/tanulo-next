@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction} from 'express'
+import { Request, Response, NextFunction } from 'express'
 
 import { Group } from './group'
 import { User } from '../users/user'
@@ -28,11 +28,11 @@ export const getGroup = asyncWrapper(async (req: Request, res: Response, next: N
     .withGraphFetched('users')
 
   if (group) {
-    // Getting raw description for /copy and /edit pages
-    if (/\/copy|\/edit/.test(req.path))
-      req.group = group
-    else
-      req.group = { ...group, description: formatMdToSafeHTML(group.description) } as Group
+    req.group = group
+    // Except when getting raw description for /copy and /edit pages
+    if (!/\/copy|\/edit/.test(req.path)) {
+      req.group.description = formatMdToSafeHTML(group.description)
+    }
     next()
   } else {
     res.render('error/not-found')
