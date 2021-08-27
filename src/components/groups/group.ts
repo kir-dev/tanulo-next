@@ -6,7 +6,7 @@ import { GroupRole } from './grouprole'
 
 export enum GroupKind {
   classic = 'CLASSIC',
-  anonymous = 'ANONYMOUS'
+  private = 'PRIVATE'
 }
 
 export class Group extends Model {
@@ -33,7 +33,7 @@ export class Group extends Model {
 
 
   canSeeMembers(userId: User['id']): boolean {
-    return this.kind !== GroupKind.anonymous || this.isApproved(userId)
+    return this.kind !== GroupKind.private || this.isApproved(userId)
   }
 
   $beforeInsert(): void {

@@ -31,7 +31,7 @@ export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: 
   } else if (group.endDate < new Date()) {
     sendMessage(res, 'Ez a csoport már véget ért!')
   } else {
-    role = group.kind === GroupKind.anonymous ? GroupRole.unapproved : GroupRole.member
+    role = group.kind === GroupKind.private ? GroupRole.unapproved : GroupRole.member
   }
 
   if (role !== null) {
