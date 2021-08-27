@@ -55,8 +55,8 @@ block content
         label(for="kind" class='text-lg font-bold') Csoport típusa
         br
         select(id="kind" name="kind" class='flatpickr')
-          option(value="CLASSIC" selected) Klasszikus
-          option(value="PRIVATE") Privát
+          option(value=`${GroupKind.classic}` selected=(kind === GroupKind.classic || !kind)) Klasszikus
+          option(value=`${GroupKind.private}` selected=(kind === GroupKind.private)) Privát
         ul
           li
             span(class='font-bold') Klasszikus -

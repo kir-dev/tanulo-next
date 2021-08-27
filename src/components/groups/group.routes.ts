@@ -50,6 +50,7 @@ router.get('/new', isAuthenticated, (req, res) =>
     start: (req.query?.start as string)?.split(' ')[0].slice(0, -3),
     end: (req.query?.end as string)?.split(' ')[0].slice(0, -3),
     roomId: req.query?.roomId,
+    GroupKind,
     ROOMS
   })
 )
@@ -151,6 +152,7 @@ router.get('/:id/copy',
       description: req.group.description,
       tags: req.group.tags,
       kind: req.group.kind,
+      GroupKind,
       ROOMS
     })
 )
@@ -176,6 +178,7 @@ router.get('/:id/edit',
       groupId: req.group.id,
       maxAttendees: req.group.maxAttendees,
       kind: req.group.kind,
+      GroupKind
     })
 )
 
