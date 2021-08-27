@@ -26,6 +26,7 @@ import {
   checkValidMaxAttendeeLimit
 } from './group.middlewares'
 import { createGroup, getGroup, getGroups, updateGroup, removeGroup } from './group.service'
+import { GroupRole } from './grouprole'
 
 const router = Router()
 
@@ -68,11 +69,27 @@ router.get('/:id',
   checkIdParam,
   getGroup,
   (req, res) => {
-    const joined = req.group.users.some(u => u.id === (req.user as User).id)
-    const isOwner = req.group.ownerId === (req.user as User).id
-    const isAdmin = (req.user as User).role == RoleType.ADMIN
+    const { group } = req
+    const user = req.user as User
+    const userId = user.id
+
+    const joined = group.users.some(u => u.id === userId)
+    const isOwner = group.ownerId === userId
+    const isAdmin = user.role == RoleType.ADMIN
+    const canSeeMembers = isOwner || isAdmin || group.canSeeMembers(userId)
+    const canModerate = isOwner || isAdmin
     res.render('group/show', {
-      group: req.group, joined, isOwner, format, DATE_FORMAT, isAdmin
+      group,
+      joined,
+      isOwner,
+      format,
+      DATE_FORMAT,
+      isAdmin,
+      canSeeMembers,
+      canModerate,
+      GroupRole,
+      userId,
+      userRole: group.users.find(x => x.id === userId)?.groupRole
     })
   })
 

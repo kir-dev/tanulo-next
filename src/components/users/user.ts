@@ -1,6 +1,6 @@
 import { Model } from 'objection'
 
-import { Group, GroupOfUser } from './groupOfUser'
+import { GroupOfTheUser } from './groupOfTheUser'
 
 export enum RoleType {
   ADMIN = 'ADMIN',
@@ -17,7 +17,7 @@ export class User extends Model {
   role: RoleType
   floor: number
   wantEmail: boolean
-  groups: GroupOfUser[]
+  groups: GroupOfTheUser[]
   static get tableName(): string {
     return 'users'
   }
@@ -27,7 +27,7 @@ export class User extends Model {
     return {
       groups: {
         relation: Model.ManyToManyRelation,
-        modelClass: Group,
+        modelClass: GroupOfTheUser,
 
         join: {
           from: 'users.id',

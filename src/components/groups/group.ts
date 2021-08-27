@@ -2,6 +2,7 @@ import { Model } from 'objection'
 
 import { User } from '../users/user'
 import { GroupMember } from './groupMember'
+import { GroupRole } from './grouprole'
 
 export enum GroupKind {
   classic = 'CLASSIC',
@@ -23,8 +24,17 @@ export class Group extends Model {
   users: GroupMember[]
   createdAt: Date
   maxAttendees: number
-
   kind = GroupKind.classic
+
+  isApproved(userId: User['id']): boolean {
+    return this.users.some(
+      x => x.id === userId && x.groupRole !== GroupRole.unapproved)
+  }
+
+
+  canSeeMembers(userId: User['id']): boolean {
+    return this.kind !== GroupKind.anonymous || this.isApproved(userId)
+  }
 
   $beforeInsert(): void {
     this.createdAt = new Date()
