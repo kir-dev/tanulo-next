@@ -7,7 +7,7 @@ import winston from 'winston'
 import { differenceInMinutes } from 'date-fns'
 
 import { RoleType, User } from '../users/user'
-import { Group, GroupKind } from './group'
+import { Group, GroupType } from './group'
 import { asyncWrapper } from '../../util/asyncWrapper'
 import sendMessage from '../../util/sendMessage'
 import { sendEmail } from '../../util/sendEmail'
@@ -32,7 +32,7 @@ export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: 
   } else if (group.endDate < new Date()) {
     sendMessage(res, 'Ez a csoport már véget ért!')
   } else {
-    role = group.kind === GroupKind.private ? GroupRole.unapproved : GroupRole.member
+    role = group.type === GroupType.private ? GroupRole.unapproved : GroupRole.member
   }
 
   if (role !== null) {
@@ -54,21 +54,21 @@ export const sendEmailToOwner = asyncWrapper(
     const group = req.group
 
     const emailRecepient = await User.query().findOne({ id: group.ownerId })
-    const emails: Record<GroupKind, Email> = {
-      [GroupKind.classic]: {
+    const emails: Record<GroupType, Email> = {
+      [GroupType.classic]: {
         subject: 'Csatlakoztak egy csoportodba!',
         body: `${user.name} csatlakozott a(z) ${group.name} csoportodba!`,
         link: `/groups/${group.id}`,
         linkTitle: 'Csoport megtekintése'
       },
-      [GroupKind.private]: {
+      [GroupType.private]: {
         subject: 'Csatlakoznának egy csoportodba!',
         body: `${user.name} csatlakozna a(z) ${group.name} csoportodba!`,
         link: `/groups/${group.id}`,
         linkTitle: 'Csoport megtekintése'
       }
     }
-    sendEmail([emailRecepient], emails[group.kind])
+    sendEmail([emailRecepient], emails[group.type])
     next()
   })
 export const leaveGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
@@ -256,12 +256,15 @@ export const validateGroup = (): ValidationChain[] => {
     check('maxAttendees', 'Legalább 1, maximum 100 fő vehet részt!')
       .optional({ checkFalsy: true })
       .isInt({ min: 1, max: 100 }),
-    check('kind', 'A csoport típusa')
+    check('groupType', 'Hibás a csoport típusa')
+      .custom(x => { console.log(x); return true })
       .isString()
       .trim()
-      .default(GroupKind.classic)
+      .optional()
+      .default(GroupType.classic)
       .toUpperCase()
-      .isIn(Object.values(GroupKind))
+      .isIn(Object.values(GroupType))
+      .withMessage(x => `${x}`)
   ]
 }
 

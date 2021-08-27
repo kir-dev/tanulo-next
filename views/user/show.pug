@@ -23,7 +23,7 @@ block content
               option(value=`${key}`, selected=key==userToShow.role) #{ROLES.get(key)}
           button(type="button", id="submitBtn", onclick=`updateRole(${userToShow.id})`, class='ml-2 btn btn-primary animate-hover') Módosítás
 
-    - const isPublic = (group) => group.kind === GroupKind.classic
+    - const isPublic = (group) => group.type === GroupType.classic
     - const isOwner = (group) => group.groupRole === GroupRole.owner
     - const viewingSelf = userToShow.id === userId
     - const ownsGroup = (group) => group.ownerId === userId

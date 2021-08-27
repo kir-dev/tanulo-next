@@ -27,7 +27,7 @@ import {
 } from './group.middlewares'
 import { createGroup, getGroup, getGroups, updateGroup, removeGroup } from './group.service'
 import { GroupRole } from './grouprole'
-import { GroupKind } from './group'
+import { GroupType } from './group'
 
 const router = Router()
 
@@ -50,7 +50,7 @@ router.get('/new', isAuthenticated, (req, res) =>
     start: (req.query?.start as string)?.split(' ')[0].slice(0, -3),
     end: (req.query?.end as string)?.split(' ')[0].slice(0, -3),
     roomId: req.query?.roomId,
-    GroupKind,
+    GroupType,
     ROOMS
   })
 )
@@ -89,7 +89,7 @@ router.get('/:id',
       isAdmin,
       canSeeMembers,
       canModerate,
-      GroupKind,
+      GroupType,
       GroupRole,
       userId,
       userRole: group.users.find(x => x.id === userId)?.groupRole
@@ -151,8 +151,8 @@ router.get('/:id/copy',
       name: req.group.name,
       description: req.group.description,
       tags: req.group.tags,
-      kind: req.group.kind,
-      GroupKind,
+      type: req.group.type,
+      GroupType,
       ROOMS
     })
 )
@@ -177,8 +177,8 @@ router.get('/:id/edit',
       isEditing: true,
       groupId: req.group.id,
       maxAttendees: req.group.maxAttendees,
-      kind: req.group.kind,
-      GroupKind
+      type: req.group.type,
+      GroupType
     })
 )
 

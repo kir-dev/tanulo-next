@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 
-import { Group, GroupKind } from './group'
+import { Group, GroupType } from './group'
 import { User } from '../users/user'
 import { formatMdToSafeHTML } from '../../util/convertMarkdown'
 import { asyncWrapper } from '../../util/asyncWrapper'
@@ -54,7 +54,7 @@ export const createGroup = asyncWrapper(async (req: Request, res: Response, next
         endDate: new Date(req.body.endDate),
         ownerId: (req.user as User).id,
         maxAttendees: parseInt(req.body.maxAttendees) || 100,
-        kind: req.body.kind as GroupKind
+        type: req.body.groupType as GroupType
       }
     )
 
@@ -75,7 +75,7 @@ export const updateGroup = asyncWrapper(async (req: Request, res: Response, next
       startDate: new Date(req.body.startDate),
       endDate: new Date(req.body.endDate),
       maxAttendees: parseInt(req.body.maxAttendees) || 100,
-      kind: req.body.kind
+      type: req.body.groupType
     })
     .findById(req.params.id)
     .catch((err) => {

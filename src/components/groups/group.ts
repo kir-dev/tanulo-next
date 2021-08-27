@@ -4,7 +4,7 @@ import { User } from '../users/user'
 import { GroupMember } from './groupMember'
 import { GroupRole } from './grouprole'
 
-export enum GroupKind {
+export enum GroupType {
   classic = 'CLASSIC',
   private = 'PRIVATE'
 }
@@ -24,7 +24,7 @@ export class Group extends Model {
   users: GroupMember[]
   createdAt: Date
   maxAttendees: number
-  kind = GroupKind.classic
+  type = GroupType.classic
 
   isApproved(userId: User['id']): boolean {
     return this.users.some(
@@ -33,7 +33,7 @@ export class Group extends Model {
 
 
   canSeeMembers(userId: User['id']): boolean {
-    return this.kind !== GroupKind.private || this.isApproved(userId)
+    return this.type !== GroupType.private || this.isApproved(userId)
   }
 
   $beforeInsert(): void {
@@ -83,7 +83,7 @@ export class Group extends Model {
         startDate: { type: 'datetime' },
         endDate: { type: 'datetime' },
         maxAttendees: { type: 'integer' },
-        kind: { type: 'string' }
+        type: { type: 'string' }
       }
     }
   }

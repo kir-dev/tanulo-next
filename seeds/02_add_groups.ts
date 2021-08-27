@@ -39,7 +39,7 @@ export async function seed(knex: Knex): Promise<void> {
         maxAttendees: 100,
         createdAt: new Date(),
         ownerId,
-        kind: (i + j) % 3 === 0 ? 'CLASSIC' : 'PRIVATE'
+        type: (i + j) % 3 === 0 ? 'CLASSIC' : 'PRIVATE'
       }
       console.log('\x1b[33m%s\x1b[0m',
         `Group: #${groupId} ${group.name}, floor: ${group.room}, owner: ${ownerId}`)
@@ -56,7 +56,7 @@ export async function seed(knex: Knex): Promise<void> {
       connectCountSum++
 
       for (let k = 1; k < ownerId; ++k) {
-        const isUnapproved = group.kind === 'PRIVATE' && (k % 2 === 0 || k % 3 === 0)
+        const isUnapproved = group.type === 'PRIVATE' && (k % 2 === 0 || k % 3 === 0)
         const connect = {
           userId: k,
           groupId,

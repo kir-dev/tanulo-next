@@ -2,15 +2,15 @@ import * as Knex from 'knex'
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.alterTable('groups', table => {
-    table.enu('kind', ['CLASSIC', 'PRIVATE'], {
+    table.enu('type', ['CLASSIC', 'PRIVATE'], {
       useNative: true,
-      enumName: 'group_kind'
+      enumName: 'group_type'
     }).defaultTo('CLASSIC')
   })
 }
 
 export async function down(knex: Knex): Promise<void> {
   return knex.schema.alterTable('groups', table => {
-    table.dropColumn('kind')
+    table.dropColumn('type')
   })
 }
