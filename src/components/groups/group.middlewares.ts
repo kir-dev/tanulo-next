@@ -14,7 +14,7 @@ import { sendEmail } from '../../util/sendEmail'
 import { GroupRole } from './grouprole'
 
 export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
-  const user = req.user as User
+  const user = req.user
   const group = req.group
 
   let role: GroupRole | null = null
@@ -40,7 +40,7 @@ export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: 
       .for(group.id)
       .relate({
         id: user.id,
-        group_role: role // eslint-disable-line @typescript-eslint/camelcase
+        group_role: role
       } as unknown)
     return next()
   }
@@ -50,7 +50,7 @@ export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: 
 
 export const sendEmailToOwner = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
-    const user = req.user as User
+    const user = req.user
     const group = req.group
 
     const emailRecepient = await User.query().findOne({ id: group.ownerId })
@@ -75,7 +75,7 @@ export const leaveGroup = asyncWrapper(async (req: Request, res: Response, next:
   await Group.relatedQuery('users')
     .for(req.group.id)
     .unrelate()
-    .where('user_id', (req.user as User).id)
+    .where('user_id', req.user.id)
 
   next()
 })
@@ -95,7 +95,6 @@ export const approveMember = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
     await Group.relatedQuery('users')
       .for(req.group.id)
-      // eslint-disable-next-line @typescript-eslint/camelcase
       .patch({ group_role: GroupRole.member } as unknown)
       .where('user_id', req.params.userid)
 
@@ -126,7 +125,7 @@ export const sendEmailToMember = asyncWrapper(
  */
 export const isGroupOwner = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
-    if ((req.user as User)?.id === req.group.ownerId) {
+    if (req.user?.id === req.group.ownerId) {
       next()
     } else {
       res.render('error/forbidden')
@@ -136,8 +135,8 @@ export const isGroupOwner = asyncWrapper(
 
 export const isGroupOwnerOrAdmin = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
-    if (((req.user as User)?.id === req.group.ownerId)
-      || ((req.user as User)?.role == RoleType.ADMIN)) {
+    if ((req.user?.id === req.group.ownerId)
+      || (req.user?.role == RoleType.ADMIN)) {
       next()
     } else {
       res.render('error/forbidden')
@@ -282,7 +281,7 @@ export const checkValidMaxAttendeeLimit = asyncWrapper(
 
 export const checkConflicts = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { type, ...group } = req.body as Group & { type: string }
+    const { type, ...group } = req.body as Omit<Group, 'type'> & { type: string }
     if (type !== 'floor') {
       return next()
     }

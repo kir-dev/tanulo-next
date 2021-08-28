@@ -16,6 +16,8 @@ declare global {
 
       groupsOfTheUser: GroupOfTheUser[]
     }
+
+    interface User extends LocalUser {}
   }
 }
 

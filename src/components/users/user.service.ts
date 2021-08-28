@@ -30,7 +30,7 @@ export const getUser = asyncWrapper(async (req: Request, res: Response, next: Ne
 export const getGroupsOfTheUser = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
     const user = await User.query()
-      .findOne({ id: (req.user as User).id })
+      .findOne({ id: req.user.id })
       .withGraphFetched('groups')
 
     req.groupsOfTheUser = user.groups
@@ -51,7 +51,7 @@ export const updateRole = asyncWrapper(async (req: Request, res: Response, next:
 })
 
 export const updateUser = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
-  const id = (req.user as User).id
+  const id = req.user.id
   const { floor, wantEmail } = req.body
   req.user = await User.query().patchAndFetchById(id, { floor, wantEmail })
 

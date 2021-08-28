@@ -10,7 +10,7 @@ import multer from 'multer'
 import { isAuthenticated } from '../../config/passport'
 import { DATE_FORMAT, ROOMS } from '../../util/constants'
 import { handleValidationError, checkIdParam } from '../../util/validators'
-import { RoleType, User } from '../users/user'
+import { RoleType } from '../users/user'
 import {
   joinGroup,
   sendEmailToOwner,
@@ -34,6 +34,7 @@ const router = Router()
 router.get('/', isAuthenticated, getGroups, (req, res) => {
   res.render('group/index', {
     groups: req.groups,
+    past: req.query.past,
     paginationOpt: req.paginationOptions,
     dateFns: {
       format,
@@ -63,7 +64,7 @@ router.post('/',
   checkConflicts,
   createGroup,
   joinGroup,
-  (req: Request, res: Response) => res.sendStatus(201)
+  (req: Request, res: Response) => res.status(201).json({ id: req.group.id })
 )
 
 router.get('/:id',
@@ -72,7 +73,7 @@ router.get('/:id',
   getGroup,
   (req, res) => {
     const { group } = req
-    const user = req.user as User
+    const user = req.user
     const userId = user.id
 
     const joined = group.users.some(u => u.id === userId)
@@ -193,7 +194,7 @@ router.put('/:id',
   checkConflicts,
   checkValidMaxAttendeeLimit,
   updateGroup,
-  (req: Request, res: Response) => res.sendStatus(201)
+  (req: Request, res: Response) => res.status(201).json({ id: req.group.id })
 )
 
 router.get('/:id/export', isAuthenticated, checkIdParam, getGroup, createICSEvent)

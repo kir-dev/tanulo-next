@@ -4,7 +4,7 @@ import { ROLES } from '../../util/constants'
 
 import { requireRoles, isAuthenticated } from '../../config/passport'
 import { handleValidationError, checkIdParam } from '../../util/validators'
-import { RoleType, User } from './user'
+import { RoleType } from './user'
 import { isSameUser } from './user.middlewares'
 import { getGroupsOfTheUser, getUser, updateRole, updateUser } from './user.service'
 import { GroupType } from '../groups/group'
@@ -23,7 +23,7 @@ router.get('/:id',
       groupsOfTheUser: req.groupsOfTheUser,
       GroupType,
       GroupRole,
-      userId: (req.user as User).id,
+      userId: req.user.id,
       ROLES: ROLES
     })
 )
@@ -45,7 +45,7 @@ router.patch('/:id/role',
 router.patch('/:id',
   isAuthenticated,
   (req, res, next) => {
-    if ((req.user as User).id !== parseInt(req.params.id)) {
+    if (req.user.id !== parseInt(req.params.id)) {
       return res.sendStatus(403)
     }
     next()
