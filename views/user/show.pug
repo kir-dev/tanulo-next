@@ -25,10 +25,8 @@ block content
 
     - const isPublic = (group) => group.type === GroupType.classic
     - const isOwner = (group) => group.groupRole === GroupRole.owner
-    - const viewingSelf = userToShow.id === userId
-    - const ownsGroup = (group) => group.ownerId === userId
     - const isAlsoMember = (group) => groupsOfTheUser.some(g => g.id === group.id && g.groupRole !== GroupRole.unapproved)
-    - const isVisible = (group) => isPublic(group) || isOwner(group) || viewingSelf || ownsGroup(group) || isAlsoMember(group)
+    - const isVisible = (group) => isPublic(group) || isOwner(group) || isAlsoMember(group)
     - const isUpcoming = (group) => group.endDate > Date.now();
     - const isOld = (group) => group.endDate <= Date.now()
 
