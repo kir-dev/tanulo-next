@@ -16,7 +16,5 @@
     }
   },
   "include": ["src/**/*", "public/js"],
-  "files": [
-    "src/types/index.d.ts"
-  ]
+  "files": ["src/types/index.d.ts"]
 }

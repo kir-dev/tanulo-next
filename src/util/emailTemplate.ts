@@ -37,7 +37,7 @@ const styles = {
         width: max-content;"`,
   smallText: `"font-size: 12px;
         margin-top:2rem;
-        margin-bottom: 0px;"`
+        margin-bottom: 0px;"`,
 }
 
 export const generateEmailHTML = (user: User, email: Email): string => {
@@ -49,13 +49,17 @@ export const generateEmailHTML = (user: User, email: Email): string => {
       <div style=${styles.container}>
           <h2 style=${styles.greeting}>Kedves ${user.name}!</h2>
           <p>${email.body}</p>
-          <a style=${styles.button} href=https://tanulo.sch.bme.hu${email.link || ''}>
+          <a style=${styles.button} href=https://tanulo.sch.bme.hu${
+    email.link || ''
+  }>
             ${email.linkTitle || 'TanulóSCH'}
           </a>
           <p style=${styles.smallText}>
             Ez egy automatikusan gerenált üzenet, kérjük ne válaszolj rá! <br>
              Ha nem szeretnél több emailt kapni, akkor ezt a
-             <a href="https://tanulo.sch.bme.hu/users/${user.id}"> profilodon</a> beállíthatod. <br>
+             <a href="https://tanulo.sch.bme.hu/users/${
+               user.id
+             }"> profilodon</a> beállíthatod. <br>
              Kérdés esetén írj a <a href="mailto:kir-dev@sch.bme.hu">kir-dev@sch.bme.hu</a> címre!
           </p>
       </div>

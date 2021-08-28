@@ -13,17 +13,17 @@ const router = Router()
 router.get('/:id', isAuthenticated, checkIdParam, getUser, (req, res) =>
   res.render('user/show', {
     userToShow: req.userToShow,
-    ROLES: ROLES
+    ROLES: ROLES,
   })
 )
 
-router.patch('/:id/role',
+router.patch(
+  '/:id/role',
   requireRoles(RoleType.ADMIN),
   check('role')
     .isString()
     .custom((input) => {
-      return [...ROLES.keys()]
-        .some((element) => element == input)
+      return [...ROLES.keys()].some((element) => element == input)
     })
     .withMessage('Nem megfelelő role!'),
   handleValidationError(400),
@@ -31,7 +31,8 @@ router.patch('/:id/role',
   (req, res) => res.sendStatus(201)
 )
 
-router.patch('/:id',
+router.patch(
+  '/:id',
   isAuthenticated,
   (req, res, next) => {
     if (req.user.id !== parseInt(req.params.id)) {

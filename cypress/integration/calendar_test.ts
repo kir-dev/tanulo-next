@@ -8,13 +8,17 @@ describe('Calendar page test', () => {
 
     const today: Date = new Date()
 
-    cy.get('.fc-day-today').children().first()
+    cy.get('.fc-day-today')
+      .children()
+      .first()
       .should('include.text', `${today.getMonth() + 1}. ${today.getDate()}.`)
 
     cy.get('.fc-icon-chevron-right').click()
     cy.contains('ma').click()
 
-    cy.get('.fc-day-today').children().first()
+    cy.get('.fc-day-today')
+      .children()
+      .first()
       .should('include.text', `${today.getMonth() + 1}. ${today.getDate()}.`)
   })
 })

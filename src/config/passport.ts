@@ -19,7 +19,7 @@ passport.use(
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
       callbackURL: '/auth/oauth/callback',
-      scope: ['basic', 'displayName', 'mail']
+      scope: ['basic', 'displayName', 'mail'],
     },
     async (
       accessToken: string,
@@ -29,9 +29,11 @@ passport.use(
     ) => {
       const responseUser = await fetch(
         `${AUTH_SCH_URL}/api/profile?access_token=${accessToken}`
-      ).then(res => res.json())
+      ).then((res) => res.json())
 
-      const user = await User.query().findOne({ authSchId: responseUser.internal_id })
+      const user = await User.query().findOne({
+        authSchId: responseUser.internal_id,
+      })
 
       if (user) {
         done(null, user)
@@ -55,18 +57,23 @@ passport.deserializeUser(async (id: number, done) => {
 /**
  * Login Required middleware.
  */
-export const isAuthenticated =
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-(req: Request, res: Response, next: NextFunction): Response<any, Record<string, any>> => {
+export const isAuthenticated = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+): Response<any, Record<string, any>> => {
   const contentType = req.headers['content-type']
 
   if (req.isAuthenticated()) {
     next()
   } else {
-    if ((contentType &&
-      (contentType.indexOf('application/json') !== 0 ||
-       contentType.indexOf('multipart/form-data') !== 0)) ||
-       req.method !== 'GET') {
+    if (
+      (contentType &&
+        (contentType.indexOf('application/json') !== 0 ||
+          contentType.indexOf('multipart/form-data') !== 0)) ||
+      req.method !== 'GET'
+    ) {
       return res.sendStatus(401)
     }
     res.render('error/not-authenticated')
@@ -77,8 +84,12 @@ export const isAuthenticated =
  * Authorization Required middleware.
  */
 export const requireRoles = (...roles: RoleType[]) => {
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  return (req: Request, res: Response, next: NextFunction): Response<any, Record<string, any>> => {
+  return (
+    req: Request,
+    res: Response,
+    next: NextFunction
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  ): Response<any, Record<string, any>> => {
     const role = req.user?.role
     if (roles.some((element) => role == element)) {
       next()
