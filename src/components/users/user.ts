@@ -8,7 +8,6 @@ export enum RoleType {
   USER = 'USER',
 }
 
-
 export class User extends Model {
   id!: number
   name: string
@@ -33,11 +32,11 @@ export class User extends Model {
           from: 'users.id',
           through: {
             from: 'users_groups.userId',
-            to: 'users_groups.groupId'
+            to: 'users_groups.groupId',
           },
-          to: 'groups.id'
-        }
-      }
+          to: 'groups.id',
+        },
+      },
     }
   }
 
@@ -52,8 +51,8 @@ export class User extends Model {
         name: { type: 'string', minLength: 1, maxLength: 255 },
         authSchId: { type: 'string' },
         floor: { type: ['integer', 'null'] },
-        wantEmail: { type: 'boolean'}
-      }
+        wantEmail: { type: 'boolean' },
+      },
     }
   }
 }

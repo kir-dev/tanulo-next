@@ -11,8 +11,10 @@ function selectMeetingPlace(kind) {
   selectedInputField.required = true
   selectedWrapper.classList.remove('hidden')
 
-  MEETING_PLACES.filter(it => it !== kind).forEach(otherPlace => {
-    document.getElementById(`${otherPlace}Btn`).classList.remove('btn-meeting-selected')
+  MEETING_PLACES.filter((it) => it !== kind).forEach((otherPlace) => {
+    document
+      .getElementById(`${otherPlace}Btn`)
+      .classList.remove('btn-meeting-selected')
     document.getElementById(`${otherPlace}Input`).required = false
     document.getElementById(`${otherPlace}Div`).classList.add('hidden')
   })
@@ -26,12 +28,15 @@ function isValidHttpsUrl(str) {
     return false
   } // not catching bad top lvl domain (1 character)
 
-  const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-    '(\\#[-a-z\\d_]*)?$', 'i') // fragment locator
+  const pattern = new RegExp(
+    '^(https?:\\/\\/)?' + // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$',
+    'i'
+  ) // fragment locator
   // not allowing '(' and ')'
   // catching 1 character TLD
 
@@ -61,7 +66,10 @@ const validateGroup = (data) => {
     errors.push('A név kitöltése kötelező')
   }
 
-  if (meetingPlace === 'floor' && (typeof room !== 'number' || room < 3 || room > 18)) {
+  if (
+    meetingPlace === 'floor' &&
+    (typeof room !== 'number' || room < 3 || room > 18)
+  ) {
     errors.push('A szint csak 3 és 18 közötti szám lehet')
   }
 
@@ -86,17 +94,20 @@ const validateGroup = (data) => {
 const handleResponse = async (res, edited) => {
   const data = await res.json()
   switch (res.status) {
-  case 201:
-    sendMessage(`Csoport sikeresen ${edited ? 'frissítve' : 'létrehozva'}`, 'success')
-    location.href = `/groups/${data.id}`
-    break
-  case 400:
-    clearMessages()
-    data.errors.forEach((err) => displayMessage(err.msg))
-    break
-  case 401:
-    displayMessage(UNAUTHORIZED_MESSAGE)
-    break
+    case 201:
+      sendMessage(
+        `Csoport sikeresen ${edited ? 'frissítve' : 'létrehozva'}`,
+        'success'
+      )
+      location.href = `/groups/${data.id}`
+      break
+    case 400:
+      clearMessages()
+      data.errors.forEach((err) => displayMessage(err.msg))
+      break
+    case 401:
+      displayMessage(UNAUTHORIZED_MESSAGE)
+      break
   }
 }
 
@@ -150,14 +161,13 @@ const editGroup = (event) => {
 
 const formEl = document.getElementById('group-form')
 formEl.addEventListener('submit', (event) => {
-  if (typeof isEditing !== 'undefined' && isEditing)
-    editGroup(event)
-  else
-    addGroup(event)
+  if (typeof isEditing !== 'undefined' && isEditing) editGroup(event)
+  else addGroup(event)
 })
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const calendarOptions = { // TODO: side-calendar, eslint-disable not needed
+const calendarOptions = {
+  // TODO: side-calendar, eslint-disable not needed
   plugins: ['timeGrid'],
   views: {
     timeGridOneDay: {
@@ -182,15 +192,15 @@ const calendarOptions = { // TODO: side-calendar, eslint-disable not needed
   },
   defaultView: 'timeGridOneDay',
   footer: {
-    center: 'prevWeek,prev,today,next,nextWeek'
+    center: 'prevWeek,prev,today,next,nextWeek',
   },
   titleFormat: {
     year: 'numeric',
     month: 'short',
     weekday: 'short',
-    day: 'numeric'
+    day: 'numeric',
   },
-  aspectRatio: 0.7
+  aspectRatio: 0.7,
 }
 
 // TODO: side-calendar

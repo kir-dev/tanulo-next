@@ -1,4 +1,4 @@
-(function () {
+;(function () {
   const templates = document.querySelectorAll('svg template')
   let el, template, attribs, attrib, count, child, content
   for (let i = 0; i < templates.length; i++) {

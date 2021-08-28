@@ -38,11 +38,11 @@ export class Group extends Model {
           // ManyToMany relation needs the `through` object to describe the join table.
           through: {
             from: 'users_groups.groupId',
-            to: 'users_groups.userId'
+            to: 'users_groups.userId',
           },
-          to: 'users.id'
-        }
-      }
+          to: 'users.id',
+        },
+      },
     }
   }
 
@@ -50,7 +50,14 @@ export class Group extends Model {
   static get jsonSchema(): Record<string, any> {
     return {
       type: 'object',
-      required: ['name', 'description', 'doNotDisturb', 'tags', 'startDate', 'endDate'],
+      required: [
+        'name',
+        'description',
+        'doNotDisturb',
+        'tags',
+        'startDate',
+        'endDate',
+      ],
 
       properties: {
         id: { type: 'integer' },
@@ -63,8 +70,8 @@ export class Group extends Model {
         place: { type: 'string' },
         startDate: { type: 'datetime' },
         endDate: { type: 'datetime' },
-        maxAttendees: { type: 'integer' }
-      }
+        maxAttendees: { type: 'integer' },
+      },
     }
   }
 }

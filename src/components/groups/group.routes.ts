@@ -1,7 +1,7 @@
 import {
   format,
   formatDistanceToNowStrict,
-  formatDistanceStrict
+  formatDistanceStrict,
 } from 'date-fns'
 import huLocale from 'date-fns/locale/hu'
 import { Request, Response, Router } from 'express'
@@ -22,9 +22,15 @@ import {
   checkConflicts,
   validateGroup,
   isGroupOwnerOrAdmin,
-  checkValidMaxAttendeeLimit
+  checkValidMaxAttendeeLimit,
 } from './group.middlewares'
-import { createGroup, getGroup, getGroups, updateGroup, removeGroup } from './group.service'
+import {
+  createGroup,
+  getGroup,
+  getGroups,
+  updateGroup,
+  removeGroup,
+} from './group.service'
 
 const router = Router()
 
@@ -38,8 +44,8 @@ router.get('/', isAuthenticated, getGroups, (req, res) => {
       formatDistanceStrict,
       formatDistanceToNowStrict,
       huLocale,
-      DATE_FORMAT
-    }
+      DATE_FORMAT,
+    },
   })
 })
 
@@ -48,11 +54,12 @@ router.get('/new', isAuthenticated, (req, res) =>
     start: (req.query?.start as string)?.split(' ')[0].slice(0, -3),
     end: (req.query?.end as string)?.split(' ')[0].slice(0, -3),
     roomId: req.query?.roomId,
-    ROOMS
+    ROOMS,
   })
 )
 
-router.post('/',
+router.post(
+  '/',
   isAuthenticated,
   multer().none(),
   validateGroup(),
@@ -63,20 +70,22 @@ router.post('/',
   (req: Request, res: Response) => res.status(201).json({ id: req.group.id })
 )
 
-router.get('/:id',
-  isAuthenticated,
-  checkIdParam,
-  getGroup,
-  (req, res) => {
-    const joined = req.group.users.some(u => u.id === req.user.id)
-    const isOwner = req.group.ownerId === req.user.id
-    const isAdmin = req.user.role == RoleType.ADMIN
-    res.render('group/show', {
-      group: req.group, joined, isOwner, format, DATE_FORMAT, isAdmin
-    })
+router.get('/:id', isAuthenticated, checkIdParam, getGroup, (req, res) => {
+  const joined = req.group.users.some((u) => u.id === req.user.id)
+  const isOwner = req.group.ownerId === req.user.id
+  const isAdmin = req.user.role == RoleType.ADMIN
+  res.render('group/show', {
+    group: req.group,
+    joined,
+    isOwner,
+    format,
+    DATE_FORMAT,
+    isAdmin,
   })
+})
 
-router.post('/:id/join',
+router.post(
+  '/:id/join',
   isAuthenticated,
   getGroup,
   joinGroup,
@@ -84,13 +93,11 @@ router.post('/:id/join',
   (req, res) => res.redirect(`/groups/${req.params.id}`)
 )
 
-router.post('/:id/leave',
-  isAuthenticated,
-  getGroup,
-  leaveGroup,
-  (req, res) => res.redirect('/groups')
+router.post('/:id/leave', isAuthenticated, getGroup, leaveGroup, (req, res) =>
+  res.redirect('/groups')
 )
-router.post('/:id/kick/:userid',
+router.post(
+  '/:id/kick/:userid',
   isAuthenticated,
   getGroup,
   isGroupOwnerOrAdmin,
@@ -100,7 +107,8 @@ router.post('/:id/kick/:userid',
   (req, res) => res.redirect(`/groups/${req.params.id}`)
 )
 
-router.delete('/:id',
+router.delete(
+  '/:id',
   isAuthenticated,
   getGroup,
   isGroupOwnerOrAdmin,
@@ -108,23 +116,20 @@ router.delete('/:id',
   (req, res) => res.status(204).send('Csoport sikeresen törölve')
 )
 
-router.get('/:id/copy',
-  isAuthenticated,
-  checkIdParam,
-  getGroup,
-  (req, res) =>
-    res.render('group/new', {
-      roomId: req.group.room,
-      link: req.group.link,
-      place: req.group.place,
-      name: req.group.name,
-      description: req.group.description,
-      tags: req.group.tags,
-      ROOMS
-    })
+router.get('/:id/copy', isAuthenticated, checkIdParam, getGroup, (req, res) =>
+  res.render('group/new', {
+    roomId: req.group.room,
+    link: req.group.link,
+    place: req.group.place,
+    name: req.group.name,
+    description: req.group.description,
+    tags: req.group.tags,
+    ROOMS,
+  })
 )
 
-router.get('/:id/edit',
+router.get(
+  '/:id/edit',
   isAuthenticated,
   checkIdParam,
   getGroup,
@@ -143,11 +148,12 @@ router.get('/:id/edit',
       ROOMS,
       isEditing: true,
       groupId: req.group.id,
-      maxAttendees: req.group.maxAttendees
+      maxAttendees: req.group.maxAttendees,
     })
 )
 
-router.put('/:id',
+router.put(
+  '/:id',
   isAuthenticated,
   checkIdParam,
   getGroup,
@@ -161,6 +167,12 @@ router.put('/:id',
   (req: Request, res: Response) => res.status(201).json({ id: req.group.id })
 )
 
-router.get('/:id/export', isAuthenticated, checkIdParam, getGroup, createICSEvent)
+router.get(
+  '/:id/export',
+  isAuthenticated,
+  checkIdParam,
+  getGroup,
+  createICSEvent
+)
 
 export default router

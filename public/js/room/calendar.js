@@ -7,10 +7,10 @@ const commonCalendarOptions = {
       slotLabelFormat: {
         hour: 'numeric',
         minute: '2-digit',
-        omitZeroMinute: false
+        omitZeroMinute: false,
       },
-      nowIndicator: true
-    }
+      nowIndicator: true,
+    },
   },
   buttonText: {
     today: 'ma',
@@ -22,7 +22,7 @@ const commonCalendarOptions = {
   locale: 'hu',
   selectable: true,
   eventClick: (calEvent) =>
-    (location.href = `/groups/${calEvent.event.groupId}`)
+    (location.href = `/groups/${calEvent.event.groupId}`),
 }
 
 function generateWebCalendar(data, calendarEl, room) {
@@ -42,7 +42,7 @@ function generateWebCalendar(data, calendarEl, room) {
       } else {
         location.href = `/groups/new?start=${info.startStr}&end=${info.endStr}&roomId=${room}`
       }
-    }
+    },
   })
   return calendar
 }
@@ -53,7 +53,7 @@ function generateMobileCalendar(data, calendarEl, room) {
     headerToolbar: {
       left: 'title',
       center: '',
-      right: 'timeGridOneDay,dayGridMonth'
+      right: 'timeGridOneDay,dayGridMonth',
     },
     initialView: 'timeGridOneDay',
     customButtons: {
@@ -61,27 +61,27 @@ function generateMobileCalendar(data, calendarEl, room) {
         text: '-7',
         click: () => {
           calendar.incrementDate({
-            days: -7
+            days: -7,
           })
-        }
+        },
       },
       nextWeek: {
         text: '+7',
         click: () => {
           calendar.incrementDate({
-            days: 7
+            days: 7,
           })
-        }
-      }
+        },
+      },
     },
     footerToolbar: {
-      center: 'prevWeek,prev,today,next,nextWeek'
+      center: 'prevWeek,prev,today,next,nextWeek',
     },
     titleFormat: {
       year: 'numeric',
       month: 'short',
       weekday: 'short',
-      day: 'numeric'
+      day: 'numeric',
     },
     aspectRatio: 0.75,
     events: data,
@@ -89,11 +89,10 @@ function generateMobileCalendar(data, calendarEl, room) {
       if (info.view.type === 'dayGridMonth') {
         calendar.gotoDate(info.start)
         calendar.changeView('timeGridOneDay')
-      }
-      else {
+      } else {
         location.href = `/groups/new?start=${info.startStr}&end=${info.endStr}&roomId=${room}`
       }
-    }
+    },
   })
   return calendar
 }
@@ -104,12 +103,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const room = window.location.pathname.split('/').pop()
 
   fetch(`/rooms/${room}/events`)
-    .then(response => response.json())
-    .then(data => {
+    .then((response) => response.json())
+    .then((data) => {
       if (window.innerWidth < 768) {
         generateMobileCalendar(data, calendarEl, room).render()
-      }
-      else {
+      } else {
         generateWebCalendar(data, calendarEl, room).render()
       }
     })
