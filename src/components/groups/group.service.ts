@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 
 import { Group } from './group'
-import { User } from '../users/user'
 import { formatMdToSafeHTML } from '../../util/convertMarkdown'
 import { asyncWrapper } from '../../util/asyncWrapper'
 
@@ -56,7 +55,7 @@ export const createGroup = asyncWrapper(async (req: Request, res: Response, next
         doNotDisturb: !!req.body.doNotDisturb,
         startDate: new Date(req.body.startDate),
         endDate: new Date(req.body.endDate),
-        ownerId: (req.user as User).id,
+        ownerId: req.user.id,
         maxAttendees: parseInt(req.body.maxAttendees) || 100
       }
     )

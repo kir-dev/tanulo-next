@@ -10,7 +10,7 @@ import multer from 'multer'
 import { isAuthenticated } from '../../config/passport'
 import { DATE_FORMAT, ROOMS } from '../../util/constants'
 import { handleValidationError, checkIdParam } from '../../util/validators'
-import { RoleType, User } from '../users/user'
+import { RoleType } from '../users/user'
 import {
   joinGroup,
   sendEmailToOwner,
@@ -68,9 +68,9 @@ router.get('/:id',
   checkIdParam,
   getGroup,
   (req, res) => {
-    const joined = req.group.users.some(u => u.id === (req.user as User).id)
-    const isOwner = req.group.ownerId === (req.user as User).id
-    const isAdmin = (req.user as User).role == RoleType.ADMIN
+    const joined = req.group.users.some(u => u.id === req.user.id)
+    const isOwner = req.group.ownerId === req.user.id
+    const isAdmin = req.user.role == RoleType.ADMIN
     res.render('group/show', {
       group: req.group, joined, isOwner, format, DATE_FORMAT, isAdmin
     })
