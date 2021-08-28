@@ -7,12 +7,20 @@
   },
   "search.exclude": {
     "**/node_modules": true,
-    "**/dist": true,
+    "**/dist": true
   },
   "typescript.referencesCodeLens.enabled": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
   "files.insertFinalNewline": true,
-  "eslint.enable": true
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
