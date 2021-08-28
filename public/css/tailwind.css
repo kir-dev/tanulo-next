@@ -80,10 +80,4 @@
     @apply border-gray-500;
   }
 
-  .side-calendar {
-    @apply bg-default fixed h-screen flex flex-col max-w-full w-96 overflow-hidden transition ease-in-out;
-    top: 0;
-    right: 0;
-    z-index: 2;
-  }
 }

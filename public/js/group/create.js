@@ -156,7 +156,6 @@ formEl.addEventListener('submit', (event) => {
     addGroup(event)
 })
 
-// TODO: side-calendar rendering issue
 const calendarOptions = {
   views: {
     timeGridOneDay: {
@@ -218,11 +217,11 @@ document.addEventListener('DOMContentLoaded', () => {
     customButtons: {
       prevWeek: {
         text: '-7',
-        click: () => calendar.incrementDate({ days: -7 }),
+        click: () => calendarGlobal.incrementDate({ days: -7 }),
       },
       nextWeek: {
         text: '+7',
-        click: () => calendar.incrementDate({ days: 7 }),
+        click: () => calendarGlobal.incrementDate({ days: 7 }),
       },
     },
     events: []
