@@ -257,14 +257,12 @@ export const validateGroup = (): ValidationChain[] => {
       .optional({ checkFalsy: true })
       .isInt({ min: 1, max: 100 }),
     check('groupType', 'Hibás a csoport típusa')
-      .custom(x => { console.log(x); return true })
+      .optional()
       .isString()
       .trim()
-      .optional()
       .default(GroupType.classic)
       .toUpperCase()
       .isIn(Object.values(GroupType))
-      .withMessage(x => `${x}`)
   ]
 }
 
