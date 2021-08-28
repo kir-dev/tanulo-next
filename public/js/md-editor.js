@@ -7,8 +7,7 @@ function listenLength(el, characterCount) {
     el.innerHTML = 'Túl hosszú!'
     el.setAttribute('style', 'color:red;')
     submitBtn.disabled = true
-  }
-  else {
+  } else {
     el.innerHTML = characterCount + ' / ' + charLimit
     submitBtn.disabled = false
   }
@@ -17,23 +16,34 @@ function listenLength(el, characterCount) {
 const easyMDE = new EasyMDE({
   element: textArea,
   toolbar: [
-    'bold', 'italic', 'heading', '|', 'unordered-list', 'ordered-list',
-    '|', 'undo', 'redo', '|', 'guide'
+    'bold',
+    'italic',
+    'heading',
+    '|',
+    'unordered-list',
+    'ordered-list',
+    '|',
+    'undo',
+    'redo',
+    '|',
+    'guide',
   ],
   forceSync: true,
   autoDownloadFontAwesome: true,
   spellChecker: false,
   placeholder: 'Kattints az utmutató gombjára a részletekért...',
-  status: [{
-    className: 'chars',
-    defaultValue: (el) => {
-      el.innerHTML = '0 / ' + charLimit
+  status: [
+    {
+      className: 'chars',
+      defaultValue: (el) => {
+        el.innerHTML = '0 / ' + charLimit
+      },
+      onUpdate: (el) => {
+        characterCount = easyMDE.value().length
+        listenLength(el, characterCount)
+      },
     },
-    onUpdate: (el) => {
-      characterCount = easyMDE.value().length
-      listenLength(el, characterCount)
-    }
-  }]
+  ],
 })
 
 if (typeof description !== 'undefined' && description !== null) {
