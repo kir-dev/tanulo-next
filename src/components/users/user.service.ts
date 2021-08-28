@@ -27,6 +27,16 @@ export const getUser = asyncWrapper(async (req: Request, res: Response, next: Ne
   }
 })
 
+export const getGroupsOfTheUser = asyncWrapper(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = await User.query()
+      .findOne({ id: (req.user as User).id })
+      .withGraphFetched('groups')
+
+    req.groupsOfTheUser = user.groups
+    next()
+  })
+
 export const updateRole = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const user = await User.query().findOne({ id: parseInt(req.params.id) })
 
