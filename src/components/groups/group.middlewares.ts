@@ -1,3 +1,4 @@
+import { Email } from './../../util/sendEmail'
 import { NextFunction, Request, Response } from 'express'
 import { check, ValidationChain } from 'express-validator'
 import { writeFileSync } from 'fs'
@@ -6,18 +7,23 @@ import winston from 'winston'
 import { differenceInMinutes } from 'date-fns'
 
 import { RoleType, User } from '../users/user'
-import { Group } from './group'
+import { Group, GroupType } from './group'
 import { asyncWrapper } from '../../util/asyncWrapper'
 import sendMessage from '../../util/sendMessage'
 import { sendEmail } from '../../util/sendEmail'
+import { GroupRole } from './grouprole'
 
 export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const user = req.user as User
   const group = req.group
 
+  let role: GroupRole | null = null
+
   // Join group if not already in it, and it's not closed or it's the owner who joins.
   // We only join the group if it is not full already
-  if (group.doNotDisturb && (user.id !== group.ownerId)){
+  if (user.id == group.ownerId) {
+    role = GroupRole.owner
+  } else if (group.doNotDisturb) {
     sendMessage(res, 'Ez egy privát csoport!')
   } else if (group.users?.find(it => it.id === user.id)) {
     sendMessage(res, 'Már tagja vagy ennek a csoportnak!')
@@ -26,26 +32,43 @@ export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: 
   } else if (group.endDate < new Date()) {
     sendMessage(res, 'Ez a csoport már véget ért!')
   } else {
+    role = group.type === GroupType.private ? GroupRole.unapproved : GroupRole.member
+  }
+
+  if (role !== null) {
     await Group.relatedQuery('users')
       .for(group.id)
-      .relate(user.id)
+      .relate({
+        id: user.id,
+        group_role: role // eslint-disable-line @typescript-eslint/camelcase
+      } as unknown)
     return next()
   }
+
   res.redirect(`/groups/${req.params.id}`)
 })
 
 export const sendEmailToOwner = asyncWrapper(
-  async (req: Request, res: Response, next: NextFunction) =>  {
+  async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user as User
     const group = req.group
 
     const emailRecepient = await User.query().findOne({ id: group.ownerId })
-    sendEmail([emailRecepient], {
-      subject: 'Csatlakoztak egy csoportodba!',
-      body: `${user.name} csatlakozott a(z) ${group.name} csoportodba!`,
-      link: `/groups/${group.id}`,
-      linkTitle: 'Csoport megtekintése'
-    })
+    const emails: Record<GroupType, Email> = {
+      [GroupType.classic]: {
+        subject: 'Csatlakoztak egy csoportodba!',
+        body: `${user.name} csatlakozott a(z) ${group.name} csoportodba!`,
+        link: `/groups/${group.id}`,
+        linkTitle: 'Csoport megtekintése'
+      },
+      [GroupType.private]: {
+        subject: 'Csatlakoznának egy csoportodba!',
+        body: `${user.name} csatlakozna a(z) ${group.name} csoportodba!`,
+        link: `/groups/${group.id}`,
+        linkTitle: 'Csoport megtekintése'
+      }
+    }
+    sendEmail([emailRecepient], emails[group.type])
     next()
   })
 export const leaveGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
@@ -58,15 +81,26 @@ export const leaveGroup = asyncWrapper(async (req: Request, res: Response, next:
 })
 
 export const isMemberInGroup =
-asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
-  const kickableUser = await Group.relatedQuery('users').for(req.group.id)
-    .findOne({ userId: parseInt(req.params.userid) })
-  if (kickableUser) {
+  asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
+    const kickableUser = await Group.relatedQuery('users').for(req.group.id)
+      .findOne({ userId: parseInt(req.params.userid) })
+    if (kickableUser) {
+      next()
+    } else {
+      res.redirect('/not-found')
+    }
+  })
+
+export const approveMember = asyncWrapper(
+  async (req: Request, res: Response, next: NextFunction) => {
+    await Group.relatedQuery('users')
+      .for(req.group.id)
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      .patch({ group_role: GroupRole.member } as unknown)
+      .where('user_id', req.params.userid)
+
     next()
-  } else {
-    res.redirect('/not-found')
-  }
-})
+  })
 
 export const kickMember = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   await Group.relatedQuery('users')
@@ -78,7 +112,7 @@ export const kickMember = asyncWrapper(async (req: Request, res: Response, next:
 })
 
 export const sendEmailToMember = asyncWrapper(
-  async (req: Request, res: Response, next: NextFunction) =>  {
+  async (req: Request, res: Response, next: NextFunction) => {
     const emailRecepient = await User.query().findOne({ id: req.params.userid })
     sendEmail([emailRecepient], {
       subject: 'Kirúgtak egy csoportból!',
@@ -162,12 +196,12 @@ function isValidHttpsUrl(str) {
     return false
   } // not catching bad top lvl domain (1 character)
 
-  const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-    '(\\#[-a-z\\d_]*)?$','i') // fragment locator
+  const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+    '(\\#[-a-z\\d_]*)?$', 'i') // fragment locator
   // not allowing '(' and ')'
   // catching 1 character TLD
 
@@ -211,7 +245,7 @@ export const validateGroup = (): ValidationChain[] => {
       .custom((value, { req }) => new Date(value).getTime() < new Date(req.body.endDate).getTime())
       .withMessage('A kezdés nem lehet korábban, mint a befejezés')
       .custom((value, { req }) =>
-        differenceInMinutes(new Date(req.body.endDate), new Date(value)) <= 5*60)
+        differenceInMinutes(new Date(req.body.endDate), new Date(value)) <= 5 * 60)
       .withMessage('A foglalás időtartama nem lehet hosszabb 5 óránál'),
     check('endDate', 'A befejezés időpontja kötelező')
       .exists({ checkFalsy: true, checkNull: true }),
@@ -221,7 +255,14 @@ export const validateGroup = (): ValidationChain[] => {
       .isLength({ max: 500 }),
     check('maxAttendees', 'Legalább 1, maximum 100 fő vehet részt!')
       .optional({ checkFalsy: true })
-      .isInt({ min: 1, max: 100 })
+      .isInt({ min: 1, max: 100 }),
+    check('groupType', 'Hibás a csoport típusa')
+      .optional()
+      .isString()
+      .trim()
+      .default(GroupType.classic)
+      .toUpperCase()
+      .isIn(Object.values(GroupType))
   ]
 }
 
@@ -230,7 +271,7 @@ export const checkValidMaxAttendeeLimit = asyncWrapper(
     if (req.group.users.length > (req.body.maxAttendees || 100)) {
       res.status(400).json(
         {
-          errors: [{msg: 'Nem lehet kisebb a maximum jelenlét, mint a jelenlegi'}]
+          errors: [{ msg: 'Nem lehet kisebb a maximum jelenlét, mint a jelenlegi' }]
         }
       )
     } else {

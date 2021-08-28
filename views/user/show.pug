@@ -23,14 +23,20 @@ block content
               option(value=`${key}`, selected=key==userToShow.role) #{ROLES.get(key)}
           button(type="button", id="submitBtn", onclick=`updateRole(${userToShow.id})`, class='ml-2 btn btn-primary animate-hover') Módosítás
 
-    - const isUpcoming = (element) => element.endDate > Date.now();
-    - const isOld = (element) => element.endDate <= Date.now()
+    - const isPublic = (group) => group.type === GroupType.classic
+    - const isOwner = (group) => group.groupRole === GroupRole.owner
+    - const viewingSelf = userToShow.id === userId
+    - const ownsGroup = (group) => group.ownerId === userId
+    - const isVisible = (group) => isPublic(group) || isOwner(group) || viewingSelf || ownsGroup(group)
+    - const isUpcoming = (group) => group.endDate > Date.now();
+    - const isOld = (group) => group.endDate <= Date.now()
 
     div(class='space-y-2')
-      if userToShow.groups.some(isUpcoming)
+      - console.log('&###########################################x', userToShow.groups.filter(isVisible))
+      if userToShow.groups.filter(isVisible).some(isUpcoming)
         h3(class='mb-1 text-lg') Közelgő csoportesemények
         div(class='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4')
-          each group in userToShow.groups.filter(isUpcoming)
+          each group in userToShow.groups.filter(isVisible).filter(isUpcoming)
             a(href=`/groups/${group.id}` class='transition duration-300 ease-in-out transform hover:-translate-y-2')
               div(class='flex items-center justify-center p-6 border rounded-md dark:border-gray-500 hover:border-gray-400 animate-hover dark:hover:border-gray-300')
                 div(class='flex flex-row items-center')
@@ -39,11 +45,17 @@ block content
                     //- Heroicon name: shield-check
                     svg(xmlns="http://www.w3.org/2000/svg" alt="Saját esemény" aria-label="Saját esemény" viewbox="0 0 20 20" fill="currentColor" class="w-4 h-4 ml-1")
                       path(fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd")
+                  if !isPublic(group)
+                    //- Heroicon name: eye-off
+                    svg.h-5.w-5(xmlns='http://www.w3.org/2000/svg' alt="Privát csoport" aria-label="Privát csoport" viewbox='0 0 20 20' fill='currentColor')
+                      path(fill-rule='evenodd' d='M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z' clip-rule='evenodd')
+                      path(d='M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z')
 
-      if userToShow.groups.some(isOld)
+
+      if userToShow.groups.filter(isVisible).some(isOld)
         h3(class='mb-2 text-lg') Elmúlt csoportesemények
         div(class='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4')
-          each group in userToShow.groups.filter(isOld)
+          each group in userToShow.groups.filter(isVisible).filter(isOld)
             a(href=`/groups/${group.id}` class='transition duration-300 ease-in-out transform hover:-translate-y-2')
               div(class='flex items-center justify-center p-6 border rounded-md dark:border-gray-500 hover:border-gray-400 animate-hover dark:hover:border-gray-300')
                 div(class='flex flex-row items-center')
@@ -52,6 +64,11 @@ block content
                     //- Heroicon name: shield-check
                     svg(xmlns="http://www.w3.org/2000/svg" alt="Saját esemény" aria-label="Saját esemény" viewbox="0 0 20 20" fill="currentColor" class="w-4 h-4 ml-1")
                       path(fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd")
+                  if !isPublic(group)
+                    //- Heroicon name: eye-off
+                    svg.h-5.w-5(xmlns='http://www.w3.org/2000/svg' alt="Privát csoport" aria-label="Privát csoport" viewbox='0 0 20 20' fill='currentColor')
+                      path(fill-rule='evenodd' d='M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z' clip-rule='evenodd')
+                      path(d='M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z')
 
 block scripts
   script(src="/js/user.js")

@@ -23,7 +23,7 @@ export async function seed(knex: Knex): Promise<void> {
 
 
       // Compose group
-      const startSeed = faker.datatype.number(500) * 1_000_000 * (faker.datatype.boolean()? -1 : 1)
+      const startSeed = faker.datatype.number(500) * 1_000_000 * (faker.datatype.boolean() ? -1 : 1)
       const maxTwoHours = faker.datatype.number(6600) * 1000 + 600_000
       const ownerId = (i * groupsPerFloor + j) % 16 + 1
       const groupId = (i * groupsPerFloor + j) + 1
@@ -32,31 +32,35 @@ export async function seed(knex: Knex): Promise<void> {
         name: faker.company.catchPhrase(),
         tags: faker.random.words(faker.datatype.number(5)).split(' ').join(','),
         description,
-        startDate: (new Date( Date.now() + startSeed * (j + 1) )),
-        endDate: (new Date( Date.now() + startSeed * (j + 1) + maxTwoHours )),
+        startDate: (new Date(Date.now() + startSeed * (j + 1))),
+        endDate: (new Date(Date.now() + startSeed * (j + 1) + maxTwoHours)),
         room: i + startingFloor,
         doNotDisturb: (i * groupsPerFloor + j) % 16 == 1,
         maxAttendees: 100,
         createdAt: new Date(),
-        ownerId
+        ownerId,
+        type: (i + j) % 3 === 0 ? 'CLASSIC' : 'PRIVATE'
       }
       console.log('\x1b[33m%s\x1b[0m',
-        `Group: #${groupId} ${group.name}, floor: ${group.room}, owner: ${group.ownerId}`)
+        `Group: #${groupId} ${group.name}, floor: ${group.room}, owner: ${ownerId}`)
       groupArray.push(group)
 
       // Connect groups and users
       const connectOwner = {
         userId: (i * groupsPerFloor + j) % 16 + 1,
         groupId: (i * groupsPerFloor + j) + 1,
+        groupRole: 'OWNER'
       }
       console.log(`Connect: owner #${connectOwner.userId} to #${connectOwner.groupId}`)
       connectArray.push(connectOwner)
       connectCountSum++
 
       for (let k = 1; k < ownerId; ++k) {
+        const isUnapproved = group.type === 'PRIVATE' && (k % 2 === 0 || k % 3 === 0)
         const connect = {
           userId: k,
-          groupId
+          groupId,
+          groupRole: isUnapproved ? 'UNAPPROVED' : 'MEMBER'
         }
         console.log(`Connect: user #${connect.userId} to #${connect.groupId}`)
         connectArray.push(connect)

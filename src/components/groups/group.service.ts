@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction} from 'express'
+import { Request, Response, NextFunction } from 'express'
 
-import { Group } from './group'
+import { Group, GroupType } from './group'
 import { User } from '../users/user'
 import { formatMdToSafeHTML } from '../../util/convertMarkdown'
 import { asyncWrapper } from '../../util/asyncWrapper'
@@ -28,11 +28,11 @@ export const getGroup = asyncWrapper(async (req: Request, res: Response, next: N
     .withGraphFetched('users')
 
   if (group) {
-    // Getting raw description for /copy and /edit pages
-    if (/\/copy|\/edit/.test(req.path))
-      req.group = group
-    else
-      req.group = { ...group, description: formatMdToSafeHTML(group.description) } as Group
+    req.group = group
+    // Except when getting raw description for /copy and /edit pages
+    if (!/\/copy|\/edit/.test(req.path)) {
+      req.group.description = formatMdToSafeHTML(group.description)
+    }
     next()
   } else {
     res.render('error/not-found')
@@ -53,7 +53,8 @@ export const createGroup = asyncWrapper(async (req: Request, res: Response, next
         startDate: new Date(req.body.startDate),
         endDate: new Date(req.body.endDate),
         ownerId: (req.user as User).id,
-        maxAttendees: parseInt(req.body.maxAttendees) || 100
+        maxAttendees: parseInt(req.body.maxAttendees) || 100,
+        type: req.body.groupType as GroupType
       }
     )
 
@@ -73,7 +74,8 @@ export const updateGroup = asyncWrapper(async (req: Request, res: Response, next
       doNotDisturb: !!req.body.doNotDisturb,
       startDate: new Date(req.body.startDate),
       endDate: new Date(req.body.endDate),
-      maxAttendees: parseInt(req.body.maxAttendees) || 100
+      maxAttendees: parseInt(req.body.maxAttendees) || 100,
+      type: req.body.groupType
     })
     .findById(req.params.id)
     .catch((err) => {

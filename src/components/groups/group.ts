@@ -1,6 +1,13 @@
 import { Model } from 'objection'
 
 import { User } from '../users/user'
+import { GroupMember } from './groupMember'
+import { GroupRole } from './grouprole'
+
+export enum GroupType {
+  classic = 'CLASSIC',
+  private = 'PRIVATE'
+}
 
 export class Group extends Model {
   id!: number
@@ -14,9 +21,20 @@ export class Group extends Model {
   place?: string
   doNotDisturb: boolean
   ownerId: number
-  users: User[]
+  users: GroupMember[]
   createdAt: Date
   maxAttendees: number
+  type = GroupType.classic
+
+  isApproved(userId: User['id']): boolean {
+    return this.users.some(
+      x => x.id === userId && x.groupRole !== GroupRole.unapproved)
+  }
+
+
+  canSeeMembers(userId: User['id']): boolean {
+    return this.type !== GroupType.private || this.isApproved(userId)
+  }
 
   $beforeInsert(): void {
     this.createdAt = new Date()
@@ -38,7 +56,8 @@ export class Group extends Model {
           // ManyToMany relation needs the `through` object to describe the join table.
           through: {
             from: 'users_groups.groupId',
-            to: 'users_groups.userId'
+            to: 'users_groups.userId',
+            extra: ['group_role']
           },
           to: 'users.id'
         }
@@ -63,7 +82,8 @@ export class Group extends Model {
         place: { type: 'string' },
         startDate: { type: 'datetime' },
         endDate: { type: 'datetime' },
-        maxAttendees: { type: 'integer' }
+        maxAttendees: { type: 'integer' },
+        type: { type: 'string' }
       }
     }
   }

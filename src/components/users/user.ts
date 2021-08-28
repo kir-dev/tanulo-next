@@ -1,6 +1,6 @@
 import { Model } from 'objection'
 
-import { Group } from '../groups/group'
+import { GroupOfTheUser } from './groupOfTheUser'
 
 export enum RoleType {
   ADMIN = 'ADMIN',
@@ -17,7 +17,7 @@ export class User extends Model {
   role: RoleType
   floor: number
   wantEmail: boolean
-  groups: Group[]
+  groups: GroupOfTheUser[]
   static get tableName(): string {
     return 'users'
   }
@@ -27,13 +27,14 @@ export class User extends Model {
     return {
       groups: {
         relation: Model.ManyToManyRelation,
-        modelClass: Group,
+        modelClass: GroupOfTheUser,
 
         join: {
           from: 'users.id',
           through: {
             from: 'users_groups.userId',
-            to: 'users_groups.groupId'
+            to: 'users_groups.groupId',
+            extra: ['group_role']
           },
           to: 'groups.id'
         }
@@ -52,7 +53,7 @@ export class User extends Model {
         name: { type: 'string', minLength: 1, maxLength: 255 },
         authSchId: { type: 'string' },
         floor: { type: ['integer', 'null'] },
-        wantEmail: { type: 'boolean'}
+        wantEmail: { type: 'boolean' }
       }
     }
   }

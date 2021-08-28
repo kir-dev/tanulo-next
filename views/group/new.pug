@@ -52,6 +52,19 @@ block content
         label(class='text-lg font-bold' for="pickerEnd") Befejezés ideje
         input(type="text", id="pickerEnd", name="endDate", required, data-input, class="flatpickr")
       div
+        label(for="groupType" class='text-lg font-bold') Csoport típusa
+        br
+        select(id="groupType" name="groupType" class='flatpickr')
+          option(value=`${GroupType.classic}` selected=(type === GroupType.classic || !type)) Klasszikus
+          option(value=`${GroupType.private}` selected=(type === GroupType.private)) Privát
+        ul
+          li
+            span(class='font-bold') Klasszikus -
+            span  Bárki csatlakozhat a csoporthoz
+          li
+            span(class='font-bold') Privát -
+            span  A csatlakozást meg kell erősítenie a szervezőnek. Külsősök számára a taglista rejtett.
+      div
         label(for="desc" class='text-lg font-bold') Leírás
         textarea(name="description", id="desc")
       div

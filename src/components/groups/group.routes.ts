@@ -4,7 +4,7 @@ import {
   formatDistanceStrict
 } from 'date-fns'
 import huLocale from 'date-fns/locale/hu'
-import { Request, Response, Router} from 'express'
+import { Request, Response, Router } from 'express'
 import multer from 'multer'
 
 import { isAuthenticated } from '../../config/passport'
@@ -16,6 +16,7 @@ import {
   sendEmailToOwner,
   leaveGroup,
   isMemberInGroup,
+  approveMember,
   kickMember,
   sendEmailToMember,
   createICSEvent,
@@ -25,6 +26,8 @@ import {
   checkValidMaxAttendeeLimit
 } from './group.middlewares'
 import { createGroup, getGroup, getGroups, updateGroup, removeGroup } from './group.service'
+import { GroupRole } from './grouprole'
+import { GroupType } from './group'
 
 const router = Router()
 
@@ -47,6 +50,7 @@ router.get('/new', isAuthenticated, (req, res) =>
     start: (req.query?.start as string)?.split(' ')[0].slice(0, -3),
     end: (req.query?.end as string)?.split(' ')[0].slice(0, -3),
     roomId: req.query?.roomId,
+    GroupType,
     ROOMS
   })
 )
@@ -67,11 +71,28 @@ router.get('/:id',
   checkIdParam,
   getGroup,
   (req, res) => {
-    const joined = req.group.users.some(u => u.id === (req.user as User).id)
-    const isOwner = req.group.ownerId === (req.user as User).id
-    const isAdmin = (req.user as User).role == RoleType.ADMIN
+    const { group } = req
+    const user = req.user as User
+    const userId = user.id
+
+    const joined = group.users.some(u => u.id === userId)
+    const isOwner = group.ownerId === userId
+    const isAdmin = user.role == RoleType.ADMIN
+    const canSeeMembers = isOwner || isAdmin || group.canSeeMembers(userId)
+    const canModerate = isOwner || isAdmin
     res.render('group/show', {
-      group: req.group, joined, isOwner, format, DATE_FORMAT, isAdmin
+      group,
+      joined,
+      isOwner,
+      format,
+      DATE_FORMAT,
+      isAdmin,
+      canSeeMembers,
+      canModerate,
+      GroupType,
+      GroupRole,
+      userId,
+      userRole: group.users.find(x => x.id === userId)?.groupRole
     })
   })
 
@@ -89,6 +110,17 @@ router.post('/:id/leave',
   leaveGroup,
   (req, res) => res.redirect('/groups')
 )
+
+router.post('/:id/approve/:userid',
+  isAuthenticated,
+  getGroup,
+  isGroupOwnerOrAdmin,
+  isMemberInGroup,
+  approveMember,
+  sendEmailToMember,
+  (req, res) => res.redirect(`/groups/${req.params.id}`)
+)
+
 router.post('/:id/kick/:userid',
   isAuthenticated,
   getGroup,
@@ -119,6 +151,8 @@ router.get('/:id/copy',
       name: req.group.name,
       description: req.group.description,
       tags: req.group.tags,
+      type: req.group.type,
+      GroupType,
       ROOMS
     })
 )
@@ -142,7 +176,9 @@ router.get('/:id/edit',
       ROOMS,
       isEditing: true,
       groupId: req.group.id,
-      maxAttendees: req.group.maxAttendees
+      maxAttendees: req.group.maxAttendees,
+      type: req.group.type,
+      GroupType
     })
 )
 
