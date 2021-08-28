@@ -13,6 +13,8 @@ declare global {
       group: Group
       userToShow: LocalUser
     }
+
+    interface User extends LocalUser {}
   }
 }
 
