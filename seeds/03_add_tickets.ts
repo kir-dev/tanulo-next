@@ -2,6 +2,7 @@ import * as Knex from 'knex'
 import faker from 'faker'
 
 export async function seed(knex: Knex): Promise<void> {
+
   const statuses = ['SENT', 'IN_PROGRESS', 'DONE', 'ARCHIVED']
   const ticketCount = 12
   const ticketArray = []
@@ -9,10 +10,10 @@ export async function seed(knex: Knex): Promise<void> {
     const ticket = {
       description: faker.lorem.sentences(5),
       roomNumber: faker.datatype.number(15) + 3,
-      createdAt: new Date(Date.now() - faker.datatype.number(500) * 1_000_000),
-      status: statuses[faker.datatype.number(3)],
+      createdAt: (new Date( Date.now() - faker.datatype.number(500) * 1_000_000 )),
+      status: statuses[faker.datatype.number(3)]
     }
-    console.log('\x1b[33m%s\x1b[0m', `Ticket: #${i + 1}`)
+    console.log('\x1b[33m%s\x1b[0m', `Ticket: #${i+1}`)
     ticketArray.push(ticket)
   }
 

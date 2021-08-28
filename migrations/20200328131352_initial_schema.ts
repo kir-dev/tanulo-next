@@ -2,14 +2,14 @@ import * as Knex from 'knex'
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema
-    .createTable('tickets', (table) => {
+    .createTable('tickets', table => {
       table.increments('id').primary()
 
       table.string('description')
       table.integer('roomNumber')
       table.dateTime('createdAt')
     })
-    .createTable('users', (table) => {
+    .createTable('users', table => {
       table.increments('id').primary()
 
       table.string('name')
@@ -17,7 +17,7 @@ export async function up(knex: Knex): Promise<void> {
       table.string('authSchId')
       table.boolean('admin')
     })
-    .createTable('groups', (table) => {
+    .createTable('groups', table => {
       table.increments('id').primary()
 
       table.string('name')
@@ -29,7 +29,7 @@ export async function up(knex: Knex): Promise<void> {
       table.boolean('doNotDisturb')
       table.dateTime('createdAt')
     })
-    .createTable('users_groups', (table) => {
+    .createTable('users_groups', table => {
       table.increments('id').primary()
 
       table

@@ -4,19 +4,16 @@ import { DAYS_OF_WEEK, ROOMS } from '../../util/constants'
 import { RawUsageData } from './rawusagedata'
 import { raw } from 'objection'
 
-type ParsedUsageData = Map<
-  number,
-  {
-    day: typeof DAYS_OF_WEEK[number]
-    count: number
-  }[]
->
+type ParsedUsageData = Map<number, {
+  day: typeof DAYS_OF_WEEK[number]
+  count: number
+}[]>
 
 export const getBusyRooms = async (): Promise<Group[]> => {
   const currentTime = new Date()
-  return await Group.query()
+  return (await Group.query()
     .where('startDate', '<', currentTime)
-    .andWhere('endDate', '>', currentTime)
+    .andWhere('endDate', '>', currentTime))
 }
 
 export const getEventsForRoom = async (roomId: number): Promise<Group[]> =>
@@ -27,7 +24,8 @@ const fetchUsageData = async (start: Date, end: Date) => {
   // meeting starts before midnight, ends after
   // The event will not be registrated for the next day
 
-  return RawUsageData.query()
+  return RawUsageData
+    .query()
     .select('room')
     .select({ day: raw('date(start_date)') })
     .count()
@@ -37,20 +35,15 @@ const fetchUsageData = async (start: Date, end: Date) => {
     .groupBy('day') as Promise<RawUsageData[]>
 }
 
-const parseUsageData = (
-  rawData: RawUsageData[],
-  today: Date
-): ParsedUsageData => {
-  const result = new Map<
-    number,
-    { day: typeof DAYS_OF_WEEK[number]; count: number }[]
-  >()
+const parseUsageData = (rawData: RawUsageData[], today: Date): ParsedUsageData => {
+
+  const result = new Map<number, { day: typeof DAYS_OF_WEEK[number], count: number }[]>()
 
   // generate empty data
   for (const room of ROOMS) {
     const roomResult = DAYS_OF_WEEK.map((_, d) => ({
       day: DAYS_OF_WEEK[addDays(today, d).getDay()],
-      count: 0,
+      count: 0
     }))
     result.set(room, roomResult)
   }

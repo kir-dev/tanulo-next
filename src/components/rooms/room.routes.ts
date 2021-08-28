@@ -22,11 +22,11 @@ const show = asyncWrapper(async (req: Request, res: Response) => {
 const getGroupsForRoom = asyncWrapper(async (req: Request, res: Response) => {
   const events = await getEventsForRoom(+req.params.id)
   res.json(
-    events.map((event) => ({
+    events.map(event => ({
       title: event.name,
       start: event.startDate,
       end: event.endDate,
-      groupId: event.id,
+      groupId: event.id
     }))
   )
 })

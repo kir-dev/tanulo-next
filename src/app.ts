@@ -32,14 +32,12 @@ app.use(compression())
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(
-  session({
-    resave: true,
-    saveUninitialized: true,
-    secret: SESSION_SECRET,
-    cookie: { maxAge: 7 * 1000 * 60 * 60 * 24 },
-  })
-)
+app.use(session({
+  resave: true,
+  saveUninitialized: true,
+  secret: SESSION_SECRET,
+  cookie: { maxAge: 7 * 1000 * 60 * 60 * 24 }
+}))
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(lusca.xframe('SAMEORIGIN'))
@@ -47,8 +45,8 @@ app.use(lusca.xssProtection(true))
 
 // set up rate limiter: maximum requests per minute
 const limiter = new RateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 1000, // max number of requests
+  windowMs: 1*60*1000, // 1 minute
+  max: 1000            // max number of requests
 })
 // apply rate limiter to all requests
 app.use(limiter)
@@ -60,12 +58,11 @@ app.use((req, res, next) => {
 })
 app.use((req, _res, next) => {
   // After successful login, redirect back to the intended page
-  if (
-    !req.user &&
+  if (!req.user &&
     !req.path.match(/^\/auth/) &&
     !req.path.match(/\./) &&
-    !req.path.match(/^\/rooms\/\d\/events$/)
-  ) {
+    !req.path.match(/^\/rooms\/\d\/events$/)) {
+
     req.session.returnTo = req.path
   }
   next()
@@ -102,8 +99,7 @@ app.use('/tickets', ticketRouter)
  * OAuth authentication routes. (Sign in)
  */
 app.get('/auth/oauth', passport.authenticate('oauth2'))
-app.get(
-  '/auth/oauth/callback',
+app.get('/auth/oauth/callback',
   passport.authenticate('oauth2', { failureRedirect: '/' }),
   (req, res) => res.redirect(req.session.returnTo || '/')
 )

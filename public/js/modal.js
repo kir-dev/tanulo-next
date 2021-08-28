@@ -1,12 +1,6 @@
 // omitted parameters won't be changed
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function toggleModal(
-  newAction,
-  newTitle,
-  newDesc,
-  newButtonText,
-  newIsActionFunction = undefined
-) {
+function toggleModal(newAction, newTitle, newDesc, newButtonText, newIsActionFunction = undefined) {
   const title = document.getElementById('modal-title')
   const description = document.getElementById('modal-desc')
   const submitButton = document.getElementById('submit-button')
@@ -25,10 +19,7 @@ function toggleModal(
   }
   if (newAction) {
     form.action = newAction
-    funcButton.setAttribute(
-      'onClick',
-      `javascript: toggleModal(); ${newAction};`
-    )
+    funcButton.setAttribute( 'onClick', `javascript: toggleModal(); ${newAction};`)
   }
 
   if (typeof newIsActionFunction !== 'undefined') {

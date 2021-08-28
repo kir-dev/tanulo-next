@@ -5,7 +5,7 @@ function transformTag(tagData) {
 const tagsInput = document.querySelector('input[name=tags]')
 const tagify = new Tagify(tagsInput, {
   editTags: false,
-  transformTag: transformTag,
+  transformTag: transformTag
 })
 
 if (isEditing && tags) {

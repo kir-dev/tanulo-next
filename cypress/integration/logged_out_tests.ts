@@ -1,7 +1,7 @@
 describe('Logged out tests', () => {
   it('checks responses when the user is not logged in', () => {
     const loggedOutText = 'Az oldal megtekintéséhez bejelentkezés szükséges!'
-
+    
     cy.visit('/')
 
     cy.contains('Foglalás').click()
@@ -24,3 +24,4 @@ describe('Logged out tests', () => {
     cy.contains(loggedOutText)
   })
 })
+  

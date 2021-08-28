@@ -10,16 +10,16 @@ module.exports = {
     port: +process.env.DB_PORT,
     user: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
+    database: process.env.DB_DATABASE
   },
   pool: {
     min: 2,
-    max: 10,
+    max: 10
   },
   migrations: {
     tableName: 'migrationTable',
     extension: 'ts',
-    directory: './migrations',
+    directory: './migrations'
   },
-  ...knexSnakeCaseMappers(),
+  ...knexSnakeCaseMappers()
 }

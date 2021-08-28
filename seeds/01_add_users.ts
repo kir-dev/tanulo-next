@@ -4,9 +4,7 @@ import { RoleType } from '../src/components/users/user'
 
 export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries not considering FK constraints
-  await knex.raw(
-    'TRUNCATE tickets, users_groups, groups, users RESTART IDENTITY CASCADE'
-  )
+  await knex.raw('TRUNCATE tickets, users_groups, groups, users RESTART IDENTITY CASCADE')
 
   const userCount = 16
   const userArray = []
@@ -17,7 +15,7 @@ export async function seed(knex: Knex): Promise<void> {
       authSchId: faker.datatype.uuid(),
       role: RoleType.USER,
     }
-    console.log('\x1b[33m%s\x1b[0m', `User: #${i + 1} ${user.name}`)
+    console.log('\x1b[33m%s\x1b[0m', `User: #${i+1} ${user.name}`)
     userArray.push(user)
   }
 

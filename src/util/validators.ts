@@ -1,11 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { validationResult } from 'express-validator'
 
-type ExpressMiddleware = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => void
+type ExpressMiddleware = (req: Request, res: Response, next: NextFunction) => void
 
 export interface ValidationError {
   msg: string
@@ -22,11 +18,7 @@ export function handleValidationError(statusCode: number): ExpressMiddleware {
   }
 }
 
-export function checkIdParam(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void {
+export function checkIdParam(req: Request, res: Response, next: NextFunction): void {
   if (isNaN(parseInt(req.params.id))) {
     res.render('error/not-found')
   } else {

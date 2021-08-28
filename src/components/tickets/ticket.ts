@@ -4,7 +4,7 @@ export enum StatusType {
   SENT = 'SENT',
   IN_PROGRESS = 'IN_PROGRESS',
   DONE = 'DONE',
-  ARCHIVED = 'ARCHIVED',
+  ARCHIVED ='ARCHIVED'
 }
 
 export class Ticket extends Model {
@@ -31,11 +31,11 @@ export class Ticket extends Model {
 
       properties: {
         id: { type: 'integer' },
-        description: { type: 'string', maxLenght: 500 },
+        description: { type: 'string' , maxLenght: 500 },
         roomNumber: { type: 'integer' },
         status: { type: 'string' },
         userId: { type: 'integer' },
-      },
+      }
     }
   }
 }
