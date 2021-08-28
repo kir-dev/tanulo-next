@@ -10,7 +10,7 @@ import { User } from '../users/user'
 
 export const getOtherTickets = asyncWrapper(
   async (req: Request, _res: Response, next: NextFunction) => {
-    req.otherTickets = (await Ticket.query().where('userId', '!=', (req.user as User).id)
+    req.otherTickets = (await Ticket.query().where('userId', '!=', req.user.id)
       .orderBy('createdAt', 'ASC')).map(ticket => {
       ticket.description = formatMdToSafeHTML(ticket.description)
       return ticket
@@ -20,7 +20,7 @@ export const getOtherTickets = asyncWrapper(
 
 export const getMyTickets = asyncWrapper(
   async (req: Request, _res: Response, next: NextFunction) => {
-    req.myTickets = (await Ticket.query().where('userId', '=', (req.user as User).id)
+    req.myTickets = (await Ticket.query().where('userId', '=', req.user.id)
       .orderBy('createdAt', 'ASC')).map(ticket => {
       ticket.description = formatMdToSafeHTML(ticket.description)
       return ticket
@@ -36,7 +36,7 @@ export const createTicket = asyncWrapper(
           {
             roomNumber: +req.body.roomNumber,
             description: req.body.description,
-            userId: (req.user as User).id,
+            userId: req.user.id,
           }
         )
     })
@@ -84,7 +84,7 @@ export const removeTicket = asyncWrapper(
 export const checkTicketOwner = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
     const ticket = await Ticket.query().findOne({ id: parseInt(req.params.id) })
-    if (ticket.userId == (req.user as User).id) {
+    if (ticket.userId == req.user.id) {
       next()
     } else {
       return res.sendStatus(403)
