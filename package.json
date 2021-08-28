@@ -25,6 +25,7 @@
     "watch:debug": "concurrently -k -p \"[{name}]\" -n \"Css,Static,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"yarn watch:css\" \"yarn watch:static-assets\" \"yarn serve:debug\""
   },
   "dependencies": {
+    "@prisma/client": "^2.30.0",
     "@tailwindcss/forms": "0.3.3",
     "@tailwindcss/typography": "0.4.1",
     "autoprefixer": "10.3.1",
