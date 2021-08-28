@@ -2,6 +2,8 @@
 function updateUser(id) {
   const floorEl = document.getElementById('floor-input')
   const floor = parseInt(floorEl.value)
+  const emailEl = document.getElementById('emailCheckbox')
+  const wantEmail = emailEl.checked
   if (floorEl.value !== '' && (floor < 3 || floor > 18)) {
     displayMessage('A szint üres vagy 3 és 18 közötti szám lehet')
   } else {
@@ -10,14 +12,15 @@ function updateUser(id) {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ floor }),
+      body: JSON.stringify({ floor, wantEmail }),
     })
       .then(async res => {
         switch (res.status) {
         case 200:
           const user = await res.json()
           floorEl.value = user.floor
-          displayMessage('Saját szint sikeresen frissítve!', 'success')
+          emailEl.checked = user.wantEmail
+          displayMessage('Személyes beállítások sikeresen frissítve!', 'success')
           break
         case 400:
           const data = await res.json()

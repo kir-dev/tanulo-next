@@ -30,7 +30,7 @@ const options = {
   enableTime: true,
   dateFormat: 'Y-m-d H:i',
   minDate: 'today',
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  /* eslint-disable-next-line @typescript-eslint/naming-convention */
   time_24hr: true,
   disableMobile: 'true',
 }

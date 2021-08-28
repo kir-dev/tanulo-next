@@ -42,13 +42,13 @@ export const updateRole = asyncWrapper(async (req: Request, res: Response, next:
 
 export const updateUser = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const id = (req.user as User).id
-  const { floor } = req.body
-  req.user = await User.query().patchAndFetchById(id, { floor })
+  const { floor, wantEmail } = req.body
+  req.user = await User.query().patchAndFetchById(id, { floor, wantEmail })
 
   next()
 })
 
-export const createUser = async (user: OAuthUser) => {
+export const createUser = async (user: OAuthUser): Promise<User> => {
   return await User.transaction(async trx => {
     return await User.query(trx)
       .insert(

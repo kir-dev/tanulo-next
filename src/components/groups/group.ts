@@ -18,15 +18,16 @@ export class Group extends Model {
   createdAt: Date
   maxAttendees: number
 
-  $beforeInsert() {
+  $beforeInsert(): void {
     this.createdAt = new Date()
   }
 
-  static get tableName() {
+  static get tableName(): string {
     return 'groups'
   }
 
-  static get relationMappings() {
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  static get relationMappings(): Record<string, any> {
     return {
       users: {
         relation: Model.ManyToManyRelation,
@@ -45,7 +46,8 @@ export class Group extends Model {
     }
   }
 
-  static get jsonSchema() {
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  static get jsonSchema(): Record<string, any> {
     return {
       type: 'object',
       required: ['name', 'description', 'doNotDisturb', 'tags', 'startDate', 'endDate'],

@@ -1,6 +1,6 @@
 import { Model } from 'objection'
 
-export enum StatusType { 
+export enum StatusType {
   SENT = 'SENT',
   IN_PROGRESS = 'IN_PROGRESS',
   DONE = 'DONE',
@@ -15,15 +15,16 @@ export class Ticket extends Model {
   createdAt: Date
   userId: number
 
-  $beforeInsert() {
+  $beforeInsert(): void {
     this.createdAt = new Date()
   }
 
-  static get tableName() {
+  static get tableName(): string {
     return 'tickets'
   }
 
-  static get jsonSchema() {
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  static get jsonSchema(): Record<string, any> {
     return {
       type: 'object',
       required: ['roomNumber', 'description', 'userId'],
