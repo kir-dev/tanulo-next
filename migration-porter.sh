@@ -18,6 +18,7 @@ migrations=(
     '20210418152354_add_user_id_to_tickets' #10
     '20210611222535_add_place_and_link_to_groups' #11
     '20210626192847_add_wantemail_to_user' #12
+    '20210829032204_insert_mocked_prisma_migration_logs' #13
 )
 
 if [[ "$1" = "--help" ]]
