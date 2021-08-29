@@ -4,13 +4,13 @@ import {
   formatDistanceStrict
 } from 'date-fns'
 import huLocale from 'date-fns/locale/hu'
-import { Request, Response, Router} from 'express'
+import { Request, Response, Router } from 'express'
 import multer from 'multer'
 
 import { isAuthenticated } from '../../config/passport'
 import { DATE_FORMAT, ROOMS } from '../../util/constants'
 import { handleValidationError, checkIdParam } from '../../util/validators'
-import { RoleType, User } from '../users/user'
+import { RoleType } from '../users/user'
 import {
   joinGroup,
   sendEmailToOwner,
@@ -31,6 +31,7 @@ const router = Router()
 router.get('/', isAuthenticated, getGroups, (req, res) => {
   res.render('group/index', {
     groups: req.groups,
+    past: req.query.past,
     paginationOpt: req.paginationOptions,
     dateFns: {
       format,
@@ -59,7 +60,7 @@ router.post('/',
   checkConflicts,
   createGroup,
   joinGroup,
-  (req: Request, res: Response) => res.sendStatus(201)
+  (req: Request, res: Response) => res.status(201).json({ id: req.group.id })
 )
 
 router.get('/:id',
@@ -67,9 +68,9 @@ router.get('/:id',
   checkIdParam,
   getGroup,
   (req, res) => {
-    const joined = req.group.users.some(u => u.id === (req.user as User).id)
-    const isOwner = req.group.ownerId === (req.user as User).id
-    const isAdmin = (req.user as User).role == RoleType.ADMIN
+    const joined = req.group.users.some(u => u.id === req.user.id)
+    const isOwner = req.group.ownerId === req.user.id
+    const isAdmin = req.user.role == RoleType.ADMIN
     res.render('group/show', {
       group: req.group, joined, isOwner, format, DATE_FORMAT, isAdmin
     })
@@ -157,7 +158,7 @@ router.put('/:id',
   checkConflicts,
   checkValidMaxAttendeeLimit,
   updateGroup,
-  (req: Request, res: Response) => res.sendStatus(201)
+  (req: Request, res: Response) => res.status(201).json({ id: req.group.id })
 )
 
 router.get('/:id/export', isAuthenticated, checkIdParam, getGroup, createICSEvent)

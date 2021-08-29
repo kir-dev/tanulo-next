@@ -1,9 +1,20 @@
 extends ../layouts/main
 
+include ./pagination/activeButton.pug
+include ./pagination/inactiveButton.pug
+
 block content
   div(class='flex flex-row items-center space-x-4')
     h1(class='title') Csoportok
     a(href='/groups/new' class='text-xl btn btn-primary animate-hover') Új csoport
+  div(class='w-1/2 mx-auto text-xl font-bold sm:text-lg')
+    div(class='my-5 flex flex-row items-center justify-center space-x-2')
+      if past === 'true'
+        +inactiveButton('/groups', 'Következők')
+        +activeButton('/groups?past=true', 'Korábbiak')
+      else
+        +activeButton('/groups', 'Következők')
+        +inactiveButton('/groups?past=true', 'Korábbiak')
   if paginationOpt.pageNum > 1
     include ./pagination/index
 

@@ -79,7 +79,7 @@ export const isAuthenticated =
 export const requireRoles = (...roles: RoleType[]) => {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   return (req: Request, res: Response, next: NextFunction): Response<any, Record<string, any>> => {
-    const role = (req.user as User)?.role
+    const role = req.user?.role
     if (roles.some((element) => role == element)) {
       next()
     } else {

@@ -12,7 +12,7 @@ import sendMessage from '../../util/sendMessage'
 import { sendEmail } from '../../util/sendEmail'
 
 export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
-  const user = req.user as User
+  const user = req.user
   const group = req.group
 
   // Join group if not already in it, and it's not closed or it's the owner who joins.
@@ -36,7 +36,7 @@ export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: 
 
 export const sendEmailToOwner = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) =>  {
-    const user = req.user as User
+    const user = req.user
     const group = req.group
 
     const emailRecepient = await User.query().findOne({ id: group.ownerId })
@@ -52,7 +52,7 @@ export const leaveGroup = asyncWrapper(async (req: Request, res: Response, next:
   await Group.relatedQuery('users')
     .for(req.group.id)
     .unrelate()
-    .where('user_id', (req.user as User).id)
+    .where('user_id', req.user.id)
 
   next()
 })
@@ -92,7 +92,7 @@ export const sendEmailToMember = asyncWrapper(
  */
 export const isGroupOwner = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
-    if ((req.user as User)?.id === req.group.ownerId) {
+    if (req.user?.id === req.group.ownerId) {
       next()
     } else {
       res.render('error/forbidden')
@@ -102,8 +102,8 @@ export const isGroupOwner = asyncWrapper(
 
 export const isGroupOwnerOrAdmin = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
-    if (((req.user as User)?.id === req.group.ownerId)
-      || ((req.user as User)?.role == RoleType.ADMIN)) {
+    if ((req.user?.id === req.group.ownerId)
+      || (req.user?.role == RoleType.ADMIN)) {
       next()
     } else {
       res.render('error/forbidden')
