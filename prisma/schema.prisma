@@ -16,7 +16,7 @@ model Group {
   endDate      DateTime     @map("end_date") @db.Timestamptz(6)
   room         Int?
   doNotDisturb Boolean      @map("do_not_disturb")
-  createdAt    DateTime?    @map("created_at") @db.Timestamptz(6)
+  createdAt    DateTime?    @default(now()) @map("created_at") @db.Timestamptz(6)
   ownerId      Int?         @map("owner_id")
   maxAttendees Int?         @default(100) @map("max_attendees")
   link         String?      @db.VarChar(255)
@@ -32,7 +32,7 @@ model Ticket {
   id          Int        @id @default(autoincrement())
   description String?    @db.VarChar(500)
   roomNumber  Int        @map("room_number")
-  createdAt   DateTime?  @map("created_at") @db.Timestamptz(6)
+  createdAt   DateTime?  @default(now()) @map("created_at") @db.Timestamptz(6)
   status      StatusType @default(Sent)
   userId      Int?       @map("user_id")
   users       User?      @relation(fields: [userId], references: [id])
