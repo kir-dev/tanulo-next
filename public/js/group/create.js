@@ -1,5 +1,5 @@
 let meetingPlace = 'floor'
-const MEETING_PLACES = ['floor', 'link', 'other'] 
+const MEETING_PLACES = ['floor', 'link', 'other']
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function selectMeetingPlace(kind) {
@@ -26,12 +26,12 @@ function isValidHttpsUrl(str) {
     return false
   } // not catching bad top lvl domain (1 character)
 
-  const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-    '(\\#[-a-z\\d_]*)?$','i') // fragment locator
+  const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+    '(\\#[-a-z\\d_]*)?$', 'i') // fragment locator
   // not allowing '(' and ')'
   // catching 1 character TLD
 
@@ -84,13 +84,13 @@ const validateGroup = (data) => {
 }
 
 const handleResponse = async (res, edited) => {
+  const data = await res.json()
   switch (res.status) {
   case 201:
     sendMessage(`Csoport sikeresen ${edited ? 'frissítve' : 'létrehozva'}`, 'success')
-    location.href = '/groups'
+    location.href = `/groups/${data.id}`
     break
   case 400:
-    const data = await res.json()
     clearMessages()
     data.errors.forEach((err) => displayMessage(err.msg))
     break
