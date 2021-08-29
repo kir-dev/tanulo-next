@@ -10,19 +10,19 @@ datasource db {
 model Group {
   id           Int          @id @default(autoincrement())
   name         String       @db.VarChar(255)
-  tags         String?      @db.VarChar(255)
-  description  String?      @db.VarChar(500)
+  tags         String       @default("") @db.VarChar(255)
+  description  String       @default("") @db.VarChar(500)
   startDate    DateTime     @map("start_date") @db.Timestamptz(6)
   endDate      DateTime     @map("end_date") @db.Timestamptz(6)
   room         Int?
   doNotDisturb Boolean      @map("do_not_disturb")
-  createdAt    DateTime?    @default(now()) @map("created_at") @db.Timestamptz(6)
-  ownerId      Int?         @map("owner_id")
-  maxAttendees Int?         @default(100) @map("max_attendees")
+  createdAt    DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  ownerId      Int          @map("owner_id")
+  maxAttendees Int          @default(100) @map("max_attendees")
   link         String?      @db.VarChar(255)
   place        String?      @db.VarChar(255)
-  users        User?        @relation(fields: [ownerId], references: [id])
-  usersGroups  Membership[]
+  owner        User         @relation(fields: [ownerId], references: [id])
+  users        Membership[]
 
   @@index([ownerId], name: "groups_ownerid_index")
   @@map("groups")
@@ -30,38 +30,38 @@ model Group {
 
 model Ticket {
   id          Int        @id @default(autoincrement())
-  description String?    @db.VarChar(500)
+  description String     @db.VarChar(500)
   roomNumber  Int        @map("room_number")
-  createdAt   DateTime?  @default(now()) @map("created_at") @db.Timestamptz(6)
+  createdAt   DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
   status      StatusType @default(Sent)
-  userId      Int?       @map("user_id")
-  users       User?      @relation(fields: [userId], references: [id])
+  ownerId     Int        @map("user_id")
+  owner       User       @relation(fields: [ownerId], references: [id])
 
-  @@index([userId], name: "tickets_userid_index")
+  @@index([ownerId], name: "tickets_userid_index")
   @@map("tickets")
 }
 
 model User {
-  id           Int          @id @default(autoincrement())
-  name         String       @db.VarChar(255)
-  email        String       @db.VarChar(255)
-  authSchId    String       @map("auth_sch_id") @db.VarChar(255)
-  floor        Int?
-  role         RoleType     @default(User)
-  wantEmail    Boolean?     @default(true) @map("want_email")
-  groups       Group[]
-  tickets      Ticket[]
-  users_groups Membership[]
+  id          Int          @id @default(autoincrement())
+  name        String       @db.VarChar(255)
+  email       String       @db.VarChar(255)
+  authSchId   String       @map("auth_sch_id") @db.VarChar(255)
+  floor       Int?
+  role        RoleType     @default(User)
+  wantEmail   Boolean      @default(true) @map("want_email")
+  ownedGroups Group[]
+  tickets     Ticket[]
+  groups      Membership[]
 
   @@map("users")
 }
 
 model Membership {
-  id      Int    @id @default(autoincrement())
-  userId  Int?   @map("user_id")
-  groupId Int?   @map("group_id")
-  group   Group? @relation(fields: [groupId], references: [id])
-  user    User?  @relation(fields: [userId], references: [id])
+  id      Int   @id @default(autoincrement())
+  userId  Int   @map("user_id")
+  groupId Int   @map("group_id")
+  group   Group @relation(fields: [groupId], references: [id])
+  user    User  @relation(fields: [userId], references: [id])
 
   @@index([groupId], name: "users_groups_groupid_index")
   @@index([userId], name: "users_groups_userid_index")
