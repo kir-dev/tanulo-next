@@ -1,15 +1,16 @@
-import { PrismaClient, RoleType, User, Group, Membership, StatusType } from '@prisma/client'
+import { PrismaClient, RoleType, StatusType, Prisma } from '@prisma/client'
 import faker from 'faker'
 
 const prisma = new PrismaClient()
 
+const USERS_COUNT = 16
+
 async function addUsers() {
   await prisma.user.deleteMany()
 
-  const userCount = 16
-  const userArray = []
-  for (let i = 0; i < userCount; ++i) {
-    const user: Omit<User, 'id'> = {
+  const userArray: Prisma.UserCreateManyInput[] = []
+  for (let i = 0; i < USERS_COUNT; ++i) {
+    const user = {
       name: faker.name.findName(),
       email: faker.internet.email(),
       authSchId: faker.datatype.uuid(),
@@ -28,8 +29,8 @@ async function addGroups() {
   const startingFloor = 3
   const floorCount = 16
   const groupsPerFloor = 4
-  const groupArray = []
-  const connectArray = []
+  const groupArray: Prisma.GroupCreateManyInput[] = []
+  const connectArray: Prisma.MembershipCreateManyInput[] = []
   let connectCountSum = 0
   for (let i = 0; i < floorCount; ++i) {
     for (let j = 0; j < groupsPerFloor; ++j) {
@@ -50,7 +51,7 @@ async function addGroups() {
       const ownerId = (i * groupsPerFloor + j) % 16 + 1
       const groupId = (i * groupsPerFloor + j) + 1
 
-      const group: Omit<Group, 'id' | 'link' | 'place'> = {
+      const group = {
         name: faker.company.catchPhrase(),
         tags: faker.random.words(faker.datatype.number(5)).split(' ').join(','),
         description,
@@ -67,7 +68,7 @@ async function addGroups() {
       groupArray.push(group)
 
       // Connect groups and users
-      const connectOwner: Omit<Membership, 'id'> = {
+      const connectOwner: Prisma.MembershipCreateManyInput = {
         userId: (i * groupsPerFloor + j) % 16 + 1,
         groupId: (i * groupsPerFloor + j) + 1,
       }
@@ -97,15 +98,16 @@ async function addGroups() {
 async function addTickets() {
   const statuses = Object.keys(StatusType)
   const ticketCount = 12
-  const ticketArray = []
+  const ticketArray: Prisma.TicketCreateManyInput[] = []
   for (let i = 0; i < ticketCount; ++i) {
     const ticket = {
       description: faker.lorem.sentences(5),
       roomNumber: faker.datatype.number(15) + 3,
-      createdAt: (new Date( Date.now() - faker.datatype.number(500) * 1_000_000 )),
-      status: statuses[faker.datatype.number(3)]
+      createdAt: (new Date(Date.now() - faker.datatype.number(500) * 1_000_000)),
+      status: statuses[faker.datatype.number(3)] as StatusType,
+      ownerId: faker.datatype.number(USERS_COUNT - 1) + 1,
     }
-    console.log('\x1b[33m%s\x1b[0m', `Ticket: #${i+1}`)
+    console.log('\x1b[33m%s\x1b[0m', `Ticket: #${i + 1}`)
     ticketArray.push(ticket)
   }
 
@@ -115,9 +117,12 @@ async function addTickets() {
 }
 
 async function main() {
-  await prisma.membership.deleteMany()
-  await prisma.user.deleteMany()
-  await prisma.group.deleteMany()
+  await prisma.$transaction([
+    prisma.membership.deleteMany(),
+    prisma.ticket.deleteMany(),
+    prisma.group.deleteMany(),
+    prisma.user.deleteMany(),
+  ])
 
   await prisma.$executeRaw('TRUNCATE tickets, users_groups, groups, users RESTART IDENTITY CASCADE')
 
