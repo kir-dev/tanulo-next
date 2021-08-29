@@ -27,18 +27,6 @@ model groups {
   @@index([owner_id], name: "groups_ownerid_index")
 }
 
-model migrationTable {
-  id             Int       @id @default(autoincrement())
-  name           String?   @db.VarChar(255)
-  batch          Int?
-  migration_time DateTime? @db.Timestamptz(6)
-}
-
-model migrationTable_lock {
-  index     Int  @id @default(autoincrement())
-  is_locked Int?
-}
-
 model tickets {
   id          Int         @id @default(autoincrement())
   description String?     @db.VarChar(500)
