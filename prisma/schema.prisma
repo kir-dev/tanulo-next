@@ -1,11 +1,89 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "postgresql"
   url      = env("DB_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
+model groups {
+  id             Int            @id @default(autoincrement())
+  name           String         @db.VarChar(255)
+  tags           String?        @db.VarChar(255)
+  description    String?        @db.VarChar(500)
+  start_date     DateTime       @db.Timestamptz(6)
+  end_date       DateTime       @db.Timestamptz(6)
+  room           Int?
+  do_not_disturb Boolean
+  created_at     DateTime?      @db.Timestamptz(6)
+  owner_id       Int?
+  max_attendees  Int?           @default(100)
+  link           String?        @db.VarChar(255)
+  place          String?        @db.VarChar(255)
+  users          users?         @relation(fields: [owner_id], references: [id])
+  users_groups   users_groups[]
+
+  @@index([owner_id], name: "groups_ownerid_index")
+}
+
+model migrationTable {
+  id             Int       @id @default(autoincrement())
+  name           String?   @db.VarChar(255)
+  batch          Int?
+  migration_time DateTime? @db.Timestamptz(6)
+}
+
+model migrationTable_lock {
+  index     Int  @id @default(autoincrement())
+  is_locked Int?
+}
+
+model tickets {
+  id          Int         @id @default(autoincrement())
+  description String?     @db.VarChar(500)
+  room_number Int
+  created_at  DateTime?   @db.Timestamptz(6)
+  status      status_type @default(SENT)
+  user_id     Int?
+  users       users?      @relation(fields: [user_id], references: [id])
+
+  @@index([user_id], name: "tickets_userid_index")
+}
+
+model users {
+  id           Int            @id @default(autoincrement())
+  name         String         @db.VarChar(255)
+  email        String         @db.VarChar(255)
+  auth_sch_id  String         @db.VarChar(255)
+  floor        Int?
+  role         role_type      @default(USER)
+  want_email   Boolean?       @default(true)
+  groups       groups[]
+  tickets      tickets[]
+  users_groups users_groups[]
+}
+
+model users_groups {
+  id       Int     @id @default(autoincrement())
+  user_id  Int?
+  group_id Int?
+  groups   groups? @relation(fields: [group_id], references: [id])
+  users    users?  @relation(fields: [user_id], references: [id])
+
+  @@index([group_id], name: "users_groups_groupid_index")
+  @@index([user_id], name: "users_groups_userid_index")
+}
+
+enum status_type {
+  SENT
+  IN_PROGRESS
+  DONE
+  ARCHIVED
+}
+
+enum role_type {
+  ADMIN
+  TICKET_ADMIN
+  USER
 }
