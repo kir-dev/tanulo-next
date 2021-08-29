@@ -20,7 +20,7 @@ export function handleValidationError(statusCode: number): ExpressMiddleware {
 
 export function checkIdParam(req: Request, res: Response, next: NextFunction): void {
   if (isNaN(parseInt(req.params.id))) {
-    res.render('error/not-found')
+    res.status(404).render('error/not-found')
   } else {
     next()
   }

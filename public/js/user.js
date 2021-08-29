@@ -44,7 +44,7 @@ function updateRole(id) {
   const roleEl = document.getElementById('role')
   const role = roleEl.value
   console.log(role)
-  if (role == '' || !(role == 'ADMIN' || role == 'TICKET_ADMIN' || role == 'USER')) {
+  if (role === '' || !(role === 'Admin' || role === 'TicketAdmin' || role === 'User')) {
     displayMessage('A felhasználói jogkör nem megfelelő.')
   } else {
     fetch(`/users/${id}/role`, {

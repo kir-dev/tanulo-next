@@ -1,7 +1,5 @@
-import { Group } from '../components/groups/group'
-import { Ticket } from '../components/tickets/ticket'
-import { User as LocalUser } from '../components/users/user'
 import { PaginationOptions } from '../components/groups/paginationOptions'
+import { Prisma, PrismaClient, User as LocalUser, Group, Ticket, Membership } from '@prisma/client';
 
 declare global {
   namespace Express {
@@ -10,11 +8,13 @@ declare global {
       myTickets: Ticket[]
       groups: Group[]
       paginationOptions: PaginationOptions
-      group: Group
+      group: Group & {
+        users: Membership[];
+      }
       userToShow: LocalUser
     }
 
-    interface User extends LocalUser {}
+    interface User extends LocalUser { }
   }
 }
 
