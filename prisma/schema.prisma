@@ -7,71 +7,80 @@ datasource db {
   url      = env("DB_URL")
 }
 
-model groups {
-  id             Int            @id @default(autoincrement())
-  name           String         @db.VarChar(255)
-  tags           String?        @db.VarChar(255)
-  description    String?        @db.VarChar(500)
-  start_date     DateTime       @db.Timestamptz(6)
-  end_date       DateTime       @db.Timestamptz(6)
-  room           Int?
-  do_not_disturb Boolean
-  created_at     DateTime?      @db.Timestamptz(6)
-  owner_id       Int?
-  max_attendees  Int?           @default(100)
-  link           String?        @db.VarChar(255)
-  place          String?        @db.VarChar(255)
-  users          users?         @relation(fields: [owner_id], references: [id])
-  users_groups   users_groups[]
+model Group {
+  id           Int          @id @default(autoincrement())
+  name         String       @db.VarChar(255)
+  tags         String?      @db.VarChar(255)
+  description  String?      @db.VarChar(500)
+  startDate    DateTime     @map("start_date") @db.Timestamptz(6)
+  endDate      DateTime     @map("end_date") @db.Timestamptz(6)
+  room         Int?
+  doNotDisturb Boolean      @map("do_not_disturb")
+  createdAt    DateTime?    @map("created_at") @db.Timestamptz(6)
+  ownerId      Int?         @map("owner_id")
+  maxAttendees Int?         @default(100) @map("max_attendees")
+  link         String?      @db.VarChar(255)
+  place        String?      @db.VarChar(255)
+  users        User?        @relation(fields: [ownerId], references: [id])
+  usersGroups  Membership[]
 
-  @@index([owner_id], name: "groups_ownerid_index")
+  @@index([ownerId], name: "groups_ownerid_index")
+  @@map("groups")
 }
 
-model tickets {
-  id          Int         @id @default(autoincrement())
-  description String?     @db.VarChar(500)
-  room_number Int
-  created_at  DateTime?   @db.Timestamptz(6)
-  status      status_type @default(SENT)
-  user_id     Int?
-  users       users?      @relation(fields: [user_id], references: [id])
+model Ticket {
+  id          Int        @id @default(autoincrement())
+  description String?    @db.VarChar(500)
+  roomNumber  Int        @map("room_number")
+  createdAt   DateTime?  @map("created_at") @db.Timestamptz(6)
+  status      StatusType @default(Sent)
+  userId      Int?       @map("user_id")
+  users       User?      @relation(fields: [userId], references: [id])
 
-  @@index([user_id], name: "tickets_userid_index")
+  @@index([userId], name: "tickets_userid_index")
+  @@map("tickets")
 }
 
-model users {
-  id           Int            @id @default(autoincrement())
-  name         String         @db.VarChar(255)
-  email        String         @db.VarChar(255)
-  auth_sch_id  String         @db.VarChar(255)
+model User {
+  id           Int          @id @default(autoincrement())
+  name         String       @db.VarChar(255)
+  email        String       @db.VarChar(255)
+  authSchId    String       @map("auth_sch_id") @db.VarChar(255)
   floor        Int?
-  role         role_type      @default(USER)
-  want_email   Boolean?       @default(true)
-  groups       groups[]
-  tickets      tickets[]
-  users_groups users_groups[]
+  role         RoleType     @default(User)
+  wantEmail    Boolean?     @default(true) @map("want_email")
+  groups       Group[]
+  tickets      Ticket[]
+  users_groups Membership[]
+
+  @@map("users")
 }
 
-model users_groups {
-  id       Int     @id @default(autoincrement())
-  user_id  Int?
-  group_id Int?
-  groups   groups? @relation(fields: [group_id], references: [id])
-  users    users?  @relation(fields: [user_id], references: [id])
+model Membership {
+  id      Int    @id @default(autoincrement())
+  userId  Int?   @map("user_id")
+  groupId Int?   @map("group_id")
+  group   Group? @relation(fields: [groupId], references: [id])
+  user    User?  @relation(fields: [userId], references: [id])
 
-  @@index([group_id], name: "users_groups_groupid_index")
-  @@index([user_id], name: "users_groups_userid_index")
+  @@index([groupId], name: "users_groups_groupid_index")
+  @@index([userId], name: "users_groups_userid_index")
+  @@map("users_groups")
 }
 
-enum status_type {
-  SENT
-  IN_PROGRESS
-  DONE
-  ARCHIVED
+enum StatusType {
+  Sent        @map("SENT")
+  InProgress  @map("IN_PROGRESS")
+  Done        @map("DONE")
+  Archived    @map("ARCHIVED")
+
+  @@map("status_type")
 }
 
-enum role_type {
-  ADMIN
-  TICKET_ADMIN
-  USER
+enum RoleType {
+  Admin        @map("ADMIN")
+  TicketAdmin  @map("TICKET_ADMIN")
+  User         @map("USER")
+
+  @@map("role_type")
 }
