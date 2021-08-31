@@ -43,7 +43,7 @@ block content
               //- Heroicon name: external-link
               svg(xmlns='http://www.w3.org/2000/svg' alt="Külső link" aria-label="Külső link" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
                 path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14')
-              a(href=group.link class='text-lg sm:text-xl' target='_blank' rel='noopener')= group.link
+              a(href=group.link class='text-lg sm:text-xl' target='_blank' rel='noopener noreferrer')= group.link
             else
               //- Heroicon name: globe
               svg(xmlns='http://www.w3.org/2000/svg' alt="Más hely" aria-label="Más hely" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
