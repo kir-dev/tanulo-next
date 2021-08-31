@@ -136,13 +136,11 @@ Now just set your breakpoints and go!
 
 ## Testing
 
-For this project, I chose [Jest](https://facebook.github.io/jest/) as our test framework.
-While Mocha is probably more common, Mocha seems to be looking for a new maintainer and setting up TypeScript testing in Jest is wicked simple.
+For this project, we use [Cypress](https://www.cypress.io/) for end-to-end testing.
 
 ### Running tests
 
-Simply run `yarn run test`.
-Note this will also generate a coverage report.
+Running `yarn run test` will open the Cypress GUI. From there you can run each test individually or all of them at once. These tests will also run through GitHub Actions when you push changes to this repository.
 
 ## ESLint
 
