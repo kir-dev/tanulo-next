@@ -2,12 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 
 import { RoleType, User } from './user'
 import { asyncWrapper } from '../../util/asyncWrapper'
-
-interface OAuthUser {
-  displayName: string
-  internal_id: string
-  mail: string
-}
+import { OAuthUser } from '../../config/passport'
 
 export const getUser = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const user = await User.query()

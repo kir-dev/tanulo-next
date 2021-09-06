@@ -8,6 +8,12 @@ import { createUser } from '../components/users/user.service'
 
 const AUTH_SCH_URL = 'https://auth.sch.bme.hu'
 
+export interface OAuthUser {
+  displayName: string
+  internal_id: string
+  mail: string
+}
+
 /**
  * Sign in with AuthSCH.
  */
@@ -29,7 +35,7 @@ passport.use(
     ) => {
       const responseUser = await fetch(
         `${AUTH_SCH_URL}/api/profile?access_token=${accessToken}`
-      ).then(res => res.json())
+      ).then(res => res.json()) as OAuthUser
 
       const user = await User.query().findOne({ authSchId: responseUser.internal_id })
 
@@ -56,22 +62,22 @@ passport.deserializeUser(async (id: number, done) => {
  * Login Required middleware.
  */
 export const isAuthenticated =
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-(req: Request, res: Response, next: NextFunction): Response<any, Record<string, any>> => {
-  const contentType = req.headers['content-type']
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  (req: Request, res: Response, next: NextFunction): Response<any, Record<string, any>> => {
+    const contentType = req.headers['content-type']
 
-  if (req.isAuthenticated()) {
-    next()
-  } else {
-    if ((contentType &&
-      (contentType.indexOf('application/json') !== 0 ||
-       contentType.indexOf('multipart/form-data') !== 0)) ||
-       req.method !== 'GET') {
-      return res.sendStatus(401)
+    if (req.isAuthenticated()) {
+      next()
+    } else {
+      if ((contentType &&
+        (contentType.indexOf('application/json') !== 0 ||
+          contentType.indexOf('multipart/form-data') !== 0)) ||
+        req.method !== 'GET') {
+        return res.sendStatus(401)
+      }
+      res.render('error/not-authenticated')
     }
-    res.render('error/not-authenticated')
   }
-}
 
 /**
  * Authorization Required middleware.
