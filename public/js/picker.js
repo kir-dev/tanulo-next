@@ -33,6 +33,7 @@ const options = {
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
   time_24hr: true,
   disableMobile: 'true',
+  'locale': 'hu',
 }
 
 const pickerStart = flatpickr('#pickerStart', {
