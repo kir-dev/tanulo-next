@@ -63,7 +63,7 @@
     "@types/express-session": "1.17.4",
     "@types/faker": "5.5.8",
     "@types/lusca": "1.7.1",
-    "@types/markdown-it": "12.2.1",
+    "@types/markdown-it": "12.2.3",
     "@types/multer": "1.4.7",
     "@types/node": "15.12.4",
     "@types/node-fetch": "2.5.12",
