@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "groups" ALTER COLUMN "created_at" SET DEFAULT CURRENT_TIMESTAMP;
+
+-- AlterTable
+ALTER TABLE "tickets" ALTER COLUMN "created_at" SET DEFAULT CURRENT_TIMESTAMP;

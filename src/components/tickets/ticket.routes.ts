@@ -9,7 +9,7 @@ import { createTicket, sendEmailToTicketAdmins, getOtherTickets, getMyTickets,
   moveTicket, removeTicket, checkTicketOwner } from './ticket.service'
 
 import { handleValidationError } from '../../util/validators'
-import { RoleType } from '../users/user'
+import { RoleType } from '@prisma/client'
 
 const router = Router()
 
@@ -20,6 +20,7 @@ router.get('/',
     res.render('ticket/index', {
       otherTickets: req.otherTickets,
       myTickets: req.myTickets,
+      RoleType,
       format,
       DATE_FORMAT,
       STATUSES
@@ -29,7 +30,7 @@ router.get('/new', isAuthenticated, (_req, res) => res.render('ticket/new', { RO
 
 router.put('/:id',
   isAuthenticated,
-  requireRoles(RoleType.ADMIN, RoleType.TICKET_ADMIN),
+  requireRoles(RoleType.Admin, RoleType.TicketAdmin),
   multer().none(),
   [
     check('status')
@@ -61,7 +62,7 @@ router.post('/',
 
 router.delete('/:id',
   isAuthenticated,
-  requireRoles(RoleType.ADMIN, RoleType.TICKET_ADMIN),
+  requireRoles(RoleType.Admin, RoleType.TicketAdmin),
   removeTicket, (_req, res) => res.status(204).send('A hibajegy sikeresen törölve')
 )
 

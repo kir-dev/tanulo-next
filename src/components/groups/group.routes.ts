@@ -1,3 +1,4 @@
+import { RoleType } from '@prisma/client'
 import {
   format,
   formatDistanceToNowStrict,
@@ -10,7 +11,6 @@ import multer from 'multer'
 import { isAuthenticated } from '../../config/passport'
 import { DATE_FORMAT, ROOMS } from '../../util/constants'
 import { handleValidationError, checkIdParam } from '../../util/validators'
-import { RoleType } from '../users/user'
 import {
   joinGroup,
   sendEmailToOwner,
@@ -68,9 +68,9 @@ router.get('/:id',
   checkIdParam,
   getGroup,
   (req, res) => {
-    const joined = req.group.users.some(u => u.id === req.user.id)
+    const joined = req.group.users.some(u => u.userId === req.user.id)
     const isOwner = req.group.ownerId === req.user.id
-    const isAdmin = req.user.role == RoleType.ADMIN
+    const isAdmin = req.user.role == RoleType.Admin
     res.render('group/show', {
       group: req.group, joined, isOwner, format, DATE_FORMAT, isAdmin
     })

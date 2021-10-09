@@ -1,8 +1,8 @@
 import { startOfDay, addDays, addWeeks, differenceInDays } from 'date-fns'
-import { Group } from '../groups/group'
 import { DAYS_OF_WEEK, ROOMS } from '../../util/constants'
 import { RawUsageData } from './rawusagedata'
-import { raw } from 'objection'
+import { prisma } from '../../prisma'
+import { Group } from '@prisma/client'
 
 type ParsedUsageData = Map<number, {
   day: typeof DAYS_OF_WEEK[number]
@@ -11,28 +11,32 @@ type ParsedUsageData = Map<number, {
 
 export const getBusyRooms = async (): Promise<Group[]> => {
   const currentTime = new Date()
-  return (await Group.query()
-    .where('startDate', '<', currentTime)
-    .andWhere('endDate', '>', currentTime))
+  return await prisma.group.findMany({
+    where: {
+      startDate: { lt: currentTime },
+      endDate: { gt: currentTime }
+    }
+  })
 }
 
 export const getEventsForRoom = async (roomId: number): Promise<Group[]> =>
-  await Group.query().where({ room: roomId })
+  await prisma.group.findMany({ where: { room: roomId } })
 
 const fetchUsageData = async (start: Date, end: Date) => {
   //! unhandled case:
   // meeting starts before midnight, ends after
   // The event will not be registrated for the next day
 
-  return RawUsageData
-    .query()
-    .select('room')
-    .select({ day: raw('date(start_date)') })
-    .count()
-    .where('endDate', '>=', start)
-    .andWhere('startDate', '<', end)
-    .groupBy('room')
-    .groupBy('day') as Promise<RawUsageData[]>
+  return []
+  // TODO
+  // .query()
+  // .select('room')
+  // .select({ day: raw('date(start_date)') })
+  // .count()
+  // .where('endDate', '>=', start)
+  // .andWhere('startDate', '<', end)
+  // .groupBy('room')
+  // .groupBy('day') as Promise<RawUsageData[]>
 }
 
 const parseUsageData = (rawData: RawUsageData[], today: Date): ParsedUsageData => {

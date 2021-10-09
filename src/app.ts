@@ -2,24 +2,17 @@ import express from 'express'
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
-import Knex from 'knex'
 import lusca from 'lusca'
-import { Model } from 'objection'
 import path from 'path'
 import passport from 'passport'
 import RateLimit from 'express-rate-limit'
 
-import dbConfig = require('../knexfile')
 import { SESSION_SECRET } from './util/secrets'
 
 import userRouter from './components/users/user.routes'
 import ticketRouter from './components/tickets/ticket.routes'
 import roomRouter, { index } from './components/rooms/room.routes'
 import groupRouter from './components/groups/group.routes'
-
-const knex = Knex(dbConfig)
-
-Model.knex(knex)
 
 // Create Express server
 const app = express()
@@ -45,7 +38,7 @@ app.use(lusca.xssProtection(true))
 
 // set up rate limiter: maximum requests per minute
 const limiter = new RateLimit({
-  windowMs: 1*60*1000, // 1 minute
+  windowMs: 1 * 60 * 1000, // 1 minute
   max: 1000            // max number of requests
 })
 // apply rate limiter to all requests
@@ -107,6 +100,6 @@ app.get('/auth/oauth/callback',
 /**
  * Error routes
  */
-app.use('*', (req, res) => res.render('error/not-found'))
+app.use('*', (req, res) => res.status(404).render('error/not-found'))
 
 export default app

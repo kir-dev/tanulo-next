@@ -14,7 +14,7 @@ block content
         input(type="checkbox" class="rounded" checked=user.wantEmail id="emailCheckbox" name="emailCheckbox")
         label(for="emailCheckbox") Email értesítések
       button(onclick=`updateUser(${user.id})` class='btn btn-primary animate-hover') Mentés
-    if user.role == 'ADMIN'
+    if user.role === RoleType.Admin
       div
         h2(class='mb-2') Felhasználó jogainak beállítása
         form(action=`/users/${userToShow.id}/role`, method="post")
@@ -27,10 +27,11 @@ block content
     - const isOld = (element) => element.endDate <= Date.now()
 
     div(class='space-y-2')
-      if userToShow.groups.some(isUpcoming)
+      - groups = userToShow.groups.map(x => x.group)
+      if groups.some(isUpcoming)
         h3(class='mb-1 text-lg') Közelgő csoportesemények
         div(class='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4')
-          each group in userToShow.groups.filter(isUpcoming)
+          each group in groups.filter(isUpcoming)
             a(href=`/groups/${group.id}` class='transition duration-300 ease-in-out transform hover:-translate-y-2')
               div(class='flex items-center justify-center p-6 border rounded-md dark:border-gray-500 hover:border-gray-400 animate-hover dark:hover:border-gray-300')
                 div(class='flex flex-row items-center')
@@ -40,10 +41,10 @@ block content
                     svg(xmlns="http://www.w3.org/2000/svg" alt="Saját esemény" aria-label="Saját esemény" viewbox="0 0 20 20" fill="currentColor" class="w-4 h-4 ml-1")
                       path(fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd")
 
-      if userToShow.groups.some(isOld)
+      if groups.some(isOld)
         h3(class='mb-2 text-lg') Elmúlt csoportesemények
         div(class='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4')
-          each group in userToShow.groups.filter(isOld)
+          each group in groups.filter(isOld)
             a(href=`/groups/${group.id}` class='transition duration-300 ease-in-out transform hover:-translate-y-2')
               div(class='flex items-center justify-center p-6 border rounded-md dark:border-gray-500 hover:border-gray-400 animate-hover dark:hover:border-gray-300')
                 div(class='flex flex-row items-center')

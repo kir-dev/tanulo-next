@@ -1,5 +1,5 @@
+import { User } from '@prisma/client'
 import { Email } from './sendEmail'
-import { User } from '../components/users/user'
 
 const styles = {
   body: `"min-height: 50vh;

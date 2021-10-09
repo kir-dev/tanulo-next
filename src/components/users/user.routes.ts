@@ -4,7 +4,7 @@ import { ROLES } from '../../util/constants'
 
 import { requireRoles, isAuthenticated } from '../../config/passport'
 import { handleValidationError, checkIdParam } from '../../util/validators'
-import { RoleType } from './user'
+import { RoleType } from '@prisma/client'
 import { isSameUser } from './user.middlewares'
 import { getUser, updateRole, updateUser } from './user.service'
 
@@ -13,12 +13,13 @@ const router = Router()
 router.get('/:id', isAuthenticated, checkIdParam, getUser, (req, res) =>
   res.render('user/show', {
     userToShow: req.userToShow,
-    ROLES: ROLES
+    ROLES: ROLES,
+    RoleType
   })
 )
 
 router.patch('/:id/role',
-  requireRoles(RoleType.ADMIN),
+  requireRoles(RoleType.Admin),
   check('role')
     .isString()
     .custom((input) => {

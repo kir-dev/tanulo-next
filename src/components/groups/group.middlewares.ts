@@ -5,11 +5,11 @@ import * as ics from 'ics'
 import winston from 'winston'
 import { differenceInMinutes } from 'date-fns'
 
-import { RoleType, User } from '../users/user'
-import { Group } from './group'
 import { asyncWrapper } from '../../util/asyncWrapper'
 import sendMessage from '../../util/sendMessage'
 import { sendEmail } from '../../util/sendEmail'
+import { prisma } from '../../prisma'
+import { Group, RoleType } from '@prisma/client'
 
 export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
   const user = req.user
@@ -17,29 +17,33 @@ export const joinGroup = asyncWrapper(async (req: Request, res: Response, next: 
 
   // Join group if not already in it, and it's not closed or it's the owner who joins.
   // We only join the group if it is not full already
-  if (group.doNotDisturb && (user.id !== group.ownerId)){
+  if (group.doNotDisturb && (user.id !== group.ownerId)) {
     sendMessage(res, 'Ez egy privát csoport!')
-  } else if (group.users?.find(it => it.id === user.id)) {
+  } else if (group.users?.find(it => it.userId === user.id)) {
     sendMessage(res, 'Már tagja vagy ennek a csoportnak!')
   } else if ((group.users?.length || 0) >= group.maxAttendees) {
     sendMessage(res, 'Ez a csoport már tele van!')
   } else if (group.endDate < new Date()) {
     sendMessage(res, 'Ez a csoport már véget ért!')
   } else {
-    await Group.relatedQuery('users')
-      .for(group.id)
-      .relate(user.id)
+    await prisma.membership.create({
+      data: {
+        userId: user.id,
+        groupId: group.id
+      },
+      select: { id: true }
+    })
     return next()
   }
   res.redirect(`/groups/${req.params.id}`)
 })
 
 export const sendEmailToOwner = asyncWrapper(
-  async (req: Request, res: Response, next: NextFunction) =>  {
+  async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user
     const group = req.group
 
-    const emailRecepient = await User.query().findOne({ id: group.ownerId })
+    const emailRecepient = await prisma.user.findFirst({ where: { id: group.ownerId } })
     sendEmail([emailRecepient], {
       subject: 'Csatlakoztak egy csoportodba!',
       body: `${user.name} csatlakozott a(z) ${group.name} csoportodba!`,
@@ -49,37 +53,39 @@ export const sendEmailToOwner = asyncWrapper(
     next()
   })
 export const leaveGroup = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
-  await Group.relatedQuery('users')
-    .for(req.group.id)
-    .unrelate()
-    .where('user_id', req.user.id)
+  await prisma.membership.deleteMany({
+    where: { userId: req.user.id, groupId: req.group.id },
+  })
 
   next()
 })
 
 export const isMemberInGroup =
-asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
-  const kickableUser = await Group.relatedQuery('users').for(req.group.id)
-    .findOne({ userId: parseInt(req.params.userid) })
-  if (kickableUser) {
-    next()
-  } else {
-    res.redirect('/not-found')
-  }
-})
+  asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
+    const kickableUser = await prisma.membership.findFirst({
+      where: { groupId: req.group.id, userId: parseInt(req.params.userid) },
+      select: { id: true }
+    })
+    if (kickableUser) {
+      next()
+    } else {
+      res.status(404).redirect('/not-found')
+    }
+  })
 
 export const kickMember = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {
-  await Group.relatedQuery('users')
-    .for(req.group.id)
-    .unrelate()
-    .where('user_id', req.params.userid)
+  await prisma.membership.deleteMany({
+    where: { userId: parseInt(req.params.userid), groupId: req.group.id },
+  })
 
   next()
 })
 
 export const sendEmailToMember = asyncWrapper(
-  async (req: Request, res: Response, next: NextFunction) =>  {
-    const emailRecepient = await User.query().findOne({ id: req.params.userid })
+  async (req: Request, res: Response, next: NextFunction) => {
+    const emailRecepient = await prisma.user.findFirst({
+      where: { id: parseInt(req.params.userid) }
+    })
     sendEmail([emailRecepient], {
       subject: 'Kirúgtak egy csoportból!',
       body: `A(z) ${req.group.name} csoport szervezője vagy egy admin kirúgott a csoportból.`,
@@ -103,7 +109,7 @@ export const isGroupOwner = asyncWrapper(
 export const isGroupOwnerOrAdmin = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
     if ((req.user?.id === req.group.ownerId)
-      || (req.user?.role == RoleType.ADMIN)) {
+      || (req.user?.role == RoleType.Admin)) {
       next()
     } else {
       res.render('error/forbidden')
@@ -162,12 +168,12 @@ function isValidHttpsUrl(str) {
     return false
   } // not catching bad top lvl domain (1 character)
 
-  const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-    '(\\#[-a-z\\d_]*)?$','i') // fragment locator
+  const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+    '(\\#[-a-z\\d_]*)?$', 'i') // fragment locator
   // not allowing '(' and ')'
   // catching 1 character TLD
 
@@ -211,7 +217,7 @@ export const validateGroup = (): ValidationChain[] => {
       .custom((value, { req }) => new Date(value).getTime() < new Date(req.body.endDate).getTime())
       .withMessage('A kezdés nem lehet korábban, mint a befejezés')
       .custom((value, { req }) =>
-        differenceInMinutes(new Date(req.body.endDate), new Date(value)) <= 5*60)
+        differenceInMinutes(new Date(req.body.endDate), new Date(value)) <= 5 * 60)
       .withMessage('A foglalás időtartama nem lehet hosszabb 5 óránál'),
     check('endDate', 'A befejezés időpontja kötelező')
       .exists({ checkFalsy: true, checkNull: true }),
@@ -230,7 +236,7 @@ export const checkValidMaxAttendeeLimit = asyncWrapper(
     if (req.group.users.length > (req.body.maxAttendees || 100)) {
       res.status(400).json(
         {
-          errors: [{msg: 'Nem lehet kisebb a maximum jelenlét, mint a jelenlegi'}]
+          errors: [{ msg: 'Nem lehet kisebb a maximum jelenlét, mint a jelenlegi' }]
         }
       )
     } else {
@@ -241,28 +247,26 @@ export const checkValidMaxAttendeeLimit = asyncWrapper(
 
 export const checkConflicts = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { type, ...group } = req.body as Group & { type: string }
+    const { type, ...group } = req.body as {
+      [x in keyof Group]: string
+    } & { type: string }
     if (type !== 'floor') {
       return next()
     }
-    group.startDate = new Date(req.body.startDate)
-    group.endDate = new Date(req.body.endDate)
-    const conflictingGroups = await Group.query()
-      .where({ room: group.room })
-      .andWhere(builder => {
-        builder
-          .where(bld => {
-            bld
-              .where('startDate', '<', group.endDate)
-              .andWhere('endDate', '>=', group.endDate)
-          })
-          .orWhere(bld => {
-            bld
-              .where('endDate', '>', group.startDate)
-              .andWhere('endDate', '<=', group.endDate)
-          })
-      })
-      .andWhereNot({ id: req.params.id ?? null })
+    const id = parseInt(req.params.id)
+    const startDate = new Date(req.body.startDate)
+    const endDate = new Date(req.body.endDate)
+    const conflictingGroups = await prisma.group.findMany({
+      where: {
+        room: parseInt(group.room),
+        OR: [
+          { startDate: { lt: endDate }, endDate: { gte: endDate } },
+          { endDate: { gt: startDate, lte: endDate } }
+        ],
+        NOT: Number.isFinite(id) ? { id } : {}
+      },
+      select: { name: true }
+    })
 
     if (conflictingGroups.length) {
       res.status(400).json(

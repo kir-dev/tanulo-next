@@ -1,5 +1,5 @@
+import { User } from '@prisma/client'
 import transporter from '../config/email'
-import { User } from '../components/users/user'
 import { generateEmailHTML } from './emailTemplate'
 
 export interface Email {

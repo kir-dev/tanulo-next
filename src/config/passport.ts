@@ -1,10 +1,11 @@
+import { RoleType, User } from '@prisma/client'
 import { NextFunction, Request, Response } from 'express'
 import fetch from 'node-fetch'
 import passport from 'passport'
 import { Strategy } from 'passport-oauth2'
 
-import { RoleType, User } from '../components/users/user'
 import { createUser } from '../components/users/user.service'
+import { prisma } from '../prisma'
 
 const AUTH_SCH_URL = 'https://auth.sch.bme.hu'
 
@@ -31,7 +32,7 @@ passport.use(
         `${AUTH_SCH_URL}/api/profile?access_token=${accessToken}`
       ).then(res => res.json())
 
-      const user = await User.query().findOne({ authSchId: responseUser.internal_id })
+      const user = await prisma.user.findFirst({ where: { authSchId: responseUser.internal_id } })
 
       if (user) {
         done(null, user)
@@ -48,7 +49,7 @@ passport.serializeUser((user: User, done) => {
 })
 
 passport.deserializeUser(async (id: number, done) => {
-  const user = await User.query().findOne({ id })
+  const user = await prisma.user.findFirst({ where: { id } })
   done(null, user)
 })
 
@@ -56,22 +57,22 @@ passport.deserializeUser(async (id: number, done) => {
  * Login Required middleware.
  */
 export const isAuthenticated =
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-(req: Request, res: Response, next: NextFunction): Response<any, Record<string, any>> => {
-  const contentType = req.headers['content-type']
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  (req: Request, res: Response, next: NextFunction): Response<any, Record<string, any>> => {
+    const contentType = req.headers['content-type']
 
-  if (req.isAuthenticated()) {
-    next()
-  } else {
-    if ((contentType &&
-      (contentType.indexOf('application/json') !== 0 ||
-       contentType.indexOf('multipart/form-data') !== 0)) ||
-       req.method !== 'GET') {
-      return res.sendStatus(401)
+    if (req.isAuthenticated()) {
+      next()
+    } else {
+      if ((contentType &&
+        (contentType.indexOf('application/json') !== 0 ||
+          contentType.indexOf('multipart/form-data') !== 0)) ||
+        req.method !== 'GET') {
+        return res.sendStatus(401)
+      }
+      res.render('error/not-authenticated')
     }
-    res.render('error/not-authenticated')
   }
-}
 
 /**
  * Authorization Required middleware.
