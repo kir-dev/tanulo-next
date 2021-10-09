@@ -45,7 +45,7 @@
     "node-fetch": "2.6.5",
     "nodemailer": "6.6.3",
     "objection": "2.2.17",
-    "passport": "0.4.1",
+    "passport": "0.5.0",
     "passport-oauth2": "1.6.1",
     "pg": "8.7.1",
     "postcss": "8.3.9",
