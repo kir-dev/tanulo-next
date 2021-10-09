@@ -28,7 +28,7 @@ block content
         div(class='flex flex-row items-center space-x-4')
           select(name="room", id="floorInput", class='rounded form-element')
             each room in ROOMS
-              if roomId == room
+              if roomId == room || !roomId && user.floor == room
                 option(value=`${room}`, selected='selected')= room
               else
                 option(value=`${room}`)= room
