@@ -73,7 +73,7 @@
     "@types/sanitize-html": "2.3.2",
     "@types/shelljs": "0.8.9",
     "@typescript-eslint/eslint-plugin": "5.0.0",
-    "@typescript-eslint/parser": "4.33.0",
+    "@typescript-eslint/parser": "5.0.0",
     "chokidar-cli": "3.0.0",
     "concurrently": "6.3.0",
     "cypress": "8.5.0",
