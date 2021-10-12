@@ -1,10 +1,12 @@
+import flatpickr from 'https://cdn.skypack.dev/flatpickr'
+
 //Adding hours and minutes are be easier with these prototype methods
-Date.prototype.addHours = function(h) {
+Date.prototype.addHours = function (h) {
   const temp = new Date()
   temp.setTime(this.getTime() + (h * 60 * 60 * 1000))
   return temp
 }
-Date.prototype.addMinutes = function(m) {
+Date.prototype.addMinutes = function (m) {
   const temp = new Date()
   temp.setTime(this.getTime() + (m * 60 * 1000))
   return temp
@@ -30,7 +32,7 @@ const options = {
   enableTime: true,
   dateFormat: 'Y-m-d H:i',
   minDate: 'today',
-  /* eslint-disable-next-line @typescript-eslint/naming-convention */
+  // eslint-disable-next-line @typescript-eslint/camelcase
   time_24hr: true,
   disableMobile: 'true',
   'locale': 'hu',

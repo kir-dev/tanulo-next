@@ -34,7 +34,7 @@ function displayMessage(message, type = 'danger') {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function sendMessage(message, type = 'danger') {
   document.cookie = `message=${JSON.stringify({
-    mes: message, 
+    mes: message,
     type: type
   })};path=/;SameSite=Lax;`
 }
@@ -43,7 +43,7 @@ function sendMessage(message, type = 'danger') {
 window.addEventListener('DOMContentLoaded', () => {
   const cookie = getCookie('message')
   if (cookie) {
-    const {mes, type} = JSON.parse(cookie)
+    const { mes, type } = JSON.parse(cookie)
     displayMessage(mes, type)
     document.cookie = 'message= ;path=/;SameSite=Lax;expires = Thu, 01 Jan 1970 00:00:00 GMT'
   }

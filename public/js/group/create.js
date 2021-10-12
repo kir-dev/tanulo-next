@@ -1,3 +1,10 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import FullCalendar from 'https://cdn.skypack.dev/fullcalendar@5.6.0'
+import { Calendar } from 'https://cdn.skypack.dev/@fullcalendar/core@5.6.0'
+import dayGridPlugin from 'https://cdn.skypack.dev/@fullcalendar/daygrid@5.6.0'
+import timeGridPlugin from 'https://cdn.skypack.dev/@fullcalendar/timegrid@5.6.0'
+import listPlugin from 'https://cdn.skypack.dev/@fullcalendar/list@5.6.0'
+
 let meetingPlace = 'floor'
 const MEETING_PLACES = ['floor', 'link', 'other']
 
@@ -86,17 +93,17 @@ const validateGroup = (data) => {
 const handleResponse = async (res, edited) => {
   const data = await res.json()
   switch (res.status) {
-  case 201:
-    sendMessage(`Csoport sikeresen ${edited ? 'frissítve' : 'létrehozva'}`, 'success')
-    location.href = `/groups/${data.id}`
-    break
-  case 400:
-    clearMessages()
-    data.errors.forEach((err) => displayMessage(err.msg))
-    break
-  case 401:
-    displayMessage(UNAUTHORIZED_MESSAGE)
-    break
+    case 201:
+      sendMessage(`Csoport sikeresen ${edited ? 'frissítve' : 'létrehozva'}`, 'success')
+      location.href = `/groups/${data.id}`
+      break
+    case 400:
+      clearMessages()
+      data.errors.forEach((err) => displayMessage(err.msg))
+      break
+    case 401:
+      displayMessage(UNAUTHORIZED_MESSAGE)
+      break
   }
 }
 
@@ -157,6 +164,7 @@ formEl.addEventListener('submit', (event) => {
 })
 
 const calendarOptions = {
+  plugins: [dayGridPlugin, timeGridPlugin, listPlugin],
   views: {
     timeGridOneDay: {
       type: 'timeGrid',
@@ -201,7 +209,7 @@ let calendarGlobal
 const refetchCalendar = (room) => {
   const events = calendarGlobal.getEvents()
   events.forEach((event) => event.remove())
-  
+
   fetch(`/rooms/${room}/events`)
     .then((res) => res.json())
     .then((data) => {
@@ -212,7 +220,7 @@ const refetchCalendar = (room) => {
 document.addEventListener('DOMContentLoaded', () => {
   const calendarEl = document.getElementById('side-calendar')
 
-  calendarGlobal = new FullCalendar.Calendar(calendarEl, {
+  calendarGlobal = new Calendar(calendarEl, {
     ...calendarOptions,
     customButtons: {
       prevWeek: {
@@ -238,5 +246,5 @@ document.addEventListener('DOMContentLoaded', () => {
 // Workaround: fullcalendar render well only if resize happens
 const calendarButton = document.getElementById('calendar-button')
 calendarButton.addEventListener('click', () => {
-  window.dispatchEvent(new Event('resize')) 
+  window.dispatchEvent(new Event('resize'))
 })

@@ -1,3 +1,5 @@
+import EasyMDE from 'https://cdn.skypack.dev/easymde@2.15.0/dist/easymde.min.js'
+
 const submitBtn = document.getElementById('submitBtn')
 const textArea = document.getElementById('desc')
 const charLimit = 500
@@ -30,8 +32,7 @@ const easyMDE = new EasyMDE({
       el.innerHTML = '0 / ' + charLimit
     },
     onUpdate: (el) => {
-      characterCount = easyMDE.value().length
-      listenLength(el, characterCount)
+      listenLength(el, easyMDE.value().length)
     }
   }]
 })
