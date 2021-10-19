@@ -93,17 +93,17 @@ const validateGroup = (data) => {
 const handleResponse = async (res, edited) => {
   const data = await res.json()
   switch (res.status) {
-    case 201:
-      sendMessage(`Csoport sikeresen ${edited ? 'frissítve' : 'létrehozva'}`, 'success')
-      location.href = `/groups/${data.id}`
-      break
-    case 400:
-      clearMessages()
-      data.errors.forEach((err) => displayMessage(err.msg))
-      break
-    case 401:
-      displayMessage(UNAUTHORIZED_MESSAGE)
-      break
+  case 201:
+    sendMessage(`Csoport sikeresen ${edited ? 'frissítve' : 'létrehozva'}`, 'success')
+    location.href = `/groups/${data.id}`
+    break
+  case 400:
+    clearMessages()
+    data.errors.forEach((err) => displayMessage(err.msg))
+    break
+  case 401:
+    displayMessage(UNAUTHORIZED_MESSAGE)
+    break
   }
 }
 

@@ -1,4 +1,4 @@
-import EasyMDE from 'https://cdn.skypack.dev/easymde@2.15.0/dist/easymde.min.js'
+import EasyMDE from 'https://cdn.skypack.dev/easymde@2.15.0'
 
 const submitBtn = document.getElementById('submitBtn')
 const textArea = document.getElementById('desc')
