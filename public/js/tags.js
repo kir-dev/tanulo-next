@@ -1,3 +1,5 @@
+import Tagify from 'https://cdn.skypack.dev/@yaireo/tagify@3.22.0'
+
 function transformTag(tagData) {
   tagData.style = 'line-height: normal;'
 }
@@ -8,6 +10,6 @@ const tagify = new Tagify(tagsInput, {
   transformTag: transformTag
 })
 
-if (isEditing && tags) {
+if (typeof isEditing !== 'undefined' && isEditing && tags) {
   tagify.addTags(tags.split(','))
 }
