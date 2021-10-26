@@ -4,8 +4,11 @@ header(x-data="{ open: false }")
     div(class='flex flex-row items-center space-x-6')
       a(onclick='changeTheme()' aria-label="Sötét mód váltása" class='cursor-pointer nav-link md:hidden')
         //- Heroicon name: sun
-        svg(xmlns='http://www.w3.org/2000/svg' alt="Sötét mód" aria-label="Sötét mód" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
+        svg(class='sunIcon w-6 h-6 hidden' xmlns='http://www.w3.org/2000/svg' alt="Világos mód" aria-label="Világos mód" fill='none' viewbox='0 0 24 24' stroke='currentColor')
           path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z')
+        //- Heroicon name: moon
+        svg(class='moonIcon w-6 h-6' xmlns='http://www.w3.org/2000/svg' alt="Sötét mód" aria-label="Sötét mód" fill='none' viewbox='0 0 24 24' stroke='currentColor')
+          path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z')
       button(aria-label="Menü" type='button' @click="open = !open" class='inline-block md:hidden')
         svg(xmlns='http://www.w3.org/2000/svg' alt="Menü" aria-label="Menü" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6 nav-link')
           //- Heroicon name: menu
@@ -30,8 +33,11 @@ header(x-data="{ open: false }")
       div(class='flex flex-row items-center justify-around space-x-7 lg:space-x-10')
         a(onclick='changeTheme()' aria-label="Sötét mód váltása" class='cursor-pointer nav-link')
           //- Heroicon name: sun
-          svg(xmlns='http://www.w3.org/2000/svg' alt="Sötét mód" aria-label="Sötét mód" fill='none' viewbox='0 0 24 24' stroke='currentColor' class='w-6 h-6')
+          svg(class='sunIcon w-6 h-6 hidden' xmlns='http://www.w3.org/2000/svg' alt="Világos mód" aria-label="Világos mód" fill='none' viewbox='0 0 24 24' stroke='currentColor')
             path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z')
+          //- Heroicon name: moon
+          svg(class='moonIcon w-6 h-6' xmlns='http://www.w3.org/2000/svg' alt="Sötét mód" aria-label="Sötét mód" fill='none' viewbox='0 0 24 24' stroke='currentColor')
+            path(stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z')
         a(href='/' class='nav-link') Kezdőlap
         a(href='/groups' class='nav-link') Csoportok
         a(href='/tickets' class='nav-link') Hibajegyek

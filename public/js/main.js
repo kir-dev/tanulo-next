@@ -40,12 +40,18 @@ function sendMessage(message, type = 'danger') {
 }
 
 // display the message that is stored in a cookie
+// and selects the dark/ligth mode icon
 window.addEventListener('DOMContentLoaded', () => {
   const cookie = getCookie('message')
   if (cookie) {
     const { mes, type } = JSON.parse(cookie)
     displayMessage(mes, type)
     document.cookie = 'message= ;path=/;SameSite=Lax;expires = Thu, 01 Jan 1970 00:00:00 GMT'
+  }
+  const theme = getCookie('theme')
+  if (theme === 'dark') {
+    document.querySelectorAll('.sunIcon').forEach((e) => e.classList.remove('hidden'))
+    document.querySelectorAll('.moonIcon').forEach((e) => e.classList.add('hidden'))
   }
 })
 
