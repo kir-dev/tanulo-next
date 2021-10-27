@@ -17,6 +17,13 @@ function getCookie(cname) {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function changeTheme() {
   const newTheme = getCookie('theme') === 'dark' ? 'light' : 'dark'
+  if (newTheme === 'light') {
+    document.querySelectorAll('.sunIcon').forEach((e) => e.classList.add('hidden'))
+    document.querySelectorAll('.moonIcon').forEach((e) => e.classList.remove('hidden'))
+  } else {
+    document.querySelectorAll('.sunIcon').forEach((e) => e.classList.remove('hidden'))
+    document.querySelectorAll('.moonIcon').forEach((e) => e.classList.add('hidden'))
+  }
   document.cookie = `theme=${newTheme};path=/;SameSite=Lax`
   window.document.documentElement.className = newTheme
 }
