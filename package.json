@@ -48,7 +48,7 @@
     "passport": "0.5.0",
     "passport-oauth2": "1.6.1",
     "pg": "8.7.1",
-    "postcss": "8.3.10",
+    "postcss": "8.3.11",
     "postcss-nested": "5.0.6",
     "pug": "3.0.2",
     "sanitize-html": "2.5.2",
