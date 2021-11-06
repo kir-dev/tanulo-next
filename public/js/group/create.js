@@ -248,3 +248,8 @@ const calendarButton = document.getElementById('calendar-button')
 calendarButton.addEventListener('click', () => {
   window.dispatchEvent(new Event('resize'))
 })
+
+MEETING_PLACES.forEach(meetingPlace => {
+  const button = document.getElementById(`${meetingPlace}Btn`)
+  button.addEventListener('click', () => selectMeetingPlace(meetingPlace))
+})
