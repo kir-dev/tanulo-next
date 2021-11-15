@@ -65,7 +65,7 @@
     "@types/lusca": "1.7.1",
     "@types/markdown-it": "12.2.3",
     "@types/multer": "1.4.7",
-    "@types/node": "16.11.6",
+    "@types/node": "16.11.7",
     "@types/node-fetch": "3.0.2",
     "@types/nodemailer": "6.4.4",
     "@types/passport": "1.0.7",
