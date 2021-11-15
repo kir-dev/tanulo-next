@@ -79,7 +79,7 @@
     "cypress": "9.0.0",
     "esbuild": "0.13.13",
     "esbuild-node-tsc": "1.8.0",
-    "eslint": "8.1.0",
+    "eslint": "8.2.0",
     "faker": "5.5.3",
     "nodemon": "2.0.14",
     "postcss-cli": "9.0.1",
