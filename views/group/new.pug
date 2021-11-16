@@ -88,7 +88,9 @@ block scripts
     script const description = decodeURIComponent(!{JSON.stringify(encodeURIComponent(description))})
   if tags
     script const tags = decodeURIComponent(!{JSON.stringify(encodeURIComponent(tags))})
-  script(type='module' src="/js/picker.js")
+  script(src="https://unpkg.com/flatpickr@4.6.9/dist/flatpickr.min.js")
+  script(src="https://unpkg.com/flatpickr@4.6.9/dist/l10n/hu.js")
+  script(src="/js/picker.js")
   script(type='module' src="/js/md-editor.js")
   script(type='module' src="/js/group/create.js")
   script(type='module' src="/js/tags.js")

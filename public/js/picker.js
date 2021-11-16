@@ -1,14 +1,12 @@
-import flatpickr from 'https://cdn.skypack.dev/flatpickr@4.6.9'
-
 //Adding hours and minutes are be easier with these prototype methods
 Date.prototype.addHours = function (h) {
   const temp = new Date()
-  temp.setTime(this.getTime() + (h * 60 * 60 * 1000))
+  temp.setTime(this.getTime() + h * 60 * 60 * 1000)
   return temp
 }
 Date.prototype.addMinutes = function (m) {
   const temp = new Date()
-  temp.setTime(this.getTime() + (m * 60 * 1000))
+  temp.setTime(this.getTime() + m * 60 * 1000)
   return temp
 }
 
@@ -24,7 +22,9 @@ if (typeof range !== 'undefined') {
     startDef = parsedStart
     endDef = flatpickr.parseDate(range.end, 'Y-m-dTH:i')
   } else {
-    displayMessage('Hiba: múltbéli időintervallumban csoport nem hozható létre.')
+    displayMessage(
+      'Hiba: múltbéli időintervallumban csoport nem hozható létre.'
+    )
   }
 }
 
@@ -35,7 +35,7 @@ const options = {
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
   time_24hr: true,
   disableMobile: 'true',
-  'locale': 'hu',
+  locale: 'hu',
 }
 
 const pickerStart = flatpickr('#pickerStart', {
