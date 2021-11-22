@@ -30,7 +30,7 @@
     "autoprefixer": "10.4.0",
     "compression": "1.7.4",
     "cookie-parser": "1.4.6",
-    "date-fns": "2.25.0",
+    "date-fns": "2.26.0",
     "dotenv": "10.0.0",
     "errorhandler": "1.5.1",
     "express": "4.17.1",
