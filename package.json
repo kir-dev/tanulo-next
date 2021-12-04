@@ -78,7 +78,7 @@
     "concurrently": "6.4.0",
     "cypress": "9.1.1",
     "esbuild": "0.14.2",
-    "esbuild-node-tsc": "1.8.0",
+    "esbuild-node-tsc": "1.8.2",
     "eslint": "8.3.0",
     "faker": "5.5.3",
     "nodemon": "2.0.15",
