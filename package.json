@@ -51,7 +51,7 @@
     "postcss": "8.4.4",
     "postcss-nested": "5.0.6",
     "pug": "3.0.2",
-    "sanitize-html": "2.5.3",
+    "sanitize-html": "2.6.0",
     "tailwindcss": "2.2.19",
     "winston": "3.3.3"
   },
