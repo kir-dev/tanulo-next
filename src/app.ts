@@ -61,7 +61,7 @@ app.use((req, _res, next) => {
   if (!req.user &&
     !req.path.match(/^\/auth/) &&
     !req.path.match(/\./) &&
-    !req.path.match(/^\/rooms\/\d\/events$/)) {
+    !req.path.match(/^\/rooms\/\d+\/events$/)) {
 
     req.session.returnTo = req.path
   }
