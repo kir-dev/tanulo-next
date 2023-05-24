@@ -18,7 +18,6 @@ passport.use(
       tokenURL: `${AUTH_SCH_URL}/oauth2/token`,
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: '/auth/oauth/callback',
       scope: ['basic', 'displayName', 'mail']
     },
     async (
