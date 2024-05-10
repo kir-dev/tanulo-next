@@ -6,7 +6,7 @@ import { asyncWrapper } from '../../util/asyncWrapper'
 interface OAuthUser {
   displayName: string
   internal_id: string
-  mail: string
+  mail?: string
 }
 
 export const getUser = asyncWrapper(async (req: Request, res: Response, next: NextFunction) => {

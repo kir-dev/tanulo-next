@@ -47,7 +47,10 @@ export const sendEmailToTicketAdmins = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) =>  {
     const ticket = req.body
 
-    const emailRecepients = await User.query().where({ role: RoleType.TICKET_ADMIN })
+    const emailRecepients = await User
+      .query()
+      .where({ role: RoleType.TICKET_ADMIN })
+      .whereNotNull('email')
     sendEmail(emailRecepients, {
       subject: `Új hibajegyet vettek fel a ${ticket.roomNumber}. emeleti tanulószobába!`,
       body: `Új hibajegyet vettek fel a ${ticket.roomNumber}. emeleti tanulószobába!
