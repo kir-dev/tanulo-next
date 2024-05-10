@@ -12,7 +12,7 @@ export enum RoleType {
 export class User extends Model {
   id!: number
   name: string
-  email: string
+  email?: string
   authSchId: string
   role: RoleType
   floor: number
@@ -45,7 +45,7 @@ export class User extends Model {
   static get jsonSchema(): Record<string, any> {
     return {
       type: 'object',
-      required: ['name', 'email', 'authSchId'],
+      required: ['name', 'authSchId'],
 
       properties: {
         id: { type: 'integer' },
