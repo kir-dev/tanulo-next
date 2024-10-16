@@ -18,7 +18,7 @@ passport.use(
       tokenURL: `${AUTH_SCH_URL}/oauth2/token`,
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      scope: ['basic', 'displayName', 'mail']
+      scope: ['openid', 'profile', 'email'],
     },
     async (
       accessToken: string,
@@ -26,11 +26,13 @@ passport.use(
       _profile: unknown,
       done: (err: Error, user: User) => void
     ) => {
-      const responseUser = await fetch(
-        `${AUTH_SCH_URL}/api/profile?access_token=${accessToken}`
-      ).then(res => res.json())
+      const responseUser = await fetch(`${AUTH_SCH_URL}/oidc/userinfo`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }).then((res) => res.json())
 
-      const user = await User.query().findOne({ authSchId: responseUser.internal_id })
+      const user = await User.query().findOne({
+        authSchId: responseUser.sub,
+      })
 
       if (user) {
         done(null, user)
@@ -55,29 +57,39 @@ passport.deserializeUser(async (id: number, done) => {
  * Login Required middleware.
  */
 export const isAuthenticated =
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-(req: Request, res: Response, next: NextFunction): Response<any, Record<string, any>> => {
-  const contentType = req.headers['content-type']
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Response<any, Record<string, any>> => {
+    const contentType = req.headers['content-type']
 
-  if (req.isAuthenticated()) {
-    next()
-  } else {
-    if ((contentType &&
-      (contentType.indexOf('application/json') !== 0 ||
-       contentType.indexOf('multipart/form-data') !== 0)) ||
-       req.method !== 'GET') {
-      return res.sendStatus(401)
+    if (req.isAuthenticated()) {
+      next()
+    } else {
+      if (
+        (contentType &&
+          (contentType.indexOf('application/json') !== 0 ||
+            contentType.indexOf('multipart/form-data') !== 0)) ||
+        req.method !== 'GET'
+      ) {
+        return res.sendStatus(401)
+      }
+      res.render('error/not-authenticated')
     }
-    res.render('error/not-authenticated')
   }
-}
 
 /**
  * Authorization Required middleware.
  */
 export const requireRoles = (...roles: RoleType[]) => {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  return (req: Request, res: Response, next: NextFunction): Response<any, Record<string, any>> => {
+  return (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Response<any, Record<string, any>> => {
     const role = req.user?.role
     if (roles.some((element) => role == element)) {
       next()
