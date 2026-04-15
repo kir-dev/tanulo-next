@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import FullCalendar from 'https://cdn.skypack.dev/fullcalendar@5.6.0'
-import { Calendar } from 'https://cdn.skypack.dev/@fullcalendar/core@5.6.0'
-import dayGridPlugin from 'https://cdn.skypack.dev/@fullcalendar/daygrid@5.6.0'
-import timeGridPlugin from 'https://cdn.skypack.dev/@fullcalendar/timegrid@5.6.0'
-import listPlugin from 'https://cdn.skypack.dev/@fullcalendar/list@5.6.0'
+import FullCalendar from "https://cdn.skypack.dev/fullcalendar@5.7.0";
+import { Calendar } from "https://cdn.skypack.dev/@fullcalendar/core@5.7.0";
+import dayGridPlugin from "https://cdn.skypack.dev/@fullcalendar/daygrid@5.7.0";
+import timeGridPlugin from "https://cdn.skypack.dev/@fullcalendar/timegrid@5.7.0";
+import listPlugin from "https://cdn.skypack.dev/@fullcalendar/list@5.7.0";
 
 let meetingPlace = 'floor'
 const MEETING_PLACES = ['floor', 'link', 'other']
