@@ -68,14 +68,13 @@ Run `yarn watch` to run reload the server on file changes. Note: this deletes th
 - Set up a `.env` file based on `.env.example` with real values.
 
 ```bash
-docker-compose build
-docker-compose up
+docker compose up -d --build
 ```
 
 While the containers are running, execute the following:
 
 ```bash
-docker-compose run tanulo bash -c "yarn run migrate"
+docker compose run web bash -c "yarn run migrate"
 ```
 
 ## Debugging

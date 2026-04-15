@@ -7,28 +7,21 @@ services:
       dockerfile: Dockerfile
     ports:
       - "${PORT}:${PORT}"
-    environment:
-      - CLIENT_ID=${CLIENT_ID}
-      - CLIENT_SECRET=${CLIENT_SECRET}
-      - CALLBACK_URL=${CALLBACK_URL}
-      - SESSION_SECRET=${SESSION_SECRET}
+    env_file:
+      - .env
     networks:
       - tanulo-network
     restart: always
-  postgres:
-    image: postgres
+  db:
+    image: postgres:12
     restart: always
-    environment:
-      POSTGRES_USER: "${DB_USERNAME}"
-      POSTGRES_PASSWORD: "${DB_PASSWORD}"
-      POSTGRES_DB: "${DB_DATABASE}"
+    env_file:
+      - .env
     networks:
-      tanulo-network:
-        aliases:
-          - postgresql.db
+      - tanulo-network
     volumes:
-      - postgres:/var/lib/postgresql/tanulo-data
+      - tanulo_db_folder:/var/lib/postgresql/tanulo-data
 volumes:
-  postgres:
+  tanulo_db_folder:
 networks:
   tanulo-network:
