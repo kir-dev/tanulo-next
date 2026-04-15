@@ -1,4 +1,4 @@
-import Tagify from 'https://cdn.skypack.dev/@yaireo/tagify@3.22.0'
+import Tagify from "https://cdn.jsdelivr.net/npm/@yaireo/tagify@3.22.0";
 
 function transformTag(tagData) {
   tagData.style = 'line-height: normal;'
