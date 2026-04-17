@@ -7,11 +7,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "${PORT}:${PORT}"
-    environment:
-      - CLIENT_ID=${CLIENT_ID}
-      - CLIENT_SECRET=${CLIENT_SECRET}
-      - CALLBACK_URL=${CALLBACK_URL}
-      - SESSION_SECRET=${SESSION_SECRET}
+    env_file:
+      - .env
     networks:
       - tanulo-network
     restart: always
