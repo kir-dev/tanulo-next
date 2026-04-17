@@ -1,4 +1,4 @@
-import EasyMDE from "https://cdn.jsdelivr.net/npm/easymde@2.15.0";
+import EasyMDE from 'https://cdn.jsdelivr.net/npm/easymde@2.15.0/+esm'
 
 const submitBtn = document.getElementById('submitBtn')
 const textArea = document.getElementById('desc')

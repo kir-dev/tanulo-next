@@ -1,10 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import FullCalendar from "https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0";
-import { Calendar } from "https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.7.0";
-import dayGridPlugin from "https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@5.7.0";
-import timeGridPlugin from "https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@5.7.0";
-import listPlugin from "https://cdn.jsdelivr.net/npm/@fullcalendar/list@5.7.0";
-import interactionPlugin from "https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@5.7.0";
+import 'https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0'
+import { Calendar } from 'https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.6.0/+esm'
+import dayGridPlugin from 'https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@5.6.0/+esm'
+import timeGridPlugin from 'https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@5.6.0/+esm'
+import listPlugin from 'https://cdn.jsdelivr.net/npm/@fullcalendar/list@5.6.0/+esm'
+import interactionPlugin from 'https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@5.6.0/+esm'
 
 const commonCalendarOptions = {
   plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
